@@ -1,0 +1,290 @@
+Actor ArchonOfHell : BaronOfHell
+{ 
+  Health 3750
+  Radius 24 
+  Height 64 
+  Mass 1000 
+  Speed 8 
+  PainChance 20 
+  Monster
+  MeleeDamage 10
+  Obituary "%o was no match for an archon of hell."
+  HitObituary "%o was ripped apart by an archon of hell."
+  BloodColor "20 60 20"
+  +NoTarget
+  +FloorClip
+  +MissileMore
+  +NoRadiusDmg
+  +Boss
+  +DontHurtSpecies
+  SeeSound "monster/ar2sit" 
+  PainSound "baron/pain" 
+  DeathSound "monster/ar2dth"
+  MeleeSound "baron/melee"
+  SpawnID 174
+  Tag "Archon Of Hell"
+  States  
+  { 
+  Spawn: 
+    BOS4 AB 10 A_Look 
+    Loop 
+  See:
+    BOS4 AABBCCDD 3 A_Chase 
+    Loop 
+  Missile:
+    BOS4 B 0 A_Jump(128,15)
+    BOS4 EF 8 Bright A_FaceTarget 
+    BOS4 G 0 Bright A_CustomMissile("BaronBall",28,0,0,0)
+    BOS4 G 0 Bright A_CustomMissile("BaronBall",28,0,-4,0)
+    BOS4 G 3 Bright A_CustomMissile("BaronBall",28,0,4,0)
+    BOS4 H 3 Bright
+    BOS4 H 0 A_Jump(64,8)
+    BOS4 IJ 8 Bright A_FaceTarget 
+    BOS4 K 0 Bright A_CustomMissile("BaronBall",28,0,0,0)
+    BOS4 K 0 Bright A_CustomMissile("BaronBall",28,0,-4,0)
+    BOS4 K 3 Bright A_CustomMissile("BaronBall",28,0,4,0)
+    BOS4 L 3 Bright
+    BOS4 L 0 A_Jump(64,1)
+    Goto See
+    BOS4 MN 8 Bright A_FaceTarget
+    BOS4 O 0 Bright A_Jump(128,3)
+    BOS4 O 4 Bright A_CustomMissile("ArchonComet",28,0,0,0)
+    BOS4 P 4 Bright
+    Goto See
+    BOS4 O 0 A_CustomMissile("BaronBall",28,0,-6,0)
+    BOS4 O 0 A_CustomMissile("BaronBall",28,0,-4,0)
+    BOS4 O 0 A_CustomMissile("BaronBall",28,0,-2,0)
+    BOS4 O 0 A_CustomMissile("BaronBall",28,0,2,0)
+    BOS4 O 0 A_CustomMissile("BaronBall",28,0,4,0)
+    BOS4 O 3 Bright A_CustomMissile("BaronBall",28,0,6,0)
+    BOS4 P 3 Bright
+    Goto See
+  Melee:
+    BOS4 EF 8 Bright A_FaceTarget 
+    BOS4 G 3 Bright A_MeleeAttack
+    BOS4 H 3 Bright
+    BOS4 H 0 A_Jump(128,1)
+    Goto See
+    BOS4 IJ 8 Bright A_FaceTarget 
+    BOS4 K 3 Bright A_MeleeAttack
+    BOS4 L 3 Bright
+    BOS4 L 0 A_Jump(64,1)
+    Goto See
+    BOS4 MN 8 Bright A_FaceTarget
+    BOS4 O 0 Bright A_MeleeAttack
+    BOS4 O 3 Bright A_MeleeAttack
+    BOS4 P 3 Bright
+    Goto See
+  Pain: 
+    BOS4 Q 2 
+    BOS4 Q 2 A_Pain 
+    Goto See 
+  Death: 
+    BOS4 R 6 Bright 
+    BOS4 S 6 Bright A_Scream 
+    BOS4 T 6 Bright 
+    BOS4 U 6 Bright A_NoBlocking 
+    BOS4 VW 6 Bright 
+    BOS4 X 6 Bright A_CustomMissile("ArchonSoul",86,0,0,2,90)
+    BOS4 YZ 6 Bright 
+    BOS4 [ 6 Bright A_Fall 
+    Stop
+  } 
+}
+
+Actor LegionOfhell : BaronOfHell 30103
+{ 
+  Health 4000
+  Radius 24 
+  Height 64 
+  Mass 1000 
+  Speed 12 
+  PainChance 20 
+  Monster
+  MeleeDamage 50
+  Obituary "%o No pudo pelear contra una legion del infierno."
+  HitObituary "%o Fue Apartado de la faz de la tierra por Una legion del infierno."
+  BloodColor "20 60 20"
+  +NoTarget
+  +FloorClip
+  +MissileMore
+  +NoRadiusDmg
+  +Boss
+  +DontHurtSpecies
+  SeeSound "monster/ar2sit" 
+  PainSound "baron/pain" 
+  DeathSound "monster/ar2dth"
+  MeleeSound "baron/melee"
+  SpawnID 174
+  Scale 1.25
+  Tag "Legion Del Infierno"
+  States  
+  { 
+  Spawn: 
+    BOS4 AB 10 A_Look 
+    Loop 
+  See:
+    BOS4 AABBCCDD 3 A_Chase 
+    Loop 
+  Missile:
+    TNT1 A 0 A_Jump(128,"Baron")
+    TNT1 A 0 A_Jump(128,"Thamuz")
+    TNT1 A 0 A_Jump(128,"Light")
+    TNT1 A 0 A_Jump(128,"SuperAttack")
+  Baron:    
+    BOS4 EF 8 Bright A_FaceTarget 
+    BOS4 G 0 Bright A_CustomMissile("BaronBall",28,0,0,0)
+    BOS4 G 0 Bright A_CustomMissile("BaronBall",28,0,-4,0)
+    BOS4 G 3 Bright A_CustomMissile("BaronBall",28,0,4,0)
+    BOS4 H 3 Bright
+    BOS4 IJ 8 Bright A_FaceTarget 
+    BOS4 K 0 Bright A_CustomMissile("BaronBall",28,0,0,0)
+    BOS4 K 0 Bright A_CustomMissile("BaronBall",28,0,-4,0)
+    BOS4 K 3 Bright A_CustomMissile("BaronBall",28,0,4,0)
+    BOS4 L 3 Bright
+    Goto See
+  Light:
+    BOS4 EF 8 Bright A_FaceTarget
+    BOS4 GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG 1 BRIGHT A_CustomMissile("DoomImpBall", 28, 0, random(-25, 25), 0)
+    BOS4 G 3 Bright A_CustomMissile("DoomImpBall",28,0,0,0)
+    BOS4 H 3 Bright
+    BOS4 IJ 8 Bright A_FaceTarget 
+    BOS4 KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK 1 BRIGHT A_CustomMissile("CacodemonBall", 28, 0, random(-25, 25), 0)
+    BOS4 K 3 Bright A_CustomMissile("CacodemonBall",28,0,0,0)
+    BOS4 L 3 Bright
+    Goto See
+  Thamuz:
+    BOS4 EE 0 Bright A_FaceTarget 
+    BOS4 EF 10 A_PlaySound("Apocalypse/cast")
+    BOS4 EF 4 Bright A_FaceTarget 
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 G 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 H 2 Bright
+    BOS4 IJ 4 Bright A_FaceTarget 
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 K 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 L 2 Bright
+    BOS4 EF 4 Bright A_FaceTarget 
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 G 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 H 2 Bright
+    BOS4 IJ 4 Bright A_FaceTarget 
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 K 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 L 2 Bright
+    BOS4 EF 4 Bright A_FaceTarget 
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 G 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 H 2 Bright
+    BOS4 IJ 4 Bright A_FaceTarget 
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 K 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 L 2 Bright
+    BOS4 EF 4 Bright A_FaceTarget 
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 G 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 G 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 H 2 Bright
+    BOS4 IJ 4 Bright A_FaceTarget 
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,0,0)
+    BOS4 K 0 Bright A_CustomMissile("DCBMiss3",28,0,-30,0)
+    BOS4 K 2 Bright A_CustomMissile("DCBMiss3",28,0,30,0)
+    BOS4 L 20 Bright
+    Goto See
+  SuperAttack:
+    BOS4 MN 8 Bright A_FaceTarget
+    BOS4 O 4 Bright A_CustomMissile("Hellshot2",28,0,0,0)
+    BOS4 P 4 Bright
+    Goto See
+  Melee:
+    BOS4 EF 8 Bright A_FaceTarget 
+    BOS4 G 3 Bright A_MeleeAttack
+    BOS4 H 3 Bright
+    Goto See
+  Pain: 
+    BOS4 Q 2 
+    BOS4 Q 2 A_Pain 
+    Goto See 
+  Death: 
+    BOS4 R 35 Bright 
+    BOS4 S 6 Bright A_Scream 
+    BOS4 T 6 Bright 
+    BOS4 U 6 Bright A_NoBlocking 
+    BOS4 VW 6 Bright 
+    BOS4 XXXXXXXXXXXXXXX 0 BRIGHT A_CustomMissile("ArchonSoul",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    BOS4 YZ 6 Bright 
+    BOS4 [ 6 Bright A_Fall 
+    Stop
+  } 
+}
+
+Actor ArchonComet
+{
+  Radius 8
+  Height 12
+  Speed 25
+  Damage 300
+  Scale 1.0
+  SpawnID 251
+  Projectile
+  +ThruGhost
+  SeeSound "weapons/firbfi"
+  DeathSound "weapons/hellex"
+  DontHurtShooter
+  DamageType Fire
+  States
+  {
+  Spawn: 
+    ARCB AAAABBBBCCCC 1 Bright A_SpawnItemEx("ArchonCometTrail",0,0,0,0,0,0,0,128)
+    Loop
+  Death:
+    ARCB J 0 Bright A_SetTranslucent (0.67,1)
+    ARCB J 0 A_CustomMissile ("GreenExplosion", 2, 0, random (0, 360), 2, random (0, 360))
+    ARCB J 3 Bright
+    ARCB K 3 Bright A_Explode(128,128,0)
+    ARCB LMN 3 Bright
+    Stop
+  }
+}
+
+Actor ArchonSoul
+{   
+  Radius 1
+  Height 1
+  Speed 3
+  Projectile
+  RenderStyle Add  
+  Alpha 0.80
+  +CLIENTSIDEONLY  
+  States
+  {
+  Spawn:
+    BFX1 ABCD 6 Bright
+    Stop 
+  }
+}
+
+Actor ArchonCometTrail
+{   
+  Radius 3
+  Height 3
+  Scale 0.75
+  Speed 0
+  +CLIENTSIDEONLY  
+  Projectile
+  RenderStyle Add
+  Alpha 0.67
+  States
+  {
+  Spawn:
+    TNT1 A 3 Bright
+    ARCB DEFGHI 3 Bright
+    Stop 
+  }
+}

@@ -1,0 +1,34 @@
+ACTOR AngelStatue 7513 
+{ 
+  //$Category KXItems
+  Scale 0.5
+  DamageType "Marines"
+  +BLOODLESSIMPACT
+  +PAINLESS
+  +NODAMAGETHRUST
+  States
+  {
+  Spawn:
+	HEAN A 1
+    Loop
+  }
+}
+
+Actor HeavyArmor : BasicArmorPickup 7504 
+{ 
+  //$Category KXItems
+  Radius 20
+  Height 16
+  Inventory.Pickupmessage "Picked up the heavy armor"
+  Inventory.Icon "HEVAB0"
+  Armor.Savepercent 50
+  Armor.Saveamount 100
+  Inventory.PickupSound "KXPickup/GreenArmor"
+  States
+  {
+  Spawn:
+    HEVA B 6
+    HEVA A 6 bright
+    loop
+  }
+}

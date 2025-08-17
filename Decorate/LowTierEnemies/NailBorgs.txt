@@ -1,0 +1,660 @@
+Actor NailBorg 7530
+{
+    //$Category LowTierSoldiers 
+	OBITUARY "%o was nailed by a Nail Borg."
+	Health 150
+	Radius 20
+	Height 56
+	Mass 135
+	Speed 14
+	Painchance 80
+	Scale 1.2
+	SEESOUND "Monsters/NBSight"
+	ACTIVESOUND "Monsters/NBAct"
+	PAINSOUND "Monsters/NBPain"
+	DEATHSOUND "Monsters/NBDeath"
+	Translation 1
+	Bloodcolor "7F 3F 00"
+	MONSTER
+	+FLOORCLIP
+	+DONTHARMSPECIES
+    Species "KX"
+	DamageFactor "KX", 0.0
+	States
+	{
+	Spawn:
+		NLBG AB 10 A_Look
+		Loop
+	See:
+		NLBG AA 3 A_Chase
+		NLBG A 0 A_PlaySound("Monsters/NBWalk")
+		NLBG BBCC 3 A_Chase
+		NLBG C 0 A_PlaySound("Monsters/NBWalk")
+		NLBG DD 3 A_Chase
+		Loop
+	Missile:
+		NLBG E 0 A_Jump(256,"MachineGun","Grenader","Shotgun")
+		Loop
+	MachineGun:	
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, FRandom(6, -6), 0, 1)
+		NLBG E 1 BRIGHT
+		NLBG E 0 A_Jump(64,"MachineGun")
+		Goto See
+	Shotgun:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 4 A_CustomMissile("BorgNail2", 28, 0, 4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 28, 0, -4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36 ,0 ,4 , 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36, 0, -4, 0, 1)
+		NLBG F 0 BRIGHT A_CustomMissile("BorgNail2", 32, 0, 0, 0)
+		NLBG E 15
+		Goto See
+	Grenader:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("Weapons/NailBomb")
+		NLBG F 4 A_CustomMissile("BorgNailBomb",32,0,Random(-6,6),2,Random(0,6))
+		NLBG E 10
+		Goto See
+	Pain:
+		NLBG G 3
+		NLBG G 3 A_Pain
+		Goto See
+	Death:
+		NLBG H 5
+		NLBG I 5 A_Scream
+		NLBG J 5 A_NoBlocking
+		NLBG J 0 A_PlaySound("Weapons/NailBomb",CHAN_AUTO)
+		NLBG K 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBG L -1
+		Stop
+	XDeath:
+	    TNT1 A 0 A_CustomMissile("KXBloodExplosionEffect",37,0,0,0,0)
+		NLBG O 5 A_SpawnitemEx("GaiaBloodProjectile", 0, 0, 0, frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION)
+		NLBG P 0 A_XScream
+		NLBG P 5 A_SpawnitemEx("GaiaBloodProjectile", 0, 0, 0, frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION)
+		NLBG Q 0 A_NoBlocking
+		NLBG Q 5 A_SpawnitemEx("GaiaBloodProjectile", 0, 0, 0, frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION)
+		NLBG Q 0 A_PlaySound("Weapons/NailBomb",CHAN_AUTO)
+		NLBG RTUV 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBG W -1
+		Stop
+	Raise:
+		NLBG KJIH 5
+		Goto See
+	}
+}
+
+ACTOR MegaNailborg 7589 
+{ 
+    //$Category LowTierSoldiers 
+	Health 500
+	Radius 20
+	Height 56
+	Mass 135
+	Speed 6
+	PainChance 50
+	Monster
+	+FLOORCLIP
+	+MISSILEMORE
+	+DONTHURTSPECIES
+	+MTHRUSPECIES
+	+LOOKALLAROUND
+	+THRUSPECIES
+	+DONTHARMSPECIES
+    Species "KX"
+	MaxTargetRange 99999
+	SeeSound "Monsters/NBSight"
+	ACTIVESOUND "Monsters/NBAct"
+	PAINSOUND "Monsters/NBPain"
+	DEATHSOUND "Monsters/NBDeath"
+	OBITUARY "%o Was nailed by a Mega Nailborg."
+	States
+	{
+	Spawn:
+		NLBG AB 10 A_Look
+		Goto See
+	See:
+		TNT1 A 0
+		TNT1 A 0 A_ChangeFLag("NODROPOFF", 0)
+		NLBG AAAA 1 A_Chase
+		NLBG A 0 A_PlaySound("Monsters/NBWalk")
+		NLBG BBBB 1 A_Chase
+		NLBG A 0 A_PlaySound("Monsters/NBWalk")
+		TNT1 A 0 A_Jump(64, "StrafeLeft", "StrafeRight")
+		NLBG A 0 A_PlaySound("Monsters/NBWalk")		
+		NLBG CCCC 1 A_Chase
+		NLBG A 0 A_PlaySound("Monsters/NBWalk")
+		NLBG DDDD 1 A_Chase
+		Goto See
+	Missile:
+		TNT1 A 0 A_Jump(128,"MachineGun", "Shotgun", "Grenade")
+		TNT1 A 0 A_Jump(128,"Plasma")
+	MachineGun:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT
+		TNT1 A 0 A_Jump(120, "StrafeLeft", "StrafeRight")
+		TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+		Goto See
+	Shotgun:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 4 A_CustomMissile("BorgNail2", 28, 0, 4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 28, 0, -4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36 ,0 ,4 , 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36, 0, -4, 0, 1)
+		NLBG F 0 BRIGHT A_CustomMissile("BorgNail2", 32, 0, 0, 0)
+		NLBG E 15
+		TNT1 A 0 A_Jump(120, "StrafeLeft", "StrafeRight")
+		TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+		Goto See
+	Grenade:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("Weapons/NailBomb")
+		NLBG F 4 A_CustomMissile("BorgNailBomb", 32, 0, Random(6, -6), 0)
+		NLBG E 10
+		TNT1 A 0 A_Jump(120, "StrafeLeft", "StrafeRight")
+		TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+		Goto See
+	Plasma:
+		NLBG E 3 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		NLBG E 2 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/plasmaf")
+		NLBG F 1 A_CustomMissile("PlasmaBall", 32, 0, Random(3, -3), 0)
+		TNT1 A 0 A_Jump(120, "StrafeLeft", "StrafeRight")
+		TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+		Goto See
+	StrafeLeft:
+		NLBG A 3 A_FaceTarget
+		TNT1 A 0 A_ChangeFLag("NODROPOFF", 1)
+		TNT1 A 0 A_Recoil(-3)
+		NLBG B 3 ThrustThing(angle*256/360+192, 11, 0, 0)
+		NLBG C 3 A_FaceTarget
+		TNT1 A 0 A_Recoil(-3)
+		NLBG D 3 ThrustThing(angle*256/360+192, 11, 0, 0)
+		TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+        Goto See		
+	StrafeRight:
+		NLBG A 3 A_FaceTarget
+		TNT1 A 0 A_ChangeFLag("NODROPOFF", 1)
+		TNT1 A 0 A_Recoil(-3)
+		NLBG B 3 ThrustThing(angle*256/360+64, 11, 0, 0)
+		NLBG C 3 A_FaceTarget
+		TNT1 A 0 A_Recoil(-3)
+		NLBG D 3 ThrustThing(angle*256/360+64, 11, 0, 0)
+		TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+        Goto See	
+	FallBack:
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_ChangeFLag("NODROPOFF", 1)
+		NLBG ABCD 4 A_Recoil(3)
+		Goto See		
+	Pain:
+		NLBG G 3
+		NLBG G 3 A_Pain
+		Goto See
+	Death:
+		NLBG H 5
+		NLBG I 5 A_Scream
+		NLBG J 5 A_NoBlocking
+		NLBG J 0 A_PlaySound("Weapons/NailBomb")
+		NLBG K 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBG L -1
+		Stop
+	XDeath:
+		NLBG O 5
+		NLBG P 5 A_XScream
+		NLBG Q 5 A_NoBlocking
+		NLBG Q 0 A_PlaySound("Weapons/NailBomb")
+		NLBG RTUV 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBG W -1
+		Stop
+	}
+}
+
+Actor NailBorgCommander 7594 
+{ 
+    //$Category RevSnipers
+	OBITUARY "%o was nailed by a Nail Borg Commander."
+	Health 500
+	Radius 20
+	Height 56
+	Mass 135
+	Speed 15
+	Painchance 80
+	Scale 1.2
+	SEESOUND "Monsters/NBSight"
+	ACTIVESOUND "Monsters/NBAct"
+	PAINSOUND "Monsters/NBPain"
+	DEATHSOUND "Monsters/NBDeath"
+	Translation "113:124=196:207"
+	Bloodcolor "7F 3F 00"
+	MONSTER
+	+FLOORCLIP
+	+DONTHARMSPECIES
+    Species "KX"
+	States
+	{
+	Spawn:
+		NLBG AB 10 A_Look
+		Loop
+	See:
+		NLBG AA 4 A_Chase
+		NLBG A 0 A_PlaySound("Monsters/NBWalk")
+		NLBG BBCC 4 A_Chase
+		NLBG CC 0 A_PlaySound("Monsters/NBWalk")
+		NLBG DD 4 A_Chase
+		Loop
+	Missile:
+		TNT1 A 0 A_Jump(256,"MachineGun", "Shotgun", "Bomb", "Creator")
+	MachineGun:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 3 BRIGHT A_CustomMissile("BorgNail1", 32, 0, Random(6, -6), 0, 1)
+		NLBG E 1 BRIGHT
+		Goto See
+	Shotgun:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 4 A_CustomMissile("BorgNail2", 28, 0, 4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 28, 0, -4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36 ,0 ,4 , 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36, 0, -4, 0, 1)
+		NLBG F 0 BRIGHT A_CustomMissile("BorgNail2", 32, 0, 0, 0)
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("weapons/nailfire")
+		NLBG F 4 A_CustomMissile("BorgNail2", 28, 0, 4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 28, 0, -4, 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36 ,0 ,4 , 0, 1)
+		NLBG F 0 A_CustomMissile("BorgNail2", 36, 0, -4, 0, 1)
+		NLBG F 0 BRIGHT A_CustomMissile("BorgNail2", 32, 0, 0, 0)
+		NLBG E 15
+		Goto See
+	Bomb:
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("Weapons/NailBomb")
+		NLBG F 4 A_CustomMissile("BorgNailBomb", 32, 0, Random(6, -6), 0)
+		NLBG E 10 A_FaceTarget
+		NLBG E 0 A_PlaySound("Weapons/NailBomb")
+		NLBG F 4 A_CustomMissile("BorgNailBomb", 32, 0, Random(6, -6), 0)
+		NLBG E 10
+		Goto See
+	Creator:
+		NLBG E 10 A_FaceTarget
+		NLBG F 0 A_CustomMissile("NailborgCommanderCube", 28, 0, -90, 0, 1)
+		NLBG F 4 A_CustomMissile("NailborgCommanderCube", 28, 0, 90, 0, 1)
+		NLBG E 10
+		Goto See
+	Pain:
+		NLBG G 3
+		NLBG G 3 A_Pain
+		Goto See
+	Death:
+		NLBG H 5
+		NLBG I 5 A_Scream
+		NLBG J 5 A_NoBlocking
+		NLBG J 0 A_PlaySound("Weapons/NailBomb")
+		NLBG K 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBG L -1
+		Stop
+	XDeath:
+		NLBG O 5
+		NLBG P 5 A_XScream
+		NLBG Q 5 A_NoBlocking
+		NLBG Q 0 A_PlaySound("Weapons/NailBomb")
+		NLBG RTUV 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBG W -1
+		Stop
+	Raise:
+		NLBG KJIH 5
+		Goto See
+	}
+}
+
+Actor NailBorgCommando  7521
+{
+    //$Category LowTierSoldiers 
+	OBITUARY "%o was nailed by a Nail Borg Commando."
+	Health 250
+	Radius 20
+	Height 56
+	Mass 200
+	Speed 14
+	Painchance 80
+	Scale 1.2
+	SEESOUND "Monsters/NBSight"
+	ACTIVESOUND "Monsters/NBAct"
+	PAINSOUND "Monsters/NBPain"
+	DEATHSOUND "Monsters/NBDeath"
+	Translation 1
+	Bloodcolor "7F 3F 00"
+	MONSTER
+	+FLOORCLIP
+	+DONTHARMSPECIES
+    Species "KX"
+	States
+	{
+	Spawn:
+		NLBC AB 10 A_Look
+		Loop
+	See:
+		NLBC AA 4 A_Chase
+		NLBC A 0 A_PlaySound("Monsters/NBWalk")
+		NLBC BBCC 4 A_Chase
+		NLBC CC 0 A_PlaySound("Monsters/NBWalk")
+		NLBC DD 4 A_Chase
+		Loop
+	Missile:
+   		NLBC E 10 A_FaceTarget
+  		NLBC E 0 A_PlaySound("weapons/nailfire")
+        NLBC F 2 BRIGHT A_CustomMissile("BorgNail1", 32, 10, Random(6, -6), 0, 1)
+     	NLBC E 2 BRIGHT
+		NLBC E 0 A_PlaySound("weapons/nailfire")
+      	NLBC F 2 BRIGHT A_CustomMissile("BorgNail1", 32, 10, Random(6, -6), 0, 1)
+		NLBC E 2 A_CPosRefire
+		Goto Missile+1
+	Pain:
+		NLBC C 3
+		NLBC C 3 A_Pain
+		Goto See
+	Death:
+		NLBC H 5 A_Scream
+		NLBC I 5 
+		NLBC J 5 A_NoBlocking
+		NLBC J 0 A_PlaySound("Weapons/NailBomb")
+		NLBC K 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBC L 5
+		NLBC M 5
+		NLBC N -1
+		Stop
+	XDeath:
+		NLBC O 5
+		NLBC P 5 A_XScream
+		NLBC Q 5 A_NoBlocking
+		NLBC Q 0 A_PlaySound("Weapons/NailBomb")
+		NLBC RTUV 5 A_CustomMissile("BorgNailBombBig", 32, 0, Random(6, -6), 0)
+		NLBC W -1
+		Stop
+	Raise:
+		NLBC KJIH 5
+		Goto See
+	}
+}
+		
+Actor BorgNailBomb
+{
+	Radius 24
+	Height 24
+	Speed 20
+	Reactiontime 35
+	SEESOUND "Weapons/NBBounce"
+	DEATHSOUND "Weapons/NailBombExp"
+	PROJECTILE
+	-SHOOTABLE
+	+DOOMBOUNCE
+	+RANDOMIZE
+	+GRENADETRAIL
+	-NOGRAVITY
+	+CANBOUNCEWATER
+	+BOUNCEONACTORS
+	states
+	{
+	Spawn:
+		NBMB A 2 A_Countdown
+		NBMB AB 6
+		Loop
+	Death:
+	    TNT1 AAAAAAAAAAAAAAA 0 A_SpawnitemEx("KXNailborgParticle", 0, 0, 0, frandom(-5,5), frandom(-5,5), frandom(5,12), random(0,360),SXF_NOCHECKPOSITION)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 0)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 40)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 80)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 120)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 160)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 200)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 240)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 280)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 320)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 350)
+		WSMK ABCDE 5
+		Stop
+	}
+}
+
+Actor BorgNailBombBig
+{
+	Radius 24
+	Height 24
+	Speed 20
+	Reactiontime 35
+	SEESOUND "Weapons/NBBounce"
+	DEATHSOUND "Weapons/NailBombExp"
+	Scale 1.4
+	PROJECTILE
+	-SHOOTABLE
+	+DOOMBOUNCE
+	+RANDOMIZE
+	+GRENADETRAIL
+	-NOGRAVITY
+	+CANBOUNCEWATER
+	+BOUNCEONACTORS
+	states
+	{
+	Spawn:
+		NBMB A 2 A_Countdown
+		NBMB AB 6
+		Loop
+	Death:
+	    TNT1 AAAAAAAAAAAAAAA 0 A_SpawnitemEx("KXNailborgParticle", 0, 0, 0, frandom(-5,5), frandom(-5,5), frandom(5,12), random(0,360),SXF_NOCHECKPOSITION)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 0)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 20)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 40)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 60)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 80)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 100)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 120)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 140)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 160)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 180)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 200)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 220)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 240)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 260)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 280)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 300)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 320)
+		WSMK E 0 A_CustomMissile("BorgNail1", 4, 2, 340)
+		WSMK ABCDE 5
+		Stop
+	}
+}
+
+Actor BorgNail1
+{
+	Projectile
+	Radius 5
+	Height 8
+	Speed 35
+	Damage 3
+	Scale 0.6
+	+BLOODSPLATTER
+	+PIERCEARMOR
+	seeSound ""
+	DeathSound ""
+	Decal Bulletchip
+	States
+	{
+	Spawn:
+		DART A 1 A_SpawnItemEx("NailBlur",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		DART A 0 A_PlaySound("weapons/nailflight",Chan_Weapon,1.0,True)
+		Loop
+	XDeath:
+		DART B 0 A_PlayWeaponSound("weapons/nailhitbleed")
+		DART BCDEFG 2
+		Stop
+	Crash:
+	    Goto Death
+	Death:
+	    TNT1 AAAAA 0 A_SpawnitemEx("KXNailborgParticle", 0, 0, 0, frandom(-4,4), frandom(-4,4), frandom(2,8), random(0,360),SXF_NOCHECKPOSITION)
+		DART B 0 A_PlayWeaponSound("weapons/nailhit")
+		FX57 ABCDEFGHIJ 1
+		Stop
+	}
+}
+
+Actor BorgNail2 : BorgNail1
+{
+	Radius 6
+	Speed 30
+}
+
+Actor NailBlur       
+{
+   Height 1
+   Radius 1
+   Damage 0
+   Speed 0
+   RenderStyle Add
+   Scale 0.6
+   Alpha 1.0
+   +NoBlockMap
+   +NoInteraction
+   +NoGravity
+   States
+   {
+   Spawn:
+	  TNT1 A 2
+      DART A 1 A_FadeOut(0.1)
+      Wait
+   }
+}
+
+Actor KXNailborgParticle : KXExplosiveFireBallParticle2
+{
+	-NoGravity
+	Gravity 1.0
+	States
+	{
+  Spawn:
+    PUFF B 1 Bright A_FadeOut(0.05)
+	Loop
+  Death:
+    PUFF B 1 A_FadeOut(0.05)
+    Loop
+	}
+}
+
+actor NailborgCommanderCube : PlasmaBall
+{
+  SeeSound ""
+  DeathSound ""
+  RenderStyle Normal
+  Speed 16
+  +SeekerMissile
+  +DOOMBOUNCE
+  +DEHEXPLOSION
+  +NOBOUNCESOUND
+  Scale 0.75
+  States
+  {
+  Spawn:
+    TNT1 A 6 
+    TNT1 A 0 A_Stop
+  Death:
+    TNT1 A 0 Bright A_SpawnItem("TeleportFog",0,0)
+    TNT1 A 1 Bright A_SpawnItem("Nailborg",0,0)
+    Stop
+  }
+}

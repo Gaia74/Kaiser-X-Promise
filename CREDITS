@@ -1,0 +1,1572 @@
+Church Ambience: https://youtu.be/gFwUEAL8A4Q
+
+Civilians Sprites: DeeDeeOZ
+
+A lot of images for the Churchs: https://commons.wikimedia.org/w/index.php?search=church+glass&title=Special:MediaSearch&go=Go&type=image
+
+//Info of items/misc/effects/etc stuff
+
+Name: M40A1
+Class: 6
+Type: Hitscan
+Palette: Custom
+Summon: M40Rifle
+Ammo Type: M40762Ammo
+Altfire: Yes
+Powered Mode: No
+Added States: No
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Name: Railgun
+Class: 6
+Type: Rail
+Palette: Doom
+Summon: STRailgun
+Ammo Type: Cell
+Altfire: No
+Powered Mode: No
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Name: Tech Armor
+Type: Armor
+Palette: Doom
+Summon: TechArmor
+Use type: Inventory
+Duration: Infinite
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Name: Deployable SentryGun
+Type: Custom Inventory
+Palette: Doom
+Summon: SentryBox, SentryGun
+Duration: infinite (until sentry destroyed)
+Use Type: Inventory
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Name: Medical Backpack
+Type: Health
+Palette: Doom
+Summon: HealthBackpack
+Use type: Inventory
+Duration: Instant
+Brightmaps: No
+Added States: No
+ACS: Yes
+Description: Carry 100 health around with you like those old Build engine games.
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Type: Terrain splash effects for Doom flats
+Connections: Raven splash FX (included), zDoom default splash "chunk" actors
+Spawn Offsets: N/A
+Documentation: Yes (in TERRAIN lump)
+Spawn Ceiling: No
+Variants: 7 - Water, Sludge, Lava, Blood, Slime (Nukage), Mud, Sizzle
+Summon: N/A
+Brightmaps: Yes
+ACS: No
+
+
+Provides splash effects for Doom flats. Includes water, sludge, and lava from
+Heretic/Hexen, as well as blood, slime (nukage), and mud, and a "sizzle" effect
+for hot non-liquid floors.
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Name: Grenade Launcher
+Class: 5
+Type: Projectile
+Palette: Doom
+Summon: STGrenadeLauncher
+Ammo Type: RocketAmmo
+Altfire: No
+Powered Mode: No
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Name: HeavyArmor
+Connection: None
+Type: Armor
+Palette: Doom
+Summon: heavyarmor
+Use Type: Instant
+
+Submitted: Captain Toenail
+Decorate: Captain Toenail
+GLDefs: Captain Toenail
+Sounds: No
+Sprites: Doom 2
+Sprite Edit: Captain Toenail
+Idea Base: Former Commando's Armour
+
+/////////////////////////////////////////////////////////////////////////////////
+
+Name: Rifle
+Class: 6
+Type: Hitscan
+Palette: Other
+Summon: Rifle
+Ammo Type: RifleAmmo
+Altfire: No
+Powered Mode: No
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Name: Bound Marines
+Connection: N/A
+Palette: Doom
+Summon: BoundPlayer1/2, BoundPlayerShootable1/2
+Ambient Sound: No
+De-/Activatable: No
+Destroyable: Yes
+Special Effects: No
+
+Submitted: Captain Toenail
+Decorate: Captain Toenail
+GLDefs: none
+Sounds: none
+Sprites: Id Software, Skulltag
+Sprite Edit: Captain Toenail
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Submitted: scalliano
+Decorate: scalliano
+Sprites: scalliano
+Idea Base: The impaled humans from Doom.
+
+Name: Impaled Scientists
+Connection: No
+Palette: Custom
+Summon: ImpaledScientist, ImpaledFScientist
+Ambient Sound: No
+De-/Activatable: No
+Destroyable: No
+Special Effects: No
+
+//////////////////////////////////////////////////////////////////////////////////
+
+DeployableSentry
+Submitted: Captain Toenail
+Decorate: Captain Toenail
+GLDefs: Captain Toenail
+Sounds: Valve, Id Software
+Sprites: Id Software, 3D Realms, Raven
+Sprite Edit: Captain Toenail
+Idea Base: MW2 Sentry killstreak
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Medical Backpack
+Submitted: TheMightyHeracross
+Decorate: TheMightyHeracross
+ACS: Blue Shadow
+Sounds: id Software
+Sprites: id Software
+Sprite Edit: BloodyAcid
+Idea Base: Medical Bag/Medkit from Blood/Duke3d/Shadow Warrior
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Terrains
+Submitted: MagicWazard
+Decorate: MagicWazard
+GLDefs: MagicWazard
+Sounds: Raven Software
+Sprites: Raven Software
+Sprite Edit: MagicWazard
+Idea Base: Heretic/Hexen splashes
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Tech Armor
+Decorate: Ghastly_dragon
+Sounds: Id Software, Raven Software
+Sprites: Id Software
+Sprite Edit: Ghastly_dragon
+Idea Base: Quake 2's Power Shield
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Railgun
+Submitted: Ghastly_dragon
+Decorate: The Skulltag Team
+Sprites: The Skulltag Team
+Idea Base: Quake series' Railgun
+
+//////////////////////////////////////////////////////////////////////////////////
+
+M40A1
+Submitted: TODM
+Decorate: TODM
+Sounds: VALVe
+Sprites: HL:OpFor, TODM
+Sprite Edit: Cory Whittle, TheDarkArchon, TODM
+Idea Base: Left 4 Dead 2/CS:S/HL:OpFor "AWP"
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Grenade Launcher
+Submitted: Ghastly_dragon
+Decorate: The Skulltag Team
+GLDefs: The Skulltag Team
+Sprites: The Skulltag Team
+Sounds: The Skulltag Team
+Idea Base: Quake series' Grenade Launcher
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Hearth of the demons sprite
+Submitted: scalliano
+Decorate: scalliano
+GLDefs: scalliano
+Sounds: None
+Sprites: Id Software, Monolith Productions
+Sprite Edit: scalliano
+Idea Base: Doom-class Regen powerup from Generations Arena mod for Q3
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Heavy Rifle
+Submitted: Ghastly_dragon
+Decorate: TheDarkArchon
+Sprites: Id Software
+Sprite Edit: TheDarkArchon
+Sounds: Valve Software
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Submitted: MDK
+Decorate: MDK
+Sprites: MDK, ID Software
+Idea Base: Dead Corpses of Doom
+Description: A pack of 6 marine corpses
+
+Name : Marine Corpses
+Connection : None
+Palette : Doom
+Summon : CORP01, CORP02, CORP03, CORP04, CORP05, CORP06
+Type : Corpse, Gore
+Ambient Sound : No
+De-/Activatable : No
+Destroyable : No
+Special Effects : none
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Credits: ID Software, Captain Awesome, Anarchist, Captain Toenail, Lucario, The Innocent Crew, MDK, NMN
+Submitted: Captain Awesome
+Decorate: Captain Awesome
+GLDefs: None
+Sounds: None
+Sprites: ID Software, Captain Awesome, Anarchist, Captain Toenail, Lucario, The Innocent Crew, MDK, NMN
+Sprite Edit: Captain Awesome
+Idea Base: 
+
+Description:
+The hanged corpses of three of your fellow marines.
+
+Name: Hanged Marines
+Connection: None
+Palette: Doom
+Summon: HangedMarine1-3, HangedMarineBlocking1-3, 
+Ambient Sound: None
+De-/Activatable: N/A
+Destroyable: No
+Special Effects: None
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Name: Doom Burning Corpse
+Connection: None
+Palette: Doom
+Summon: BurningCorpse1, BurningCorpse2
+Ambient Sound: No
+De-/Activatable: Yes
+Destroyable: No
+Special Effects: No
+
+Submitted: zrrion the insect
+Decorate: zrrion the insect
+GLDefs: zrrion the insect
+Sounds: N/A
+Sprites: Doom (id Software)
+Sprite Edit: zrrion the insect
+Idea Base: ETTiNGRiNDER's burning corpse
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Name: Hexen Crucified Corpses
+Connection: None
+Palette: Hexen
+Summon: ZCorpseCrucified, ZCorpseCrucifiedBloody, ZCorpseCrucifiedSword
+Ambient Sound: No
+De-/Activatable: No
+Destroyable: No
+Special Effects: None
+
+Submitted: ETTiNGRiNDER
+Decorate: ETTiNGRiNDER
+Sounds: N/A
+Sprites: Hexen (Raven Software)
+Sprite Edit: ETTiNGRiNDER
+Idea Base: Similar decor in Gothic DM and Wrath of Magic
+
+//////////////////////////////////////////////////////////////////////////////////
+
+Name: Corpse Pile
+Connection: None
+Palette: Doom
+Summon: CorpsePile
+Ambient Sound: No
+De-/Activatable: No
+Destroyable: No
+Special Effects: No
+Brightmaps: No
+ACS: No
+
+Submitted: Gothic
+Decorate: Gothic
+Sprites: id Software
+Sprite Edit: Xaser, Jimmy, Minigunner
+
+Name: Arachnobaron
+Difficulty: Medium
+Connection: None
+Summon: Arachnobaron
+Melee: No
+Distance: Projectile
+Type: Cybernetic, Demon
+Brightmaps: Yes
+
+Submitted: WhoDaMan
+Decorate: WhoDaMan
+GLDefs: Sandypaper (Brightmaps)
+Sounds: Id Software
+Sprites: Id Software 
+Sprite Edit: WhoDaMan
+Idea Base: Doom Arachnotron and Baron of Hell
+
+//////////////////////////////////////////////////////////////////
+
+Name: Hectic
+Difficulty: Very Hard/Imposible
+Connection: Bruiser Demon's cousin
+Summon: Hectic, HecticJr , HecticGuard
+Melee: Yes
+Distance: Projectile, babies
+Type: Legendary Demon
+
+Submitted: Gaia74 and alexander adrian vargas
+Decorate: Gaia74 and alexander adrian vargas
+GLDEFs: alexander adrian vargas
+Sounds: id Software, Blizzard
+Sprites: id Software, Vader, Eriance
+Sprite Edit: alexander adrian vargas
+Idea Base: The Bruiser Demon, and the GiantDarkBaron (YouTube), DOOM 64 Level
+
+History: Hectic is a Fallen Seraphim only what reveal whit kaiser he and kaiser is brothers but one person called Gaia kill Satan and the inferno
+is dividedd in the demons of kaiser and the demons of Gaia.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Pyro-Cannon
+Class: 7
+Type: Projectile
+Palette: Custom
+Summon: UTNTPyroCannon
+Ammo Type: Gas (Custom)
+Altfire: No
+Powered Mode: No
+Added States: No
+
+Modder Notes: Uses the same ammo type and pickups, the DropFire actor, and some sprites
+from the UTNT Flamethrower.
+
+This version differs from the one in UTNT and Stronghold a bit. I evened out the
+amount of damage this does (originally, the projectile itself, without explosion
+damage, did 180-1440 damage).
+
+Decorate: Eriance
+GLDefs: Keksdose
+Sounds: Eriance, Raven Software, 3d Realms
+Sprites: Eriance, 3d Realms
+
+//////////////////////////////////////////////////////////////////
+
+Name: Bruiser Demon
+Difficulty: Hard
+Connection: none
+Summon: BruiserDemon
+Melee: Yes
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+The Bruiser Demon has both dynamic lights and brightmaps on the main monster,
+and unfortunately the dynamic lights tend to cover up the brightmaps. It's up to
+the user to decide whether or not they want to keep both, or remove one effect
+or the other.
+
+
+May God have mercy on whoever tries to update this thing's GLDefs...
+           -Ghastly
+		   
+Submitted: Tormentor667
+Decorate: Vader
+GLDEFs: Ghastly Dragon, Keksdose, Sandypaper (Brightmaps)
+Sounds: Id Software, Blizzard
+Sprites: Id Software
+Sprite Edit: Vader
+
+//////////////////////////////////////////////////////////////////
+
+Name: Hell Smith
+Difficulty: Very Hard
+Connection: None
+Summon: Hellsmith1
+Melee: Yes
+Distance: Projectile, Charge
+Type: Demon
+
+Submitted: Tormentor667
+Decorate: Eriance
+GLDEFs: Ghastly Dragon
+Sounds: Raven Software
+Sprites: Raven Software
+Sprite Edit: Eriance
+Idea Base: Diablo 2 Hellforge Smith Demon, Heretic Maulotaur
+
+03-02-2013 - MagicWazard
+* Converted sprites to PNG format for cross-game usage. (Palette unchanged.)
+* Converted audio to OGG format for better compression.
+* Added decal "Scorch" to projectile actor "HellShot".
+* Replaced NULL with TNT1.
+* Commented out lines 190 - 192 of DECORATE.  These called an ACS function from a Demon Eclipse map that spawned Sentinels to assist the Smith.
+  Not of any use outside of Demon Eclipse.  You can implement your own version if you like.
+  
+//////////////////////////////////////////////////////////////////
+
+Name: Archon of Hell
+Difficulty: Hard
+Connection: none
+Summon: ArchonOfHell
+Melee: Yes
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+Submitted: Tormentor667
+Decorate: Eriance
+GLDEFs: Ghastly Dragon, Sandypaper (Brightmaps)
+Sounds: Id Software, Eriance
+Sprites: Id Software, Midway, Eriance
+Sprite Edit: Eriance
+Idea Base: Hellstorm Archon of Hell
+
+//////////////////////////////////////////////////////////////////
+
+Name: Thamuz
+Difficulty: Very Hard
+Connection: none
+Summon: Thamuz
+Melee: No
+Distance: Projectile, Tracer
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: DBThanatos
+GLDEFs: Dreadopp, Virtue (Brightmaps)
+Sounds: Blizzard (Diablo)
+Sprites: Id Software
+Sprite Edit: Jimmy
+
+//////////////////////////////////////////////////////////////////
+
+Name: Lord of Heresy
+Difficulty: Very Hard
+Connection: none
+Summon: LordofHeresy
+Melee: Yes
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+Decorate: Bouncy, Tormentor667
+GLDefs: Sandypaper (Brightmaps)
+Sounds: Zippy
+Sprites: Id Software
+Sprite Edit: Vader, Tormentor667 (recolor)
+
+//////////////////////////////////////////////////////////////////
+
+Name: Kaiser
+Difficulty: Hard/Very Hard
+Connection: none
+Summon: Kaiser
+Melee: Yes
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+The Kaiser has both dynamic lights and brightmaps on the main monster,
+and unfortunately the dynamic lights tend to cover up the brightmaps. It's up to
+the user to decide whether or not they want to keep both, or remove one effect
+or the other.
+
+
+May God have mercy on whoever tries to update this thing's GLDefs...
+           -Ghastly
+
+Submitted: Tormentor667
+Decorate: Vader
+GLDEFs: Ghastly Dragon, Keksdose, Sandypaper (Brightmaps)
+Sounds: Id Software, Blizzard
+Sprites: Id Software
+Sprite Edit: Vader
+
+//////////////////////////////////////////////////////////////////
+
+Name: Enhanced Cacodemon
+Difficulty: Medium
+Connection: none
+Summon: EnhancedCacodemon
+Melee: No
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+Decorate: Tormentor667
+GLDefs: Sandypaper (Brightmaps)
+Sounds: Id Software
+Sprites: Id Software
+Sprite Edit: Tormentor667
+
+//////////////////////////////////////////////////////////////////
+
+Name: Plasma Repeater
+Class: 6
+Type: Hitscan
+Palette: Doom
+Summon: Repeater
+Ammo Type: AMCells (Custom)
+Altfire: No
+Powered Mode: No
+Added States: No
+
+MODDER NOTES:
+This weapon has been rebalanced from the version in Stronghold to be closer to the Plasma Rifle, and implements a new
+"re-spin" code, to make ammo conservation a little easier.
+
+If you don't want the re-spin code, replace the Fire and Hold states with this:
+
+
+  Fire:
+    REPG A 4 A_PlaySound("Weapons/RepeaterSpinup")
+    REPG BCD 4
+    REPG ABCD 3
+    REPG ABCD 2
+    REPG E 0 Bright A_Gunflash
+    REPG E 0 Bright A_AlertMonsters
+    REPG E 2 Bright A_FireBullets(5, 4, 2, 6, "RepPuff", 1, 10240)
+    REPG F 2 Bright
+    REPG G 0 Bright A_AlertMonsters
+    REPG G 2 Bright A_FireBullets(5, 4, 2, 6, "RepPuff", 1, 10240)
+    REPG H 2 Bright
+    REPG A 0 A_Refire
+    REPG A 2 A_PlaySound("Weapons/RepeaterSpindown")
+    REPG BCD 2
+    REPG ABCD 3
+    REPG ABCD 4
+    Goto Ready
+  Hold:
+    REPG E 0 Bright A_Gunflash
+    REPG E 0 Bright A_AlertMonsters
+    REPG E 2 Bright A_FireBullets(5, 4, 2, 6, "RepPuff", 1, 10240)
+    REPG F 2 Bright
+    REPG G 0 Bright A_AlertMonsters
+    REPG G 2 Bright A_FireBullets(5, 4, 2, 6, "RepPuff", 1, 10240)
+    REPG H 2 Bright
+    REPG A 0 A_Refire
+    REPG A 2 A_PlaySound("Weapons/RepeaterSpindown")
+    REPG BCD 2
+    REPG ABCD 3
+    REPG ABCD 4
+    REPG ABCD 4
+    Goto Ready
+
+Submitted: Ghastly_dragon
+Decorate: Eriance
+GLDefs: Ghastly_dragon
+Sprites: Eriance
+Sounds: Eriance, Raven Software
+
+//////////////////////////////////////////////////////////////////
+
+Name: Thor
+Difficulty: Very Hard
+Connection: None
+Summon: Thor
+Melee: No
+Distance: Projectile, Tracer
+Type: Magical, Medieval
+Brightmaps: No
+Added States: No
+ACS: No
+
+Submitted: Pyroscourge
+Decorate: Pyroscourge, MagicWazard
+GLDefs: Dreadopp
+Sounds: id Software, Monolith, Rogue Entertainment, Raven Software
+Sprites: Raven Software, Rogue Entertainment
+Sprite Edit: Pyroscourge, MagicWazard
+
+//////////////////////////////////////////////////////////////////
+
+Name: Pyro Demon
+Difficulty: Very Hard
+Connection: None
+Summon: PyroDemon
+Melee: Yes
+Distance: Projectile
+Type: Demon, Elemental
+Brightmaps: Yes
+
+Decorate: Maelstrom
+GLDEFs: Dreadopp, Sandypaper (Brightmaps)
+Sounds: Id Software, Monolith Games
+Sprites: Id Software
+Sprite Edit: Eriance, Maelstrom
+Idea Base: Archon of Hell by Eriance 
+
+//////////////////////////////////////////////////////////////////
+
+Name: Dark Annihilator
+Difficulty: Very Hard
+Connection: none
+Summon: ThamuzV2
+Melee: No
+Distance: Projectile, Tracer
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+// Information \\
+Name : Evil Knight
+Difficulty : Easy
+Connections : None
+Melee : Yes
+Distance : Projectile
+Type : Demon,Medieval
+
+// Credits \\
+Submitted : Mr.Green
+Decorate : Mr.Green
+GLDefs : Mr.Green
+Sounds : ID Software
+Sprites : Bullfrog,Raven Software
+
+// Description \\
+An armored minions of hell,Evil Knights have ability to hurl fireballs from
+their swords.
+
+// Note \\
+The monster has still it's bloodless death sprites,
+so they can be used for example fisted-dying animation.
+
+//////////////////////////////////////////////////////////////////
+
+-*Taken from the "DOCUMENT" file, no credits were found*-
+
+Place them on the map and deactivate them with the DORMANT flag, then activate
+them in certain intervals with some looping acs script.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Moloch
+Difficulty: Very Hard
+Connection: None
+Summon: Moloch
+Melee: No
+Distance: Projectile, Summon
+Type: Demon, Cybernetic
+
+Submitted: ProjectAngel
+Decorate: ProjectAngel
+GLDefs: ProjectAngel
+Sounds: id Software, Raven Software, Eriance, ProjectAngel
+Sprites: 3d Realms, Raven Software, Rogue Entertainment, Eriance, LilWhiteMouse
+Sprite Edit: Clebardman
+Idea Base: Duke Nukem 3D Cycloid Emperor
+
+//////////////////////////////////////////////////////////////////
+
+Name: Hades Sphere
+Difficulty: Easy
+Connection: None
+Summon: HS
+Melee: Yes
+Distance: No
+Type: Demon
+Brightmaps: No
+Added States: No
+ACS: No
+
+Submitted: Tormentor667
+Decorate: Eriance, Blue Shadow, MagicWazard
+GLDefs: Ghastly Dragon
+Sounds: Raven Software
+Sprites: Raven Software
+Sprite Edit: Eriance, Cryptic
+Idea Base: Hellstorm Hades Sphere
+
+//////////////////////////////////////////////////////////////////
+
+-*Taken from the "UPDATES" file*-
+
+11-01-2013 - MagicWazard:
+* Fixed selfdestruct behavior for proper kill tracking and to prevent "failure" of selfdestruct.
+* Fixed "chase" behavior so it won't misbehave when spawned via "A_PainAttack" or "A_DualPainAttack."
+* Monster no longer attempts to selfdestruct while in teleport sequence.
+* Removed "HSBoom" actor and transferred selfdestruct properties to a parameterized "A_Explode".
+* Increased bounding box size to better match sprite size.
+* Added a modified icedeath state, so frozen corpses would not float indefinitely.
+* Converted sprites to PNG and audio to OGG.
+* Included GLDefs (copied from Death Incarnate submission).
+* Added CREDITS and INFO lumps.
+* Added editor tags to DECORATE.
+* Replaced NULL with TNT1.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Shadow
+Difficulty: Easy
+Connection: Uses Etheral Soul projectiles
+Summon: Shadow
+Melee: No
+Distance: Projectile
+Type: Demon, Ghost
+Brightmaps: Yes
+
+Submitted: Tormentor667
+Decorate: Vader
+GLDEFs: Ghastly Dragon, Sandypaper (Brightmaps)
+Sounds: Blizzard Entertainment, Vader
+Sprites: Vader
+Idea Base: Eternal Doom Fast Imp
+
+//////////////////////////////////////////////////////////////////
+
+Name: Lord of Pain
+Difficulty: Very Hard
+Connection: None
+Summon: PainLord
+Melee: Yes
+Distance: Projectile, Tracer
+Type: Demon, Shadow
+
+Submitted: ProjectAngel
+Decorate: Hectic, ProjectAngel
+Sounds: Blizzard, id Software, Raven Software
+Sprites: id Software, LilWthiteMouse, Raven Software, Ghastly_Dragon
+Sprite Edit: Hectic, Maelstrom, Eriance
+Idea Base: Pyro Demon
+
+//////////////////////////////////////////////////////////////////
+
+Name: Cultist
+Difficulty: Very Easy
+Connection: none
+Summon: Thrall
+Melee: No
+Distance: Projectile
+Type: Human, Magical
+Brightmaps: Yes
+
+Decorate: Eriance
+GLDEFs: Dreadopp, SandyPaper (Brightmaps)
+Sounds: Monolith, Eriance
+Sprites: Raven Software
+Sprite Edit: Eriance
+Idea Base: Hellstorm Cultist
+
+//////////////////////////////////////////////////////////////////
+
+Submitted: Shadesmaster(formerly known as CodenniumRed), Cryomundus
+Decorate: Shadesmaster, Cryomundus
+GLDefs: Dreadopp
+Sounds: Railbot,
+Sprites: Shadesmaster, Raven (modified from Ettin pauldrons, would you believe it!), 
+Sprite Edit: Shadesmaster, Dreadopp (projectile), Cryomundus (rotations)
+Idea Base: A slightly demonic machine with rending capabilities
+
+Name: Drone
+Difficulty: Medium (hard in groups)
+Connections: None
+Palette: Custom
+Summon: Drone
+Melee: None
+Distance: Projectile
+Type: Robotic
+
+//////////////////////////////////////////////////////////////////
+
+Name: UTNTFlamethrower
+Class: 7
+Type: Projectile
+Palette: Doom
+Summon: UTNTFlamethrower
+Ammotype: Gas (Custom)
+AltFire: No
+Powered Mode: No
+Added States: No
+
+Submitted: MasterOFMorag
+Decorate: Eriance
+GLDefs: Keksdose
+Sprites: Eriance, 3d Realms
+Sounds: Eriance, Raven Software
+
+//////////////////////////////////////////////////////////////////
+
+Name: Diabolist
+Difficulty: Very Hard
+Connection: Uses Cleric Firestorm missile
+Summon: Diabloist
+Melee: No
+Distance: Projectile, Hitscan
+Type: Demon, Alien
+Brightmaps: Yes
+
+Modder note: One of its attacks is basically a copy of the Cleric Firestorm. If
+You use this in Hexen, you can delete the accompanying sounds, SndInfo entry and
+sprites.
+
+Submitted: Tormentor667
+Decorate: Eriance
+GLDEFs: Ghastly Dragon, Sandypaper (Brightmaps)
+Sounds: Id Software, Raven Software, Rogue Entertainment, Eriance
+Sprites: Id Software, Raven Software
+Sprite Edit: Eriance
+Idea Base: Doom 2 Arch-Vile
+
+//////////////////////////////////////////////////////////////////
+
+Name: Bloodfiend
+Difficulty: Medium
+Connection: none
+Summon: Bloodfiend, Lurker
+Melee: Yes
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+Decorate: Eriance
+Sounds: Id Software, Raven Software, Midway
+GLDefs: Sandypaper (Brightmaps)
+Sprites: Id Software
+Sprite Edit: Eriance
+Idea Base: Doom Demon
+
+//////////////////////////////////////////////////////////////////
+
+Name: Terminator
+Difficulty: Very Hard
+Connection: None
+Summon: Terminator 
+Melee: No
+Distance: Projectile, Hitscan
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: Vader
+GLDEFs: Dreadopp, Sandypaper (Brightmaps)
+Sounds: Id Software, Blizzard Entertainment, Vader
+Sprites: Vader, Eriance (cannon base)
+
+//////////////////////////////////////////////////////////////////
+
+Name: Beam Revenant
+Difficulty: Medium
+Connection: Uses the standard Doom explosion sprites in its attack.
+Summon: BeamRevenant
+Melee: Yes
+Distance: Fast Projectile
+Type: Undead, Cybernetic
+Brightmaps: No
+
+Decorate: Captain Ventris
+GLDEFs: Captain Ventris
+Sounds: Id Software
+Sprite Edit: Spectator
+Idea Base: ZDoom Wars required sprites to allow players to tell Rail and Normal Revenants apart.
+
+//////////////////////////////////////////////////////////////////
+
+Information:
+Name: Devastator Zombie
+Difficulty: Medium
+Connections: Devastator from Demon Eclipse
+Summon: DevastatorZombie
+Melee: None
+Distance: Projectile
+Type: Undead
+
+Credits:
+Submitted: scalliano
+Decorate: scalliano
+Sounds: Eriance (?)
+Sprites: Id Software, Eriance
+Sprite Edit: ItsNatureToDie, neoworm, Captain Toenail, Xim, Ghastly_dragon, scalliano
+Idea Base: Devastator from Demon Eclipse
+
+//////////////////////////////////////////////////////////////////
+
+Name: Hell's Fury
+Difficulty: Hard
+Connection: The Skull and the Soul are being used by the Soul Harvester as well
+Summon: HellsFury
+Melee: Yes
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+Decorate: Tormentor667
+GLDEFs: Ghastly Dragon, Keksdose, Sandypaper (Brightmaps)
+Sounds: Id Software
+Sprites: Id Software
+Sprite Edit: Tormentor667, Vader (skull death ani) 
+
+//////////////////////////////////////////////////////////////////
+
+Name: Heaven Guard
+Difficulty: Medium
+Connections: None
+Summon: HeavenGuard
+Melee: No
+Distance: Semi-homing projectile
+Type: Human
+Added States: No
+
+ - Description: - 
+These elite guards of the Deius Empire are charged with guarding the highest-ranking officials of the
+Royal Court of Angels on the distant system of Archon V. Their exact connection with Union Aerospace
+remains unknown, but the Angels' legendary military is not exactly the sort of force one would want
+to stir up by, say, accidentally opening a gateway in the middle of the Royal Palace. Whoops.
+
+Heaven Guards pack an impressive line of weaponry, most notably their prized Plasmafrost Mk.II
+Energy Rifle, which fires a burst of supercooled nanoparticles capable of taking down entire
+skytanks. These particles' extreme sub-zero temperatures are maintained by a small cluster of
+nanobots in the center of the projectile, which also sport a micro-targeting system that modifies
+the projectile's trajectory toward the nearest flagged heat source (usually the poor sucker about
+to be blown to bits).  This controlled release of energy results in an anomalous burst of light
+energy, forming the projectile's characteristic luminous blue ring shape that is feared throughout
+the galaxy. With both rapid-fire and extra-seeking charge shots at their disposal, the guns of the
+Heaven Guard are usually near the top of every marine's "things I really don't want pointing at my
+face" list.
+
+Submitted: Xaser
+Decorate: Xaser, Zero Prophet (projectile base)
+GLDefs: Xaser
+Sprites: Id Software (Doomguy), Raven Software (Corvus), LucasArts (Dark Forces snowtrooper)
+Sprite Edit: Xaser
+Sounds: Naughty Dog (Jak II), DreamForge Intertainment (War Wind II)
+Idea Base: Neoworm's original "Heaven Guard" concept sprite.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Hell Hound
+Difficulty: Medium
+Connection: none
+Summon: HotDog
+Melee: Yes
+Distance: Projectile
+Type: Demon
+Brightmaps: Yes
+
+Decorate: Eriance
+GLDEFs: Ghastly Dragon, Sandypaper (Brightmaps)
+Sounds: Monolith, Eriance
+Sprites: Monolith, Eriance
+Sprite Edit: Eriance
+Idea Base: Hellstorm Hellhound
+
+//////////////////////////////////////////////////////////////////
+
+Name: BFG Arachnotron
+Difficulty: Hard
+Connection: None
+Summon: BFGArachnotron
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+
+Submitted: mattbratt11
+Decorate: Tormentor667, Captain Toenail, mattbratt11
+Sounds: Id Software
+Sprites: Id Software 
+Sprite Edit: Tormentor667, Captain Toenail
+Sprite Recolor: mattbratt11
+Idea: mattbratt11
+
+//////////////////////////////////////////////////////////////////
+
+Name: Nightmare Mech Demon
+Difficulty: Medium
+Connection: none
+Summon: NightmareMechDemon
+Melee: Yes
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: Carnevil, mattbratt11
+GLDefs: Sandypaper (Brightmaps), mattbratt11 (Coding)
+Sounds: Id Software
+Sprites: Id Software
+Sprite Edit: Neoworm, Vader, mattbratt11 (Recolor)
+Idea Base: BloodDemonClone and NightmareDemon
+
+//////////////////////////////////////////////////////////////////
+
+Name: Rocket Zombie
+Difficulty: Very Easy
+Connection: none
+Summon: RocketGuy
+Melee: No
+Distance: Projectile
+Type: Human, Undead
+Brightmaps: Yes
+
+Decorate: Graf Zahl
+GLDEFs: Dreadopp, Sandypaper (Brightmaps)
+Sounds: Id Software
+Sprites: Id Software
+Sprite Edit: The Innocent Crew
+
+//////////////////////////////////////////////////////////////////
+
+Name: Disciple
+Difficulty: Easy
+Connection: none
+Summon: Disciple 
+Melee: No
+Distance: Projectile
+Type: Human, Magical
+Brightmaps: No
+Added States: None
+ACS: N/A
+
+Submitted: Tormentor667 
+Decorate: Eriance
+GLDEFs: Ghastly Dragon
+Sounds: Raven Software, Eriance
+Sprites: Raven Software
+Sprite Edit: Eriance
+Idea Base: Hellstorm Disciple
+
+02-22-2013 - MagicWazard
+*Converted sprites to PNG format.
+*Converted audio to OGG format.
+*Removed "DropItem BoneAmmo" (appears to be a mod-specific hook).
+*Added decals to projectiles.
+*Added INFO and CREDITS lumps.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Chaingun Demon
+Difficulty: Medium
+Connection: Blood Demon
+Summon: ChaingunDemon
+Melee: Only if below 100 hitpoints
+Distance: Hitscan, only if above 100 hitpoints
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Submitted: DeVloek
+Decorate: Carnevil, DeVloek
+GLDefs: Sandypaper, DeVloek
+Sounds: Id Software
+Sprites: Id Software
+Sprite Edit: Neoworm, Vader, DeVloek
+Idea Base: a Pinkie with a hitscan attack / Mauler Demon
+
+//////////////////////////////////////////////////////////////////
+
+Name: Overlord
+Difficulty: Very Hard
+Connection: Hades Sphere (included)
+Summon: Overlord
+Melee: Yes
+Distance: Projectile, Spawn
+Type: Demon
+Brightmaps: No
+Added States: No
+ACS: No
+
+Decorate: Eriance, Blue Shadow, MagicWazard
+GLDefs: Eriance, Dreadopp, Ghastly Dragon, Keksdose, MagicWazard
+Sounds: Eriance
+Sprites: Eriance
+
+11-01-2013 - MagicWazard:
+-- Overlord --
+* Updated included Hades Sphere's behavior. See below.
+* Converted sprites to PNG and audio to OGG.
+* Added editor tags to DECORATE.
+* Added GLDEFS from Hades Sphere. 
+* Created a set of GLDEFS, including shared definitions from Hades Elemental, and some definitions modified from Thor.
+* Assigned decal "CacoScorch" to "HadesBall" and "OverBall".
+* "Missile3" attacks had values for "angle" and "aimflags" swapped.
+* Commented out item drop; it's a mod-specific hook.
+* Replaced NULL with TNT1.
+* Added comments in DECORATE indicating unused actor (StormStrike1) and assets (LFX1 A - R).
+* Added INFO and CREDITS lumps.  CREDITS updated to reflect new contributions (especially to GLDEFS).
+
+-- Hades Sphere --
+* Fixed selfdestruct behavior for proper kill tracking and to prevent "failure" of selfdestruct.
+* Fixed "chase" behavior so it won't misbehave when spawned via "A_PainAttack" or "A_DualPainAttack."
+* Monster no longer attempts to selfdestruct while in teleport sequence.
+* Removed "HSBoom" actor and transferred selfdestruct properties to a parameterized "A_Explode".
+* Increased bounding box size to better match sprite size.
+* Added a modified icedeath state, so frozen corpses would not float indefinitely.
+* Converted sprites to PNG and audio to OGG.
+* Included GLDefs (copied from Death Incarnate submission).
+* Added CREDITS and INFO lumps.
+* Added editor tags to DECORATE.
+* Replaced NULL with TNT1.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Insanity Demolisher
+Difficulty: Very Hard
+Connection: Devastator from Demon Eclipse
+Summon: InsanityDemolisher
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Submitted: mattbratt11
+Decorate: Eriance, scalliano, mattbratt11
+GLDEFs: Ghastly Dragon, SandyPaper (Brightmaps), mattbratt11 (Coding)
+Sounds: Id Software, Midway, Eriance (?)
+Sprites: Id Software, Eriance (Projectiles)
+Sprite Edit: Eriance (Demolisher), mattbratt11 (Recolor)
+Idea Base: Xaser's Insanity Spider and Eriance's Demolisher
+
+//////////////////////////////////////////////////////////////////
+
+Name: CyberDemon Lord
+Difficulty: Very Hard
+Connection: Legendary Cyberdemon From Lca
+Summon: KaiserGeneralCyberdemonLord
+Melee: Yes
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: no
+
+//////////////////////////////////////////////////////////////////
+
+Name: Augmented Arachnotron
+Difficulty: Medium
+Connections: Uses the resources from the original Arachnotron (not included in wad)
+Summon: ArachnotronMK2
+Melee: None
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: Jimmy, Zdude (minor edits)
+Sounds: None added, uses stock Doom sounds
+GLDefs: Sandypaper (Brightmaps)
+Sprites: id Software
+Sprite Edit: Jimmy
+Idea Base: Upgraded version of the Arachnotron
+
+//////////////////////////////////////////////////////////////////
+
+Name: Blood Demon
+Difficulty: Medium
+Connection: none
+Summon: BloodDemonClone
+Melee: Yes
+Distance: None
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: Carnevil
+GLDefs: Sandypaper (Brightmaps)
+Sounds: Id Software
+Sprites: Id Software
+Sprite Edit: Neoworm, Vader
+Idea Base: Skulltag's Blood Demon by Cyb
+
+//////////////////////////////////////////////////////////////////
+
+Name: Demolisher
+Difficulty: Very Hard
+Connection: none
+Summon: Demolisher
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: Eriance
+GLDEFs: Ghastly Dragon, SandyPaper (Brightmaps)
+Sounds: Id Software, Midway
+Sprites: Id Software
+Sprite Edit: Eriance
+Idea Base: Doom Spider Mastermind
+
+//////////////////////////////////////////////////////////////////
+
+Name: Chaingun Spider
+Difficulty: Medium
+Connection: None
+Summon: CGunSpider
+Melee: No
+Distance: Hitscan
+Type: Demon, Cybernetic
+
+Decorate: Captain Toenail
+Sounds: Croteam
+GLDefs: Sandypaper (Brightmaps)
+Sprites: Id software
+Sprite edit: Captain Toenail
+Idea base: Arachnids from Serious Sam
+
+//////////////////////////////////////////////////////////////////
+
+Name: Female Scientist
+Difficulty: Very Easy
+Connections: Female Zombie
+Summon: FemaleScientist
+Melee: Yes
+Distance: None
+Type: Human, Undead
+
+Submitted: scalliano
+Decorate: scalliano
+GLDefs: none
+Sounds: DavidRaven, Id Software
+Sprites: Id Software (Zombieman), the Skulltag Team (Illucia, Player II), DavidRaven
+Sprite Edit: scalliano
+Idea Base: The UAC's apparent lack of staff
+
+Name: Female Scientist (Wrench)
+Difficulty: Very Easy
+Connections: Female Zombie
+Summon: FemaleScientist2
+Melee: Yes
+Distance: None
+Type: Human, Undead
+
+Submitted: scalliano
+Decorate: scalliano
+GLDefs: none
+Sounds: DavidRaven, Id Software, Konami
+Sprites: Id Software (Zombieman), the Skulltag Team (Illucia, Player II), DavidRaven
+Sprite Edit: scalliano
+Idea Base: The UAC's apparent lack of staff
+
+//////////////////////////////////////////////////////////////////
+
+Name: Rocket Imp
+Difficulty: Medium
+Connections: None
+Summon: RocketImp, HungRocketImp
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: No
+Added States: No
+ACS: No
+
+
+A cyborg imp with dual rocket launchers. Gibbing causes it to explode. Comes with hanging corpse
+prop.
+
+Submitted: Skelegant
+Decorate: Skelegant
+GLDefs: Skelegant
+Sounds: id Software
+Sprites: id Software
+Sprite Edit: Skelegant
+
+//////////////////////////////////////////////////////////////////
+
+Name: Zombie Scientist
+Difficulty: Very Easy
+Connections: Zombieman, Shotgun Guy
+Summon: ZombieScientist
+Melee: Yes
+Distance: None
+Type: Human, Undead
+
+Submitted: scalliano
+Decorate: scalliano
+GLDefs: none
+Sounds: Id Software
+Sprites: Id Software (Zombieman), Xim (Jawless Zombie Head), JoeyTD (Player 6, 7 & 8 frames)
+Sprite Edit: scalliano
+Idea Base: The UAC's apparent lack of staff
+
+Name: Zombie Scientist 2
+Difficulty: Very Easy
+Connections: Zombieman, Shotgun Guy
+Summon: ZombieScientist
+Melee: Yes
+Distance: None
+Type: Human, Undead
+
+Submitted: scalliano
+Decorate: scalliano
+GLDefs: none
+Sounds: Id Software, Valve
+Sprites: Id Software (Zombieman), Xim (Jawless Zombie Head), JoeyTD (Player 6, 7 & 8 frames)
+Sprite Edit: scalliano
+Idea Base: The UAC's apparent lack of staff
+
+//////////////////////////////////////////////////////////////////
+
+-*???*-
+
+Sprites by Id Software, Raven Software, Wolfendoom, Eriance, Vader, Finalizer, whoever made the ST Grenade
+Sounds by Id Software, Raven Software, Blizzard Entertainment, Eriance, Vader, Cory Whittle, Captain J
+Decorate by Vader, Tormentor667, Finalizer
+GLDefs by Dreadopp, Ghastly Dragon, Sandypaper, Finalizer
+Inspired by crack idea to fuse Cybruiser and Hell Warrior
+
+//////////////////////////////////////////////////////////////////
+
+Name: Cyber HellKnight
+Difficulty: Hard
+Connection: Cyber Baron
+Summon: Cyberhellknight
+Melee: Yes
+Distance: Projectile
+Type: Demon, Cybernetic
+
+Submitted: mattbratt11
+Decorate: Ben2k9 (Base), mattbratt11 (Edits)
+GLDEFs: Ghastly Dragon (Base), mattbratt11 (Edits)
+Sounds: Id Software
+Sprites: Id Software, Ben2k9
+Sprite Edit: mattbratt11
+Idea Base: Cyber Baron and Hell Knight
+
+//////////////////////////////////////////////////////////////////
+
+Name: Zombie Flyer
+Difficulty: Easy
+Connection: None
+Summon: ZombieFlyer
+Melee: No
+Distance: Projectile, Hitscan
+Type: Human, Undead, Mechanical
+
+Description
+A shotgundude in a flying machine
+
+Submitted: Tormentor667, Mancubus
+Decorate: Tormentor667, Mancubus, Bouncy
+GLDEFs: Dreadopp
+Sounds: Id Software, 3DRealms
+Sprites: Id Software, 3DRealms
+Sprite Edit: Tormentor667
+Idea Base: Duke Nukem 3D Pig Cop Flyer
+
+//////////////////////////////////////////////////////////////////
+
+Name: Volacubus
+Difficulty: Medium
+Connection: Mancubus
+Summon: FlyingFatso, FFPlasma, FFSlime
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Submitted: DeVloek
+Decorate: DeVloek
+GLDefs: DeVloek
+Sounds: id Software, d3deville (jet engine), blastwave fx (slime)
+Sprites: id Software
+Sprite Edit: DeVloek
+Idea Base: Arachnophyte
+
+//////////////////////////////////////////////////////////////////
+
+Name: Annihilating Demolisher
+Difficulty: Very Hard
+Connection: Annihilator, Demolisher
+Summon: AnnihilatingDemolisher
+Melee: No
+Distance: Hitscan, Projectile, Homing Projectile
+Type: Demon, Cybernetic
+Brightmaps: No
+Added States: No
+ACS: No
+
+Submitted: Alley (T_Alj5)
+Decorate: Alley (T_Alj5)
+GLDEFs: Alley (T_Alj5)
+Sounds: Id Software, Midway, Hard Doom
+Sprites: Id Software, Raven Software, Wolfendoom, Eriance, Town Infection
+Sprite Edit: Alley (T_Alj5)
+Idea Base: Cyber Mastermind
+
+//////////////////////////////////////////////////////////////////
+
+Name: Annihilator
+Difficulty: Very Hard
+Connection: none
+Summon: Annihilator
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: Eriance
+GLDEFs: Ghastly Dragon, Sandypaper (Brightmaps)
+Sounds: Id Software, Midway
+Sprites: Id Software, Raven Software, Wolfendoom
+Sprite Edit: Eriance
+Idea Base: Doom Cyberdemon
+
+//////////////////////////////////////////////////////////////////
+
+Name: Nailborg
+Difficulty: Medium
+Connection: none
+Summon: NailBorg
+Melee: No
+Distance: Projectile
+Type: Undead, Cybernetic
+
+Submitted: Mechadon
+Decorate: Mechadon
+GLDEFs: Dreadopp
+Sounds: Id Software (Quake)
+Sprites: Id Software, 3D Realms
+Sprite Edit: Neoworm
+
+//////////////////////////////////////////////////////////////////
+
+Name: Fusion Arachno
+Difficulty: Hard
+Connection: none
+Summon: FusionSpider
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+
+Decorate: Tormentor667
+GLDEFs: Dreadopp, Sandypaper (Brightmaps)
+Sounds: Id Software, Raven Software
+Sprites: Id Software
+Sprite Edit: InsanityBringer, Tormentor667
+
+//////////////////////////////////////////////////////////////////
+
+Name: Cyber Belphegor
+Difficulty: Hard
+Connection: Cyber Baron
+Summon: CyberBelphegor
+Melee: Yes
+Distance: Projectile
+Type: Demon, Cybernetic
+
+Submitted: mattbratt11
+Decorate: Ben2k9 (Base), mattbratt11 (Edits)
+GLDEFs: Ghastly Dragon (Base), mattbratt11 (Edits)
+Sounds: Id Software
+Sprites: Id Software, Ben2k9
+Sprite Edit: mattbratt11
+Idea Base: Cyber Baron and Belphegor
+
+//////////////////////////////////////////////////////////////////
+
+Name: CyberFiend
+Difficulty: Medium
+Connection: none
+Summon: CyberFiend
+Melee: yes
+Distance: Bouncing Explosive Puke-Gibs
+Type: Demon/Cybernetic
+
+Submitted: hnsolo77
+Decorate: Carnevil/hnsolo77
+GLDEFs: N/A
+Sounds: CyClones *Raven Software*, Shadow Caster
+Sprites: id Software
+Sprite Edit: Neoworm, Vader, Eriance, hnsolo77
+idea base: Baddies that puke as an attack.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Laser-Scout
+Difficulty: Easy
+Connections: Sentinel
+Summon: LaserScout
+Melee: No
+Distance: Projectile
+Type: Robot
+Brightmaps: Yes
+Actor modification: No
+ACS: No
+
+
+A simple enemy, the Laser-Scout has 250 HP and fires lasers similar to the Sentinel's own. Basically,
+a tankier ground-based Sentinel.
+
+Code: TheMightyHeracross
+GLDefs: Graf Zhal (lights.pk3)
+Sounds: Rogue
+Sprites: ENGINE Technology (Mars 3D)
+Sprite Edit: Enjay
+Idea Base: A lower-tier ground Strife robot.
+
+//////////////////////////////////////////////////////////////////
+
+Name: Hectebus
+Difficulty: Hard
+Connection: None
+Summon: HectebusClone
+Melee: No
+Distance: Projectile
+Type: Demon, Cybernetic
+Brightmaps: Yes
+Actor modification: No
+ACS: No
+
+Code: AgentSpork, Carnevil, Ghastly
+GLDefs: Ghastly Dragon, Sandypaper (Brightmaps)
+Sounds: Blizzard Entertainment, Vader, Id Software
+Sprites: Id Software, Midway
+Sprite Edit: AgentSpork
+
+///////////////////////////////////////////////////////////////////
+
+Name: Dark Inquisitor
+Difficulty: Very Hard
+Connections: None
+Summon: DarkInquisitor
+Melee: None
+Distance: Projectile
+Type: Robot
+Added States: None
+
+Submitted: ProjectAngel
+Decorate: ProjectAngel
+GLDefs: ProjectAngel
+Sounds: Wirehead Studios, id Software, RavenSoftware, ProjectAngel
+Sprites: Rogue Entertainment, Monolith, Id Software, 3d Realms, Ghastly_Dragon
+Sprite Edit: Ichor, Ghastly_Dragon
+Idea Base: Strife Inquisitor, Metroid Prime 2: Echoes Dark Pirate Commando

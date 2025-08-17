@@ -1,0 +1,185 @@
+Actor KXAcolyte 5520
+{ 
+  //$Category LowTierSoldiers 
+  Health 100
+  GibHealth 20
+  PainChance 100
+  Scale 0.90
+  Speed 15
+  Radius 20 
+  Height 56 
+  Mass 100 
+  Monster
+  +MissileMore
+  +FloorClip
+  +DONTHARMSPECIES
+  Species "KX" 
+  DamageFactor "KX", 0.0
+  Obituary "%o was taught to respect Lord God Kaiser by a Acolyte."
+  Translation "16:47=192:207", "168:191=192:207", "250:254=192:207"
+  SeeSound "monster/culsit" 
+  AttackSound "monster/culatk" 
+  PainSound "monster/culpai" 
+  DeathSound "monster/culdth" 
+  ActiveSound "monster/culsit"
+  States 
+  { 
+  Spawn: 
+    KCOL AB 10 A_Look 
+    Loop 
+  See: 
+    KCOL AABB 3 A_Chase 
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/Light")
+	KCOL CCDD 3 A_Chase 
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/Light")
+    Loop 
+  Missile:
+    KCOL EE 10 A_FaceTarget
+	KCOL AAAAAAAAAAAAAAA 0 A_CustomMissile ("KXAcolyteIceShards",42,0,frandom(-5,5),CMF_OFFSETPITCH,frandom(-5,5))
+	KCOL F 0 Bright A_CustomMissile("CultistParticle2",42,-6,0,1,0)
+    KCOL F 0 Bright A_CustomMissile("CultistParticle2",42,6,0,1,0)
+    KCOL F 8 Bright A_PlaySound("monster/culatk")
+    Goto See
+  Pain: 
+    KCOL G 2 
+    KCOL G 2 A_Pain 
+    Goto See 
+  Death: 
+    TNT1 AAAAA 0 A_SpawnitemEx("GaiaBloodProjectile", frandom(-3,3), frandom(-3,3), random(5,42), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_NOCHECKPOSITION)
+    KCOL H 8 
+    KCOL I 8 A_Scream 
+    KCOL J 4 
+    KCOL K 4 A_NoBlocking 
+    KCOL L 4 
+    KCOL M -1 
+    Stop
+  XDeath:
+    CULT N 5 A_CustomMissile("KXBloodExplosionEffect",37,0,0,0,0)
+    CULT O 5 A_XScream 
+	CULT O 5 A_SpawnitemEx("GaiaBloodProjectile", frandom(-3,3), frandom(-3,3), random(5,42), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_NOCHECKPOSITION)
+    CULT P 0 A_NoBlocking 
+    CULT PQRSTUV 5 A_SpawnitemEx("GaiaBloodProjectile", frandom(-3,3), frandom(-3,3), random(5,42), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_NOCHECKPOSITION)
+    CULT W -1 
+  Raise: 
+    KCOL MLKJHI 5 
+    Goto See 
+  } 
+}
+
+Actor KXAcolyteIceShards
+{
+  Radius 3
+  Height 3
+  Speed 1
+  Damage (random(3,4))
+  Projectile
+  RenderStyle Add
+  DamageType Ice
+  DeathSound "monster/culatk2"
+  SeeSound "monster/culatk"
+  States
+  {
+  Spawn:
+    TNT1 A 0 
+	TNT1 A 0 A_ScaleVelocity(frandom(20.0,40.0))
+    SHRD AAABBBCCC 1 Bright A_SpawnItemEx("KXBlondeIceShardsTrail",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+    Goto Spawn+2
+  Death:
+    TNT1 AAA 0 Bright A_SpawnItemEx("CultistParticle1",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(-180,180))
+	CRYT A 0 A_SetScale(1.5)
+	CRYT ABCD 3 Bright 
+    Stop
+  }
+}
+
+Actor KXAcolyteFire : KXAcolyte 5521
+{ 
+  Translation "250:254=168:191"
+  States 
+  { 
+  Missile:
+	KCOL EEEEEEEEEEEEEEEEEEEEEEEEE 1 {
+		A_FaceTarget;
+		A_SpawnItemEx("KXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128);
+    }
+	KCOL F 8 Bright A_CustomMissile("KXAcolyteFireBall",42,0,0,1,0)
+    Goto See
+  } 
+}
+
+ACTOR KXAcolyteFireBall : FastProjectile 
+{
+  Speed 50
+  Radius 14
+  Height 8
+  Damage (0)
+  DamageType "Fire"
+  RenderStyle Add
+  Obituary "%o got was set ablaze by a Acolyte."
+  MissileType "DiabloistFireStormTrail"
+  Scale 0.5
+  MissileHeight 8
+  SeeSound "ClericFlameFire"
+  DeathSound "ClericFlameCircle"
+  States
+  {
+  Spawn:
+    CFFX AAAAAAAAAAAAAA 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+  Death:
+	TNT1 A 0 A_Stop
+	TNT1 A 0 A_Explode(48,64)
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle",0,0,0,frandom(-7,7),frandom(-7,7),frandom(0,10),random(-180,180))
+	CFFX ABC 3 Bright
+    CFFX D 4 Bright
+    CFFX E 3 Bright
+    CFFX F 4 Bright
+    CFFX G 3 Bright
+    CFFX H 4 Bright
+    CFFX I 3 Bright
+    CFFX J 4 Bright
+    CFFX K 3 Bright
+    CFFX L 4 Bright
+    CFFX M 3 Bright
+    Stop
+  }
+}
+
+Actor KXAcolyteThunder : KXAcolyte 5522
+{ 
+  Translation "16:47=160:167", "168:191=160:167", "250:254=160:167"
+  States 
+  { 
+  Missile:
+	KCOL EEEEEEEEEEEEEEEEEEEE 1 {
+		A_FaceTarget;
+		A_SpawnItemEx("KXBlondeBoltParticleSpawner", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128);
+    }
+	KCOL EEEEE 1 A_SpawnItemEx("KXBlondeBoltParticleSpawner", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_PlaySound("KXAcolyte/Thunder",CHAN_AUTO,1.0)
+	KCOL F 8 Bright A_CustomRailgun (25,0,None,None,RGF_SILENT|RGF_FULLBRIGHT,1,1,"KXAcolyteThunderBoltPuff",0,0,2048,0,12.0,0.0,"KXBlondeThunderBoltPuff",0)
+    Goto See
+  } 
+}
+
+ACTOR KXAcolyteThunderBoltPuff
+{
+  +NoBlockMap
+  +NoGravity
+  +AllowParticles
+  +Randomize
+  +PuffOnActors
+  +AlwaysPuff
+  Translation "192:207=160:167"
+  RenderStyle Add
+  Mass 5
+  States
+  {
+  Spawn:
+  Melee:
+	TNT1 A 0
+    TNT1 AAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+	TNT1 A 0 A_PlaySound("KXAcolyte/Thunder",CHAN_AUTO,1.0)
+	AFX1 DEFGHI 3 Bright 
+    stop
+  }
+}

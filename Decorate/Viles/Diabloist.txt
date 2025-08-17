@@ -1,0 +1,524 @@
+Actor Diabloist : Archvile 7603 
+{ 
+  //$Category BattleMedics
+  Obituary "%o got was set ablaze by a Diabloist."
+  Health 1000
+  Radius 20 
+  Height 56 
+  Mass 500 
+  Speed 15 
+  PainChance 10
+  BloodColor "08 08 08"
+  Monster
+  +FloorClip
+  +NoTarget
+  +NoRadiusDmg
+  +MissileMore
+  +Boss
+  +DontHarmSpecies
+  Species "KX"
+  DamageFactor "KX", 0.0
+  DamageType "KX"
+  SeeSound "Monster/diasit" 
+  PainSound "Monster/diapai" 
+  DeathSound "Monster/diadth" 
+  ActiveSound "Monster/diaact" 
+  var int user_fire;
+  States 
+  { 
+  Spawn: 
+    DIAB AB 10 A_Look 
+    Loop 
+  See: 
+	TNT1 A 0 A_Jump(16,"DashDecide")
+	TNT1 A 0 A_SetShootable
+    DIAB A 2 A_Chase 
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/Archvile")
+	DIAB ABBCCD 2 A_Chase
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/Archvile")
+	DIAB DEEFF 2 A_Chase 
+	TNT1 A 0 A_Jump(16,"DashDecide")
+    Loop 
+  DashDecide:
+    TNT1 AA 0 A_JumpIfInventory("DiablostDashCooldown",1,"See")
+	Goto Dash
+  Dash:
+    TNT1 A 0 Bright A_PlaySound("monster/diaing", CHAN_5)
+	TNT1 A 0 Bright A_PlaySound("monster/diaing", CHAN_6)
+	TNT1 A 0 Bright A_PlaySound("monster/diaing", CHAN_7)
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("KXDiabloistFireEffect",frandom(-10,10),frandom(-10,10),1,frandom(0,1),frandom(0,1),frandom(5,15),frandom(0,360))
+	TNT1 A 0 A_UnSetShootable
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	Goto Dashloop
+  DashLoop:
+	TNT1 AAA 0 A_Wander
+	TNT1 A 0 A_SpawnItemEx("KXDiabloistFireEffect",frandom(-10,10),frandom(-10,10),1,frandom(0,1),frandom(0,1),frandom(0,4),frandom(0,360))
+	TNT1 A 1 A_SetUserVar(user_fire,user_fire+1)
+	TNT1 A 0 A_JumpIf(user_fire>50,"DashEnd")
+	Loop
+  DashEnd:
+    TNT1 A 0 A_SetShootable
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("KXDiabloistFireEffect",frandom(-10,10),frandom(-10,10),1,frandom(-5,5),frandom(-5,5),frandom(0,4),frandom(0,360))
+    TNT1 A 0 A_GiveInventory("DiablostDashCooldown",1)
+	Goto See
+  Missile:
+	TNT1 A 0 A_Jump(256,"Archvile","Blaze","ClericFire","MauloFire","IgniteDecide")
+  Archvile:
+	DIAB G 0 Bright A_PlaySound("vile/start", CHAN_VOICE)
+    DIAB G 10 Bright A_FaceTarget
+    DIAB H 0 Bright A_VileTarget("KXDiabloistFire")
+	DIAB H 0 Bright A_VileTarget("KXDiabloistFire2")
+	DIAB HHHHHHHH 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    DIAB A 0 A_FaceTarget
+	DIAB IIIIIIII 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    DIAB A 0 A_FaceTarget
+	DIAB JJJJJJJJ 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    DIAB A 0 A_FaceTarget
+	DIAB KKKKKKKK 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    DIAB A 0 A_FaceTarget
+	DIAB LLLLLLLL 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    DIAB A 0 A_FaceTarget
+	DIAB MMMMMMMM 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    DIAB A 0 A_FaceTarget
+	DIAB NNNNNNNN 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    DIAB A 0 A_FaceTarget
+	DIAB O 0 A_VileAttack("DiaIgnite/explosion",1,1)
+	DIAB O 0 A_CustomMissile("DiabloistBurningSpell",32,0,0)
+    DIAB OOOOOOOOPPPPPPPPPPPPPPPPPPPP 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    Goto See
+  Blaze:
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+  BlazeLooping:
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+    DIAB N 2 Bright A_FaceTarget
+	DIAB OOO 0 A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2",0,0,36,frandom(-4,4),frandom(-4,4),frandom(-4,4),0, 128)
+    DIAB O 2 Bright A_CustomMissile("DFlare", 40, 0, Random(-4, 4))
+    DIAB P 2 Bright A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire>15,"BlazeEnd")
+	Loop
+  BlazeEnd:
+    DIAB P 0 Bright A_Jump(64, "ClericFire")
+    DIAB P 0 Bright A_Jump(128, "MauloFire")
+    Goto See
+  ClericFire:
+    DIAB GHIJKLM 5 Bright A_FaceTarget
+    DIAB N 5 Bright A_FaceTarget
+    DIAB O 0 Bright A_Playsound ("weapons/firbfi")
+    DIAB O 5 Bright A_CustomMissile ("DiabloistFireStorm",32,0,0)
+    DIAB P 5 Bright
+    DIAB P 0 Bright A_Jump (128,"MauloFire")
+    Goto See
+  MauloFire:
+    DIA2 A 0 Bright A_FaceTarget
+    DIA2 AAAAAAAABBBBBBBB 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, 4, 0, 0, (Random(20, 35)*0.1), Random(0, 360), 128)
+    DIA2 A 0 Bright A_FaceTarget
+	DIA2 C 0 Bright A_CustomMissile ("DTracer",0,-40,0)
+    DIA2 C 8 Bright A_CustomMissile ("DTracer",0,40,0)
+    Goto See 
+  IgniteDecide:
+    TNT1 AA 0 A_JumpIfInventory("DiablostIgniteCooldown",1,"See")
+	Goto Ignite
+  Ignite:
+	DIAB G 0 Bright A_PlaySound("Monster/diasit", CHAN_VOICE)
+    DIAB GGGGGHHHHHIIIIIJJJJJKKKKKLLLLLMMMMM 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, 4, 0, 0, (Random(20, 35)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_RadiusGive("DiabloistIgnite",512,RGF_MONSTERS,1)
+	TNT1 A 0 Bright A_PlaySound("monster/diaing", CHAN_7)
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	Goto Wave
+  Wave:
+    TNT1 A 0 A_CustomMissile("DiabloistIgniteWaveEffect",1,0,user_fire)
+	TNT1 A 0 A_JumpIf(user_fire>360,"EndWave")
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+4)
+	Loop
+  EndWave:
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	TNT1 A 0 A_GiveInventory("DiablostIgniteCooldown",1)
+	DIAB OPPPP 10 Bright A_FaceTarget
+	Goto See
+  Pain: 
+    DIAB Q 5 
+    DIAB Q 5 A_Pain 
+	TNT1 A 0 A_Jump(128,"DashDecide")
+    Goto See 
+  Death: 
+    DIAB Q 7 
+    DIAB R 7 A_Scream 
+    DIAB S 7 A_NoBlocking 
+    DIAB TUVW 7 
+    DIAB XY 5 
+    DIAB Z -1 
+    Stop    
+  } 
+}
+
+ACTOR KXDiabloistFire
+{
+  +NOBLOCKMAP
+  +NOGRAVITY
+  RenderStyle Add
+  Alpha 1
+  States
+  {
+  Spawn:
+    HLFR A 2 Bright A_StartFire
+    HLFR BAB 2 Bright A_Fire
+    HLFR C 2 Bright A_FireCrackle
+    HLFR BCBCDCDCDEDED 2 Bright A_Fire
+    HLFR E 2 Bright A_FireCrackle
+    HLFR FEFEFGHGHGH 2 Bright A_Fire
+    Stop
+  }
+}
+
+ACTOR KXDiabloistFire2 : KXDiabloistFire
+{
+  var int user_fire;
+  States
+  {
+  Spawn:
+    TNT1 A 0 A_Warp(AAPTR_TRACER)
+    TNT1 A 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2", Random(24, 32), 0, frandom(4,24), 0, 0, (Random(20, 35)*0.1), Random(0, 360), 128)
+    TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+	TNT1 A 0 A_JumpIf(user_fire>60, "Fade")
+	Loop
+  Fade:
+    TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR KXDiabloistFireEffect : KXDiabloistFire
+{
+  +RANDOMIZE
+  States
+  {
+  Spawn:
+    HLFR ABABCBCBCDCDCDEDEDEFEFEFGHGHGH 2 Bright
+    Stop
+  }
+}
+
+ACTOR DFlare
+{
+  Radius 5
+  Height 5
+  Speed 25
+  Damage 4
+  SpawnID 252
+  RenderStyle Add
+  DamageType Fire
+  Alpha 0.85
+  Projectile
+  +ThruGhost
+  Obituary "%o got was set ablaze by a Diabloist."
+  Seesound "weapons/firmfi"
+  DeathSound "weapons/firex4"
+  States
+  {
+  Spawn:
+    VBAL AB 3 Bright A_SpawnItemEx("MFlareFX", 0, 0, 0, 0, 0, 0, 0, 128)
+    Loop
+  Death:
+    CBAL CDEFG 3 Bright
+    Stop
+  }
+}
+
+Actor DTracer
+{
+  Radius 5
+  Height 5
+  Speed 15
+  ReactionTime 175
+  Damage 10
+  DamageType Fire
+  RenderStyle Add
+  Alpha 0.67
+  Projectile
+  +SeekerMissile
+  +FloorHugger
+  +ThruGhost
+  -NoGravity
+  Obituary "%o got was set ablaze by a Diabloist."
+  Seesound "weapons/diasht"
+  DeathSound "weapons/firex3"   
+  States
+  {
+  Spawn:
+    TNT1 A 1 Bright A_SeekerMissile(10, 15)
+    TNT1 A 0 Bright A_Countdown
+    TNT1 A 0 Bright A_SpawnItemEx("DTracerPuff", 0, 0, 0, 0, 0, 0, 0, 128)
+    Loop
+  Death:
+    FTRA K 4 Bright
+    FTRA L 4 Bright A_Explode(64, 64)
+    FTRA MNO 3 Bright
+    Stop
+  }
+}
+
+Actor MFlareFX
+{   
+  Radius 0
+  Height 1
+  Speed 0
+  Projectile
+  RenderStyle Add
+  Alpha 0.67
+  States
+  {
+  Spawn:
+    FDFX ABCDEF 4 Bright
+    Stop 
+  }
+}
+
+Actor DTracerPuff
+{
+  Radius 1
+  Height 1
+  Speed 0
+  RenderStyle Add
+  DamageType Fire
+  Alpha 0.67
+  Projectile
+  +FloorHugger
+  -NoGravity
+  States
+  {
+  Spawn:
+    FTRA ABCDEFGHIJ 3 Bright A_Explode(4, 8)
+    stop
+  }
+}
+
+ACTOR DiabloistFireStorm : FastProjectile 
+{
+  Speed 100
+  Radius 14
+  Height 8
+  Damage 6
+  DamageType "Fire"
+  RenderStyle Add
+  Obituary "%o got was set ablaze by a Diabloist."
+  MissileType "DiabloistFireStormTrail"
+  MissileHeight 8
+  SeeSound "ClericFlameFire"
+  DeathSound "ClericFlameCircle"
+  States
+  {
+  Spawn:
+    CFFX AAAAAAAAAA 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+  Death:
+	TNT1 A 0 A_Stop
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle",0,0,0,frandom(-7,7),frandom(-7,7),frandom(0,10),random(-180,180))
+	CFFX ABC 3 Bright
+    CFFX D 4 Bright
+    CFFX E 3 Bright
+    CFFX F 4 Bright
+    CFFX G 3 Bright
+    CFFX H 4 Bright
+    CFFX I 3 Bright
+    CFFX J 4 Bright
+    CFFX K 3 Bright
+    CFFX L 4 Bright
+    CFFX M 3 Bright
+    Stop
+  }
+}
+
+ACTOR DiabloistFireStormTrail
+{
+  +NOBLOCKMAP
+  +NOGRAVITY
+  RenderStyle Add
+  Scale 0.5
+  States
+  {
+  Spawn:
+    CFFX NOP 4 Bright
+    Stop
+  }
+}
+
+Actor DiabloistKXExplosiveFireBallParticle : KXExplosiveFireBallParticle
+{
+	Translation "0:255=%[0.00,0.00,0.00]:[2.00,1.01,0.00]"
+	+THRUACTORS
+}
+
+Actor DiabloistKXExplosiveFireBallParticle2 : KXExplosiveFireBallParticle2
+{
+	Translation "0:255=%[0.00,0.00,0.00]:[2.00,1.01,0.00]"
+	+THRUACTORS
+}
+
+Actor DiablostDashCooldown : Powerup
+{
+	Powerup.Duration -10
+}
+
+Actor DiablostIgniteCooldown : Powerup
+{
+	Powerup.Duration -20
+}
+
+Actor DiabloistIgniteWaveEffect : BfgParticle
+{
+	Alpha 1.0
+	Scale 0.75
+	RenderStyle Add
+	Speed 20
+	+ThruActors
+	States
+	{
+	Spawn:
+	Death:
+		HLFR AAABBBCCCDEDEDEDEFFFGGGHHH 1 Bright A_FadeOut(0.03)
+		Stop
+	}
+}
+
+ACTOR DiabloistIgnite : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "I DON'T LOVE GANYU I DON'T LOVE GANYU."
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 1 Acs_NamedExecuteAlways("DiabloistIgniteScript",0,0,0,0)
+    Stop
+  }
+}
+
+ACTOR DiabloistIgnitingEffect : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "PLS SOMEONE TELL PEOPLE THAT GANYU IS NOT MY WIFE SOMEONE DO SOMETHING I WANT TO CRY."
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0 A_SpawnItemEx("ObliteratorFlamesParticle",frandom(5,5),frandom(-5,5),frandom(1,32),frandom(-1,1),frandom(-1,1),frandom(1,9),random(0,360))
+	TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR DiabloistIgnitingEffect2 : DiabloistIgnitingEffect
+{
+  States
+  {
+  Pickup:
+    TNT1 AA 0 A_SpawnItemEx("ObliteratorFlamesParticle",frandom(-10,10),frandom(-10,10),frandom(1,32),frandom(-1,1),frandom(-1,1),frandom(1,9),random(0,360))
+	TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR DiabloistIgniteExplosion
+{
+	Radius 1
+	Height 1
+	Scale 1.5
+	+DontHarmSpecies
+	+ThruSpecies
+	+NoBlockMap
+	+Noclip
+	+NoGravity
+	Species "KX"
+	DamageType "KX"
+	RenderStyle Add
+	States
+	{
+	Spawn: 
+	TNT1 A 0
+	TNT1 A 0 A_PlaySound("DiaIgnite/explosion",CHAN_6,1.0)
+	TNT1 A 0 A_PlaySound("DiaIgnite/explosion",CHAN_7,1.0)
+	TNT1 A 0 A_Explode(96,256)
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10),random(1,360))
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle",0,0,0,frandom(-10,10),frandom(-10,10),frandom(5,15),random(1,360))
+	KXS4 ABCDEFGHIJKLMNOPQR 2
+	Stop
+  }
+}
+
+ACTOR DiabloistTest : Diabloist
+{
+  states
+  {
+  Missile:
+    TNT1 A 0 A_Jump(256,"Ignite")
+	Goto See
+  }
+}
+
+Actor DiabloistIgniteGlow
+{
+    +Noclip
+    +NoBlockMap
+    +NoGravity
+    +ClientSideOnly
+    +NoInteraction
+    +ForceXYBillBoard
+    Renderstyle Add
+    Radius 1
+    Height 1
+    Alpha 0.6
+    Scale 0.6
+    States
+	{
+	Spawn:
+	   LENR BBBB 1 Bright
+	   Stop
+	}
+}
+
+ 
+ACTOR IsIgniting : Inventory { Inventory.MaxAmount 1 }
+
+Actor DiabloistBurningSpell : FastProjectile
+{
+    Radius 11
+	Height 8
+    Speed 300
+	Damage (0)
+	Species "KX"
+	+DONTHARMSPECIES
+	+THRUSPECIES
+	MissileHeight 8
+	MissileType "DiabloistKXExplosiveFireBallParticle2"
+	states
+	{
+	Spawn:
+	    TNT1 A 1 
+		Loop
+	Death:
+	    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle2",frandom(-128,128),0,floorz-z+1,0,0,frandom(0,10),random(1,360))
+	    TNT1 A 1 A_RadiusGive("DiabloistBurningSpell2",128,RGF_PLAYERS,1)
+		Stop
+	}
+}
+
+ACTOR DiabloistBurningSpell2 : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "Ikadoom sucks."
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 1 Acs_NamedExecuteAlways("DiabloistBurningSpellACS",0,0,0,0)
+    Stop
+  }
+}

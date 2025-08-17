@@ -1,0 +1,57 @@
+ACTOR USCM_Marine 27479
+{
+   Health 100
+   Radius 20
+   Height 56
+   Speed 9
+   PainChance 500
+   MONSTER
+   +LOOKALLAROUND
+   +FRIENDLY
+   +FLOORCLIP
+   +NOTARGET
+   attacksound "Uscm/Fire"
+   painsound "uscm/pain"
+   deathsound "uscm/die"
+   activesound "uscminfor"
+   Obituary "Fuiste Matado Por tu propio aliado" 
+   Decal clip
+   States 
+   { 
+   Spawn: 
+      USCM AB 10 A_Look 
+      Loop 
+   See: 
+      USCM AABBCCDD 4 A_Chase 
+      Loop 
+   Missile: 
+      USCM E 10 A_FaceTarget 
+      USCM F 0 Bright A_PlaySound ("DSUSCMFI")
+      USCM F 0 Bright A_PlaySound ("Uscm/Fire")
+      USCM F 5 Bright A_CPosAttack 
+      TNT1 A 0 A_SpawnItem ("RifCaseSpawn", 0, 30,0)
+      USCM E 5 A_CPosRefire 
+      Goto Missile+1 
+   Pain: 
+      USCM G 3 
+      USCM G 3 A_Pain 
+      Goto See 
+   Death: 
+      USCM H 5 
+      USCM I 5 A_Scream 
+      USCM J 5 A_Fall 
+      USCM K 5 
+      USCM L 5
+	  USCM M 400
+      Stop
+    XDeath:
+      USCM N 5
+      USCM O 5 A_XScream
+      USCM P 5
+      USCM Q 5 A_Fall
+      USCM RSTU 5
+      USCM V 5
+	  USCM W 400
+      Stop
+   } 
+}

@@ -1,0 +1,80 @@
+ACTOR HealthBackpackAdd : Health { Inventory.Amount 1 }
+ACTOR DidHeal : Inventory {}
+
+ACTOR HealthBackpack : CustomInventory 7511 
+{ 
+    //$Category KXItems
+	+INVBAR
+	Inventory.Amount 100
+	Inventory.MaxAmount 100
+	Inventory.InterHubAmount 100
+	Inventory.PickupMessage "You got a Health Backpack."
+	Tag "Health Pack"
+	Inventory.Icon "I_MBPK"
+	States
+	{
+	Spawn:
+		MBPK A -1
+		Stop
+	Use:
+	GiveCheck:
+		TNT1 A 0 A_JumpIfInventory("HealthBackpack", 1, "GiveCheck2")
+		TNT1 A 0 A_JumpIfInventory("DidHeal", 1, "PlaySound")
+		Fail
+	GiveCheck2:
+		TNT1 A 0 A_JumpIf(CallACS("Checkmaxhealth") == TRUE, "Give")
+		TNT1 A 0 A_JumpIfInventory("DidHeal", 1, "PlaySound")
+		Fail
+	PlaySound:
+		TNT1 A 0 A_TakeInventory("Didheal", 1)
+		TNT1 A 0 A_PlaySound("FKITUSE")
+		Fail	
+	Give:
+		TNT1 A 0 A_GiveInventory("DidHeal", 1)
+	GiveHealth:
+		TNT1 A 0 A_TakeInventory("HealthBackpack", 1)
+		TNT1 A 0 A_GiveInventory("HealthBackpackAdd", 1)
+		Goto GiveCheck
+	}
+}
+
+ACTOR KXHolyWaterDrink : HealthPickup
+{
+  Health 25
+  +FLOATBOB
+  +INVENTORY.PICKUPFLASH
+  Inventory.MaxAmount 10
+  Inventory.Icon KHDPB0
+  Inventory.UseSound "KXPickup/HolyWaterDrink"
+  Inventory.PickupSound "KXPickup/HolyWaterDrink"
+  Inventory.PickupMessage "Holy Water"
+  Tag "Holy Water"
+  HealthPickup.AutoUse 0
+  States
+  {
+  Spawn:
+    KHDP A 4
+    Loop
+  }
+}
+
+actor KXMaxArmorUpgrade : BasicArmorBonus
+{
+  radius 1
+  height 1
+  inventory.pickupmessage "Your faith protects you"
+  inventory.icon "ARM1A0"
+  armor.savepercent 33.335
+  armor.saveamount 1
+  armor.maxsaveamount 200
+  armor.maxbonus 20
+  armor.maxbonusmax 100
+  +COUNTITEM
+  +INVENTORY.ALWAYSPICKUP
+  states
+  {
+  Spawn:
+    BON2 ABCDCB 6
+    loop
+  }
+}

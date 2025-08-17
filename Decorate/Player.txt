@@ -1,0 +1,247 @@
+ACTOR BlondePlayer : PlayerPawn
+{
+  Speed 1
+  Scale 0.9
+  Health 100
+  Radius 16
+  Height 56
+  Mass 100
+  PainChance 255
+  Player.DisplayName "Blonde"
+  Player.SoundClass "Blonde"
+  Player.ScoreIcon "UNDPB1"
+  Player.WeaponSlot 1, HeavenSword
+  Player.WeaponSlot 2, DualIntruders, Intruder, KXRevolver, KXAssaultRifle
+  Player.WeaponSlot 3, KXShotgun, KXSuperShotgun
+  Player.WeaponSlot 4, KXChaingun, STMinigun
+  Player.WeaponSlot 5, KXRocketLauncher, KXGrenadeLauncher
+  Player.WeaponSlot 6, KXPlasmaRifle, HeavenBlaster , HeavenGuardRifle
+  Player.WeaponSlot 7, KXBFG9000
+  Player.WeaponSlot 8, M40Rifle
+  Player.WeaponSlot 9, BUYMENU
+  DamageFactor "Marines", 0.0
+  BloodColor "red" 
+  Species "Marines"
+  +ThruSpecies
+  states
+  {
+  Spawn:
+    UNDP A -1
+    loop
+  See:
+    UNDP A 4 
+	UNDP A 0 A_SpawnItemEx("KaiserXFootStep", 0, 0, 40, 0, 0)
+	UNDP BC 4 
+	UNDP A 0 A_SpawnItemEx("KaiserXFootStep", 0, 0, 40, 0, 0)
+	UNDP D 4 
+    loop
+  Missile:
+	TNT1 A 0 A_GiveInventory("KXStateTokenMissile",1)
+    UNDP E 2
+	TNT1 A 0 A_TakeInventory("KXStateTokenMissile",99)
+	UNDP E 10
+    Goto Spawn
+  Melee:
+    UNDP F 6 BRIGHT
+    Goto Missile
+  Pain:
+	TNT1 A 0 A_GiveInventory("KXStateTokenPain",1)
+    UNDP G 3  
+    UNDP G 3 A_Pain 
+	TNT1 A 0 A_TakeInventory("KXStateTokenPain",99)
+    Goto See 
+  Death:
+    UNDP H 6
+    UNDP I 6 A_PlayerScream
+    UNDP JK 6
+    UNDP L 6 A_NoBlocking
+    UNDP M 6
+    UNDP N -1
+    Stop
+  XDeath:
+    UNDP O 5 A_PlayerScream
+    UNDP P 5
+    UNDP R 5 A_NoBlocking
+    UNDP STUVW 5
+    UNDP X -1
+    Stop
+    }
+}
+
+Actor KXStateTokenPain : Inventory
+{
+	Inventory.MaxAmount 5
+}
+
+Actor KXStateTokenMissile : Inventory
+{
+	Inventory.MaxAmount 5
+}
+
+
+Actor RiflesAmmo : Ammo 7490 
+{ 
+  //$Category KXItems
+  Inventory.PickupMessage "Picked up some bullets for the M40 And The Assault Rifle."
+  Inventory.Amount 10
+  Inventory.MaxAmount 200
+  Inventory.PickupSound "KXPickup/RifleAmmo"
+  Ammo.BackpackAmount 20
+  Ammo.BackpackMaxAmount 400
+  Inventory.Icon "SNPPB0"
+  States
+  {
+  Spawn:
+    SNPP B -1
+    stop
+  }
+}
+
+Actor RiflesAmmoBox : RiflesAmmo 7491 
+{ 
+  //$Category KXItems
+  Inventory.PickupMessage "Picked up a box of bullets for the M40 And The Assault Rifle."
+  Inventory.Amount 80
+  Inventory.PickupSound "KXPickup/RifleAmmoBox"
+  States
+  {
+  Spawn:
+    SNPP C -1
+    Stop
+  }
+}
+
+actor NewShell : Shell replaces Shell
+{
+Inventory.Amount 8
+Inventory.PickupSound "KXPickup/Shell"
+}
+
+actor NewShellBox : ShellBox replaces ShellBox
+{
+Inventory.Amount 34
+Inventory.PickupSound "KXPickup/ShellBox"
+}
+
+ACTOR NewClip : Ammo replaces Clip
+{
+  Inventory.PickupMessage "Picked up a clip."
+  Inventory.Amount 20
+  Inventory.MaxAmount 250
+  Ammo.BackpackAmount 20
+  Ammo.BackpackMaxAmount 500
+  Inventory.Icon "CLIPA0"
+  Inventory.PickupSound "KXPickup/Clip"
+  States
+  {
+  Spawn:
+    CLIP A -1
+    Stop
+  }
+}
+
+ACTOR NewClipbox : NewClip replaces ClipBox
+{
+  Inventory.PickupMessage "Picked up a box of bullets."
+  Inventory.Amount 100
+  Inventory.PickupSound "KXPickup/ClipBox"
+  States
+  {
+  Spawn:
+    AMMO A -1
+    Stop
+  }
+}
+
+actor NewRocketAmmo : RocketAmmo Replaces RocketAmmo
+{
+Inventory.Amount 2
+Inventory.PickupSound "KXPickup/Rocket"
+}
+
+actor NewRocketbox : RocketBox Replaces RocketBox
+{
+Inventory.Amount 10
+Inventory.PickupSound "KXPickup/RocketBox"
+}
+
+actor NewCellPack : Cellpack Replaces Cellpack
+{
+Inventory.Amount 200
+Inventory.PickupSound "KXPickup/CellPack"
+}
+
+actor NewCell : Cell Replaces Cell
+{
+Inventory.PickupSound "KXPickup/Cell"
+Inventory.Amount 40
+}
+
+actor NewMedikit : Medikit Replaces Medikit { Inventory.PickupSound "KXPickup/Medkit" }
+actor NewStimpack : Stimpack Replaces Stimpack { Inventory.PickupSound "KXPickup/Stimpack" }
+
+
+actor NewSoulSphere : SoulSphere Replaces SoulSphere
+{
++FLOATBOB
+Inventory.PickupSound "KXPickup/SoulSphere"
+}
+
+actor NewMegaSphere : MegaSphere replaces MegaSphere
+{
++FLOATBOB
+Inventory.PickupSound "KXPickup/Megasphere"
+}
+
+
+actor NewGreenArmor : GreenArmor Replaces GreenArmor { Inventory.PickupSound "KXPickup/GreenArmor" }
+actor NewBlueArmor : BlueArmor Replaces BlueArmor { Inventory.PickupSound "KXPickup/BlueArmor" }
+
+ACTOR NewHealthBonus : Health Replaces HealthBonus
+{
+	+COUNTITEM
+    +INVENTORY.ALWAYSPICKUP
+	Inventory.Amount 2
+	Inventory.MaxAmount 1000
+	Inventory.PickupMessage "$GOTHTHBONUS"
+	Inventory.PickupSound "KXPickup/MinorPickup"
+	States
+	{
+	Spawn:
+		BON1 ABCDCB 6
+		Loop
+	}
+}
+
+Actor NewArmorBonus : BasicArmorBonus Replaces ArmorBonus
+{
+	Radius 20
+	Height 16
+	Inventory.Pickupmessage "$GOTARMBONUS"
+	Inventory.PickupSound "KXPickup/MinorPickup"
+	Inventory.Icon "BON2A0"
+	Armor.Savepercent 33.335
+	Armor.Saveamount 2
+	Armor.Maxsaveamount 1000
+	+COUNTITEM
+	+INVENTORY.ALWAYSPICKUP
+	States
+	{
+	Spawn:
+		BON2 ABCDCB 6
+		Loop
+	}
+}
+
+
+ACTOR KXTestingDemon : Demon
+{
+  Health 30000
+  Mass 50
+  Meleerange 128
+  Speed 8
+  +AVOIDMELEE
+  States
+  {
+  }
+}

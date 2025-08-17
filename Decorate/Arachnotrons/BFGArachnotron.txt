@@ -1,0 +1,148 @@
+ACTOR BFGArachnotron 7578 
+{ 
+	//$Category KSpiders
+	Health 600
+	Radius 64
+	Height 64
+	Mass 600
+	Speed 12
+	PainChance 160
+	Monster
+	+FLOORCLIP
+	+DONTHARMSPECIES
+    Species "KX"
+	DamageFactor "KX", 0.0
+	DamageType "KX"
+	SeeSound "baby/sight"
+	PainSound "baby/pain"
+	DeathSound "baby/death"
+	ActiveSound "baby/active"
+	bloodcolor "DarkGreen"
+	dropitem "CellPack"
+	Obituary "%o was smashed by the bfg arachnotron."
+	var int user_fire;
+	States
+	{
+	Spawn:
+		BFSP AB 10 A_Look
+		Loop
+	See:
+		BFSP A 20
+		BFSP A 3 A_BabyMetal
+		BFSP ABBCC 3 A_Chase
+		BFSP D 3 A_BabyMetal
+		BFSP DEEFF 3 A_Chase
+		Goto See+1
+	Missile:
+	    TNT1 A 0 A_Jump(64,"BFG")
+		BFSP AAG 5 A_FaceTarget
+		TNT1 A 0 A_SetUserVar(user_fire,random(1,10))
+		Goto LoopingMini
+   LoopingMini:
+		TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+		BFSP HHHHH 0 A_SpawnItemEx("KXBFGArachnotronParticle2",0,0,24,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+		BFSP H 4 bright A_CustomMissile("KXBFGArachnotronPlasma",24,0,frandom(-5,5),2,frandom(-2,2))
+		BFSP G 4 bright A_FaceTarget
+		TNT1 A 0 A_JumpIf(user_fire==0,"See")
+		Loop
+	BFG:
+	    BFSP AAAAAAAAAA 1 Bright A_SpawnItemEx("KXBFGArachnotronParticle",0,0,18,random(-4,4),random(-4,4),random(-4,4),random(0,360))
+		BFSP A 0 A_PlaySound ("weapons/bfgf")
+		BFSP A 0 A_FaceTarget
+		BFSP AAAAAAAAAAGGGGG 1 Bright A_SpawnItemEx("KXBFGArachnotronParticle",0,0,18,random(-4,4),random(-4,4),random(-4,4),random(0,360))
+		BFSP G 0 A_FaceTarget
+		BFSP GGGGG 1 Bright
+		BFSP GGGGGGGGGGGGGGG 0 A_SpawnItemEx("BFGParticle",0,0,18,frandom(-15,15),frandom(-15,15),frandom(-15,15),random(0,360))
+		BFSP H 4 bright A_CustomMissile("BFGBall",24,0,0)
+		BFSP G 6
+		BFSP AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 2 A_SpawnItemEx("KXBFGArachnotronCooldownParticle",frandom(-48,48),frandom(-48,48),frandom(10,20),0,0,frandom(0,4),random(0,360))
+		Goto See+1
+	Pain:
+		BFSP I 3
+		BFSP I 3 A_Pain
+		Goto See+1
+	Death:
+		TNT1 A 0 A_SpawnItemEx("KXBloodExplosionEffect",0,0,36,0,0,0,random(1,360))
+		TNT1 A 0 A_SpawnItemEx("KXArachnoExplosionDeath",0,0,36,0,0,0,random(1,360))
+		BFSP J 20 A_Scream
+		BFSP K 7 A_Fall
+		BFSP LMNO 7
+		BFSP P -1
+		Stop
+    	Raise:
+		BFSP P 5
+		BFSP ONMLKJ 5
+		Goto See+1
+	}
+}
+
+ACTOR KXBFGArachnotronPlasma
+{
+  Radius 13
+  Height 8
+  Speed 40
+  Damage (random(40,80))
+  Projectile
+  +Randomize
+  RenderStyle Add
+  Scale 0.75
+  Alpha 1.0
+  SeeSound "KXBfgArachnotron/Shot"
+  DeathSound "KXBfgArachnotron/ShotExp"
+  States
+  {
+  Spawn:
+    DRFX AB 3 Bright A_SpawnItemEx("KXBFGArachnotronParticle2",FRandom(-3,3),FRandom(-3,3),FRandom(-3,3),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+    Loop
+  Death:
+    TNT1 A 0 A_SetScale(1.0)
+	TNT1 AAA 0 A_SpawnItemEx("KXBaronFireParticle",0,0,4,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+	TNT1 AAAAA 0 A_SpawnItemEx("BfgParticle",0,0,4,frandom(-7,7),frandom(-7,7),frandom(-7,7),random(-180,180))
+    ARCB DEFGHI 3 Bright
+    Stop
+  }
+}
+
+Actor KXBFGArachnotronParticle : BfgParticle
+{
+    +NoInteraction
+	Alpha 0.2
+    States
+    {
+    Spawn:
+        TNT1 A 0
+        TNT1 A 0 A_Warp(AAPTR_DEFAULT,VelX*16,VelY*16,VelZ*16,0,WARPF_NOCHECKPOSITION|WARPF_ABSOLUTEOFFSET|WARPF_ABSOLUTEANGLE)
+        TNT1 A 0 A_ScaleVelocity(-1)
+		CBTS SSSS 1 Bright A_FadeIn(0.2)
+		CBTS SSSSSSSS 1 Bright
+        CBTS SSSS 1 BRIGHT A_FadeOut(0.2)
+        Stop
+    }
+}
+
+Actor KXBFGArachnotronParticle2 : BfgParticle
+{
+    +NoInteraction
+	+ThruActors
+	States
+	{
+  Spawn:
+  Death:
+    CBTS S 1 Bright A_FadeOut(0.04)
+    Loop
+	}
+}
+
+Actor KXBFGArachnotronCooldownParticle : KXDustParticle
+{
+	Scale 0.04
+	Speed 0
+	States
+	{
+  Spawn:
+  Death:
+    KDUS A 0 Bright A_SetScale(ScaleX+0.02)
+    KDUS A 1 Bright A_FadeOut(0.04)
+    Loop
+	}
+}

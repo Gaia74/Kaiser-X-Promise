@@ -1,0 +1,117 @@
+ACTOR InsanitySpider : SpiderMastermind 7625 
+{ 
+	//$Category BigSpiders
+    Speed 32
+    Health 5000
+    PainChance 1
+    Radius 96
+    MissileType InsanityPlasma
+    Obituary "%o was nuked into oblivion by the Insanty Spider."
+    Tag "Insanity Spider"
+    States
+    {
+    Spawn:
+        INSP AB 10 A_Look
+        Loop
+    See:
+        INSP A 3 A_Metal
+        INSP ABB 3 A_Chase
+        INSP C 3 A_Metal
+        INSP CDD 3 A_Chase
+        INSP E 3 A_Metal
+        INSP EFF 3 A_Chase
+        Loop
+    Missile:
+        INSP A 20 A_FaceTarget
+        INSP G 2 A_FaceTarget
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, 0) 
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, 10)
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, -10)
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, 20)
+        INSP H 2 A_CustomMissile ("InsanityPlasma", 32, 0, -20) 
+        INSP G 2 A_FaceTarget
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, 0) 
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, 10)
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, -10) 
+        INSP H 0 A_CustomMissile ("InsanityPlasma", 32, 0, 5)
+        INSP H 2 A_CustomMissile ("InsanityPlasma", 32, 0, -5) 
+        INSP G 0 A_SpidRefire
+        Goto Missile+1
+    Pain:
+        INSP I 3 
+        INSP I 3 A_Pain
+        Goto See
+    Death:
+        INSP J 20 A_Scream
+        INSP K 10 A_Fall
+        INSP LMNOPQR 10
+        INSP S -1 
+        Stop
+    }
+} 
+
+ACTOR InsanityPlasma : PlasmaBall 
+{ 
+    Damage 2
+    States
+    {
+    Spawn:
+        IPLS A 2 A_VileStart
+        IPLS BABABAB 2
+        Loop
+    Death:
+        IPLE ABCDE 4
+        Stop
+    }
+} 
+
+ACTOR InsanityArachnophyte
+{
+    Health 1250
+    Radius 64
+    Height 100
+    Speed 6
+    PainChance 0
+    Mass 1000
+    MONSTER 
+    +NOGRAVITY
+    +FLOATBOB
+    +FLOAT
+    SeeSound "Spider/sight"
+    DeathSound "Spider/death"
+    Obituary "%o was nuked into oblivion by The Insanity Arachnophyte."
+    Tag "Insanity Arachnophyte"
+    States
+    {
+    Spawn:
+        IPYT AB 4 A_Look
+        Loop
+    See:
+        IPYT AABB 2 A_Chase
+        Loop
+    Missile:
+        IPYT ABABA 4 A_FaceTarget
+        IPYT C 2 A_FaceTarget
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, 0) 
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, 10)
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, -10)
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, 20)
+        IPYT D 2 A_CustomMissile ("InsanityPlasma", 32, 0, -20) 
+        IPYT C 2 A_FaceTarget
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, 0) 
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, 10)
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, -10) 
+        IPYT D 0 A_CustomMissile ("InsanityPlasma", 32, 0, 5)
+        IPYT D 2 A_CustomMissile ("InsanityPlasma", 32, 0, -5) 
+        IPYT C 0 A_SpidRefire
+        Goto Missile+5
+    Death:
+        IPYT E 8
+        IPYT F 8 A_Scream
+        IPYT G 6
+        IPYT H 6 A_Fall
+        IPYT I 6
+        IPYT J 6
+        Stop
+    }
+}

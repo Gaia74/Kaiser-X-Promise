@@ -1,0 +1,309 @@
+Actor KXRelicHumilityCooldown : Powerup
+{
+	Powerup.Duration -10
+}
+
+Actor KXRelicHumilityDamageBoost : PowerDamage
+{
+DamageFactor "Normal", 1.5
+PowerUp.Duration -1
+}
+
+Actor KXCandleItem1 : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.InvBar
+  Inventory.Icon KXCNDITE
+  Inventory.PickupMessage "Flames of the Candle arise"
+  Inventory.Amount 1
+  Inventory.MaxAmount 3
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Use:
+	TNT1 A 0 A_FireCustomMissile("KXCandleRelicFire",0,1,0,0)
+    Stop
+  }
+}
+
+Actor KXCandleRelicFireToken : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+ACTOR KXCandleRelicFire
+{
+	Speed 50
+	Radius 16
+	Height 26
+	RenderStyle Add
+	Alpha 0.75
+	Damage (0)
+	Projectile
+	SeeSound "KXRelic/CandleFire"
+	Translation "160:167=%[0.00,0.00,1.62]:[1.11,1.11,1.11]"
+	Decal "Scorch"
+	+FLOORHUGGER
+	+THRUACTORS
+	+DONTSPLASH
+	+DONTREFLECT
+	Scale 0.66
+	States
+	{
+	Spawn:
+		FIRE AABBAABB 1 Bright {
+			A_SpawnItemEx("KXCandleRelicFireTrail",0,0,1,0,0,0,0,SXF_NOCHECKPOSITION | SXF_TRANSFERTRANSLATION);
+			A_RadiusGive("KXCandleItem2",64,RGF_MONSTERS,1);
+			A_ScaleVelocity(0.9,AAPTR_DEFAULT);
+		}
+		TNT1 A 0 A_Stop
+	Death:
+		FIRE AAABBBCCCDDDEEEFFFGGGHHH 2 Bright A_SpawnItemEx("KXCandleRelicFireParticle",frandom(-2,2),frandom(-2,2),frandom(-2,2),frandom(-1,1),frandom(-1,1),frandom(0,5),0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR KXCandleRelicFireTrail
+{
+  +NOBLOCKMAP
+  +NOGRAVITY
+  RenderStyle Add
+  Alpha 0.75
+  Scale 0.66
+  States
+  {
+  Spawn:
+    FIRE ABABCBCBCDCDCDEDEDEFEFEFGHGHGH 1 Bright {
+		A_SpawnItemEx("KXCandleRelicFireParticle",frandom(-2,2),frandom(-2,2),frandom(1,5),frandom(-1,1),frandom(-1,1),frandom(0,6),0,SXF_NOCHECKPOSITION);
+	}
+    Stop
+  }
+}
+
+Actor KXCandleRelicFireParticle : KXExplosiveFireBallParticle2
+{
+	Scale 0.1
+	Translation "0:255=%[0.00,0.00,2.00]:[1.36,1.36,1.36]"
+}
+
+ACTOR KXCandleRelicFireParticle2
+{
+  +NOBLOCKMAP
+  +NOGRAVITY
+  RenderStyle Add
+  Scale 0.1
+  Alpha 1
+  Translation "0:255=%[0.00,0.00,2.00]:[1.36,1.36,1.36]"
+  States
+  {
+  Spawn:
+    FIRE ABABCBCBCDCDCDEDEDEFEFEFGHGHGH 2 Bright
+    Stop
+  }
+}
+
+
+Actor KXCandleItem2 : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "I should kill myself"
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+	TNT1 A 0 Acs_NamedExecuteAlways("KXCandleFire",0,0,0,0)
+    Stop
+  }
+}
+
+
+Actor KXRelicGuardianShipCooldown : Powerup
+{
+	Powerup.Duration -15
+}
+
+Actor KXGuardianShipItem1 : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+	TNT1 A 0 A_RailAttack(100,0,0,"None","None", RGF_SILENT|RGF_FULLBRIGHT,0,"KXGuardianShipPuff",0,0,2048,1,7,1,"KXGuardianShipPuff")
+    Stop
+  }
+}
+
+ACTOR KXGuardianShipPuff
+{
+	+NoInteraction
+	+NoBlockMap
+	DONTHURTSHOOTER
+	RenderStyle Add
+	Scale 0.1
+	Alpha 1.0
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("KXGuardianShipParticle",0,0,0,frandom(-2,2),frandom(-2,2),frandom(-2,2),random(1,360))
+		BLMS H 1 A_SetScale(scalex-0.005)
+		BLMS H 1 A_SetScale(scalex+0.005)
+		BLMS H 1 A_SetScale(scalex-0.005)
+		BLMS H 1 A_SetScale(scalex+0.005)
+		BLMS H 1 A_SetScale(scalex-0.005)
+		BLMS H 1 A_SetScale(scalex+0.005)
+		BLMS H 1 A_SetScale(scalex-0.005)
+		BLMS H 1 A_SetScale(scalex+0.005)
+		BLMS H 1 A_SetScale(scalex-0.005)
+		BLMS H 1 A_SetScale(scalex+0.005)
+		BLMS H 1 A_SetScale(scalex-0.005)
+		BLMS H 1 A_SetScale(scalex+0.005)
+		BLMS H 0 A_FadeOut(0.05)
+		BLMS H 1 Bright A_SetScale(scalex-0.005)
+		Goto Spawn+14
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+ACTOR KXGuardianShipParticle : BfgParticle
+{
+	Scale 0.02
+	Alpha 1
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		BLMS HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 1 A_Jump(4,"End")
+		Goto End
+	Death:
+    End:
+		BLMS A 0 A_SetScale(ScaleX-0.0015)
+		BLMS H 1 A_FadeOut(0.1)
+		Loop
+	}
+}
+
+Actor KXAngelicPrism 
+{
+  Health 99999
+  Radius 16
+  Height 56
+  Mass 999999
+  Speed 0
+  Damage 0
+  PainChance 256
+  Species "Marines"
+  Monster
+  +THRUSPECIES
+  +NOCLIP
+  +FLOAT
+  +NOGRAVITY
+  +DONTFALL
+  +NODAMAGE
+  +NOICEDEATH
+  +QUICKTORETALIATE
+  PainSound "KXRelic/AngelicPrism"
+  States
+  {
+  Spawn:
+  See:
+    AGPR ABCDEFGHIJKL 3 Bright
+    Loop
+  Pain:
+    "####" "#" 0 A_Pain
+	"####" "#" 0 A_CustomMissile("KXAngelicPrismBall1",1,0,0)
+	"####" "#" 0 A_CustomMissile("KXAngelicPrismBall2",1,0,10)
+	"####" "#" 0 A_CustomMissile("KXAngelicPrismBall3",1,0,20)
+	"####" "#" 0 A_CustomMissile("KXAngelicPrismBall4",1,0,-10)
+	"####" "#" 0 A_CustomMissile("KXAngelicPrismBall5",1,0,-20)
+    Goto See
+  Death:
+    TNT1 A 1
+	Stop
+  }
+}	
+
+Actor KXAngelicPrismToken : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+ACTOR KXAngelicPrismBall1 : Gaia74BaronBall
+{
+  Damage (3)
+  Scale 0.5
+  Species "Marines"
+  +ThruSpecies
+  SeeSound ""
+  DeathSound ""
+  States
+  {
+  Death:
+    ARCB AAAAA 0 A_SpawnItemEx("KXBaronFireParticle",0,0,0,random(-4,4),random(-4,4),random(-4,4),random(1,360), SXF_TRANSFERTRANSLATION)
+	ARCB DEFGHI 3 Bright
+    Stop
+  }
+}
+
+ACTOR KXAngelicPrismBall2 : KXAngelicPrismBall1
+{
+  Translation "112:127=192:207"
+}
+
+ACTOR KXAngelicPrismBall3 : KXAngelicPrismBall1
+{
+  Translation "112:127=168:191"
+}
+
+ACTOR KXAngelicPrismBall4 : KXAngelicPrismBall1
+{
+  Translation "112:127=160:167"
+}
+
+ACTOR KXAngelicPrismBall5 : KXAngelicPrismBall1
+{
+  Translation "112:127=208:223"
+}
+
+Actor KXRelicHolyMantleCooldown : Powerup
+{
+	Powerup.Duration -30
+}
+
+Actor KXRelicHolyMantleToken : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+ACTOR KXHolyMantleEffect
+{
+	Projectile
+	+NoInteraction
+	+Noclip
+	+ThruActors
+	Damage 0
+	Speed 0
+	RenderStyle Add
+	Alpha 1.0
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		HLMT ABCDEFGH 3 Bright
+		Stop
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}

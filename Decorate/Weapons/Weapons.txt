@@ -1,0 +1,521 @@
+//-----------------//
+//--PLASMA BOLTER--//
+//-----------------//
+
+actor HeavenGuardRifle : KXBaseWeapon 7486 
+{ 
+  //$Category Weapons
+  Weapon.SelectionOrder 100
+  Weapon.SlotNumber 6
+  Weapon.AmmoGive 20
+  Weapon.AmmoUse1 2
+  Weapon.AmmoType1 "Cell"
+  Weapon.AmmoType2 "KXHeavenGuardRifleCharge"
+  Weapon.AmmoUse2 0
+  Inventory.PickupSound "KXHeavenGuardRifle/Pickup"
+  Weapon.UpSound "KXHeavenGuardRifle/Pickup"
+  +Weapon.Ammo_Optional
+  States
+  {
+  Ready:
+	PLZM A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+	PLZM A 0 A_TakeInventory("KXHeavenGuardRifleChargeMax", 1)
+    PLZM A 1 A_WeaponReady
+    Loop
+  Deselect:
+    PLZM A 0 A_Lower
+    PLZM A 1 A_Lower
+    Loop
+  Select:
+	PLZM A 1 Offset(57,92)
+	FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+	FSWD A 0 A_TakeInventory("KXAltFireSkillToken") 
+    PLZM A 1 Offset(56,87)
+	PLZM A 1 Offset(55,77)
+	PLZM A 1 Offset(54,68)
+    PLZM A 1 Offset(52,60)
+	PLZM A 1 Offset(49,53)
+	PLZM A 1 Offset(45,47)
+	PLZM A 1 Offset(40,42)
+	PLZM A 1 Offset(34,38)
+	PLZM A 1 Offset(27,35)
+	PLZM A 1 Offset(19,33)
+	PLZM A 1 Offset(10,32)
+	Goto Ready
+  Fire:
+    PLZM A 0 A_JumpIfInventory("Cell",2,1)
+	Goto DryFire
+	PLZM A 0 A_TakeInventory("KXHeavenGuardRifleChargeMax", 1)
+	PLZM B 1 Bright Offset(0,46) A_FireCustomMissile("HeavenFX1",0,1,0,0)
+	PLZM B 1 Bright Offset(0,44)
+	PLZM B 1 Bright Offset(0,42)
+	PLZM C 1 Bright Offset(0,40)
+	PLZM C 1 Bright Offset(0,38)
+	PLZM C 1 Bright Offset(0,36)
+	PLZM C 1 Bright Offset(0,34) A_Refire 
+	PLZM C 5 A_Refire 
+    Goto Ready
+  AltFire:
+    PLZM A 0 A_JumpIfNoAmmo("DryFire")
+	PLZM A 0 A_PlaySound("KXHeavenGuardRifle/KXCharge2",CHAN_7,1,0)
+  LoopingAltFire:
+    PLZM A 0 A_JumpIfInventory("KXHeavenGuardRifleCharge",30,"MaxBeep")
+  RealLoopingAltFire:
+    PLZM A 0 A_PlaySound("KXHeavenGuardRifle/KXCharge1",CHAN_WEAPON,1,1)
+	PLZM A 0 A_GiveInventory("KXHeavenGuardRifleCharge", 1)
+	PLZM CC 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	PLZM A 0 A_Refire("LoopingAltFire")
+	Goto ReallyAltFire
+  MaxBeep:
+    PLZM A 0 A_JumpIfInventory("KXHeavenGuardRifleChargeMax",1,"RealLoopingAltFire")
+    PLZM A 0 A_PlaySound("KXHeavenGuardRifle/KXCharge2",CHAN_7,1,0)
+	PLZM A 0 A_GiveInventory("KXHeavenGuardRifleChargeMax", 1)
+	Goto RealLoopingAltFire
+  ReallyAltFire:
+    PLZM A 0 A_StopSound(CHAN_WEAPON)
+	PLZM A 0 A_StopSound(CHAN_7)
+	PLZM A 0 A_JumpIfInventory("KXHeavenGuardRifleCharge",30,"ReleaseAltFireTwo")
+	Goto ReleaseAltFireOne
+  ReleaseAltFireOne:
+    PLZM A 0 A_JumpIfInventory("Cell",5,"AltFireOneFinal")
+	Goto DryFire
+  AltFireOneFinal:
+    NULL A 0 A_TakeInventory("Cell",2)
+	NULL A 0 A_TakeInventory("KXHeavenGuardRifleCharge",30)
+	TNT1 A 0 A_FireCustomMissile("HeavenFX1",0,1,0,0)
+	Goto AltFireAnimation
+  ReleaseAltFireTwo:
+    PLZM A 0 A_JumpIfInventory("Cell",20,"AltFireTwoFinal")
+	Goto DryFire
+  AltFireTwoFinal:
+    NULL A 0 A_TakeInventory("Cell",20)
+	NULL A 0 A_TakeInventory("KXHeavenGuardRifleCharge",30)
+	TNT1 A 0 A_FireCustomMissile("HeavenFXSuper1",0,1,0,0)
+	TNT1 A 0 A_FireCustomMissile("HeavenFXSuper2",0,1,0,8)
+	Goto AltFireAnimation
+  AltFireAnimation:
+    PLZM A 0 A_TakeInventory("KXHeavenGuardRifleChargeMax", 1)
+    PLZM B 1 Bright Offset(0,57)
+	PLZM B 1 Bright Offset(0,56)
+	PLZM B 1 Bright Offset(0,53)
+	PLZM C 1 Bright Offset(0,50)
+	PLZM C 1 Bright Offset(0,47)
+	PLZM C 1 Bright Offset(0,44)
+	PLZM C 1 Bright Offset(0,41)
+	PLZM C 1 Bright Offset(0,38)
+	PLZM C 1 Bright Offset(0,35)
+	PLZM C 2 Bright 
+    Goto Ready
+  DryFire:
+    NULL A 0 A_TakeInventory("KXHeavenGuardRifleCharge",30)
+	NULL AAAAAAAAAAAAAAA 0 bright A_SpawnItemEx("KXHeavenGuardParticleTrail",0,0,32,random(-3,3),random(-3,3),random(-3,3),random(1,360))
+    PLZM A 0 A_PlaySound("weapons/RailDry",CHAN_WEAPON,1,0)
+	PLZM C 1 Bright Offset(0,50)
+	PLZM C 1 Bright Offset(0,47)
+	PLZM C 1 Bright Offset(0,44)
+	PLZM C 1 Bright Offset(0,41)
+	PLZM C 1 Bright Offset(0,38)
+	PLZM C 1 Bright Offset(0,35)
+	PLZM C 2 Bright 
+	Goto Ready
+  Spawn:
+    PLZM E -1
+    Stop
+  KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		PLZM A 1 bright Offset(0,70)
+	    PLZM A 1 bright Offset(0,60)
+	    PLZM A 1 bright Offset(0,50)
+	    PLZM A 1 bright Offset(0,40)
+		Goto Ready
+  }
+}
+
+Actor HeavenBlaster : KXBaseWeapon 7485 
+{ 
+  //$Category Weapons
+  Radius 20
+  Height 16
+  Weapon.Selectionorder 100
+  Weapon.AmmoUse1 5
+  Weapon.AmmoType1 "Cell"
+  Weapon.AmmoType2 "KXRailgunCharge"
+  Weapon.AmmoUse2 0
+  Weapon.AmmoGive 40
+  Inventory.Pickupmessage "You got the Heaven Blaster!"
+  Obituary "%o was blastered by %k."
+  Inventory.PickupSound "weapons/Plasmaup"
+  Weapon.UpSound "weapons/Plasmaup"
+  Decal RailScorch
+  +WEAPON.NOAUTOAIM
+  +Weapon.Ammo_Optional
+  Weapon.SlotNumber 6
+  States
+  {
+  Ready:
+	KRAI A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+	KRAI A 0 A_JumpIfInventory("KXAltFireSkillToken", 1, "KXSkillAltFire") 
+	KRAI A 0 A_TakeInventory("KXRailgunChargeMax",1)
+	KRAI A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+	loop
+  Deselect:
+    KRAI A 0 A_StopSound(1)
+    KRAI A 0 A_Lower
+    KRAI A 1 A_Lower
+    Loop
+  Select:
+	KRAI C 1 Offset(42,88)
+	FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+	FSWD A 0 A_TakeInventory("KXAltFireSkillToken") 
+	KRAI C 1 Offset(39,84)
+	KRAI C 1 Offset(36,80)
+	KRAI C 1 Offset(33,76)
+	KRAI B 1 Offset(30,72)
+	KRAI B 1 Offset(27,68)
+	KRAI B 1 Offset(24,64)
+	KRAI B 1 Offset(21,60)
+	KRAI A 1 Offset(18,56)
+	KRAI A 1 Offset(15,52)
+	KRAI A 1 Offset(12,48)
+	KRAI A 1 Offset(9,44)
+	KRAI A 1 Offset(6,40)
+	KRAI A 1 Offset(3,36)
+	KRAI A 2 Offset(0,32) 
+	Goto Ready
+  Fire:
+    KRAI A 0 A_JumpIfInventory("Cell",5,1)
+	Goto DryFire
+	TNT1 A 0 A_PlayWeaponSound("Templar/Railgun")
+	NULL A 0 A_TakeInventory("Cell",5)
+	TNT1 A 0 A_FireBullets(0,0,1,0,"KXRailgunPuff",FBF_NORANDOM|FBF_NORANDOMPUFFZ,8192)
+	TNT1 A 0 A_RailAttack(100,0,0,"None","None",RGF_SILENT|RGF_FULLBRIGHT|RGF_NOPIERCING,0,"NoPuff",0,0,4096,0,5,1.0,"HeavenBlasterRailTrail") 
+	KRAI A 0 A_GunFlash
+	KRAI A 1 Offset(0,35) 
+	KRAI A 1 Offset(0,39) 
+	KRAI A 1 Offset(0,44) 
+	KRAI A 1 Offset(0,50) 
+	KRAI A 1 Offset(0,56) 
+	KRAI A 1 Offset(0,50) 
+	KRAI A 1 Offset(0,44) 
+	KRAI A 1 Offset(0,39) 
+	KRAI A 1 Offset(0,35) 
+	KRAI A 1 Offset(0,32) 
+	KRAI A 10
+    Goto Ready
+  AltFire:
+    KRAI A 0 A_GunFlash("AlternativeFlash")
+  AltFireLmao:
+    KRAI A 0 A_JumpIfNoAmmo("DryFire")
+    KRAI A 0 A_JumpIfInventory("KXRailgunCharge",50,"LoopingAltFireSecondary")
+	KRAI A 0 A_PlaySound("weapons/RailChargeOne",CHAN_WEAPON,1,1)
+	KRAI A 0 A_GiveInventory("KXRailgunCharge", 1)
+	KRAI A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	KRAI A 0 A_GiveInventory("KXRailgunCharge", 1)
+	KRAI A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	KRAI A 0 A_Refire("AltFireLmao")
+	Goto ReallyAltFire
+	LoopingAltFireSecondary:
+	  KRAI A 0 A_JumpIfInventory("KXRailgunCharge",100,"MAXBEEP")
+	RealSecondLoop:
+	  KRAI A 0 A_PlaySound("weapons/RailChargeTwo",CHAN_WEAPON,1,1)
+	  KRAI A 0 A_GiveInventory("KXRailgunCharge", 1)
+	  KRAI A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  KRAI A 0 A_GiveInventory("KXRailgunCharge", 1)
+	  KRAI A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  INTD A 0 A_Refire("LoopingAltFireSecondary")
+	  Goto ReallyAltFire
+  MaxBeep:
+      KRAI A 0 A_JumpIfInventory("KXRailgunChargeMax",1,"RealSecondLoop")
+      KRAI A 0 A_PlaySound("weapons/ChargeMax",CHAN_7,1,0)
+	  KRAI A 0 A_GiveInventory("KXRailgunChargeMax", 1) 
+	  Goto LoopingAltFireSecondary
+  ReallyAltFire:
+    KRAI A 0 A_StopSound(CHAN_WEAPON)
+	KRAI A 0 A_StopSound(CHAN_VOICE)
+	KRAI A 0 A_GunFlash("Null")
+	KRAI A 0 A_JumpIfInventory("KXRailgunCharge",100,"ReleaseAltFireSix")
+	KRAI A 0 A_JumpIfInventory("KXRailgunCharge",80,"ReleaseAltFireFive")
+	KRAI A 0 A_JumpIfInventory("KXRailgunCharge",60,"ReleaseAltFireFour")
+	KRAI A 0 A_JumpIfInventory("KXRailgunCharge",40,"ReleaseAltFireThree")
+	KRAI A 0 A_JumpIfInventory("KXRailgunCharge",20,"ReleaseAltFireTwo")
+	KRAI A 0 A_GunFlash("Null")
+	Goto ReleaseAltFireOne
+  ReleaseAltFireOne:
+    KRAI A 0 A_JumpIfInventory("Cell",5,"AltFireOneFinal")
+	Goto DryFire
+  AltFireOneFinal:
+    NULL A 0 A_TakeInventory("Cell",5)
+	NULL A 0 A_TakeInventory("KXRailgunCharge",100)
+	TNT1 A 0 A_FireBullets(0,0,1,0,"KXRailgunPuff",FBF_NORANDOM|FBF_NORANDOMPUFFZ,8192)
+	TNT1 A 0 A_RailAttack(100,0,0,"None","None",RGF_FULLBRIGHT|RGF_NOPIERCING,0,"NoPuff",0,0,4096,0,5,1.0,"HeavenBlasterRailTrail") 
+	Goto AltFireAnimation
+  ReleaseAltFireTwo:
+    KRAI A 0 A_JumpIfInventory("Cell",10,"AltFireTwoFinal")
+	Goto DryFire
+  AltFireTwoFinal:
+    NULL A 0 A_TakeInventory("Cell",10)
+	NULL A 0 A_TakeInventory("KXRailgunCharge",100)
+	TNT1 A 0 A_FireBullets(0,0,1,0,"KXRailgunPuff",FBF_NORANDOM|FBF_NORANDOMPUFFZ,8192)
+	TNT1 A 0 A_RailAttack(200,0,0,"None","None",RGF_FULLBRIGHT|RGF_NOPIERCING,0,"NoPuff",0,0,4096,0,5,1.0,"HeavenBlasterRailTrail") 
+	Goto AltFireAnimation
+  ReleaseAltFireThree:
+    KRAI A 0 A_JumpIfInventory("Cell",15,"AltFireThreeFinal")
+	Goto DryFire
+  AltFireThreeFinal:
+    NULL A 0 A_TakeInventory("Cell",15)
+	NULL A 0 A_TakeInventory("KXRailgunCharge",100)
+	TNT1 A 0 A_FireBullets(0,0,1,0,"KXRailgunPuff",FBF_NORANDOM|FBF_NORANDOMPUFFZ,8192)
+	TNT1 A 0 A_RailAttack(300,0,0,"None","None",RGF_FULLBRIGHT|RGF_NOPIERCING,0,"NoPuff",0,0,4096,0,5,1.0,"HeavenBlasterRailTrail") 
+	Goto AltFireAnimation
+  ReleaseAltFireFour:
+    KRAI A 0 A_JumpIfInventory("Cell",20,"AltFireFourFinal")
+	Goto DryFire
+  AltFireFourFinal:
+    NULL A 0 A_TakeInventory("Cell",20)
+	NULL A 0 A_TakeInventory("KXRailgunCharge",100)
+	TNT1 A 0 A_FireBullets(0,0,1,0,"KXRailgunPuff",FBF_NORANDOM|FBF_NORANDOMPUFFZ,8192)
+	TNT1 A 0 A_RailAttack(400,0,0,"None","None",RGF_FULLBRIGHT|RGF_NOPIERCING,0,"NoPuff",0,0,4096,0,5,1.0,"HeavenBlasterRailTrail") 
+	Goto AltFireAnimation
+  ReleaseAltFireFive:
+    KRAI A 0 A_JumpIfInventory("Cell",25,"AltFireFiveFinal")
+	Goto DryFire
+  AltFireFiveFinal:
+    NULL A 0 A_TakeInventory("Cell",25)
+    NULL A 0 A_TakeInventory("KXRailgunCharge",100)
+	TNT1 A 0 A_FireBullets(0,0,1,0,"KXRailgunPuff",FBF_NORANDOM|FBF_NORANDOMPUFFZ,8192)
+	TNT1 A 0 A_RailAttack(500,0,0,"None","None",RGF_FULLBRIGHT|RGF_NOPIERCING,0,"NoPuff",0,0,4096,0,5,1.0,"HeavenBlasterRailTrail") 
+	Goto AltFireAnimation
+  ReleaseAltFireSix:
+    KRAI A 0 A_JumpIfInventory("Cell",30,"AltFireSixFinal")
+	Goto DryFire
+  AltFireSixFinal:
+    NULL A 0 A_TakeInventory("Cell",30)
+    NULL A 0 A_TakeInventory("KXRailgunCharge",100)
+	TNT1 A 0 A_FireBullets(0,0,1,0,"KXRailgunPuff",FBF_NORANDOM|FBF_NORANDOMPUFFZ,8192)
+	TNT1 A 0 A_RailAttack(600,0,0,"None","None",RGF_FULLBRIGHT|RGF_NOPIERCING,0,"NoPuff",0,0,4096,0,5,1.0,"HeavenBlasterRailTrail") 
+	Goto AltFireAnimation
+  AltFireAnimation:
+    KRAI A 0 A_TakeInventory("KXRailgunChargeMax",1)
+    KRAI A 0 A_GunFlash("ThirdFlash")
+    KRAI A 1 Offset(0,42) 
+	KRAI A 1 Offset(0,52) 
+	KRAI A 1 Offset(0,67)
+	KRAI A 1 Offset(0,82)
+	KRAI A 1 Offset(0,102)
+	KRAI A 1 Offset(0,122)
+	KRAI B 1 Offset(-35,92) 
+	KRAI B 1 Offset(-45,72) 
+	KRAI B 1 Offset(-55,52) 
+	KRAI B 1 Offset(-65,32)  
+	KRAI CCCCCCCCCCCCCCC 1 Offset(-75,32) 
+	KRAI B 1 Offset(-65,32) 
+	KRAI B 1 Offset(-55,32) 
+	KRAI B 1 Offset(-45,32) 
+	KRAI B 1 Offset(-35,32) 
+	KRAI A 1 Offset(-25,32) 
+	KRAI A 1 Offset(-15,32) 
+	KRAI A 1 Offset(-5,32) 
+	KRAI A 0 Offset(0,32)
+	Goto Ready
+  DryFire:
+    KRAI A 0 A_TakeInventory("KXRailgunChargeMax",1)
+    NULL A 0 A_TakeInventory("KXRailgunCharge",100)
+	NULL AAAAAAAAAAAAAAA 0 bright A_SpawnItemEx("PlasmaParticle",0,0,32,random(-3,3),random(-3,3),random(-3,3),random(1,360))
+    KRAI A 0 A_PlaySound("weapons/RailDry",CHAN_WEAPON,1,0)
+    KRAI A 1 Offset(-15,72) 
+	KRAI A 1 Offset(-30,62) 
+	KRAI B 1 Offset(-45,52) 
+	KRAI B 1 Offset(-60,42) 
+	KRAI CCCCCCCCCCCC 1 Offset(-75,32) 
+	KRAI A 0 A_PlaySound("weapons/ChargeMax",CHAN_7,1,0)
+	KRAI B 1 Offset(-65,32) 
+	KRAI B 1 Offset(-55,32) 
+	KRAI B 1 Offset(-45,32) 
+	KRAI B 1 Offset(-35,32) 
+	KRAI A 1 Offset(-25,32) 
+	KRAI A 1 Offset(-15,32) 
+	KRAI A 1 Offset(-5,32) 
+	KRAI A 0 Offset(0,32)
+	Goto Ready
+  Flash:
+    KRAI D 3 bright A_Light1
+    KRAI E 3 bright A_Light2
+    TNT1 A 0 bright A_Light0
+    Goto LightDone
+  AlternativeFlash:
+    KRAI F 2 bright A_Light1
+    KRAI G 2 bright A_Light1
+	KRAI H 2 bright A_Light1
+	KRAI I 2 bright A_Light2
+	KRAI J 2 bright A_Light2
+	KRAI I 2 bright A_Light2
+    KRAI H 2 bright A_Light1
+	KRAI G 2 bright A_Light1
+	KRAI F 2 bright A_Light1
+    TNT1 A 0 bright A_Light0
+    Loop
+  ThirdFlash:
+    KRAI D 2 bright A_Light1
+    KRAI E 2 bright A_Light2
+    TNT1 A 0 bright A_Light0
+    Goto LightDone
+  Spawn:
+    RAIL A -1
+    Stop
+  KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		KRAI A 1 bright Offset(0,70)
+	    KRAI A 1 bright Offset(0,60)
+	    KRAI A 1 bright Offset(0,50)
+	    KRAI A 1 bright Offset(0,40)
+		Goto Ready
+  }
+}
+
+ACTOR STMinigun : KXBaseWeapon 7481
+{
+  //$Category weapons
+  Decal Bulletchip
+  Weapon.AmmoType1 "NewClip"
+  Weapon.AmmoGive1 20
+  Weapon.AmmoUse1 1
+  Weapon.AmmoType2 "NewClip"
+  Weapon.AmmoGive2 0
+  Weapon.AmmoUse2 1
+  Inventory.PickupSound "misc/w_pkup"
+  Inventory.PickupMessage "Picked up a minigun!"
+  Obituary "%o was shredded by %k's minigun."
+  AttackSound "weapons/minigunfire"
+  Inventory.PickupSound "Mutante/FirstCharge"
+  Weapon.UpSound "Mutante/FirstCharge"
+  Tag "Minigun"
+  Weapon.SlotNumber 4
+  States
+	{
+  Spawn:
+    MNGN A -1
+    Loop
+  Ready:
+	VLCN A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+    VLCN A 1 A_WeaponReady
+    Loop
+  Deselect:
+    VLCN A 0 A_Lower
+    VLCN A 1 A_Lower
+    Loop
+  Select:
+    VLCN A 1 Offset(57,87)
+	FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+    VLCN B 1 Offset(56,82)
+    VLCN C 1 Offset(55,77)
+    VLCN D 1 Offset(54,72)
+    VLCN A 1 Offset(52,67)
+    VLCN B 1 Offset(49,62)
+    VLCN C 1 Offset(45,57)
+    VLCN D 1 Offset(40,52)
+    VLCN A 1 Offset(34,47)
+    VLCN B 1 Offset(27,42)
+    VLCN C 1 Offset(19,37)
+    VLCN D 1 Offset(10,32)
+	Goto Ready 
+  Fire: 
+    VLCN A 0 A_PlaySound("weapons/minigunstart", 6)
+	VLCN ABCD 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+	VLCN ABCD 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+	VLCN ABCD 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+	VLCN A 0 A_Refire
+	Goto FireEnd
+  FireEnd:
+    VLCN A 0 Offset(0,32)
+    VLCN A 0 A_PlaySound("weapons/minigunend", 6)
+	VLCS A 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+	VLCS C 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    VLCS AB 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    VLCS CD 8 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    Goto Ready 
+  Hold:
+    TNT1 A 0 A_GunFlash
+	VLCS A 1 Offset(0,35) A_SetPitch(pitch-0.5)
+	VLCS A 0 A_FireBullets(5, 2, -1, 5, "BulletPuff")
+    TNT1 A 0 A_FireCustomMissile("PisCaseSpawn",0,0,-6,-2)
+	VLCS B 1 Offset(0,34) A_SetPitch(pitch+0.5)
+	VLCS C 1 Offset(0,35) A_SetPitch(pitch-0.5)
+    TNT1 A 0 A_FireCustomMissile("PisCaseSpawn",0,0,-6,-2)
+	VLCS B 0 A_FireBullets(4, 4, -1, 5, "BulletPuff")
+	VLCS D 1 Offset(0,34) A_SetPitch(pitch+0.5)
+    VLCS A 0 A_ReFire
+	Goto FireEnd
+  AltFire: 
+    VLCN A 0 A_PlaySound("weapons/minigunstart", 6)
+	VLCN ABCD 3
+	VLCN ABCD 2
+	VLCN ABCD 1
+	VLCN A 0 A_Refire("AltHold")
+	Goto FireEnd
+  AltHold:
+    TNT1 A 0 A_GunFlash
+	VLCS A 1 Offset(0,37) A_SetPitch(pitch-1.0)
+	VLCS AA 0 A_FireCustomMissile("MinigunBullet",random(-12,12),1,0,0)
+    TNT1 AA 0 A_FireCustomMissile("PisCaseSpawn",0,0,-6,-2)
+	TNT1 A 0 A_PlaySound ("weapons/minigunfire", CHAN_WEAPON)
+	VLCS B 1 Offset(0,35) A_SetPitch(pitch+1.0)
+	VLCS C 1 Offset(0,37) A_SetPitch(pitch-1.0)
+    TNT1 AA 0 A_FireCustomMissile("PisCaseSpawn",0,0,-6,-2)
+	VLCS BB 0 A_FireCustomMissile("MinigunBullet",random(-12,12),1,0,0)
+	TNT1 A 0 A_PlaySound ("weapons/minigunfire", CHAN_WEAPON)
+	VLCS D 1 Offset(0,35) A_SetPitch(pitch+1.0)
+    VLCS A 0 A_ReFire
+	Goto FireEnd
+  Flash: 
+    CHAF A 1 BRIGHT A_Light2
+    CHAF B 1 BRIGHT A_Light1
+	TNT1 A 0 A_Light0
+    Stop 
+  KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		VLCN A 1 bright Offset(0,70)
+	    VLCN A 1 bright Offset(0,60)
+	    VLCN A 1 bright Offset(0,50)
+	    VLCN A 1 bright Offset(0,40)
+		Goto Ready
+  }
+}
+
+actor SwordToken: Ammo 
+{
+	Inventory.MaxAmount 1
+}
+
+Actor HeavenBlasterRailTrail
+{
+    Scale 0.25
+    Radius 1
+    Height 1
+    Speed 0
+    Damage 0
+    PROJECTILE
+    RenderStyle Add
+	+CLIENTSIDEONLY
+    Alpha 1
+    States
+    {
+    Spawn:
+	    PLSE A 0 Bright A_SetScale(ScaleX-0.01)
+        PLSE A 1 Bright A_FadeOut(0.04)
+        Loop
+    }
+}
+
+ACTOR KXRailgunCharge : Ammo { Inventory.MaxAmount 100 Inventory.Icon "CELLA0" }
+ACTOR KXRailgunChargeMax : Inventory { Inventory.MaxAmount 1 }
+ACTOR KXHeavenGuardRifleCharge : Ammo { Inventory.MaxAmount 30 Inventory.Icon "CELLA0" }
+ACTOR KXHeavenGuardRifleChargeMax : Inventory { Inventory.MaxAmount 1 }

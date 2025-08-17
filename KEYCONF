@@ -1,0 +1,30 @@
+clearplayerclasses
+addplayerclass BlondePlayer
+
+addkeysection "Kaiser X - Promise" "Kaiser X"
+addmenukey "Skills Menu"    "ChangeSkillKey"
+alias ChangeSkillKey "pukename KXSkillsSelector"
+
+addmenukey "Rosary Menu"    "ChangeRosaryKey"
+alias ChangeRosaryKey "pukename KXRelicsSelector"
+
+addmenukey "Skill Slot 1"    "KXSkillSlot0"
+alias KXSkillSlot0 "pukename KXSkillUse always 0"
+
+addmenukey "Skill Slot 2"    "KXSkillSlot1"
+alias KXSkillSlot1 "pukename KXSkillUse always 1"
+
+addmenukey "Skill Slot 3"    "KXSkillSlot2"
+alias KXSkillSlot2 "pukename KXSkillUse always 2"
+
+addmenukey "Skill Slot 4"    "KXSkillSlot3"
+alias KXSkillSlot3 "pukename KXSkillUse always 3"
+
+addmenukey "Objectives Menu"    "KXObjectivesSlot"
+alias KXObjectivesSlot "pukename KXObjectives always"
+
+
+addkeysection "JonnyFive's weatherFX" WeatherFX
+addmenukey "Toggle weatherFX Effects" weather_toggle
+alias weather_toggle "Use Action_WeatherToggle"
+defaultbind F12 weather_toggle

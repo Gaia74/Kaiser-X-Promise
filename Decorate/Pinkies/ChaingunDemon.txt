@@ -1,0 +1,331 @@
+ACTOR ChaingunDemon 7533 
+{ 
+	//$Category Pinkies
+	//$Sprite CRG2A1
+	//$Title "Chaingun Demon"
+    Health 200
+    Speed 10
+    Height 56
+    Radius 30
+    Mass 400
+    PainChance 160
+    MinMissileChance 64
+    REACTIONTIME 8 
+    MONSTER
+    +FLOORCLIP
+    +NOINFIGHTING
+    +NOTARGET
+	+DONTHARMSPECIES
+    Species "KX"
+	DamageFactor "KX", 0.0
+    SeeSound "KXMechDemon/sight"
+    PainSound "KXMechDemon/pain"
+    DeathSound "KXMechDemon/death"
+    ActiveSound "KXMechDemon/active"
+    Obituary "%o was mowed down by a Mech-Demon." 
+	var int user_fire;
+    States 
+    { 
+    Spawn: 
+       CRG2 AB 10 A_Look
+       Loop 
+    See: 
+       CRG2 A 0 A_PlaySound("blooddemon/walk")
+       CRG2 AABB 2 A_Chase
+       CRG2 C 0 A_PlaySound("blooddemon/walk")
+       CRG2 CCDD 2 A_Chase
+       Loop 
+    Missile: 
+	   CRG2 H 0 A_PlaySound("Robot/Alert")
+       CRG2 H 10 A_FaceTarget
+	   TNT1 A 0 A_SetUserVar(user_fire,0)
+	   Goto Burst
+	Burst:
+	   CRG2 E 1 A_FaceTarget
+	   CRG2 F 0 A_PlaySound("Robot/MachineGunFire")
+	   CRG2 F 0 Bright A_CustomMissile("KXScoutDustParticle",34,0,0)
+	   CRG2 F 0 Bright A_CustomMissile("PisCaseSpawn",34,0,0)
+	   CRG2 F 0 Bright A_CustomMissile("KXScoutBullet", 32,0,frandom(-10,10),2,frandom(-1,1))
+	   CRG2 F 1 A_FaceTarget
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+       TNT1 A 0 A_JumpIf(user_fire>12,"End")
+	   Loop
+	End:
+	   CRG2 EEEEEEEEE 1 A_CustomMissile("KXScoutDustParticle",34,0,0)
+	   Goto See
+    Pain: 
+       CRG2 H 2
+       CRG2 H 2 A_Pain
+       Goto See
+    Death: 
+       TNT1 A 0 A_Pain
+       TNT1 A 0 A_NoBlocking
+	   TNT1 A 0 A_PlaySoundEx ("weapons/rocklx", CHAN_6)
+	   TNT1 A 0 A_CustomMissile("KXRocketExplosionEffect",32,0,random(0,359))
+	   TNT1 AAAAAAAAAAAAAAAAA 0 A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-3,3),frandom(-3,3),32,frandom(-8,8),frandom(-8,8),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+       TNT1 A 5 A_SpawnItemEx("MechDemon", 0, 0, 0, 0, 0, 0, 0, SXF_TRANSFERPOINTERS|SXF_NOCHECKPOSITION)
+       Stop 
+    } 
+}
+
+ACTOR ProyectOkami 7617 
+{ 
+    //$Category Cybers
+	//$Sprite CRG2A1
+	//$Title "Proyect Okami"
+    Health 7000
+    Speed 15
+    Height 56
+    Radius 30
+    Mass 400
+    PainChance 10
+    MinMissileChance 64
+    REACTIONTIME 8 
+    Translation "16:47=159:167"
+    MONSTER
+    +FLOORCLIP
+	+BOSS
+    SeeSound "blooddemon/sight"
+    PainSound "blooddemon/pain"
+    DeathSound "blooddemon/death"
+    ActiveSound "blooddemon/active"
+    AttackSound "chainguy/attack"
+    Obituary "%o Ha Caido Ante El Proyecto De Kaiser: Okami." 
+    States 
+    { 
+    Spawn: 
+       CRG2 AB 10 A_Look
+       Loop 
+    See: 
+       CRG2 A 0 A_SetShootable
+       CRG2 A 0 A_PlaySound("blooddemon/walk")
+       CRG2 AABB 2 A_Chase
+       CRG2 C 0 A_PlaySound("blooddemon/walk")
+       CRG2 CCDD 2 A_Chase
+       Loop 
+    Missile: 
+       TNT1 A 0 A_Jump(128, "Plasma", "Creator", "Teleport", "Grenade", "Baron")
+       TNT1 A 0 A_Jump(128, "Laser", "Revenant", "FireBalls")
+       TNT1 A 0 A_Jump(128, "Bfg")
+       Goto See
+    Bfg:
+       TNT1 A 0 A_PlaySoundEx("weapons/bfgf",2,0,1)
+       CRG2 H 30 A_FaceTarget
+       CRG2 F 10 A_Custommissile ("BfgBall", 29, 0, 0)
+       CRG2 H 10
+       Goto See
+    Grenade:
+       TNT1 A 0 A_PlaySoundEx("weapons/rocklf",2,0,1)
+       CRG2 H 9 A_FaceTarget
+       CRG2 EF 6 A_CustomMissile("PaladinGrenade", 29,0,random(-10,10),2,random(-5,20))
+       CRG2 H 0 A_FaceTarget
+       CRG2 EF 6 A_CustomMissile("PaladinGrenade", 29,0,random(-10,10),2,random(-5,20))
+       CRG2 H 0 A_FaceTarget
+       CRG2 EF 6 A_CustomMissile("PaladinGrenade", 29,0,random(-10,10),2,random(-5,20))
+       CRG2 H 0 A_FaceTarget
+       CRG2 EF 6 A_CustomMissile("PaladinGrenade", 29,0,random(-10,10),2,random(-5,20))
+       CRG2 H 0 A_FaceTarget
+       CRG2 EF 6 A_CustomMissile("PaladinGrenade", 29,0,random(-10,10),2,random(-5,20))
+       CRG2 H 0 A_FaceTarget
+       CRG2 H 9
+       Goto See
+    Revenant:
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 GGGGGGGGGG 0 A_CustomMissile("RevenantTracer", 29, 0, random(-45, 45), 0)
+       SRG2 G 8 A_FaceTarget
+       Goto See 
+    Laser:
+       TNT1 A 0 A_PlaySoundEx("elite/gasterready",2,0,1)
+       SRG2 E 25 A_FaceTarget
+       SRG2 E 5 A_FaceTarget
+       TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+       SRG2 F 10 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+       SRG2 E 9
+       Goto See
+    Baron:
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -135)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 135)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -45)
+       SRG2 G 8 A_Custommissile ("ElitePlasmaBall", 29, 0, 45)
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -90)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 90)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 180)
+       SRG2 G 8 A_Custommissile ("ElitePlasmaBall", 29, 0, 0)
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -135)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 135)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -45)
+       SRG2 G 8 A_Custommissile ("ElitePlasmaBall", 29, 0, 45)
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -90)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 90)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 180)
+       SRG2 G 8 A_Custommissile ("ElitePlasmaBall", 29, 0, 0)
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -135)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 135)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -45)
+       SRG2 G 8 A_Custommissile ("ElitePlasmaBall", 29, 0, 45)
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, -90)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 90)
+       SRG2 G 0 A_Custommissile ("ElitePlasmaBall", 29, 0, 180)
+       SRG2 G 8 A_Custommissile ("ElitePlasmaBall", 29, 0, 0)
+       Goto See 
+    FireBalls:
+       CRG2 H 4 A_FaceTarget
+       CRG2 EEEFFFEEEFFFEEEFFFEEEFFFEEEFFF 2 A_CustomMissile("FatShot", 29, 0, random(-70, 70), 0)
+       CRG2 H 4
+       Goto See
+    Plasma:
+       CRG2 H 4 A_FaceTarget
+       CRG2 EEEFFF 3 A_CustomMissile("ArachnotronPlasma", 29, 0, random(-5, 5), 0)
+       CRG2 H 0 A_FaceTarget
+       CRG2 EEEFFF 3 A_CustomMissile("ArachnotronPlasma", 29, 0, random(-5, 5), 0)
+       CRG2 H 0 A_FaceTarget
+       CRG2 EEEFFF 3 A_CustomMissile("ArachnotronPlasma", 29, 0, random(-5, 5), 0)
+       CRG2 H 0 A_FaceTarget
+       CRG2 EEEFFF 3 A_CustomMissile("ArachnotronPlasma", 29, 0, random(-5, 5), 0)
+       CRG2 H 0 A_FaceTarget
+       CRG2 EEEFFF 3 A_CustomMissile("ArachnotronPlasma", 29, 0, random(-5, 5), 0)
+       Goto See
+    Creator:
+       SRG2 E 0 A_PlaySound("blooddemon/melee")
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("KaiserOkamiCube", 29, 0, -45)
+       SRG2 G 8 A_Custommissile ("KaiserOkamiCube", 29, 0, 45)
+       SRG2 EF 8 A_FaceTarget
+       SRG2 G 0 A_Custommissile ("KaiserOkamiCube", 29, 0, -135)
+       SRG2 G 8 A_Custommissile ("KaiserOkamiCube", 29, 0, 135)
+       Goto See 
+    Teleport:
+       CRG2 H 1 A_FaceTarget
+       CRG2 H 3
+       CRG2 H 3 Bright
+       CRG2 H 0 A_UnSetShootable
+       CRG2 H 1 A_PlaySound("pyro/tele")
+       CRG2 H 1 A_SetTranslucent(0.90)
+       CRG2 H 1 A_SetTranslucent(0.80)
+       CRG2 H 1 A_SetTranslucent(0.70)
+       CRG2 H 1 A_SetTranslucent(0.60)
+       CRG2 H 1 A_SetTranslucent(0.50)
+       CRG2 H 1 A_SetTranslucent(0.40)
+       CRG2 H 1 A_SetTranslucent(0.30)
+       CRG2 H 1 A_SetTranslucent(0.20)
+       CRG2 H 1 A_SetTranslucent(0.10)
+       CRG2 H 0 A_CustomMissile ("TeleportFog",28,10,0,0)
+       TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+       TNT1 A 0 A_Jump(128,25)
+       TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+       CRG2 A 0 A_CustomMissile ("TeleportFog",28,10,0,0)
+       CRG2 A 1 A_PlaySound("pyro/tele")
+       CRG2 A 1 A_SetTranslucent(0.10)
+       CRG2 A 1 A_SetTranslucent(0.20)
+       CRG2 A 1 A_SetTranslucent(0.30)
+       CRG2 A 1 A_SetTranslucent(0.40)
+       CRG2 A 1 A_SetTranslucent(0.50)
+       CRG2 A 1 A_SetTranslucent(0.60)
+       CRG2 A 1 A_SetTranslucent(0.70)
+       CRG2 A 1 A_SetTranslucent(0.80)
+       CRG2 A 1 A_SetTranslucent(0.90)
+       CRG2 A 1 A_SetTranslucent(1.0)
+       CRG2 A 0 A_SetShootable
+       Goto See
+    Pain: 
+       CRG2 H 2
+       CRG2 H 2 A_Pain
+       Goto See
+    Death: 
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+       CRG2 H 4 A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+	   BFE1 A 0 A_CustomMissile("BFGWave",0,0,0)
+       BFE1 AAAAAAAAAA 0 A_CustomMissile("BfgEffect", 0,0,random(-180,180),2,random(-90,90))
+	   BFE1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BfgParticle",0,0,5,random(-10,10),random(-10,10),random(-10,10),random(1,360))
+	   BFE1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BfgParticle",0,0,5,random(-10,10),random(-10,10),random(-10,10),random(1,360))
+	   BFE1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BfgParticle",0,0,5,random(-10,10),random(-10,10),random(-10,10),random(1,360))
+       BFE1 A 0 Bright Radius_Quake (3, 120, 0, 120, 0)
+	   SRA2 A 8 A_Scream
+       SRA2 B 8 
+       SRA2 C 4 
+       SRA2 D 4 A_NoBlocking
+       SRA2 E 4 
+       SRA2 F -1 
+    Raise:
+       Stop
+    } 
+}
+
+actor KaiserOkamiCube : PlasmaBall
+{
+  SeeSound ""
+  DeathSound ""
+  RenderStyle Normal
+  Speed 18
+  Damage 0
+  +SeekerMissile
+  +DOOMBOUNCE
+  +NOBOUNCESOUND
+  Scale 0.75
+  States
+  {
+  Spawn:
+    TNT1 A 6 
+    TNT1 A 0 A_Stop
+  Death:
+    TNT1 A 0 A_Jump(128,"HumanSoldier", "MechDemon")
+    TNT1 A 0 A_Jump(128,"ChaingunDemon")
+    TNT1 A 0 A_Jump(128,"CyberBaron", "NightmareDemon")
+  HumanSoldier:
+    TNT1 A 0 Bright A_SpawnItem("KaiserCyborg",0,0)
+    BFE2 ABCD 8 Bright
+    Stop
+  NightmareDemon:
+    TNT1 A 0 Bright A_SpawnItem("NightmareMechDemon",0,0)
+    BFE2 ABCD 8 Bright
+    Stop
+  ChaingunDemon:
+    TNT1 A 0 Bright A_SpawnItem("ChaingunDemon",0,0)
+    BFE2 ABCD 8 Bright
+    Stop
+  CyberBaron:
+    TNT1 A 0 Bright A_SpawnItem("CyberBaron",0,0)
+    BFE2 ABCD 8 Bright
+    Stop
+  MechDemon:
+    TNT1 A 0 Bright A_SpawnItem("MechDemon",0,0)
+    BFE2 ABCD 8 Bright
+    Stop
+  }
+}

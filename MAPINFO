@@ -1,0 +1,69 @@
+map titlemap "Titlemap"
+{
+sky1 = "HCLDSKY2"
+music = "D_TITLEM"
+}
+
+map MAP01 "Hope"
+{
+	next = "MAP02"
+	secretnext = "MAP02"
+	sky1 = "SKY1"
+	par = 900
+	music = "D_TITLEM"
+}
+
+map MAP02 "Dream"
+{
+	next = "MAP03"
+	secretnext = "MAP03"
+	sky1 = "KXSKY1"
+	par = 900
+	music = "D_DREAM"
+}
+
+map MAP03 "Determination"
+{
+	next = "MAP04"
+	secretnext = "MAP04"
+	sky1 = "KXSKY1"
+	par = 900
+	music = "D_DREAM"
+}
+
+map MAP04 "Fantasy"
+{
+	next = "MAP05"
+	secretnext = "MAP05"
+	sky1 = "KXSKY1"
+	par = 900
+	music = "D_DREAM"
+}
+
+map MAP05 "Definition"
+{
+	next = "MAP06"
+	secretnext = "MAP06"
+	sky1 = "KXSKY1"
+	par = 900
+	music = "D_LAB01"
+}
+
+clearskills
+
+skill Marine
+{
+	AmmoFactor = 1
+	SpawnFilter = Hard
+	name = "The Blonde"
+    textcolor = Yellow
+	MustConfirm = "The companion of the Blue Knight"
+	DefaultSkill
+	acsreturn = 1
+}
+
+GameInfo
+{
+	DimColor = "0, 128, 255"
+	DimAmount = 0.1
+}

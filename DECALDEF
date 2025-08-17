@@ -1,0 +1,196 @@
+generator CrackodemonBall CacoScorch
+generator Blusoul CacoScorch
+
+decal DroneDecal1
+{
+	pic DRFXA1
+	shade "08 08 08"
+	randomflipx
+	randomflipy
+}
+decal DroneDecal2
+{
+	pic DRFXB1
+	shade "08 08 08"
+	randomflipx
+	randomflipy
+}
+decalgroup DroneDecal
+{
+	DroneDecal1        1
+	DroneDecal2        1
+}
+generator DroneShot        DroneDecal
+
+Decal RedRailScorchLower1
+{
+	Pic CBALSCR1
+	Shade "00 00 00"
+	X-Scale 0.1
+	Y-Scale 0.1
+	RandomFlipX
+	RandomFlipY
+}
+
+Decal RedRailScorchLower2
+{
+	Pic CBALSCR2
+	Shade "00 00 00"
+	X-scale 0.1
+	Y-scale 0.1
+	RandomFlipX
+	RandomFlipY
+}
+
+DecalGroup RedRailScorchLower
+{
+	RedRailScorchLower1 1
+	RedRailScorchLower2 1
+}
+
+
+
+Decal RedRailScorch1
+{
+	Pic CBALSCR1
+	Shade "56 00 00"
+	FullBright
+	X-Scale 0.2
+	Y-Scale 0.2
+	Animator GoAway
+	LowerDecal RedRailScorchLower
+}
+
+Decal RedRailScorch2
+{
+	Pic CBALSCR2
+	Shade "56 00 00"
+	FullBright
+	X-Scale 0.2
+	Y-Scale 0.2
+	Animator GoAway
+	LowerDecal RedRailScorchLower
+}
+
+DecalGroup RedRailScorch
+{
+	RedRailScorch1 1
+	RedRailScorch2 1
+}
+
+decal RocketImpScorch
+{
+	pic SCORCH2
+	shade "00 00 00"
+	x-scale 0.75
+	y-scale 0.75
+	randomflipx
+	randomflipy
+}
+
+Generator PaladinBall				DoomImpScorch
+Generator PaladinGrenade			Scorch
+
+decal FFslimeScorch1
+{
+	pic FFSLSCR1
+	shade "bc f8 50"
+	x-scale 0.8
+	y-scale 0.8
+	randomflipx
+	randomflipy
+	fullbright
+}
+
+decal FFslimeScorch2
+{
+	pic FFSLSCR2
+	shade "bc f8 50"
+	x-scale 0.8
+	y-scale 0.8
+	randomflipx
+	randomflipy
+	fullbright
+}
+
+decal FFslimeScorch3
+{
+	pic FFSLSCR3
+	shade "bc f8 50"
+	x-scale 0.8
+	y-scale 0.8
+	randomflipx
+	randomflipy
+	fullbright
+}
+
+decalgroup FFslimeScorch
+{
+	FFslimeScorch1	1
+	FFslimeScorch2	1
+	FFslimeScorch3	1
+}
+
+decal Bullet1
+{
+pic CHIP1
+shade "FF C8 00"
+fullbright
+x-scale 0.4
+y-scale 0.4
+lowerdecal BulletChip
+animator GoAway
+}
+
+decal Bullet2
+{
+pic CHIP2
+shade "FF C8 00"
+fullbright
+x-scale 0.4
+y-scale 0.4
+lowerdecal BulletChip
+animator GoAway
+}
+
+decal Bullet3
+{
+pic CHIP3
+shade "FF C8 00"
+fullbright
+x-scale 0.4
+y-scale 0.4
+lowerdecal BulletChip
+animator GoAway
+}
+
+decal Bullet4
+{
+pic CHIP4
+shade "FF C8 00"
+fullbright
+x-scale 0.4
+y-scale 0.4
+lowerdecal BulletChip
+animator GoAway
+}
+
+decal Bullet5
+{
+pic CHIP5
+shade "FF C8 00"
+fullbright
+x-scale 0.4
+y-scale 0.4
+lowerdecal BulletChip
+animator GoAway
+}
+
+decalgroup Bullet
+{
+	Bullet1	1
+	Bullet2	1
+	Bullet3	1
+	Bullet4	1
+	Bullet5	1
+}

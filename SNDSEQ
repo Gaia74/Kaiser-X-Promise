@@ -1,0 +1,7 @@
+[DoorNormal
+DOOR 1
+   0      DoorOpenNormal
+   1      DoorCloseNormal
+   2      DoorOpenBlazing
+   3      DoorCloseBlazing
+]

@@ -1,0 +1,265 @@
+ACTOR Paladin 7531 
+{ 
+	//$Category KaiserKnights
+	Health 425
+	Radius 24
+	Height 64
+	Mass 800 
+	Speed 12
+	PainChance 80
+	ProjectileKickBack 9001
+	Monster
+	+FloorClip
+	+DontHarmClass
+	+NOINFIGHTING
+	+NOTARGET
+	+DONTHARMSPECIES
+    Species "KX"
+	DamageFactor "KX", 0.0
+	Obituary "%o caught a Paladin's grenade."
+	HitObituary "A Paladin blew %o away."
+	SeeSound "Paladin/Sight" 
+	PainSound "Paladin/Pain" 
+	DeathSound "Paladin/Death" 
+	ActiveSound "Paladin/Active" 
+	States 
+	{ 
+	Spawn: 
+       HPAL AB 10 A_Look 
+       Loop 
+	See:
+       TNT1 A 0 A_UnSetInvulnerable
+	   TNT1 A 0 A_ChangeFlag("FRIGHTENED", 0)
+	   TNT1 A 0 A_JumpIfCloser(128, "SeePanic")
+       HPAL AABB 3 A_Chase
+	   TNT1 A 0 A_PlaySound("Paladin/Step")
+	   HPAL CCDD 3 A_Chase
+	   TNT1 A 0 A_PlaySound("Paladin/Step")
+	   Goto See+1
+	SeeShield:
+       HPAL EEFF 4 A_Chase
+	   TNT1 A 0 A_PlaySound("Paladin/Step")
+	   HPAL GGHH 4 A_Chase
+	   TNT1 A 0 A_PlaySound("Paladin/Step")
+	   TNT1 A 0 A_Jump (96, "See")
+	   Goto SeeShield
+	SeePanic: //Try to get some distance if the target is too close
+		TNT1 A 0 A_ChangeFlag("FRIGHTENED", 1)
+		HPAL AABBCCDD 3 A_Chase
+		TNT1 A 0 A_JumpIfCloser(128, "SeePanic")
+		TNT1 A 0 A_ChangeFlag("FRIGHTENED", 0)
+		Goto See
+	Melee:
+		TNT1 A 0 A_UnSetInvulnerable
+		TNT1 A 0 A_ChangeFlag("FRIGHTENED", 0)
+		HPAL MN 6 A_FaceTarget
+		HPAL O 6 A_CustomMeleeAttack(random(1, 10)*4, "Paladin/Melee", "Paladin/Swing")
+		//HPAL O 6 A_CustomMissile("PaladinBlast",24,0,0,0)
+		Goto See
+	Missile: //Shield attack; used if outside 768 map units
+		TNT1 A 0 A_UnSetInvulnerable
+		TNT1 A 0 A_ChangeFlag("FRIGHTENED", 0)
+		TNT1 A 0 A_JumpIfCloser(768, "Missile1")
+		TNT1 A 0 A_SetInvulnerable
+		HPAL MNO 3 A_FaceTarget
+		HPAL K 1 A_FaceTarget      
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget      
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget      
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget      
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget      
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL NM 4 A_FaceTarget  
+		TNT1 A 0 A_UnSetInvulnerable
+		Goto See
+	Missile1: //Grenade used if target is within 768 map units
+		TNT1 A 0 A_Jump(32, "Missile2")
+		HPAL I 5 A_FaceTarget
+		TNT1 A 0 A_JumpIfCloser(384, "MissileLow")	//Don't lob the grenade if closer
+		HPAL I 5 A_FaceTarget						//than 384 map units
+		HPAL J 0 Bright A_CustomMissile("PaladinGrenadeEffect",38,16,0,CMF_OFFSETPITCH,8)
+		HPAL J 4 Bright A_CustomMissile("PaladinGrenade",24,16,0,CMF_OFFSETPITCH,8)
+		HPAL J 4 Bright A_FaceTarget
+		HPAL II 5 A_FaceTarget
+		Goto See
+	MissileLow: //Low lob grenade for close targets
+		HPAL I 10 A_FaceTarget
+		HPAL J 0 Bright A_CustomMissile("PaladinGrenadeEffect",38,16,0)
+		HPAL J 4 Bright A_CustomMissile("PaladinGrenade", 24, 16, 0)
+		HPAL J 4 Bright A_FaceTarget
+		HPAL II 5 A_FaceTarget
+		Goto See
+	Missile2: //Use shield attack anyway
+		TNT1 A 0 A_SetInvulnerable
+		HPAL MNO 3 A_FaceTarget
+		HPAL K 1 A_FaceTarget   
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget     
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget     
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget      
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL KK 4 A_FaceTarget      
+		HPAL L 4 Bright A_CustomMissile("PaladinBall",28,0,0,0)
+		HPAL NM 4 A_FaceTarget  
+		TNT1 A 0 A_UnSetInvulnerable
+		Goto See
+	Pain:
+		TNT1 A 0 A_ChangeFlag("FRIGHTENED", 0)
+		HPAL P 2
+		TNT1 A 0 A_JumpIfCloser (512, "ClosePain")
+		HPAL P 2 A_Pain
+		TNT1 A 0 A_Jump (96, "See")
+		TNT1 A 0 A_SetInvulnerable
+		HPAL MNKKKKKKKKKKKKKKKKKK 3 A_FaceTarget
+		TNT1 A 0 A_Jump (160, "SeeShield")
+		TNT1 A 0 A_UnSetInvulnerable
+		Goto See
+	ClosePain:
+		HPAL P 2 A_Pain
+		TNT1 A 0 A_Jump (184, "See")
+		TNT1 A 0 A_SetInvulnerable
+		HPAL MNOKKKKKKKKKKKKKKKKK 3 A_FaceTarget
+		TNT1 A 0 A_Jump (24, "SeeShield")
+		TNT1 A 0 A_UnSetInvulnerable
+		Goto See
+	Death:
+	    TNT1 A 0 A_Jump(128,"AltDeath")
+		HPAL Q 6 A_Scream
+		TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,0,36,frandom(-10,10),frandom(-10,10),frandom(0,10),random(1,360))
+		TNT1 AAAAAAAAAAAAAAAAAAAA 0 A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-5,5),frandom(-5,5),frandom(10,44),frandom(-10,10),frandom(-10,10),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+		HPAL R 0 Bright A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 2, 60, 128)
+		HPAL RRRRRRSSSSSSTTTTTT 1 Bright A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-5,5),frandom(-5,5),frandom(10,44),frandom(-10,10),frandom(-10,10),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+		HPAL U 0 Bright A_NoBlocking
+		HPAL UUUUUUVVVVVVWWWWWWXXXXXX 1 Bright A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-5,5),frandom(-5,5),frandom(10,44),frandom(-10,10),frandom(-10,10),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+		HPAL Y 6
+		HPAL Z -1
+		Stop 
+	AltDeath:
+	    HPA2 Q 7 A_PlaySound("Paladin/AltDeath")
+		HPA2 R 7 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 2, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
+		HPA2 S 7
+		HPA2 T 7 A_NoBlocking
+		HPA2 UV 7
+		HPA2 W -1
+		Stop
+	Raise: 
+		HPAL VUTSRQ 7 Bright
+		Goto See 
+	} 
+}
+
+ACTOR PaladinGrenade
+{
+	Radius 8
+	Height 8
+	Speed 25
+	Damage 8
+	Projectile
+	-NOGRAVITY
+	+THRUGHOST
+	+FORCEXYBILLBOARD
+	+DONTSPLASH
+	BounceType "Doom"
+	Gravity 0.67
+	SeeSound "Paladin/Grenade"
+	DeathSound "Paladin/Explode"
+	BounceSound "Paladin/Bounce"
+	States
+	{
+	Spawn:
+    SGRN A 0 Bright
+    SGRN A 0 Bright A_StopSound
+    SGRN A 0 Bright A_PlaySound("Paladin/Grenade")
+    SGRN A 2 Bright A_CustomMissile("KXRocketTrail",5,0,0)
+    Goto Spawn+3
+  Death:
+    MISL A 0 A_SetTranslucent(0.75)
+    MISL A 0 Radius_Quake(2,12,0,8,0)
+	MISL AAAAAAAAAAAAA 0 A_SpawnItemEx("KXRocketExplosionEffect",0,0,5,frandom(-2,2)*2,frandom(-2,2)*2,frandom(-2,2)*2,random(0,360),SXF_NOCHECKPOSITION)
+	MISL AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle4",0,0,5,frandom(0,8),frandom(0,8),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+	MISL A 0 A_Explode
+    KXEX ABCDEFGHIJKLMNOPQRSTUVWXY 1 Bright
+	KXEX Z 1 Bright A_FadeOut(0.05)
+    Wait
+	}
+}
+
+ACTOR PaladinBall
+{
+   Radius 6
+   Height 8
+   Speed 18
+   Damage 3
+   Projectile
+   RenderStyle Add
+   Alpha 0.67
+   +SeekerMissile
+   SeeSound "Paladin/Shoot"
+   DeathSound "Paladin/Hit"
+   States
+   {
+   Spawn:
+	  HPLB A 0 Bright A_SeekerMissile(3, 3)
+	  HPLB AA 1 Bright A_SpawnItemEx("PaladinBallTrail",0,0,0,0,0,0,0,128)
+	  HPLB B 0 Bright A_SeekerMissile(3, 3)
+	  HPLB BB 1 Bright A_SpawnItemEx("PaladinBallTrail",0,0,0,0,0,0,0,128)
+	  HPLB C 0 Bright A_SeekerMissile(3, 3)
+	  HPLB CC 1 Bright A_SpawnItemEx("PaladinBallTrail",0,0,0,0,0,0,0,128)
+	  HPLB D 0 Bright A_SeekerMissile(3, 3)
+	  HPLB DD 1 Bright A_SpawnItemEx("PaladinBallTrail",0,0,0,0,0,0,0,128)
+      Loop
+   Death:
+      TNT1 AAAAA 0 Bright A_SpawnItemEx("KXDiscipleParticle2",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),Random(0,360),128)
+      HPLB EFHIJ 3 Bright
+	  Stop
+   }
+}
+
+Actor PaladinBallTrail
+{   
+	Radius 3
+	Height 3
+	Speed 0
+	Projectile
+	+CLIENTSIDEONLY
+	RenderStyle Add
+	Alpha 0.67
+	States
+	{
+		Spawn:
+		TNT1 A 2 Bright
+		HPLB KLMNOP 2 Bright
+		Stop 
+	}
+}
+
+Actor PaladinShield
+{
+	Radius 8
+	Height 8
+	Speed 6
+	+DoomBounce
+	+DropOff
+	+Missile
+	BounceSound "Paladin/Bounce2"
+	BounceType Doom
+	States
+	{
+	Spawn:
+		HPLS ABCDEFGH 3
+		Loop
+	Death:
+		HPLS I -1
+		Stop
+	}
+}
+
+Actor PaladinGrenadeEffect : KXSmallExplosionEffect1
+{
+	Speed 3
+}

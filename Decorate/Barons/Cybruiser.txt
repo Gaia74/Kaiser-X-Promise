@@ -1,0 +1,521 @@
+ACTOR Cybruiser : BaronOfHell 7547 
+{ 
+	//$Category Barons
+	Health 2000
+	Radius 24 
+	Height 64 
+	Mass 1000 
+	Speed 14
+	PainChance 17
+	MONSTER
+	MeleeDamage 10
+	Obituary "%o was blown away by a Cybruiser."
+	HitObituary "%o was smashed by a Cybruiser."
+	+FloorClip 
+	+MissileMore
+	+MissileEvenMore
+	+DontHarmSpecies
+	ProjectileKickBack 1785
+    Species "KX"
+	DamageFactor "KX", 0.0
+	DamageType "KX"
+	SeeSound "KXCybruiser/See" 
+	PainSound "cbaron/pain" 
+	ActiveSound "cbaron/act"
+	DeathSound "KXCybruiser/Death"
+	var int user_fire;
+	States 
+	{ 
+	Spawn: 
+       CBRS AB 10 A_Look 
+       Loop 
+   See:
+       CBRS A 0 A_Playsound("KXCybruiser/Step")
+       CBRS AA 3 A_Chase
+       CBRS BB 3 A_Chase
+       CBRS C 0 A_Playsound("KXCybruiser/Step")
+       CBRS CC 3 A_Chase 
+       CBRS DD 3 A_Chase
+       Loop 
+   Missile:
+	   TNT1 A 0 A_SetUserVar(user_fire,0)
+	   TNT1 A 0 A_JumpIfCloser (416,"Shotgun")
+	   TNT1 A 0 A_Jump(192,"Rocket","Burst","SMG","Grenader")
+   Rocket:
+       CBRS E 9 A_FaceTarget 
+	   CBRS F 0 A_CustomMissile("KXCybruiserDustParticle",40,15,0)
+       CBRS F 9 Bright A_CustomMissile("CybruiserMissile",38,15,0,0)
+	   CBRS F 0 A_SetUserVar(user_fire,user_fire+1)
+       Goto RocketDecide
+   RocketDecide:
+	   CBRS F 0 A_JumpIf(user_fire==5,"See")
+	   TNT1 A 0 A_Jump(224,"RDashLeft","RDashRight","Rocket","RDashBack")
+	   Goto See
+   RDashLeft:
+	   TNT1 A 0 A_FaceTarget
+	   CBRS E 3 A_FaceTarget
+	   TNT1 A 0 A_PlaySound("KXCybruiser/Dash",CHAN_AUTO,1.0)
+	   CBRS FFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDashParticle",-5,0,38,frandom(-4,4),frandom(-7.5,0),frandom(-4,0),0)
+	   CBRS FFFFFFFFFFFFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDashParticle2",0,0,1,frandom(-2,2),frandom(-7.5,0),frandom(0,4),0)
+	   CBRS FFFFFFFFFFFFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDustParticle2",0,0,1,frandom(-2,2),frandom(-7.5,0),frandom(0,4),0)
+	   CBRS F 0 A_CustomMissile("KXCybruiserDustParticle",40,15,0)
+	   TNT1 A 0 A_Recoil(-8)
+	   TNT1 A 0 ThrustThing(angle*256/360+192, 20, 0, 0)
+	   CBRS EE 3 A_FaceTarget
+	   CBRS F 0 A_CustomMissile("CybruiserMissile",38,15,0,0)
+	   CBRS F 9 Bright A_FaceTarget
+	   CBRS F 0 A_SetUserVar(user_fire,user_fire+1)
+	   Goto RocketDecide
+  RDashRight:
+	   TNT1 A 0 A_FaceTarget
+	   CBRS E 3 A_FaceTarget
+	   TNT1 A 0 A_PlaySound("KXCybruiser/Dash",CHAN_AUTO,1.0)
+	   CBRS FFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDashParticle",-5,0,38,frandom(-4,4),frandom(0,7.5),frandom(-4,0),0)
+	   CBRS FFFFFFFFFFFFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDashParticle2",0,0,1,frandom(-2,2),frandom(0,7.5),frandom(0,4),0)
+	   CBRS FFFFFFFFFFFFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDustParticle2",0,0,1,frandom(-2,2),frandom(0,7.5),frandom(0,4),0)
+	   CBRS F 0 A_CustomMissile("KXCybruiserDustParticle",40,15,0)
+	   TNT1 A 0 A_Recoil(-8)
+	   TNT1 A 0 ThrustThing(angle*256/360+64, 20, 0, 0)
+	   CBRS EE 3 A_FaceTarget
+	   CBRS F 0 A_CustomMissile("CybruiserMissile",38,15,0,0)
+	   CBRS F 9 Bright A_FaceTarget
+	   CBRS F 0 A_SetUserVar(user_fire,user_fire+1)
+	   Goto RocketDecide
+   RDashBack:
+	   TNT1 A 0 A_FaceTarget
+	   CBRS E 3 A_FaceTarget
+	   TNT1 A 0 A_PlaySound("KXCybruiser/Dash",CHAN_AUTO,1.0)
+	   CBRS FFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDashParticle",-5,0,38,frandom(-5,5),frandom(-2,2),frandom(-4,0),0)
+	   CBRS FFFFFFFFFFFFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDashParticle2",0,0,1,frandom(-5,5),frandom(-2,2),frandom(0,4),0)
+	   CBRS FFFFFFFFFFFFFFFFFFFF 0 A_SpawnItemEx("KXCybruiserDustParticle2",0,0,1,frandom(-5,5),frandom(-2,2),frandom(0,4),0)
+	   CBRS F 0 A_CustomMissile("KXCybruiserDustParticle",40,15,0)
+	   TNT1 A 0 A_Recoil(-8)
+	   TNT1 A 0 ThrustThing(angle*256/360+128, 20, 0, 0)
+	   CBRS EE 3 A_FaceTarget
+	   CBRS F 0 A_CustomMissile("CybruiserMissile",38,15,0,0)
+	   CBRS F 9 Bright A_FaceTarget
+	   CBRS F 0 A_SetUserVar(user_fire,user_fire+1)
+	   Goto RocketDecide
+   Burst:
+       CBRS A 0 A_PlaySound("KXCybruiser/Warn",CHAN_VOICE,1.0)
+	   CBRS F 0 A_SetUserVar(user_fire,random(2,5))
+	   CBRS E 25 A_FaceTarget
+	   Goto LoopingRapidDecide
+   LoopingRapidDecide:
+	   TNT1 A 0 A_Jump(256,"RapidLeft","RapidRight","RapidDirect","RapidSpread","RapidUpper")
+   RapidLeft:
+	   CBRS E 5 A_FaceTarget
+       CBRS F 0 A_SetUserVar(user_fire,user_fire-1)
+	   CBRS F 0 A_FaceTarget
+	   CBRS A 0 A_PlaySound("KXCybruiser/Burst",CHAN_WEAPON,1.0)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-50,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-40,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-30,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-20,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-10,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,10,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,20,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,30,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,40,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,50,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS E 5 A_FaceTarget
+	   CBRS F 0 A_JumpIf(user_fire==0,"See")
+	   Goto LoopingRapidDecide
+   RapidRight:
+	   CBRS E 5 A_FaceTarget
+       CBRS F 0 A_SetUserVar(user_fire,user_fire-1)
+	   CBRS F 0 A_FaceTarget
+	   CBRS A 0 A_PlaySound("KXCybruiser/Burst",CHAN_WEAPON,1.0)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,50,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,40,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,30,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,20,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,10,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-10,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-20,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-30,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-40,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-50,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS E 5 A_FaceTarget
+	   CBRS F 0 A_JumpIf(user_fire==0,"See")
+	   Goto LoopingRapidDecide
+   RapidDirect:
+	   CBRS E 5 A_FaceTarget
+       CBRS F 0 A_SetUserVar(user_fire,user_fire-1)
+	   CBRS F 0 A_FaceTarget
+	   CBRS A 0 A_PlaySound("KXCybruiser/Burst",CHAN_WEAPON,1.0)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,10,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-10,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,20,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-20,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,30,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-30,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,40,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-40,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,50,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,-50,CMF_OFFSETPITCH,frandom(-1,1))
+	   CBRS E 5 A_FaceTarget
+	   CBRS F 0 A_JumpIf(user_fire==0,"See")
+	   Goto LoopingRapidDecide
+   RapidSpread:
+       CBRS E 5 A_FaceTarget
+       CBRS F 0 A_SetUserVar(user_fire,user_fire-1)
+	   CBRS F 0 A_FaceTarget
+	   CBRS A 0 A_PlaySound("KXCybruiser/Burst",CHAN_WEAPON,1.0)
+	   CBRS FFFFFFFFFF 0 Bright A_CustomMissile ("CybruiserMissile2",38,15,random(-10,10),CMF_OFFSETPITCH,frandom(-10,10))
+	   CBRS FFE 5 A_FaceTarget
+	   CBRS F 0 A_JumpIf(user_fire==0,"See")
+	   Goto LoopingRapidDecide
+   RapidUpper:
+	   CBRS E 5 A_FaceTarget
+       CBRS F 0 A_SetUserVar(user_fire,user_fire-1)
+	   CBRS F 0 A_FaceTarget
+	   CBRS A 0 A_PlaySound("KXCybruiser/Burst",CHAN_WEAPON,1.0)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,0)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,5)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,10)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,15)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,20)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,25)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,30)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,35)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,40)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,45)
+	   CBRS F 1 Bright A_CustomMissile ("CybruiserMissile2",38,15,0,CMF_OFFSETPITCH,50)
+	   CBRS E 5 A_FaceTarget
+	   CBRS F 0 A_JumpIf(user_fire==0,"See")
+	   Goto LoopingRapidDecide
+   Shotgun:
+       CBRS E 0 A_PlaySound("Robot/Alert")
+	   CBRS E 0 A_SetUserVar(user_fire,random(2,5))
+	   CBRS E 15 A_FaceTarget
+   RealShotgun:
+       CBRS A 0 A_FaceTarget
+	   CBRS F 0 A_PlaySound("KXCybruiser/Shotgun",CHAN_WEAPON)
+	   CBRS F 0 A_CustomMissile("KXCybruiserDustParticle",40,15,0)
+	   CBRS F 0 A_CustomMissile("SShotCaseSpawn",40,15,0)
+	   CBRS FFFFFFFFFFFFFFF 0 Bright A_CustomMissile("KXCybruiserBullet", 38,15,frandom(-5,5),2,frandom(-3,3))
+	   CBRS FEE 4 A_FaceTarget
+	   CBRS F 0 A_SetUserVar(user_fire,user_fire-1)
+	   CBRS F 0 A_JumpIf(user_fire==0,"See")
+	   TNT1 A 0 A_Jump(48,"See")
+	   TNT1 A 0 A_JumpIfCloser (420, "RealShotgun")
+	   Goto See
+   SMG:
+	   CBRS E 0 A_PlaySound("Robot/Alert")
+	   CBRS E 15 A_FaceTarget
+	   Goto SMGReal
+   SMGReal:
+       CBRS E 1 A_Facetarget
+	   CBRS F 0 bright A_PlaySound ("Terminator/tershotB",CHAN_WEAPON,1.0,FALSE)
+	   CBRS F 0 Bright A_CustomMissile("KXArachnophyteDustParticle",38,15,0)
+	   CBRS F 0 Bright A_CustomMissile("PisCaseSpawn",38,15,0)
+	   CBRS F 2 A_CustomMissile("KXScoutBullet",38,15,frandom(-2.5,2.5),CMF_OFFSETPITCH,frandom(-0.75,0.75))
+       CBRS E 1 A_Facetarget
+       CBRS F 0 bright A_PlaySound ("Terminator/tershotB",CHAN_WEAPON,1.0,FALSE)
+	   CBRS F 0 Bright A_CustomMissile("KXArachnophyteDustParticle",38,15,0)
+	   CBRS F 0 Bright A_CustomMissile("PisCaseSpawn",38,15,0)
+	   CBRS F 2 A_CustomMissile("KXScoutBullet",38,15,frandom(-2.5,2.5),CMF_OFFSETPITCH,frandom(-0.75,0.75))
+	   CBRS A 0 A_Spidrefire
+	   Goto SMGDecide
+   SMGDecide:
+       TNT1 A 0 A_Facetarget
+	   TNT1 A 0 A_Jump(4,"See")
+	   TNT1 A 0 A_Jump(8,"MDashRight","MDashLeft")
+       Goto SMGReal
+   MDashRight:
+	   TNT1 A 0 A_PlaySound("KXCybruiser/Dash",CHAN_AUTO,1.0)
+	   TNT1 A 0 A_Recoil(-3)
+	   TNT1 A 0 ThrustThing(angle*256/360+192, 8, 0, 0)
+	   Goto SMGReal
+   MDashLeft:
+       TNT1 A 0 A_PlaySound("KXCybruiser/Dash",CHAN_AUTO,1.0)
+	   TNT1 A 0 A_Recoil(-3)
+	   TNT1 A 0 ThrustThing(angle*256/360+64, 8, 0, 0)
+	   Goto SMGReal
+   Grenader:
+	   CBRS F 0 A_SetUserVar(user_fire,random(4,7))
+	   CBRS A 0 A_PlaySound("KXCybruiser/Warn",CHAN_VOICE,1.0)
+	   CBRS E 25 A_FaceTarget
+	   Goto GrenaderLoop
+   GrenaderLoop:
+	   CBRS E 6 Bright A_FaceTarget
+	   CBRS E 0 A_CustomMissile ("CybruiserGrenade",38,15,frandom(-10,10),CMF_OFFSETPITCH,frandom(-5,20))
+	   CBRS FE 3 Bright A_FaceTarget
+	   CBRS F 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+	   Loop
+   Melee:
+       CBRS GH 6 A_FaceTarget
+       CBRS I 6 A_CustomMeleeAttack(Random(100,200),"Mutante/Punch","Mutante/FailPunch",Normal)
+       Goto See
+   Pain: 
+       CBRS J 2 
+       CBRS J 2 A_Pain 
+       Goto See 
+   Death: 
+       CBRS K 6 Bright A_Scream
+       CBRS LMN 6 Bright
+	   TNT1 A 0 A_PlaySound("KXCybruiser/Death2",Chan_Weapon)
+	   CBOS A 0 A_SpawnItemEx("KXCyberBaronExplosionDeathEffectSpawner",0,0,1,0,0,0,0,SXF_NOCHECKPOSITION)
+	   CBRS O 0 Bright A_NoBlocking
+	   CBRS OOOOOO 1 Bright A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-5,5),frandom(-5,5),frandom(10,44),frandom(-10,10),frandom(-10,10),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+       CBRS QQQQQQRRRRRRSSSSSS 1 Bright A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-5,5),frandom(-5,5),frandom(10,44),frandom(-10,10),frandom(-10,10),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+       CBRS T -1 A_BossDeath
+       Stop
+	} 
+}
+
+Actor CybruiserMissile
+{
+  Radius 8
+  Height 12
+  Speed 40
+  Damage 12
+  Scale 0.75
+  Projectile
+  RenderStyle Normal
+  SeeSound "KXCybruiser/Fire"
+  DeathSound "monster/brudea"
+  DontHurtShooter
+  +SpawnSoundSource
+  +FireDamage
+  Decal Scorch
+  States
+  {
+  Spawn: 
+    FBRS A 2 Bright A_SpawnItemEx("KXRocketTrail",0,0,0,0,0,0,0,128)
+	Loop
+  Death:
+	 TNT1 A 0 A_Explode(40,96)
+	 TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle3",0,0,0,frandom(-8,8),frandom(-8,8),frandom(-8,8),random(-180,180))
+     KXS2 A 0 A_SpawnItemEx("CybruiserDeathEffect",0,0,0,0,0,0,0,128)
+	 KXS2 AAAAAAAAAA 0 A_SpawnItemEx("CybruiserDeathEffect3",0,0,5,frandom(-4,4)*2,frandom(-4,4)*2,frandom(-4,4)*2,random(0,360),SXF_NOCHECKPOSITION)
+     Stop
+  }
+}
+
+Actor CybruiserMissile2 : CybruiserMissile
+{
+  Radius 7
+  Height 10
+  Scale 0.5
+  Speed 20
+  Damage 4 
+  +Randomize
+  +SeekerMissile
+  +LookAllAround
+  SeeSound "KXCybruiser/Burst"
+  DeathSound "KXCybruiser/MiniExplosion"
+  States
+  {
+  Spawn: 
+	 MICR AAAAA 1 A_SpawnItemEx("CybruiserGrenadeTrail2",0,0,0,0,0,0,0,128)
+	 TNT1 A 0 A_ScaleVelocity(0.2)
+	 MICR AAAAAAAAAAAAAAAAAAAA 2 A_SpawnItemEx("CybruiserGrenadeTrail2",0,0,0,0,0,0,0,128)
+     TNT1 AAAAA 0 A_SeekerMissile(90,90,0,256,10240)
+	 TNT1 A 0 A_SpawnItemEx("KXCyberBaronExplosionDeathEffect3",0,0,0,0,0,0,0,128)
+	 TNT1 A 0 A_ScaleVelocity(1.5)
+  Fly:
+     MICR A 1 Bright A_SpawnItemEx("CybruiserGrenadeTrail2",0,0,0,0,0,0,0,128)
+	 Loop
+  Death:
+	 TNT1 AAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle3",0,0,0,frandom(-3,3),frandom(-3,3),frandom(-3,3),random(-180,180))
+	 KXS2 A 0 A_SpawnItemEx("CybruiserDeathEffect2",0,0,0,0,0,0,0,128)
+     Stop
+  }
+}
+
+Actor CybruiserDeathEffect
+{
+  Scale 0.5
+  RenderStyle Add
+  Alpha 0.5
+  +NOCLIP
+  +NOBLOCKMAP
+  +NOGRAVITY
+  +RANDOMIZE
+  States
+  {
+  Spawn:
+    KXS2 ABCDEFGHIJKLM 1 Bright
+    KXS2 M 1 Bright A_FadeOut(0.05)
+    Wait
+  }
+}
+
+Actor CybruiserDeathEffect2 : CybruiserDeathEffect
+{
+  Scale 0.15
+}
+
+Actor CybruiserDeathEffect3
+{
+	Projectile
+	Damage 0
+	+CLIENTSIDEONLY 
+	+NOBLOCKMAP
+	+NOTELEPORT
+    +DONTSPLASH
+	+FORCEXYBILLBOARD
+    +THRUACTORS
+	+NOGRAVITY
+	Speed 0
+	Radius 0
+	Height 0
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAA 1 A_SpawnItemEx("CybruiserDeathEffect2",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),frandom(-0.5,0.5),random(1,360))
+		Goto Death
+	Death:
+		NULL A 1
+		Stop
+	}
+}
+
+ACTOR KXCybruiserBullet : KaiserXBullet
+{
+	Speed 1
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TN11 A 0 A_ScaleVelocity(frandom(35.0,60.0))
+		PUFF A 1 Bright
+        Goto Spawn+2
+	}
+}
+
+ACTOR CybruiserGrenade : PaladinGrenade
+{
+	Radius 20
+    Height 10
+    Speed 35
+	Damage 0
+	SeeSound "KXCybruiser/Grenade"
+	DeathSound ""
+	BounceType "Doom"
+	Scale 0.75
+	States
+	{
+  Spawn:
+    CBRG A 0 Bright
+    CBRG A 0 Bright A_StopSound
+    CBRG A 0 Bright A_PlaySound("KXCybruiser/Grenade")
+    CBRG AB 2 Bright A_CustomMissile("CybruiserGrenadeTrail",3,0,0)
+    Goto Spawn+3
+  Death:
+    "####" "#" 0 A_SpawnItemEx("CybruiserGrenade2",0,0,0,0.00000000001,0,0,0,SXF_NOCHECKPOSITION | SXF_TRANSFERSPRITEFRAME | SXF_TRANSFERPOINTERS)
+    stop
+  XDeath:
+    TNT1 A 0 A_PlaySound("KXCybruiser/Death2")
+    TNT1 A 0 A_Explode(96,128)
+	TNT1 A 0 A_SpawnItemEx("CybruiserGrenadeExplosionEffect",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+    stop
+	}
+}
+
+ACTOR CybruiserGrenade2 : CybruiserGrenade
+{
+	BounceType "None"
+	+NOEXPLODEFLOOR
+	BounceCount 0
+	var int user_time;
+	SeeSound ""
+	DeathSound ""
+	States
+	{
+  Spawn:
+    "####" "#" 0
+    "####" "#" 1 A_JumpIf(user_time == 200, "Exploder")
+	"####" "#" 0 A_SetUserVar(user_time, user_time+1)
+    Goto Spawn+1
+  Exploder:
+    "####" "#" 1 Bright A_PlaySound("KXCybruiser/Beep")
+	"####" "#" 1 
+	"####" "#" 1 Bright
+	"####" "#" 1 
+	"####" "#" 1 Bright
+	"####" "#" 1 
+	"####" "#" 1 Bright
+	"####" "#" 1
+	"####" "#" 1 Bright
+	"####" "#" 1 
+	Goto Death
+  Death:
+	TNT1 A 0 A_PlaySound("KXCybruiser/Death2")
+    TNT1 A 0 A_Explode(96,128)
+	TNT1 A 0 A_SpawnItemEx("CybruiserGrenadeExplosionEffect",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+    stop
+	}
+}
+
+Actor CybruiserGrenadeExplosionEffect : KXRocketExplosionEffect
+{   
+  BounceCount 0
+  Alpha 1.0
+  RenderStyle Normal
+  Scale 0.75
+  States
+  {
+  Spawn:
+	MISL A 0 Radius_Quake(2,12,0,8,0)
+	MISL AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle4",0,0,5,frandom(0,8),frandom(0,8),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+    KXS6 ABCDEFGHIJKLMNOPQRSTUVWXY 1 Bright
+	KXS6 Z 1 Bright A_FadeOut(0.05)
+    Wait
+  }
+}
+
+Actor CybruiserGrenadeTrail : KXRocketTrail
+{
+	Scale 0.075
+}
+
+Actor CybruiserGrenadeTrail2 : KXRocketTrail
+{
+	Scale 0.05
+}
+
+Actor KXCybruiserDustParticle : KXDustParticle
+{
+	Scale 0.2
+	Speed 3
+	States
+	{
+  Spawn:
+  Death:
+    KDUS A 0 Bright A_SetScale(ScaleX+0.01)
+    KDUS A 1 Bright A_FadeOut(0.05)
+    Loop
+	}
+}
+
+Actor KXCybruiserDustParticle2 : KXDustParticle
+{
+	Scale 0.2
+	Speed 0
+	States
+	{
+  Spawn:
+  Death:
+    KDUS A 0 Bright A_SetScale(ScaleX-0.01)
+    KDUS A 1 Bright A_FadeOut(0.05)
+    Loop
+	}
+}
+
+Actor KXCybruiserDashParticle : KXBaronFireParticle
+{
+	Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+}
+
+Actor KXCybruiserDashParticle2 : KXBaronFireParticleTrail
+{
+	Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+}

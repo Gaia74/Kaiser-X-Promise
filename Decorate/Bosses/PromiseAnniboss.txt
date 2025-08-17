@@ -1,0 +1,846 @@
+ACTOR KXPromiseAnnihilator : Annihilator 30756
+{ 
+	//$Category Boss
+   Health 20000 
+   Speed 65
+   PainChance 5 
+   MaxStepHeight 96
+   States
+   {
+   See: 
+       TNT1 A 0 A_StopSound(CHAN_5)
+	   TNT1 A 0 A_ChangeFlag("NoPain",False)
+	   TNT1 A 0 A_PlaySound("KXThamuz/Walk",CHAN_5)
+	   ANNI AA 3 A_Chase
+	   TNT1 A 0 A_PlaySound("KXThamuz/Step",CHAN_6)
+	   TNT1 A 0 A_SpawnItemEx("KXAnnihilatorStep",12,-25,1,0,0,0,0,SXF_NOCHECKPOSITION)
+       ANNI BBCC 3 A_Chase
+	   TNT1 A 0 A_PlaySound("KXThamuz/Step",CHAN_6)
+	   TNT1 A 0 A_SpawnItemEx("KXAnnihilatorStep",12,25,1,0,0,0,0,SXF_NOCHECKPOSITION)
+       ANNI D 3 A_Chase
+	   TNT1 A 0 A_PlaySound("KXThamuz/Walk",CHAN_5)
+       ANNI D 3 A_Chase
+	   TNT1 A 0 A_CheckSight("KirovSight")
+       Loop
+   Melee:
+	   TNT1 A 0
+	   Goto Missile
+   Missile:	
+	   TNT1 A 0 A_SetUserVar(user_fire,0)
+	   TNT1 A 0 A_Jump(108,"Rocket","Balteus")
+       TNT1 A 0 A_Jump(256,"Grenades","Hom","Rocket2","KirovDecide")
+	   Goto See
+   KirovSight:
+	   TNT1 A 0 A_Jump(32,"KirovDecide")
+	   Goto See
+   Rocket:
+	   TNT1 A 0 A_JumpIfCloser (334, "ShotgunRocket")
+	   TNT1 A 0 A_Jump(256,"DirectRocket","LeftRocket","RightRocket","AllRandom")
+   DirectRocket:
+	   TNT1 A 0 A_SetUserVar(user_fire,random(4,8))
+       TNT1 A 0 A_PlaySound("cbaron/Ready",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto RocketFire
+   RocketFire:
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,27,frandom(-1,1),CMF_OFFSETPITCH,frandom(-1,1))
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,-27,frandom(-1,1),CMF_OFFSETPITCH,frandom(-1,1))
+	   ANNI F 4 Bright A_FaceTarget 
+	   ANNI EEE 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   LeftRocket:
+	   TNT1 A 0 A_SetUserVar(user_fire,8)
+	   TNT1 A 0 A_SetUserVar(user_dir,-45)
+       TNT1 A 0 A_PlaySound("cbaron/Ready",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto LeftRocketFire
+   LeftRocketFire:
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,27,frandom(-1,1),CMF_OFFSETPITCH,frandom(-1,1))
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,-27,user_dir,CMF_OFFSETPITCH,frandom(-1,1))
+	   ANNI F 4 Bright A_FaceTarget 
+	   ANNI EEE 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_SetUserVar(user_dir,user_dir+15)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   RightRocket:
+	   TNT1 A 0 A_SetUserVar(user_fire,8)
+	   TNT1 A 0 A_SetUserVar(user_dir,45)
+       TNT1 A 0 A_PlaySound("cbaron/Ready",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto RightRocketFire
+   RightRocketFire:
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,27,user_dir,CMF_OFFSETPITCH,frandom(-1,1))
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,-27,frandom(-1,1),CMF_OFFSETPITCH,frandom(-1,1))
+	   ANNI F 4 Bright A_FaceTarget 
+	   ANNI EEE 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_SetUserVar(user_dir,user_dir-15)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   AllRandom:
+       TNT1 A 0 A_SetUserVar(user_fire,random(5,8))
+       TNT1 A 0 A_PlaySound("cbaron/Ready",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto AllRocketFire
+   AllRocketFire:
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,27,frandom(-20,20),CMF_OFFSETPITCH,frandom(-1,1))
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniRocket",40,-27,frandom(-20,20),CMF_OFFSETPITCH,frandom(-1,1))
+	   ANNI F 4 Bright A_FaceTarget 
+	   ANNI EEE 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   ShotgunRocket:
+	   TNT1 A 0 A_SetUserVar(user_fire,random(1,3))
+       TNT1 A 0 A_PlaySound("cbaron/Ready",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto ShotgunFire
+   ShotgunFire:
+       ANNI FFFFF 0 Bright A_CustomMissile ("PKXAnniRocket",40,27,frandom(-15,15),CMF_OFFSETPITCH,frandom(-15,15))
+       ANNI FFFFF 0 Bright A_CustomMissile ("PKXAnniRocket",40,-27,frandom(-15,15),CMF_OFFSETPITCH,frandom(-15,15))
+	   ANNI F 4 Bright A_FaceTarget 
+	   ANNI EEEEEE 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   Rocket2:
+       TNT1 A 0 A_SetUserVar(user_fire,random(1,3))
+       TNT1 A 0 A_PlaySound("KXAnnihilator/RocketReady",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto RocketFire2
+   RocketFire2: 
+	   TNT1 A 0 A_PlaySound("KXAnnihilator/RocketFire",CHAN_weapon,1.0)
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniCannonRocket",40,27,0)
+       ANNI F 0 Bright A_CustomMissile ("PKXAnniCannonRocket",40,-27,0)
+	   ANNI FF 4 Bright A_FaceTarget 
+	   ANNI EEEEEE 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   Grenades:
+	   TNT1 A 0 A_PlaySound("KXAnnihilator/GrenadeReady",CHAN_WEAPON,1.0)
+	   TNT1 A 0 A_SetUserVar(user_fire,random(3,7))
+       ANNI EEEE 5 A_FaceTarget
+	   Goto GrenadeFire
+   GrenadeFire:
+       ANNI F 0 Bright A_CustomMissile("PPaladinGrenade", 40,27,frandom(-10,10),2,frandom(-5,20))
+	   ANNI FF 0 Bright A_CustomMissile("CybruiserGrenade", 40,27,frandom(-10,10),2,frandom(-5,20))
+       ANNI F 0 Bright A_CustomMissile("PPaladinGrenade", 40,-27,frandom(-10,10),2,frandom(-5,20))
+	   ANNI FF 0 Bright A_CustomMissile("CybruiserGrenade", 40,27,frandom(-10,10),2,frandom(-5,20))
+	   ANNI FF 3 Bright A_FaceTarget 
+	   ANNI EEE 3 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   Hom:
+       TNT1 A 0 A_SetUserVar(user_fire,random(2,4))
+       TNT1 A 0 A_PlaySound("cbaron/Ready",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto HomFire
+   HomFire:
+       ANNI F 0 Bright A_CustomMissile ("PHomRocket2",40,27,0)
+       ANNI F 0 Bright A_CustomMissile ("PHomRocket2",40,-27,0)
+	   ANNI FFFEEEE 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   KirovDecide:
+	   TNT1 A 0 A_Jump(256,"Kirov","Kirov2")
+   Kirov:
+       TNT1 A 0 A_SetUserVar(user_fire,random(15,30))
+       TNT1 A 0 A_PlaySound("KXAnnihilator/KirovAlert",CHAN_WEAPON,1.0)
+       ANNI QQQQQQ 5 A_FaceTarget
+	   Goto KirovReporting
+   KirovReporting:
+       TNT1 A 0 A_PlaySound("KXAnnihilator/SeekerFire")
+       ANNI FF 0 A_CustomMissile ("PKirovRocket",40,0,0)
+	   ANNI F 0 A_CustomMissile ("PKirovRocket3",40,0,0)
+	   ANNI QR 4 Bright A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   Kirov2:
+       TNT1 A 0 A_SetUserVar(user_fire,random(2,5))
+       TNT1 A 0 A_PlaySound("KXAnnihilator/KirovAlert",CHAN_WEAPON,1.0)
+       ANNI QQQQQQ 5 A_FaceTarget
+	   Goto KirovReporting2
+   KirovReporting2:
+       TNT1 A 0 A_PlaySound("KXAnnihilator/RocketFire")
+       ANNI FF 0 A_CustomMissile ("PKirovRocket2",40,0,0)
+	   ANNI F 0 A_CustomMissile ("PKirovRocket3",40,0,0)
+	   ANNI QQ 4 Bright A_FaceTarget 
+	   ANNI RRRRRR 4 A_FaceTarget 
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   Balteus:
+	   TNT1 A 0 A_Jump(256,"BalteusFiring1","BalteusFiring2","BalteusFiring3","BalteusFiring4")
+   BalteusFiring1:
+       TNT1 A 0 A_SetUserVar(user_fire,11)
+	   TNT1 A 0 A_SetUserVar(user_dir,80)
+       TNT1 A 0 A_PlaySound("KXAnnihilator/GrenadeReady",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto BalteusFire1
+   BalteusFire1:
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,0,CMF_OFFSETPITCH,user_dir)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,0,CMF_OFFSETPITCH,user_dir)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,15,CMF_OFFSETPITCH,user_dir)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-15,CMF_OFFSETPITCH,user_dir)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,30,CMF_OFFSETPITCH,user_dir)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-30,CMF_OFFSETPITCH,user_dir)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,45,CMF_OFFSETPITCH,user_dir)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-45,CMF_OFFSETPITCH,user_dir)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,60,CMF_OFFSETPITCH,user_dir)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-60,CMF_OFFSETPITCH,user_dir)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,75,CMF_OFFSETPITCH,user_dir)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-75,CMF_OFFSETPITCH,user_dir)
+	   ANNI F 4 Bright
+	   TNT1 A 0 A_SetUserVar(user_dir,user_dir-10)
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   BalteusFiring2:
+       TNT1 A 0 A_SetUserVar(user_fire,120)
+       TNT1 A 0 A_PlaySound("KXAnnihilator/GrenadeReady",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto BalteusFire2
+   BalteusFire2:
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,0)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,0)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,10)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,10)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,-20)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,-20)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,10)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,10)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,-20)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,-20)
+	   ANNI F 4 Bright
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-10)
+	   TNT1 A 0 A_JumpIf(user_fire==0,"See")
+       Loop
+   BalteusFiring3:
+       TNT1 A 0 A_SetUserVar(user_fire,0)
+       TNT1 A 0 A_PlaySound("KXAnnihilator/GrenadeReady",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto BalteusFire3
+   BalteusFire3:
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,0)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,0)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,10)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,10)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,-10)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,-10)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,20)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,20)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,user_fire,CMF_OFFSETPITCH,-20)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-user_fire,CMF_OFFSETPITCH,-20)
+	   ANNI F 4 Bright
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire+10)
+	   TNT1 A 0 A_JumpIf(user_fire==120,"See")
+       Loop
+   BalteusFiring4:
+       TNT1 A 0 A_SetUserVar(user_fire,80)
+       TNT1 A 0 A_PlaySound("KXAnnihilator/GrenadeReady",CHAN_WEAPON,1.0)
+       ANNI EEEE 5 A_FaceTarget
+	   Goto BalteusFire4
+   BalteusFire4:
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,90,CMF_OFFSETPITCH,user_fire)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-90,CMF_OFFSETPITCH,user_fire)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,75,CMF_OFFSETPITCH,user_fire)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-75,CMF_OFFSETPITCH,user_fire)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,105,CMF_OFFSETPITCH,user_fire)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-105,CMF_OFFSETPITCH,user_fire)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,120,CMF_OFFSETPITCH,user_fire)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-120,CMF_OFFSETPITCH,user_fire)
+	   ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,27,60,CMF_OFFSETPITCH,user_fire)
+       ANNI F 0 A_CustomMissile ("PBalteusMissile1",40,-27,-60,CMF_OFFSETPITCH,user_fire)
+	   ANNI F 4 Bright
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire-10)
+	   TNT1 A 0 A_JumpIf(user_fire==-30,"See")
+       Loop
+   }
+}
+
+Actor KXPromiseAnnihilatorPulseArmorSpawner : CustomInventory
+{
+	+Inventory.AlwaysPickup
+	+Inventory.Quiet
+	States
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Pickup:
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorSpawner2",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE)
+		Stop
+  }
+}
+
+ACTOR KXPromiseAnnihilatorPulseArmorSpawner2
+{
+	Radius 1
+	Height 1
+	DontHurtShooter 
+	Alpha 1.0
+    RenderStyle Add
+	+FORCEYBILLBOARD
+	+Noclip
+	+NoBlockMap
+	+ThruActors
+	var int user_angle;
+	States
+	{
+	Spawn:
+		TNT1 A 1 
+		TNT1 A 1 
+		TNT1 A 0 A_SetPitch(pitch-90)
+		TNT1 A 0 A_SetUserVar(user_angle,0)
+		Goto Looping
+	Looping:
+		TNT1 A 0 A_JumpIf(user_angle > 18, "Ending")
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,0,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,20,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,40,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,60,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,80,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,100,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,120,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,140,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,160,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,180,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-20,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-40,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-60,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-80,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-100,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-120,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-140,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPulseArmorParticle",cos(pitch)*106,0,0-(sin(pitch)*106),0,0,0,-160,SXF_NOCHECKPOSITION | SXF_ABSOLUTEANGLE | SXF_TRANSFERPOINTERS | SXF_TRANSFERPITCH)
+		TNT1 A 0 A_SetPitch(pitch+10)
+		TNT1 A 0 A_SetUserVar(user_angle,user_angle+1)
+		Loop
+	Ending:
+	   TNT1 A 1
+	   Stop
+	}
+}
+
+Actor KXPromiseAnnihilatorPulseArmorParticle
+{
+  Height 24
+  Radius 24
+  Mass 0
+  Health 100000
+  +NoRadiusDmg
+  +Shootable
+  +NoDamage
+  +NoGravity
+  +DontSplash
+  +Noclip
+  +ThruSpecies
+  +NoBloodDecals
+  +NoTargetSwitch
+  Bloodtype "PulseArmorHit"
+  Species "KX"
+  RenderStyle Add
+  Alpha 1.0
+  Speed 0
+  Scale 0.75
+  Translation "16:47=192:207", "168:191=192:207"
+  var int user_angle;
+  var int user_pitch;
+  Obituary "I want to cry"
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SetUserVar(user_angle,angle)
+	TNT1 A 0 A_SetUserVar(user_pitch,pitch)
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle1",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle2",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle3",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	LFX1 SSTTUUVVWW 1 Bright {
+		A_SetScale(scaleX-0.025);
+		A_FadeOut(0.05);
+		A_Warp(AAPTR_TARGET, cos(pitch)*106,0,0-(sin(pitch)*106)+64, user_angle, WARPF_ABSOLUTEANGLE|WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE);
+		A_SetUserVar("user_angle", user_angle + 1);
+		return A_JumpIfInventory("KXGhardianSpearBreakToken",1,"End",AAPTR_TARGET);
+	}
+	Goto Looping
+  Looping:
+	LFX1 STUVW 2 Bright {
+		A_Warp(AAPTR_TARGET, cos(pitch)*106,0,0-(sin(pitch)*106)+64, user_angle, WARPF_ABSOLUTEANGLE|WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE);
+		A_SetUserVar("user_angle", user_angle + 2);
+		return A_JumpIfInventory("KXGhardianSpearBreakToken",1,"End",AAPTR_TARGET);
+	}
+	Loop
+  End:
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle1",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle2",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	TNT1 A 0 A_SpawnItemEx("KXBlondeBoltParticle3",0,0,1,frandom(-5,5),frandom(-5,5),frandom(-5,5),0,SXF_TRANSFERTRANSLATION,0)
+	AFX1 DEFGHI 3 bright
+    stop
+  }
+}
+
+Actor KXPulseArmorToken : Inventory
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+}
+
+actor PulseArmorHit
+{
+  Radius 1
+  Height 1
+  Scale 1.0
+  +NOGRAVITY
+  +NOINTERACTION
+  RenderStyle Add
+  Alpha 1.0
+  States
+  {
+  Spawn:
+    AFX1 A 0 bright
+    AFX1 D 0 bright A_Stop
+    AFX1 A 0 bright A_PlaySound ("CyberProphet/ShieldHit")
+    AFX1 DEFGHI 3 bright
+    stop
+  }
+}
+
+ACTOR PKXAnniRocket : KXAnniRocket
+{
+  +ThruSpecies
+  Species "KX"
+}
+
+ACTOR PKXAnniCannonRocket : KXAnniCannonRocket
+{
+  +ThruSpecies
+  Species "KX"
+}
+
+ACTOR PPaladinGrenade : PaladinGrenade
+{
+  +ThruSpecies
+  Species "KX"
+}
+
+ACTOR PHomRocket2 : HomRocket2
+{
+  +ThruSpecies
+  Species "KX"
+}
+
+ACTOR PBalteusMissile1 : BalteusMissile1
+{
+  +ThruSpecies
+  Species "KX"
+}
+
+Actor PKirovRocket : KirovRocket
+{
+	states
+	{
+	Death:
+		TNT1 A 1 A_SpawnItemEx("KirovRocketSpawner",frandom(-1024,1024),0,1,0,0,0,random(1,360))
+		Stop
+	}
+}
+
+Actor PKirovRocket2 : KirovRocket
+{
+	states
+	{
+	Spawn:
+	    TNT1 A 1 
+		TNT1 A 1 A_Warp(AAPTR_TRACER,0,0,0,0,WARPF_NOCHECKPOSITION)
+		Loop
+	Death:
+		TNT1 A 1 A_SpawnItemEx("PKirovRocketSpawner2",frandom(-768,768),0,1,0,0,0,random(1,360))
+		Stop
+	}
+}
+
+Actor PKirovRocket3 : KirovRocket
+{
+	states
+	{
+	Death:
+		TNT1 A 1 A_SpawnItemEx("KirovRocketSpawner",0,0,1,0,0,0,random(1,360))
+		Stop
+	}
+}
+
+Actor PKirovRocketSpawner2 : KirovRocketSpawner
+{
+  Scale 2.5
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("GlacialistIceStormWarn",0,0,floorz-z+5,0,0,0,0,SXF_NOCHECKPOSITION | SXF_TRANSFERSCALE)
+	TNT1 A 35
+	TNT1 A 0 A_SpawnItemEx("RealKirovCannonRocket",0,0,ceilingz-z-20,0,0,-40,0,SXF_NOCHECKPOSITION)
+	Stop
+  }
+}
+
+ACTOR RealKirovCannonRocket : KXAnniCannonRocket
+{
+   Speed 0
+   States
+   {
+   Spawn:
+	  TNT1 A 0 A_PlaySound("KXAnnihilator/RocketFire",CHAN_WEAPON,1.0,FALSE)
+	  TNT1 A 0 A_PlaySound("KXAnnihilator/RocketFire",CHAN_6,1.0,FALSE)
+      HMIS B 1 Bright A_SpawnItemEx("KXRocketTrail",0,0,5,frandom(-0.5,0.5),frandom(-0.5,0.5),frandom(-0.5,0.5),0,128)
+      Goto Spawn+2
+   }
+}
+
+Actor KXGhardianSpearActivator : CustomInventory
+{
+	+Inventory.AlwaysPickup
+    +Inventory.InvBar
+    Inventory.Icon KXATONEM
+    Inventory.PickupMessage "The daybreak of the demon is ready"
+	Tag "Clamor Daemonis"
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+	States 
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Use:
+		TNT1 A 0 
+		TNT1 A 0 A_SpawnItemEx("GhardianSpearLaunchEffect",0,0,floorz-z+1,30,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_FireCustomMissile("GhardianSpearProjectile",0,0,0,0)
+		Stop
+  }
+}
+
+ACTOR GhardianSpearProjectile : FastProjectile
+{
+    Radius 1
+    Height 1
+    Speed 100
+    Damage 0
+    Projectile
+    +Ripper
+	var int user_fire;
+	MissileHeight 8
+	MissileType "GhardianSpearProjectileTrail" 
+    States
+    {
+    Spawn:
+	    TNT1 A 0
+		TNT1 A 0 A_PlaySound("Heaven/SacredSwordLaunch",CHAN_WEAPON,1.0,FALSE,ATTN_NONE)
+		TNT1 A 0 A_SpawnItemEx("GhardianSpearProjectileArc",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 AA 1 A_RadiusGive("GhardianSpearItem",96,RGF_MONSTERS,1)
+		Goto Spawn+2
+    Death:
+        TNT1 A 1
+        Stop
+  }
+}
+
+ACTOR GhardianSpearItem : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "I have so so much skill issue..."
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0 Acs_NamedExecuteAlways("KXGhardianSpearBreak",0,0,0,0)
+    Stop
+  }
+}
+
+Actor GhardianSpearLaunchEffect
+{
+  Height 0
+  Radius 0
+  Mass 0
+  Projectile
+  +ThruActors
+  +NoBlockMap
+  +NoGravity
+  +DontSplash 
+  +ThruActors
+  RenderStyle Normal
+  Speed 0
+  Scale 1.35
+  Translation "16:47=192:207", "168:191=192:207"
+  States
+  {
+  Spawn:
+	LOHS EFGG 2 Bright
+	Goto Death
+  Death:
+	TNT1 A 0 A_Stop
+    LOHS G 1 Bright A_FadeOut(0.03)
+    Loop
+  }
+}
+
+Actor KXGhardianSpearBreakToken : Inventory
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 1
+}
+
+ACTOR GhardianSpearProjectileTrail
+{
+  +NOBLOCKMAP
+  +NOGRAVITY
+  RenderStyle Add
+  Scale 0.5
+  Alpha 1.0 
+  Translation "0:255=%[0.00,0.00,0.00]:[2.00,0.00,0.00]"
+  States
+  {
+  Spawn:
+    CFFX N 1 Bright A_FadeOut(0.04)
+    Loop
+  }
+}
+
+Actor GhardianSpearProjectileArc : SacredSwordThrowArc
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SetUserVar(user_fire,-90)
+		TNT1 A 0 A_Jump(256,"WaveA","WaveB","WaveC")
+		Goto WaveA
+	WaveA:
+		TNT1 A 0 A_CustomMissile("GhardianSpearParticle1",0,0,90,CMF_ABSOLUTEPITCH,user_fire)
+		TNT1 A 0 A_CustomMissile("GhardianSpearParticle1",0,0,-90,CMF_ABSOLUTEPITCH,user_fire)
+		TNT1 A 0 A_JumpIf(user_fire>=90,"EndWave")
+		TNT1 A 0 A_SetUserVar(user_fire,user_fire+10)
+		Loop
+	WaveB:
+		TNT1 A 0 A_CustomMissile("GhardianSpearParticle2",0,0,90,CMF_ABSOLUTEPITCH,user_fire)
+		TNT1 A 0 A_CustomMissile("GhardianSpearParticle2",0,0,-90,CMF_ABSOLUTEPITCH,user_fire)
+		TNT1 A 0 A_JumpIf(user_fire>=90,"EndWave")
+		TNT1 A 0 A_SetUserVar(user_fire,user_fire+10)
+		Loop
+	WaveC:
+		TNT1 A 0 A_CustomMissile("GhardianSpearParticle3",0,0,90,CMF_ABSOLUTEPITCH,user_fire)
+		TNT1 A 0 A_CustomMissile("GhardianSpearParticle3",0,0,-90,CMF_ABSOLUTEPITCH,user_fire)
+		TNT1 A 0 A_JumpIf(user_fire>=90,"EndWave")
+		TNT1 A 0 A_SetUserVar(user_fire,user_fire+10)
+		Loop
+	EndWave:
+		TNT1 A 0
+		Stop
+	}
+}
+
+ACTOR GhardianSpearParticle1 : SacredSwordThrowArcParticle1 
+{
+	Translation "0:255=%[0.00,0.00,0.00]:[2.00,0.00,0.00]"
+}
+
+ACTOR GhardianSpearParticle2 : SacredSwordThrowArcParticle2
+{
+	Translation "0:255=%[0.00,0.00,0.00]:[2.00,0.00,0.00]"
+}
+
+ACTOR GhardianSpearParticle3 : SacredSwordThrowArcParticle3 
+{
+	Translation "0:255=%[0.00,0.00,0.00]:[2.00,0.00,0.00]"
+}
+
+Actor GhardianSpearExplosionEffect
+{
+	+ClientSideOnly
+	+NoBlockMap
+	+NoTeleport
+    +DontSplash
+	+Noclip
+    +ThruActors
+	+NoInteraction
+	Speed 0
+	Radius 0
+	Height 0
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("GhardianSpearParticle1",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10),0,SXF_NOCHECKPOSITION)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("GhardianSpearParticle2",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10),0,SXF_NOCHECKPOSITION)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("GhardianSpearParticle3",0,0,0,frandom(-10,10),frandom(-10,10),frandom(-10,10),0,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+ACTOR KXPromiseAnnihilatorPlasmaExplosion
+{
+	Radius 1
+	Height 1
+	DontHurtShooter 
+	Translation "16:47=192:207", "168:191=192:207"
+	Alpha 1.0
+    RenderStyle Add
+	+FORCEYBILLBOARD
+	+Noclip
+	+NoBlockMap
+	+ThruActors
+	var int user_angle;
+	States
+	{
+	Spawn:
+		TNT1 A 1 
+		TNT1 A 1 
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle1",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle2",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle3",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 A 0 A_RadiusGive("KXPromiseAnnihilatorPlasmaExplosionItem",510,RGF_PLAYERS,1)
+		TNT1 A 0 A_SetPitch(Pitch-90)
+		TNT1 A 0 A_SetUserVar(user_angle,0)
+		TNT1 A 0 A_PlaySound("Heaven/StormCalmEnd",CHAN_7,1.0,FALSE,ATTN_NONE)
+		TNT1 A 0 A_PlaySound("Heaven/StormCalmEnd",CHAN_6,1.0,FALSE,ATTN_NONE)
+		Goto Looping
+	Looping:
+		TNT1 A 0 A_JumpIf(user_angle > 18, "Ending")
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,10,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,20,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,30,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,40,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,50,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,60,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,70,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,80,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,90,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,100,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,110,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,120,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,130,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,140,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,150,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,160,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,170,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-10,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-20,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-30,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-40,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-50,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-60,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-70,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-80,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-90,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-100,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-110,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-120,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-130,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-140,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-150,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-160,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXPromiseAnnihilatorPlasmaExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-170,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SetPitch(Pitch+10)
+		TNT1 A 0 A_SetUserVar(user_angle,user_angle+1)
+		Loop
+	Ending:
+	   TNT1 A 0 A_CustomMissile("KXPromiseAnnihilatorPlasmaExplosionParticle",1,0,0,CMF_ABSOLUTEPITCH,90)
+	   TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("KXBlondeBoltParticle",random(-160,160),random(-160,160),random(floorz-z+1,160),frandom(-1,1),frandom(-1,1),frandom(-1,1),0,SXF_NOCHECKPOSITION | SXF_TRANSFERTRANSLATION,0)
+	   TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("KXBlondeBoltParticle",random(-160,160),random(-160,160),random(floorz-z+1,160),frandom(-1,1),frandom(-1,1),frandom(-1,1),0,SXF_NOCHECKPOSITION | SXF_TRANSFERTRANSLATION,0)
+	   Goto End
+	End:
+	    TNT1 A 1
+        Stop
+	}
+}
+
+Actor KXPromiseAnnihilatorPlasmaExplosionParticle
+{
+  Height 0
+  Radius 0
+  Mass 0
+  Projectile
+  +NoBlockMap
+  +NoGravity
+  +DontSplash
+  +ThruActors
+  RenderStyle Add
+  Alpha 1.0
+  Speed 0
+  Scale 1.25
+  Translation "16:47=192:207", "168:191=192:207"
+  States
+  {
+  Spawn:
+	LFX1 UVWSTUVW 2 Bright
+	LFX1 U 1 Bright
+	Goto Death
+  Death:
+	TNT1 A 0 A_Stop
+    LFX1 S 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 S 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 T 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 T 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 U 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 U 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 V 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 V 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 W 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 W 1 Bright A_FadeOut(0.03)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+    Loop
+  }
+}
+
+ACTOR KXPromiseAnnihilatorPlasmaExplosionItem : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0 Acs_NamedExecuteAlways("KXPlayerPlasmaStun",0,0,0,0)
+    Stop
+  }
+}
+
+ACTOR KXPromiseAnnihilatorPulseArmorChargeParticleSpawner : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "Life is rough, one day you are in your highest and then in your lowest, is funny no?"
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0 A_SpawnItemEx("KXAngelicFrostTouchParticle7",0,0,32,frandom(-40,40),frandom(-40,40),frandom(-40,40),random(1,360),SXF_NOCHECKPOSITION)
+    Stop
+  }
+}

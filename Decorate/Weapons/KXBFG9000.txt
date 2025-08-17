@@ -1,0 +1,88 @@
+Actor KXBFG9000 : KXBaseWeapon
+{	
+	Game Doom
+	Height 20
+	SpawnID 31
+	Weapon.SlotNumber 7
+	Weapon.SelectionOrder 2800
+	Weapon.AmmoUse 40
+	Weapon.AmmoGive 40
+	Weapon.AmmoType "Cell"
+	+WEAPON.NOAUTOFIRE
+	Inventory.PickupSound "weapons/Bfgup"
+	Inventory.PickupMessage "$GOTBFG9000"
+	Tag "BFG 9000"
+	Weapon.Upsound "weapons/Bfgup"
+	States
+	{
+	Select:
+	    BFGN A 1 Offset(-70,102)
+	    FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+		BFGN A 1 Offset(-65,97)
+		BFGN A 1 Offset(-60,92)
+		BFGN A 1 Offset(-55,87)
+		BFGN A 1 Offset(-50,82)
+		BFGN A 1 Offset(-45,77)
+		BFGN A 1 Offset(-40,72)
+		BFGN A 1 Offset(-35,67)
+		BFGN A 1 Offset(-30,62)
+		BFGN A 1 Offset(-25,57)
+		BFGN A 1 Offset(-20,52)
+		BFGN A 1 Offset(-15,47)
+		BFGN A 1 Offset(-10,42)
+		BFGN A 1 Offset(-5,37)
+		BFGN A 1 Offset(0,32)
+		Goto Ready
+	Deselect:
+		BFGN A 0 A_lower
+		BFGN A 1 A_lower
+		goto Deselect
+	Ready: 
+		BFGN A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+	    BFGN A 1 A_Weaponready
+		loop
+	Fire:
+		TNT1 A 0
+		TNT1 A 0 A_BFGsound
+		BFGN AB 10 
+		BFGF ABCDE 2 A_GunFlash 
+		BFGF A 0 A_ZoomFactor(0.750,ZOOM_INSTANT)
+		BFGF A 0 Radius_Quake(7,9,0,1,0)
+		BFGF A 0 A_PlayWeaponSound("weapons/bfg/shoot")
+		TNT1 A 0 A_FireCustomMissile("KXPlayerBFGBall", 0, 1, 0, 0)
+		BFGF F 1 bright Offset(0,52) A_ZoomFactor(0.775)
+		BFGF F 1 bright Offset(0,72) A_ZoomFactor(0.800)
+		BFGF F 1 bright Offset(0,92) A_ZoomFactor(0.825)
+		BFGF E 1 Offset(0,87) A_ZoomFactor(0.85)
+		BFGF E 1 Offset(0,82) A_ZoomFactor(0.875)
+		BFGF D 1 Offset(0,77) A_ZoomFactor(0.9)
+		BFGF D 1 Offset(0,72) A_ZoomFactor(0.925)
+		BFGF C 1 Offset(0,67) A_ZoomFactor(0.950)
+		BFGF C 1 Offset(0,62) A_ZoomFactor(0.975)
+		BFGF B 1 Offset(0,57) A_ZoomFactor(1.0)
+		BFGF B 1 Offset(0,52)
+		BFGN A 1 Offset(0,47)
+		BFGN A 1 Offset(0,42) 
+		BFGN A 1 Offset(0,37)
+		BFGN A 1 Offset(0,32)
+		TNT1 A 0 A_ReFire
+		Goto Ready
+	Flash:
+		TNT1 A 10 Bright A_Light1
+		TNT1 A 4 Bright A_Light2
+		Goto LightDone
+	Spawn:
+		BFUG A -1
+		Stop
+	KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		BFGN A 1 bright Offset(0,70)
+	    BFGN A 1 bright Offset(0,60)
+	    BFGN A 1 bright Offset(0,50)
+	    BFGN A 1 bright Offset(0,40)
+		Goto Ready
+	}
+}

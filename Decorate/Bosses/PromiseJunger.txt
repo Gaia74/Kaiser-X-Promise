@@ -1,0 +1,1322 @@
+Actor KXJunger 30754
+{ 
+  Health 2000
+  PainChance 30
+  Scale 0.90
+  Speed 16
+  Radius 20 
+  Height 56 
+  Mass 2000
+  Monster
+  +LookAllAround
+  +MissileMore
+  +FloorClip
+  +DontHarmSpecies
+  +Boss
+  +NoIceDeath
+  Obituary "%o corpse is now property of Lord God Kaiser."
+  SeeSound "KXJunger/Talk" 
+  PainSound "KXJunger/Pain" 
+  DeathSound "KXJunger/Death" 
+  ActiveSound "KXJunger/Talk"
+  var int user_fire;
+  States 
+  { 
+  Spawn: 
+    JUNG AB 10 A_Look 
+    Loop 
+  See: 
+	TNT1 A 0 A_SetShootable
+	TNT1 A 0 A_SetTranslucent(1.0)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",0)
+    JUNG AABBCCDD 2 A_Chase 
+	JUNG A 0 A_Jump(80,"Dash")
+	JUNG A 0 A_Jump(20,"Teleporte")
+    Loop 
+  Dash:
+    JUNG A 1 A_PlaySound("KXDisciple/blur")
+    JUNG AAAAAAAAAAAAAAA 1 A_GiveInventory("JungerPhase1Dash")
+    Goto See
+  Teleporte:
+    JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_UnSetShootable
+    TNT1 A 0 A_SetTranslucent(0.0)
+	JUNG F 0 A_PlaySound("KXThamuz/EtherealStart",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 {
+		A_Wander;
+		A_SpawnItemEx("KXJungerTeleportTrail",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION);
+	}
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 {
+		A_ExtChase(0,0,1,1);
+		A_SpawnItemEx("KXJungerTeleportTrail",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION);
+	}
+	TNT1 A 5
+	TNT1 A 0 A_SetShootable
+    TNT1 A 0 A_SetTranslucent(1.0)
+	JUNG EE 5 A_FaceTarget
+	Goto See
+  Missile:
+	TNT1 A 0 A_JumpIfInventory("KXJungerPhaseCounter",2,"ThunderMissile")
+	TNT1 A 0 A_JumpIfInventory("KXJungerPhaseCounter",1,"FireMissile")
+	TNT1 A 0 A_Jump(128,"IceBalls")
+	TNT1 A 0 A_Jump(128,"DiamondDust", "IceSpread")
+	TNT1 A 0 A_Jump(256,"Comet", "Pillars", "IceCubes")
+	Goto See
+  FireMissile:
+	TNT1 A 0 A_Jump(128,"FireBalls")
+	TNT1 A 0 A_Jump(160,"FireSpread", "FireGround","FireGround2")
+	TNT1 A 0 A_Jump(256,"Sodoma")
+	Goto See
+  ThunderMissile:
+	TNT1 A 0 A_Jump(128,"ThunderBalls")
+	TNT1 A 0 A_Jump(160,"ThunderWalk", "Zealot")
+	TNT1 A 0 A_Jump(256,"ThunderSeeker", "ThunderSky", "Prophet")
+	Goto See
+
+  IceBalls:
+    JUNG EE 5 A_FaceTarget
+	JUNG F 0 Bright A_PlaySound("monster/culatk")
+	JUNG F 0 Bright A_CustomMissile("JungerBall5",42,-6,0,1,0)
+    JUNG F 0 Bright A_CustomMissile("JungerBall5",42,6,0,1,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall4",42,-6,0,1,0)
+    JUNG F 0 Bright A_CustomMissile("JungerBall4",42,6,0,1,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall3",42,-6,0,1,0)
+    JUNG F 0 Bright A_CustomMissile("JungerBall3",42,6,0,1,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall2",42,-6,0,1,0)
+    JUNG F 0 Bright A_CustomMissile("JungerBall2",42,6,0,1,0)
+    JUNG F 0 Bright A_CustomMissile("JungerBall",42,-6,0,1,0)
+    JUNG F 2 Bright A_CustomMissile("JungerBall",42,6,0,1,0)
+    Goto See
+  DiamondDust:
+	TNT1 A 0 A_SetUserVar(user_fire,random(20,40))
+    JUNG EE 5 Bright A_FaceTarget
+	Goto DiamondDustLoop
+  DiamondDustLoop:
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+    JUNG F 1 Bright A_CustomMissile("KXJungerDiamondDustBall",36,0,frandom(-5,5),CMF_OFFSETPITCH,frandom(-2,2))
+    JUNG F 0 A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+	Loop
+  IceSpread:
+    JUNG EE 5 A_FaceTarget
+	JUNG F 0 Bright A_PlaySound("monster/culatk")
+	JUNG F 0 Bright A_CustomMissile("JungerBall3",42,0,0,0,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall3",42,0,5,0,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall3",42,0,-5,0,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall3",42,0,10,0,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall3",42,0,-10,0,0)
+	JUNG F 0 Bright A_CustomMissile("JungerBall3",42,0,15,0,0)
+	JUNG F 5 Bright A_CustomMissile("JungerBall3",42,0,-15,0,0)
+    Goto See
+  Comet:
+    JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,random(5,10))
+	TNT1 A 0 A_ChangeFlag("NOPAIN",1)
+    TNT1 A 0 A_PlaySound("Glacialist/Glacial", CHAN_VOICE)
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	Goto LoopingComet
+  LoopingComet:
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	JUNG E 0 A_SpawnItemEx("GlacialistIceStormComet",frandom(-768,768),0,ceilingz-z-10,0,0,0,random(1,360))
+    JUNG FFFFFFFFFFFF 1 Bright A_SpawnItemEx("CyberBorealParticle1", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+    Loop
+  Pillars:
+    JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,random(5,10))
+	TNT1 A 0 A_ChangeFlag("NOPAIN",1)
+    TNT1 A 0 Bright A_PlaySound("Glacialist/Glacial", CHAN_VOICE)
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	Goto LoopingPillars
+  LoopingPillars:
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_CustomMissile("JungerIcePillar2",42,0,0,0,0)
+	TNT1 A 0 A_SpawnItemEx("JungerIcePillar",frandom(-768,768),0,floorz-z+1,0,0,0,random(1,360))
+    JUNG FFFFFFFFFFFFFFFFFFFF 1 Bright A_SpawnItemEx("CyberBorealParticle1", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+    Loop
+  IceCubes:
+	TNT1 A 0 A_TakeInventory("KXJungerCubesCounter",1)
+    JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,random(3,10))
+	TNT1 A 0 A_ChangeFlag("NOPAIN",1)
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	Goto LoopingCubes
+  LoopingCubes:
+    TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_CustomMissile("JungerIceCube",42,0,random(0,360),0,0)
+    JUNG FFFFFFFFFF 1 Bright A_SpawnItemEx("CyberBorealParticle1", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_JumpIf(user_fire==0,"FinishCubes")
+    Loop
+  FinishCubes:
+	JUNG EEEEEEE 5 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag("NOPAIN",1)
+	TNT1 A 0 A_GiveInventory("KXJungerCubesCounter",1)
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	JUNG FF 5 A_FaceTarget
+	TNT1 A 0 A_TakeInventory("KXJungerCubesCounter",1)
+	Goto See
+	
+	// FIRE ATTACKS
+	
+  FireBalls:
+    JUNG E 5 A_FaceTarget
+    JUNG F 5 Bright A_CustomMissile("JungerFireShot",42,0,0,1,0)
+    Goto See
+  FireSpread:
+    JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,random(1,3))
+	Goto LoopingFireSpread
+  LoopingFireSpread:
+	JUNG F 0 A_PlaySound("monster/ignited")
+	JUNG FFFFFFF 0 A_CustomMissile ("CyberImpBall",42,-6,frandom(-20,20),2,frandom(0,15))
+    JUNG FFFFFFF 0 A_CustomMissile ("CyberImpBall",42,6,frandom(-20,20),2,frandom(0,15))
+	JUNG FE 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+	Loop
+  FireGround:
+    JUNG E 5 A_FaceTarget
+	JUNG F 0 A_CustomMissile("JungerFireGroundSpawner",42,0,15,1,0)
+	JUNG F 0 A_CustomMissile("JungerFireGroundSpawner",42,0,0,1,0)
+	JUNG F 0 A_CustomMissile("JungerFireGroundSpawner",42,0,-15,1,0)
+    JUNG FEE 5 Bright A_FaceTarget
+    Goto See
+  FireGround2:
+    JUNG E 5 A_FaceTarget
+	JUNG FFFF 0 A_CustomMissile("JungerFireGroundSpawner",42,0,random(-180,180),1,0)
+    JUNG FEE 5 Bright A_FaceTarget
+    Goto See
+  Sodoma:
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",0)
+    JUNG E 20 A_FaceTarget
+	TNT1 BBBBBBBBBB 0 A_SpawnItemEx ("CyberHuskFlames",frandom(0,128),0,1,0,0,0,random(0,360))
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx ("CyberHuskNapalm2",0,0,5,frandom(-15,15),frandom(-15,15),frandom(5,15),random(0,360))
+	TNT1 AAAAAAAAAAAAA 0 A_SpawnItemEx("KXRocketExplosionEffect",0,0,5,frandom(-5,5),frandom(-5,5),frandom(0,5),random(0,360),SXF_NOCHECKPOSITION)
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle4",0,0,5,frandom(0,10),frandom(0,10),frandom(5,20),random(0,360),SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_PlaySound("DiaIgnite/explosion",CHAN_7,1.0,FALSE,ATTN_NONE)
+	TNT1 A 0 A_Explode(192,224)
+    JUNG FEEEE 5 Bright A_FaceTarget
+	TNT1 A 0 A_ChangeFlag("NOPAIN",1)
+    Goto See
+	
+  // THUNDER BALLS
+  ThunderBalls:
+    JUNG E 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,random(1,5))
+	Goto ThunderBallsLooping
+  ThunderBallsLooping:
+    JUNG F 0 Bright A_CustomMissile("JungerThunderBall",42,0,0,1,0)
+	JUNG F 0 Bright A_CustomMissile("JungerThunderBall",42,0,10,1,0)
+	JUNG F 3 Bright A_CustomMissile("JungerThunderBall",42,0,-10,1,0)
+	JUNG E 6 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+    Loop
+  ThunderWalk:
+	TNT1 A 0 A_SpawnItemEx("JungerThunderMagic",frandom(-1024,1024),0,floorz-z+1,0,0,0,random(1,360))
+	Goto See
+  Zealot:
+	JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,random(1,3))
+	Goto ZealotLooping
+  ZealotLooping:
+	JUNG FFF 0 A_CustomMissile("JungerZealotProjectile",42,0,random(-16,16),1,0)
+	JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+	Loop
+  ThunderSeeker:
+	JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	TNT1 A 0 A_SetUserVar(user_fire,random(15,30))
+	Goto ThunderSeekerLooping
+  ThunderSeekerLooping:
+    TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_CustomMissile("JungerSeekerThunderBall",42,0,random(0,360),0,random(0,90))
+    JUNG FFFFF 1 Bright A_SpawnItemEx("KXBlondeBoltParticle", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+    Loop
+  ThunderSky:
+    JUNG EE 5 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag("NOPAIN",1)
+	TNT1 A 0 A_TakeInventory("JungerThunderSkyToken",1)
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	TNT1 A 0 A_SetUserVar(user_fire,random(10,12))
+	TNT1 A 0 A_SpawnItemEx("JungerThunderSkyEffect",0,0,floorz-z+256,0,0,0,0,SXF_SETTARGET)
+	Goto ThunderSkyLooping
+  ThunderSkyLooping:
+	JUNG FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 0 Bright A_SpawnItemEx("JungerThunderSkyProjectile",0,0,floorz-z+260,frandom(1,20),frandom(1,20),frandom(-1,-20),frandom(0,360),SXF_NOCHECKPOSITION)
+	JUNG FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 0 Bright A_SpawnItemEx("JungerThunderSkyProjectile",0,0,floorz-z+260,frandom(1,20),frandom(1,20),frandom(-1,-20),frandom(0,360),SXF_NOCHECKPOSITION)
+	JUNG FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 0 Bright A_SpawnItemEx("JungerThunderSkyProjectile",0,0,floorz-z+260,frandom(1,20),frandom(1,20),frandom(-1,-20),frandom(0,360),SXF_NOCHECKPOSITION)
+	JUNG FEEEE 10 Bright A_FaceTarget
+    TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"FinishThunderSky")
+	Loop
+  FinishThunderSky:
+	TNT1 A 0 A_GiveInventory("JungerThunderSkyToken",1)
+	TNT1 A 0 A_PlaySound("KXJunger/Talk",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+	JUNG EEEE 5 A_FaceTarget
+	Goto See
+  Prophet:
+    JUNG E 0 A_PlaySound ("CyberProphet/ThunderChar",CHAN_WEAPON,1.5)
+	TNT1 A 0 A_PlaySound("KXJunger/Laugh",CHAN_VOICE,1.0,FALSE,ATTN_NONE)
+    JUNG A 0 A_FaceTarget
+    JUNG EEEEEEEEEEEEEEEEEEEEEEEEEEEE 1 A_SpawnItemEx("KXBlondeBoltParticle", Random(24, 32), 0, frandom(4,40), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	JUNG A 0 A_FaceTarget
+    JUNG FFFFFFFFFF 1 A_SpawnItemEx("KXBlondeBoltParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	JUNG A 0 A_FaceTarget
+	JUNG FFFFFFFFFFFFFFFFFFFFFFFFF 3 A_SpawnItemEx("JungerThunderMagic",frandom(-1024,1024),0,floorz-z+1,0,0,0,random(1,360))
+    Goto See
+  Pain: 
+    JUNG G 2 
+    JUNG G 2 A_Pain 
+    Goto See 
+  Death: 
+	TNT1 A 0 A_GiveInventory("JungerThunderSkyToken",1)
+    JUNG H 8 A_KillChildren
+    JUNG I 8 A_Scream 
+    JUNG J 4 
+    JUNG K 4 A_NoBlocking 
+    JUNG L 4 
+    JUNG M 300
+	TNT1 A -1
+    Stop
+  XDeath:
+    JUNG N 5 
+    JUNG O 5 A_XScream 
+    JUNG P 5 A_NoBlocking 
+    JUNG QRSTUV 5 
+    JUNG W 300
+	TNT1 A -1
+	Stop
+  } 
+}
+
+Actor JungerIcePillar
+{
+  Radius 16
+  Height 128
+  Health 100
+  Mass 9999999
+  -Shootable
+  -Solid
+  +NoBlood
+  +DontHarmSpecies
+  Species "KX"
+  DamageType "KX"
+  Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("GlacialistIceStormWarn",0,0,floorz-z+5,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 45
+	TNT1 A 0 A_PlaySound("Glacialist/Spikes",CHAN_VOICE,1.0)
+	COMT AAAAAAAAAAAAAAA 0 A_SpawnItemEx("CultistParticle1",0,0,0,frandom(-10,10),frandom(-10,10),frandom(0,10),random(1,360))
+	SPKD ABCDE 2 A_SpawnItemEx("KXCryocubusCometDust",0,0,2,random(-10,10),random(-10,10),random(0,10),random(1,360))
+	TNT1 A 0 A_SetShootable
+	TNT1 A 0 A_ChangeFlag("Solid",1)
+	TNT1 A 0 A_RadiusGive("GlacialistFrost2",192,RGF_PLAYERS,1)
+	TNT1 A 0 A_Explode(80,192)
+	SPKD FGHI 2 A_SpawnItemEx("KXCryocubusCometDust",0,0,2,random(-10,10),random(-10,10),random(0,10),random(1,360))
+	Goto Standing
+  Standing:
+    SPKD I 420
+	Goto Death
+  Death:
+	TNT1 A 0 A_NoBlocking
+	TNT1 A 0 A_PlaySound("Cryocubus/CometDeath",CHAN_VOICE,1.0)
+	TNT1 A 0 A_RadiusGive("GlacialistFrost2",192,RGF_PLAYERS,1)
+	TNT1 A 0 A_Explode(80,192)
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("CultistParticle1",frandom(-10,10),frandom(-10,10),frandom(1,96),frandom(-1,1),frandom(-1,1),frandom(-10,0),random(1,360))
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("CultistParticle1",frandom(-10,10),frandom(-10,10),frandom(1,96),frandom(-10,10),frandom(-10,10),frandom(-10,10),random(1,360))
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("KXCryocubusCometDust",frandom(-10,10),frandom(-10,10),frandom(1,96),frandom(-2,2),frandom(-2,2),frandom(-2,2),random(1,360))
+    TNT1 A -1
+	Stop
+  }
+}
+
+Actor JungerIcePillar2 : FastProjectile
+{
+    Radius 11
+	Height 8
+    Speed 300
+	Damage (0)
+	Species "KX"
+	+DONTHARMSPECIES
+	+THRUSPECIES
+	states
+	{
+	Spawn:
+	    TNT1 A 1 
+		Loop
+	Death:
+		TNT1 A 1 A_SpawnItemEx("JungerIcePillar",0,0,1,0,0,0,random(1,360))
+		Stop
+	}
+}
+
+ACTOR JungerFireShot : FastProjectile
+{
+  Speed 40
+  Radius 14
+  Height 8
+  Damage 6
+  DamageType "Fire"
+  RenderStyle Add
+  Obituary "%o got was set ablaze by a Diabloist."
+  MissileType "DiabloistFireStormTrail"
+  MissileHeight 8
+  SeeSound "ClericFlameFire"
+  DeathSound "ClericFlameCircle"
+  States
+  {
+  Spawn:
+    CFFX A 1 Bright A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+	Loop
+  Death:
+	TNT1 A 0 A_Stop
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("DiabloistKXExplosiveFireBallParticle",0,0,0,frandom(-7,7),frandom(-7,7),frandom(0,10),random(-180,180))
+	CFFX ABC 3 Bright
+    CFFX D 4 Bright
+    CFFX E 3 Bright
+    CFFX F 4 Bright
+    CFFX G 3 Bright
+    CFFX H 4 Bright
+    CFFX I 3 Bright
+    CFFX J 4 Bright
+    CFFX K 3 Bright
+    CFFX L 4 Bright
+    CFFX M 3 Bright
+    Stop
+  }
+}
+
+Actor JungerPhase1Dash : CustomInventory
+{
+    States
+    {
+    Pickup:
+        TNT1 A 0 A_SpawnItemEx("JungerPhase1DashTrail", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE)
+        TNT1 AA 0 A_Wander
+        Stop
+    }
+}
+
+ACTOR JungerPhase1DashTrail
+{   
+   Radius 2
+   Height 2
+   Speed 0
+   Scale 0.90
+   +CLIENTSIDEONLY
+   PROJECTILE
+   RENDERSTYLE Translucent
+   ALPHA 0.90
+   States
+   {
+   Spawn:
+      NULL A 3
+      JUNG AAABBBCCCDDD 1 A_FadeOut(0.03)
+      goto spawn+1
+   }
+}
+
+ACTOR JungerPhase2DashTrail : JungerPhase1DashTrail
+{   
+   +CLIENTSIDEONLY
+   Scale 1.0
+   Translation "48:79=[255,255,255]:[0,0,0]", "168:191=240:247"
+   States
+   {
+   Spawn:
+      NULL A 3
+      JUN2 G 1 A_FadeOut(0.05)
+      goto spawn+1
+   }
+}
+
+ACTOR JungerBall : CyberBorealBall
+{
+  Speed 15
+  Damage (1*random(40,80))
+  +HITTRACER
+  Translation "0:255=%[0.00,0.00,2.00]:[1.29,1.29,2.00]"
+  DeathSound "Cryocubus/BallDeath"
+  SeeSound "monster/culatk"
+  DamageType Ice
+  States
+  {
+  Spawn:
+    BAL7 AABB 2 bright A_SpawnItemEx("KXExplosiveFireBallParticle2",0,FRandom(-3,3),FRandom(-4,4),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180),SXF_TRANSFERTRANSLATION)
+    loop
+  Death:
+	TNT1 A 0 A_GiveInventory("CyberBorealFrost1",1,AAPTR_TRACER)
+    ARCB AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBaronFireParticle",0,0,0,random(-4,4),random(-4,4),random(-4,4),random(1,360), SXF_TRANSFERTRANSLATION)
+	ARCB DEFGHI 3 Bright
+    Stop
+  }
+}
+
+ACTOR JungerBall2 : JungerBall
+{
+  Speed 12
+}
+
+ACTOR JungerBall3 : JungerBall
+{
+  Speed 9
+}
+
+ACTOR JungerBall4 : JungerBall
+{
+  Speed 6
+}
+
+ACTOR JungerBall5 : JungerBall
+{
+  Speed 3
+}
+
+Actor KXJungerDiamondDustBall
+{
+  Radius 4
+  Height 6
+  Speed 1
+  Damage 2
+  RenderStyle Add
+  Alpha 0.67
+  Projectile
+  DeathSound "monster/culatk2"
+  SeeSound "monster/culatk"
+  DamageType Ice
+  States
+  {
+  Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_ScaleVelocity(frandom(10.0,40.0))
+    CFX4 AB 2 Bright A_SpawnItemEx("CultistParticle1",FRandom(-3,3),FRandom(-3,3),FRandom(-5,5),0,0,0,random(-180,180))
+    Goto Spawn+2
+  Death:
+    TNT1 AAA 0 Bright A_SpawnItemEx("CultistParticle1",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(-180,180))
+    CFX4 CDEF 3 Bright
+    Stop
+  }
+}
+
+Actor JungerIceCube
+{
+  Radius 10
+  Height 8
+  Speed 1
+  SeeSound "monster/culatk"
+  DeathSound "Glacialist/Spikes"
+  Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+  DamageType "Ice"
+  Projectile  
+  RenderStyle Add
+  +DoomBounce
+  +LowGravity
+  States
+  {
+  Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_ScaleVelocity(frandom(10,30))
+    RBAL AAAABBBBAAAABBBBAAAABBBB 1 Bright A_SpawnItemEx("CultistParticle1",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(-180,180))
+	TNT1 A 0 A_Stop
+    Goto Looping
+  Looping:
+	TNT1 A 0 A_JumpIfHealthLower(5, "Death", AAPTR_TARGET)
+	RBAL AAAABBBB 1 Bright A_JumpIfInTargetInventory("KXJungerCubesCounter", 1, "Death")
+	Loop
+  Death:
+	TNT1 AAAAAAAAAAAAAAA 0 Bright A_SpawnItemEx("CultistParticle1",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(-180,180))
+	TNT1 AAAAAAAAAA 0 A_CustomMissile("KXJungerDiamondDustBall",0,0,frandom(-180,180))
+    RBAL DEFGHI 4 Bright 
+    Stop
+  }
+}
+
+Actor KXJungerCubesCounter : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+Actor JungerFireGroundSpawner
+{
+	Radius 16
+	Height 16
+	Speed 40
+	Damage 0
+	+Ripper
+	+FloorHugger
+	+BloodLessImpact
+	+DontHarmSpecies
+	+ThruActors
+	DontHurtShooter
+	Species "KX"
+	Projectile
+	States
+	{
+	Spawn: 
+		TNT1 A 6
+		TNT1 A 0 A_SpawnItemEx("JungerFireExplosion",0,0,1,0,0,0,0,SXF_NOCHECKPOSITION)
+		Loop
+	Death:	
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor JungerFireExplosion
+{
+	-NoInteraction
+	+NoBlockMap
+	+ThruActors
+	+ForceXYBillBoard
+    Scale 1.0
+	Alpha 1.0
+	States
+    {
+    Spawn:
+		TNT1 A 0
+        TNT1 A 0 A_PlaySound("KXEffects/Warning",CHAN_7,1.0)
+		KWRG ABCDEFGHIJKLMNOPQRST 2
+		TNT1 A 10
+		TNT1 A 0 A_PlaySound("weapons/firex3",CHAN_6,1.0)
+		TNT1 A 0 A_Explode(96,128)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("JungerFireExplosionEffect",0,0,1,frandom(-5,5),frandom(-5,5),frandom(0,8),frandom(-180,180))
+		TNT1 AAAAA 0 A_SpawnItemEx("KXEarthSpikeEffect",frandom(-32,32),frandom(-32,32),1,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+    }
+}
+
+Actor JungerFireExplosionEffect : KXBaronFireParticle
+{
+	Scale 0.5
+	Alpha 0.75
+	RenderStyle Add
+	States
+	{
+	Spawn:
+		BRBA KLMNOPQRSTUVWX 2 Bright
+		Stop
+	}
+}
+
+ACTOR JungerThunderBall
+{
+   Radius 10
+   Height 20
+   Speed 30
+   Damage 5
+   DamageType lightning
+   PROJECTILE
+   RENDERSTYLE ADD
+   ALPHA 0.75
+   +FORCEXYBILLBOARD
+   SeeSound "thor/attackr3"
+   DeathSound "Heaven/BoltDeath"
+   Translation "192:207=160:167"
+   Decal "CacoScorch"
+   States
+   {
+   Spawn:
+      AFX1 ABC 1 Bright A_SpawnItemEx("JungerThunderBallTrail",0,0,0,0,0,0,0,128)
+      loop
+   Death:
+      TNT1 AAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+      AFX1 DEFGHI 3 Bright 
+      stop
+   }
+}
+
+Actor JungerThunderBallTrail
+{
+    Radius 1
+    Height 1
+    Speed 0
+    Damage 0
+    RenderStyle Add
+	Translation "192:207=160:167"
+	Projectile
+	+ClientSideOnly
+    +Randomize
+    Alpha 0.9
+    States
+    {
+    Spawn:
+	    TNT1 A 0
+		TNT1 A 1
+		Goto Looping
+	Looping:
+		AFX1 A 1 Bright A_FadeOut(0.04)
+		AFX1 A 0 A_SetScale(ScaleX-0.04)
+		AFX1 B 1 Bright A_FadeOut(0.04)
+		AFX1 B 0 A_SetScale(ScaleX-0.04)
+		AFX1 C 1 Bright A_FadeOut(0.04)
+		AFX1 C 0 A_SetScale(ScaleX-0.04)
+		Loop
+    }
+}
+
+Actor JungerThunderMagic 
+{
+	Radius 1
+	Height 1
+    Speed 0
+	Damage (0)
+	Species "KX"
+	RenderStyle Add
+	Translation "16:47=160:167", "168:191=160:167"
+	Alpha 1.0
+	XScale 2.0
+	YScale 4.0
+	+DONTHARMSPECIES
+	+THRUSPECIES
+	+FLOORHUGGER
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("GlacialistIceStormWarn",0,0,floorz-z+5,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 50
+		TNT1 A 0 A_PlaySound("CyberProphet/ThunderHit",CHAN_6,1.0)
+		Goto Death
+	Death:
+		TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeLightningParticle",0,0,floorz-z+1,frandom(4,8),frandom(4,8),frandom(0,8),random(-180,180),SXF_NOCHECKPOSITION)
+	    TNT1 A 0 A_Explode(96,128)
+		LFX2 FGHIJFGHIJFGHIJFGHIJFGHIJ 1 Bright A_SetScale(ScaleX-0.08,4.0)
+        Stop
+	}
+}
+
+ACTOR JungerZealotProjectile
+{
+   Radius 4
+   Height 12
+   Speed 1
+   Damage (75)
+   PROJECTILE
+   RENDERSTYLE ADD
+   Alpha 1.0
+   Damagetype lightning
+   Translation "168:191=160:167", "16:47=160:167"
+   SeeSound "thor/attackr5"
+   DeathSound "thor/hitl"
+   +FORCEXYBILLBOARD
+   States
+   {
+   Spawn:
+      DLIT A 0
+	  DLIT A 0 A_ScaleVelocity(frandom(25.0,40.0))
+      DLIT ABC 3 Bright A_SpawnItemEx("JungerZealotProjectileTrail",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+      Goto Spawn+2
+   Death:
+      TNT1 AAAAAAAAAA 0 A_SpawnItemEx("KXBlondeLightningParticle",0,0,0,frandom(-8,8),frandom(-8,8),frandom(-8,8),random(1,360))
+      DLIT DEFGHIJKLMNO 1 Bright
+      Stop
+   }
+}
+
+Actor JungerZealotProjectileTrail 
+{
+	Renderstyle Add
+	Alpha 1.0
+	Translation "168:191=160:167", "16:47=160:167"
+	+NOINTERACTION
+	+CLIENTSIDEONLY
+	+NOBLOCKMAP
+	+THRUACTORS
+	States 
+	{
+	Spawn:
+		TNT1 A 0
+		DLIT ABC 2 Bright A_FadeOut(0.1)
+		Loop
+	}
+}
+
+Actor JungerSeekerThunderBall
+{
+  Radius 10
+  Height 20
+  Speed 10
+  Damage 5
+  Projectile
+  +LookAllAround
+  +Randomize
+  +SeekerMissile
+  +FORCEXYBILLBOARD
+  RENDERSTYLE ADD
+  ALPHA 0.75
+  SeeSound "thor/attackr3"
+  DeathSound "Heaven/BoltDeath"
+  Translation "192:207=160:167"
+  Decal "CacoScorch"
+  var int user_fire;
+  States
+  {
+  Spawn: 
+	TNT1 A 0
+	TNT1 A 0 A_SetUserVar(user_fire,random(5,20))
+	AFX1 ABC 1 Bright A_SpawnItemEx("JungerThunderBallTrail",0,0,0,0,0,0,0,128)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"Stopp")
+	Goto Spawn+2
+  Stopp:
+	TNT1 A 0 A_Stop
+    AFX1 ABC 1 Bright A_SpawnItemEx("KXBlondeBoltParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+	TNT1 A 0 A_Jump(8,"Seeker")
+	Goto Stopp+1
+  Seeker:
+    TNT1 A 0 A_PlaySound("thor/attackr3")
+    TNT1 AAAAA 0 A_SeekerMissile(90,90,0,256,10240)
+	TNT1 A 0 A_RearrangePointers(AAPTR_TRACER,AAPTR_DEFAULT,AAPTR_TARGET)
+	TNT1 A 0 A_CustomMissile("JungerThunderBall",0,0,0)
+    Goto Disappear
+  Disappear:
+	TNT1 A 0
+	Stop
+  Death:
+    TNT1 AAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+    AFX1 DEFGHI 3 Bright 
+    stop
+  }
+}
+
+Actor JungerThunderSkyProjectile
+{
+  Radius 10
+  Height 20
+  Damage 3
+  Projectile
+  +LookAllAround
+  +Randomize
+  +FORCEXYBILLBOARD
+  RENDERSTYLE ADD
+  ALPHA 0.75
+  DeathSound "Paladin/Hit"
+  Scale 0.25
+  Speed 1
+  Translation "16:47=160:167", "168:191=160:167"
+  States
+  {
+  Spawn:
+	LFX1 STUVW 1 Bright
+	Loop
+  Death:
+    LFX1 S 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 S 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 T 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 T 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 U 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 U 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 V 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 V 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 W 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+	LFX1 W 1 Bright A_FadeOut(0.06)
+	TNT1 A 0 A_SetScale(ScaleX-0.015)
+    Loop
+  }
+}
+
+Actor JungerThunderSkyEffect
+{
+	Renderstyle Add
+	Scale 1.25
+	Alpha 1.0
+	+NOINTERACTION
+	+CLIENTSIDEONLY
+	+NOBLOCKMAP
+	+THRUACTORS
+	Translation "80:111=160:167", "192:207=160:167"
+	States 
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_JumpIfHealthLower(1, "Death", AAPTR_TARGET)
+		ZAP7 ABCDE 2 Bright A_JumpIfinTargetInventory("JungerThunderSkyToken",1,"Death")
+		Loop 
+	Death:
+		ZAPL ABCDEFG 2 BRIGHT
+		Stop
+	}
+}
+
+Actor JungerThunderSkyToken : Inventory
+{
+	Inventory.Amount 1
+}
+
+Actor KXJungerPhaseCounter : Inventory
+{
+	Inventory.Amount 1
+	Inventory.MaxAmount 2
+}
+
+ACTOR KXJungerTeleportTrail
+{   
+    RenderStyle Translucent
+	+NoGravity
+    +ClientSideOnly
+    +DontSplash
+	+NoBlockMap
+    +NoInteraction
+	+Noclip
+	Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+	Alpha 0.25
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  TNT1 A 0 A_SpawnItemEx("CultistParticle1",frandom(-10,10),frandom(-10,10),frandom(1,96),frandom(-1,1),frandom(-1,1),frandom(0,10),random(1,360))
+	  JUNG A 1 A_FadeOut(0.025)
+      Goto Spawn+2
+	  }
+}
+
+ACTOR KXJungerTwo
+{
+  Health 3500
+  Radius 20
+  Height 56
+  Mass 1000
+  Speed 20
+  PainChance 15
+  Monster
+  +ThruSpecies
+  +DontHarmSpecies
+  +LookAllAround
+  +MISSILEEVENMORE
+  +MISSILEMORE
+  +FLOORCLIP
+  +BOSS
+  +NoRadiusDmg
+  MeleeRange 70
+  SeeSound "KXSuperbia/Sight" 
+  PainSound "KXSuperbia/Pain" 
+  DeathSound "KXSuperbia/Death" 
+  ActiveSound "KXSuperbia/Attack"
+  HitObituary "%o died to the power of God Muicifircas"
+  Obituary "%o died to the power of God Muicifircas"
+  DamageFactor "KX", 0.0
+  Species "KX"
+  var int user_fire;
+  var int user_fire2;
+  States
+  {
+  Spawn:
+    JUN2 AB 10 A_Look
+    Loop
+  See:
+	JUN2 A 0 A_ChangeFlag("NOPAIN",0)
+	TNT1 A 0 A_SetShootable
+    JUN2 AABBCCDD 2 A_Chase
+    Loop
+  Melee:
+    JUN2 EF 4 A_FaceTarget
+    JUN2 G 6 A_CustomComboAttack("DoomImpBall", 32, 200 * random(1, 1), "imp/melee")
+    Goto See
+  Missile:
+    TNT1 A 0 A_Jump(128,"Hell", "Spread", "Dash")
+	TNT1 A 0 A_Jump(128,"Soul", "Soul2", "JumpOver")
+	TNT1 A 0 A_Jump(96,"Soul3", "Wave", "Raging")
+	Goto See
+  Dash:
+    JUN2 A 0 A_ChangeFlag("NOPAIN",1)
+    JUN2 E 0 A_PlaySound("KXSuperbia/Attack", CHAN_AUTO, 1.0, 0, ATTN_NONE)
+    JUN2 EF 8 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag(SLIDESONWALLS,1)
+	TNT1 A 0 A_Recoil(-100)
+	JUN2 GGGGGGGGGGGGGGG 1 Bright {
+		A_SpawnItemEx("JungerPhase2DashTrail", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE);
+        return A_JumpIfCloser(70,"DashCheck");
+	}
+	JUN2 GGGGG 1 Bright {
+		A_ScaleVelocity(0.75);
+		A_CustomMissile ("CyberImpBall",32,0,frandom(-20,20),2,frandom(0,15));
+	}
+	TNT1 A 0 A_ChangeFlag(SLIDESONWALLS,0)
+	TNT1 A 0 A_ScaleVelocity(0)
+	JUN2 G 3
+	JUN2 A 0 A_ChangeFlag("NOPAIN",0)
+    JUN2 G 0 Bright A_Jump(60,"See")
+	Loop
+  Hell:
+    JUN2 EF 8 A_FaceTarget
+	JUNG F 0 A_PlaySound("monster/ignited")
+    JUNG FFFFFFFFFF 0 A_CustomMissile ("CyberImpBall",32,0,frandom(-20,20),2,frandom(0,15))
+    Goto See
+  Spread:
+	TNT1 A 0 A_SetUserVar(user_fire,random(1,6))
+	Goto SpreadLooping
+  SpreadLooping:
+    JUN3 AB 8 A_FaceTarget
+    JUN2 GGGGGGG 0 A_CustomMissile("SpreadJungerImpBall", 32, 0, random(-50, 50), 0)
+	JUN2 G 8 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+	JUN3 CD 8 A_FaceTarget
+    JUN2 GGGGGGG 0 A_CustomMissile("SpreadJungerImpBall", 32, 0, random(-50, 50), 0)
+	JUN2 X 8 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+    Loop
+  Soul:
+	TNT1 A 0 A_SetUserVar(user_fire,random(1,5))
+	JUN3 EF 8 A_FaceTarget
+	JUN3 G 0 A_FaceTarget
+    JUN3 F 0 A_CustomMissile ("KXSuperbiaSoulAttack",32,0,frandom(-1,1))
+	JUN3 GG 4 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+    Goto Soul+3
+  Soul2:
+	TNT1 A 0 A_SetUserVar(user_fire,random(3,7))
+	JUN3 EF 8 A_FaceTarget
+	JUN3 G 0 A_FaceTarget
+    JUN3 F 0 A_PainAttack("KXSuperbiaSoul")
+	JUN3 GG 4 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"See")
+    Goto Soul2+3
+  Soul3: 
+	TNT1 A 0 A_SetUserVar(user_fire,random(10,30))
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXSuperbiaSoulShooterEffect",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+	TNT1 A 0 A_PlaySound("KXSuperbia/Attack",Chan_7,1.0,False,Attn_none)
+	TNT1 A 0 A_UnSetShootable
+	TNT1 A 0 ACS_NamedExecuteAlways("KXSuperbiaTeleport",0,0,0,0)
+	Goto Soul3Loop
+  Soul3Loop:
+	TNT1 A 0 A_SpawnItemEx("KXSuperbiaSoulShooter",frandom(-512,512),0,floorz-z+random(64,256),0,0,0,random(1,360))
+	TNT1 A 10
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"Soul3End")
+    Loop
+  Soul3End:
+	TNT1 A 35
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXSuperbiaSoulShooterEffect",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+	Goto See
+  Wave:
+	TNT1 A 0 A_SetUserVar(user_fire,random(5,7))
+	TNT1 A 0 A_PlaySound("KXSuperbia/Attack",Chan_7,1.0,False,Attn_none)
+	TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXSuperbiaSoulShooterEffect",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+	TNT1 A 0 A_UnSetShootable
+	TNT1 A 0 ACS_NamedExecuteAlways("KXSuperbiaTeleport",0,0,0,0)
+	Goto WaveLoop
+  WaveLoop:
+	TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXSuperbiaSoulShooterEffect",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+	TNT1 A 0 A_SpawnItemEx("KXSuperbiaWaveShooter",frandom(-1024,1024),0,floorz-z+4,0,0,0,random(1,360))
+	TNT1 A 15
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	TNT1 A 0 A_JumpIf(user_fire==0,"Soul3End")
+    Loop
+  WaveEnd:
+	TNT1 A 70
+    TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXSuperbiaSoulShooterEffect",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+	Goto See
+  JumpOver:
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXSuperbiaSoulShooterEffect",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+	TNT1 A 0 A_PlaySound("KXSuperbia/Attack",Chan_7,1.0,False,Attn_none)
+	TNT1 A 0 A_Warp(AAPTR_Target,0,0,512.0,0,0,"Stomping")
+	Goto See
+  Stomping:
+    JUN2 G 1 BRIGHT A_SpawnItemEx("JungerPhase2DashTrail",0,0,0,0,0,0,0,SXF_CLIENTSIDE)
+	JUN2 G 0 Bright A_JumpIfCloser(70,"EndStomp")
+	JUN2 G 0 BRIGHT A_JumpIf(Momz==0,"EndStomp")
+	Loop
+  EndStomp: 
+    JUN2 G 0 BRIGHT A_SpawnItemEx("KXStompEffect",0,0,3,0,0,0,0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_PlaySound("cbaron/Stomp")
+	TNT1 A 0 A_Explode(224,180)
+	JUN2 G 20 A_ScaleVelocity(0)
+	Goto Dash
+  DashCheck:
+    TNT1 A 0 A_JumpIfTargetInsideMeleeRange("InstaMelee")
+	Goto See
+  InstaMelee:
+	CBOS E 0 A_PlaySound("cbaron/DashHit",CHAN_ITEM,1.0)
+    CBOS E 0 A_FaceTarget
+	CBOS E 0 A_ScaleVelocity(0)
+	JUN2 F 4 A_CustomMeleeAttack(1*random(200,300),"cbaron/DashHit","","Melee",True)
+	JUN2 GG 4 A_FaceTarget
+    Goto See
+  Raging:
+    JUN2 A 0 A_ChangeFlag("NOPAIN",1)
+	TNT1 A 0 A_SetUserVar(user_fire,random(5,10))
+	TNT1 A 0 A_SpawnItemEx("KXMikiriEffect", 0, 0, 74, 0, 0, 0, 0, SXF_NOCHECKPOSITION)
+    JUN2 EF 14 A_FaceTarget
+	TNT1 A 0 A_PlaySound("KXSuperbia/Attack",Chan_7,1.0,False,Attn_none)
+	Goto RagingLoop
+  RagingLoop:
+	TNT1 A 0 A_ChangeFlag(SLIDESONWALLS,1)
+	TNT1 A 0 A_Recoil(-100)
+	JUN2 GGGGGGGGGGGGGGG 1 Bright {
+		A_RadiusGive("RagingDemonPlayerItem",90,RGF_PLAYERS,1);
+		A_SpawnItemEx("CyberBelphegorRageParticle", Random(24, 32), 0, FRandom(4,24), 0, 0, (Random(20, 60)*0.1), Random(0, 360), 128);
+		A_SpawnItemEx("JungerPhase2DashTrail", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE);
+	}
+	JUN2 GGGGG 1 Bright {
+		A_RadiusGive("RagingDemonPlayerItem",90,RGF_PLAYERS,1);
+		A_ScaleVelocity(0.75);
+		A_SpawnItemEx("CyberBelphegorRageParticle", Random(24, 32), 0, FRandom(4,24), 0, 0, (Random(20, 60)*0.1), Random(0, 360), 128);
+	}
+	TNT1 A 0 A_PlaySound("KXSuperbia/Attack",Chan_7,1.0,False,Attn_none)
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_ChangeFlag(SLIDESONWALLS,0)
+	TNT1 A 0 A_ScaleVelocity(0)
+	JUN2 G 7
+	JUN2 A 0 A_ChangeFlag("NOPAIN",0)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+    TNT1 A 0 A_JumpIf(user_fire==0,"RagingEnd")
+	Loop
+  RagingEnd:
+	JUN2 G 15 Bright
+	Goto See
+  RagingStart:
+	TNT1 A 0 A_PlaySound("KXSuperbia/Attack",Chan_7,1.0,False,Attn_none)
+	JUN2 E 35 Bright A_FaceTarget
+	Goto RagingHit
+  RagingHit:
+	JUN2 EEEEFFFFGGGG 1 Bright A_FaceTarget
+	JUN2 VVVVWWWWXXXX 1 Bright A_FaceTarget
+	Loop
+  Pain:
+    JUN2 H 2
+    JUN2 H 2 A_Pain
+    Goto See
+  Death:
+    JUN2 NNN 0 A_CustomMissile("KXBloodExplosionEffect",37,0,0,0,0)
+	JUN2 N 5
+    JUN2 O 5 A_Scream
+    JUN2 P 5
+    JUN2 Q 5 A_NoBlocking
+    JUN2 RST 5
+    JUN2 U -1
+    Stop
+  Raise:
+    JUN2 ML 8
+    JUN2 KJI 6
+    Goto See
+  }
+}
+
+Actor KXSuperbiaSoulShooter
+{
+	MONSTER
+	DONTHURTSHOOTER
+	+ThruActors
+	+NoBlockMap
+	+NoGravity
+	+NoTargetSwitch
+	+Invulnerable
+	+LookAllAround
+	-CountKill
+	-Shootable
+	Alpha 0.1
+	Scale 0.1
+	RenderStyle Add
+	States
+	{
+	Spawn:
+		TNT1 A 0  
+		TNT1 A 3
+		TNT1 AAAAAAAAAA 0 A_Look
+		Goto See
+	See:
+		TNT1 A 0
+		TNT1 A 0 A_FaceTarget
+		TNT1 AAAAA 0 A_SpawnItemEx("KXSuperbiaSoulShooterEffect",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+		TNT1 A 0 A_CustomMissile ("KXSuperbiaSoulAttack",0,0,0)
+		Stop
+	}
+}
+
+ACTOR KXSuperbiaSoulShooterEffect : ArchvileFire
+{
+  Translation "160:167=192:207"
+  States
+  {
+  Spawn:
+    FIRE ABABCBCBCDCDCDEDEDEFEFEFGHGHGH 1 Bright 
+    Stop
+  }
+}
+
+Actor KXSuperbiaWaveShooter : KXSuperbiaSoulShooter
+{
+	States
+	{
+	Spawn:
+		TNT1 A 0  
+		TNT1 A 3
+		TNT1 AAAAAAAAAA 0 A_Look
+		Goto See
+	See:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("GlacialistIceStormWarn",0,0,floorz-z+5,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 50
+		TNT1 A 0 A_FaceTarget
+		TNT1 AAA 0 A_CustomMissile("SuperbiaTrailBall",0,0,frandom(0,360),CMF_ABSOLUTEPITCH,0)
+		Stop
+	}
+}
+
+ACTOR SuperbiaTrailBall
+{
+  Radius 6
+  Height 8
+  Speed 15
+  Damage (50)
+  DamageType "KX"
+  Projectile
+  +RANDOMIZE
+  RenderStyle Add
+  Alpha 1
+  Decal "BaronScorch"
+  States
+  {
+  Spawn:
+    TNT1 A 1 Bright A_CustomMissile("SuperbiaTrailOrb", 0, 0, 0, CMF_AIMDIRECTION | CMF_TRACKOWNER)
+    Loop
+  Death:
+    TNT1 A 1
+    Stop
+  }
+}
+
+ACTOR SuperbiaTrailOrb
+{
+  Radius 4
+  Speed 0
+  Height 3
+  Scale 0.4
+  Damage (random(5,10))
+  Projectile
+  RenderStyle Add
+  reactiontime 420
+  DamageType "KX"
+  SeeSound "Crack/see"
+  DeathSound "Crack/death"
+  States
+  {
+  Spawn:
+    BAL9 AAAABBBB 1 Bright A_CountDown
+	Loop
+  Death:
+    BAL9 CDE 6 BRIGHT
+	Stop
+  }
+}
+
+Actor BossCounter : Inventory
+{
+  Inventory.MaxAmount 99999
+}
+
+Actor SuperbiaIGotYou : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+actor SpreadJungerImpBall : CyberImpBall
+{
+  Speed 1
+  +NOGRAVITY
+  states
+  {
+  Spawn:
+	BAL1 A 0
+    BAL1 A 0 A_ScaleVelocity(frandom(1,20))
+    BAL1 AB 1 bright A_SpawnItemEx("CyberImpBallTrail",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_SpawnItemEx("CyberImpBallParticle",0,FRandom(-4,4),FRandom(-6,6),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+    Goto Spawn+2
+  }
+}
+
+Actor KXSuperbiaSoulAttack
+{
+    Radius 12
+    Height 24
+    Speed 20
+    Damage 10
+	Projectile
+	RenderStyle Add
+	Alpha 0.8
+    SeeSound "Blusoul/see"
+    DeathSound "Blusoul/death"
+	DamageType "KX"
+	Translation "128:159=96:111", "168:191=192:207", "208:223=192:207", "160:167=192:207"
+    States
+    {
+    Spawn:
+       SKUL CCCCDDDD 1 BRIGHT A_SpawnItemEx("BlusoulTrail", 0, 0, 16, 0, 0, 0, 0, 128)
+       Loop
+    Death:
+       SKUL H 4 BRIGHT A_Mushroom("CrackodemonBall", 8)
+       SKUL I 4 BRIGHT A_Explode(60,64)
+       SKUL JK 4 BRIGHT
+       stop
+    }
+}
+
+ACTOR KXSuperbiaSoul : LostSoul
+{
+  Health 20
+  MeleeRange 80
+  SeeSound "Blusoul/see"
+  PainSound "BloodySkull/Pain"
+  DeathSound "Blusoul/death"
+  RenderStyle SoulTrans
+  Obituary "%o understands now the pain of Superbia."
+  Translation "128:159=96:111", "168:191=192:207", "208:223=192:207", "160:167=192:207"
+  Species "KX"
+  DamageType "KX"
+  +ThruSpecies
+  +DontHarmSpecies
+  States
+  {
+  Spawn:
+    SKUL AB 10 Bright A_Look
+    Loop
+  See:
+    SKUL AB 6 Bright A_Chase("Suicide","Missile")
+    Loop
+  Suicide:
+	TNT1 A 0
+	Goto Death
+  Missile:
+    SKUL C 10 Bright A_FaceTarget
+    SKUL D 4 Bright A_SkullAttack
+    SKUL CD 4 Bright
+    Goto Missile+2
+  Death:
+    TNT1 A 0 A_Scream
+    SKUL H 4 BRIGHT A_Mushroom("CrackodemonBall", 8)
+    SKUL I 4 BRIGHT A_Explode(30,64)
+    SKUL JK 4 BRIGHT
+    Stop
+  }
+}
+
+Actor RagingDemonPlayerItem : CustomInventory
+{
+    States
+    {
+    Pickup:
+        TNT1 A 0 Acs_NamedExecuteAlways("KXSuperbiaRagingDemon",0,0,0,0)
+        Stop
+    }
+}

@@ -1,0 +1,218 @@
+ACTOR ArachnoShredder 7583 
+{ 
+  //$Category KSpiders
+  Health 750
+  Radius 64
+  Height 64
+  Mass 600
+  Speed 16
+  PainChance 128
+  Monster
+  +FloorClip
+  +MissileMore
+  +MissileEvenMore
+  +DontHarmSpecies
+  Species "KX"
+  DamageFactor "KX", 0.0
+  SeeSound "baby/sight"
+  PainSound "baby/pain"
+  DeathSound "baby/death"
+  ActiveSound "baby/active"
+  Obituary "%o was shredded by a ArachnoShredder."
+  var int user_fire;
+  States
+  {
+  Spawn:
+    ARSH AB 10 A_Look
+    Loop
+  See:
+    ARSH A 20
+    ARSH A 3 A_BabyMetal
+    ARSH ABBCC 3 A_Chase
+    ARSH D 3 A_BabyMetal
+    ARSH DEEFF 3 A_Chase
+    Goto See+1
+  Missile:
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	TNT1 A 0 A_Jump(128,"Looping", "Laser","Micro","Seeker")
+  Looping:
+    ARSH A 10 Bright A_FaceTarget
+    ARSH G 4 Bright A_FaceTarget
+    ARSH H 4 Bright A_CustomMissile("ArachnotronPlasma",19,0,0)
+	ARSH H 0 Bright A_SpidRefire
+	Goto Looping+1
+  Laser:
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	ARSH A 10 Bright A_FaceTarget
+	Goto LoopingLaser
+  LoopingLaser:
+    ARSH G 0 Bright A_FaceTarget
+	ARSH GGGG 1 A_SpawnItemEx("RailArachnotronChargeParticle",0,0,18,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+    ARSH H 0 Bright A_CustomMissile("ArachnotronPlasma",19,0,frandom(-1,1),CMF_OFFSETPITCH,frandom(-1,1))
+	ARSH HHHH 1 A_SpawnItemEx("RailArachnotronChargeParticle",0,0,18,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(0,360))
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+	TNT1 A 0 A_JumpIf(user_fire>10,"Release")
+	Loop
+  Release:
+    ARSH G 0 A_PlaySound("KXArachnoShredder/Laser",CHAN_ITEM,1.0,FALSE)
+	ARSH G 4 Bright A_FaceTarget
+    ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,0)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,5)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,10)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,15)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,20)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,25)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,30)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,-5)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,-10)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,-15)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,-20)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,-25)
+	ARSH H 0 Bright A_CustomMissile("ArachnotronShredderLaser",18,0,-30)
+	ARSH I 4 Bright A_FaceTarget
+	Goto See
+  Micro:
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+    ARSH A 10 Bright A_FaceTarget
+    ARSH J 0 Bright A_CustomMissile("ArachnoShredderMicroRocket",frandom(44,50),frandom(18,22),frandom(-7,7),CMF_OFFSETPITCH,frandom(-2,2))
+	ARSH JKL 2 Bright A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+	TNT1 A 0 A_JumpIf(user_fire>15,"Release")
+	Goto Micro+2
+  Seeker:
+    ARSH A 10 Bright A_FaceTarget
+    ARSH J 0 Bright A_CustomMissile("ArachnoShredderSeeker",frandom(44,50),frandom(18,22),frandom(-7,7),CMF_OFFSETPITCH,frandom(-2,2))
+    ARSH K 4 Bright A_CustomMissile("ArachnotronPlasma",19,0,0)
+    ARSH L 4 Bright A_CustomMissile("ArachnotronShredderLaser",34,-5,0)
+	Goto See
+  Pain:
+    ARSH B 3
+    ARSH B 3 A_Pain
+    Goto See+1
+  Death:
+    TNT1 A 0 A_SpawnItemEx("KXBloodExplosionEffect",0,0,36,0,0,0,random(1,360))
+	TNT1 A 0 A_SpawnItemEx("KXArachnoExplosionDeath",0,0,36,0,0,0,random(1,360))
+    ARSH M 20 A_Scream
+    ARSH N 7 A_NoBlocking
+    ARSH OPQR 7
+    ARSH S -1 A_BossDeath
+    Stop
+  Raise:
+    ARSH M 5
+    ARSH MNOPQR 5
+    Goto See+1
+  }
+}
+
+ACTOR ArachnoShredderMicroRocket
+{
+  Radius 9
+  Height 7
+  Speed 40
+  Damage (random(10,25))
+  Scale 0.5
+  Projectile
+  +RANDOMIZE
+  SeeSound "KXArachnoShredder/Rocket"
+  DeathSound "KXArachnoShredder/Explosion"
+  Obituary "%o rode %k's rocket."
+  Decal RocketImpScorch
+  States
+  {
+  Spawn:
+    IMIS A 1 Bright A_CustomMissile("ArachnoShredderMicroRocketTrail",0,0,0)
+    Loop
+  Death:
+	TNT1 A 1 A_SpawnItemEx("KXSmallExplosionEffect1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+    Stop
+  }
+}
+
+Actor ArachnoShredderMicroRocketTrail
+{
+    Radius 1
+    Height 1
+    Speed 0
+    Damage 0
+	Scale 0.03
+    PROJECTILE
+    RenderStyle Add
+	+CLIENTSIDEONLY
+    +RANDOMIZE
+    Alpha 1.0
+    States
+    {
+    Spawn:
+	    TNT1 A 1
+	Looping:
+		KDUS A 0 Bright A_SetScale(ScaleX+0.005)
+		KDUS A 1 Bright A_FadeOut(0.1)
+		Loop
+    }
+}
+
+Actor ArachnoShredderSeeker
+{
+ 
+  Radius 11
+  Height 8
+  Speed 20
+  Damage (40)
+  Projectile
+  +Randomize
+  +SeekerMissile
+  Scale 0.75
+  SeeSound "Paladin/Grenade"
+  DeathSound "KXArachnoShredder/Explosion"
+  States
+  {
+  Spawn:
+    MICR A 0 bright A_SeekerMissile(25,10)
+    MICR AB 1 Bright A_CustomMissile("ArachnoShredderMicroRocketTrail",0,0,0)
+    Loop
+  Death:
+    TNT1 A 1 A_SpawnItemEx("KXSmallExplosionEffect1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+    Stop
+  }
+}
+
+ACTOR ArachnotronShredderLaser
+{
+  Radius 13
+  Height 8
+  Speed 30
+  Damage 4
+  Projectile
+  +RANDOMIZE
+  RenderStyle translucent
+  Scale 0.55
+  Alpha 0.75
+  SeeSound "KXBfgArachnotron/Shot"
+  DeathSound "KaiserCyborg/Blaster2"
+  Translation "192:207=175:191", "80:111=168:191"
+  States
+  {
+  Spawn:
+    LASB A 1 Bright A_SpawnItemEx("ArachnotronShredderLaserTrail",FRandom(-3,3),FRandom(-3,3),FRandom(-4,4),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+    Loop
+  Death:
+	PLSE AAAAAAAAAA 0 A_SpawnItemEx("ArachnotronShredderLaserTrail",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(-180,180))
+    PLSE ABCDE 4 Bright
+    Stop
+  }
+}
+
+Actor ArachnotronShredderLaserTrail :  ArachnotronPlasmaParticle
+{
+    Alpha 1
+	Scale 0.5
+	Translation "0:255=%[0.00,0.00,0.00]:[2.00,0.31,0.31]"
+	States
+	{
+  Spawn:
+  Death:
+    APLS A 0 Bright A_SetScale(ScaleX*0.9)
+    APLS A 1 Bright A_FadeOut(0.05)
+    Loop
+	}
+}

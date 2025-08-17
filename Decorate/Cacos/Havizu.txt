@@ -1,0 +1,1114 @@
+ACTOR Havizu 7567 
+{ 
+	//$Category AirForce
+	Health 500
+	Radius 26
+	Height 68
+	Mass 250
+	Speed 6
+	Monster
+	PainChance 60
+	HitObituary "Una Havizu consumio el espiritu de %o"
+    Obituary "%o murio por la magia de la Havizu"
+	DamageFactor "PowerHavizu", 0.0
+	BloodColor "White"
+	+FIRERESIST
+    +NOICEDEATH
+	+FLOAT
+    +DONTHURTSPECIES
+    +NEVERRESPAWN
+    +FASTER
+    +QUICKTORETALIATE
+    +NOGRAVITY
+	+DONTHARMSPECIES
+    Species "KX"
+	SeeSound "Havizu/Sight"
+	ActiveSound "Havizu/Active"
+    PainSound "Havizu/Pain"
+	DeathSound "Havizu/Death"
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_SetTranslucent(1.0, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.97, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.94, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.91, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.88, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.85, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.82, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.79, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.76, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.73, 0)
+		HVZU A 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.70, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.73, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.76, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.79, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.82, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.85, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.88, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.91, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.94, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.97, 0)
+		HVZU B 1 A_Look
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		Loop
+	See:
+		TNT1 A 0 A_SetTranslucent(1.0, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.97, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.94, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.91, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.88, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.85, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.82, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.79, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.76, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.73, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.70, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.73, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.76, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.79, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.82, 0)
+		HVZU A 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail1",0,0)
+		TNT1 A 0 A_SetTranslucent(0.85, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.88, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.91, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.94, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		TNT1 A 0 A_SetTranslucent(0.97, 0)
+		HVZU B 1 A_Chase
+		TNT1 A 0 A_SpawnItem("HavizuTrail2",0,0)
+		Loop
+	Melee:
+        TNT1 A 0 A_Jump(256, "Melee1", "Melee2")
+	Melee1:	
+		HVZU K 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee1",0,0)
+		HVZU K 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee1",0,0)
+		HVZU K 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee1",0,0)
+		HVZU K 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee1",0,0)
+		HVZU K 1 A_FaceTarget
+	    TNT1 A 0 A_SpawnItem("HavizuTrailMelee1",0,0)
+		HVZU L 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee2",0,0)
+		HVZU L 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee2",0,0)
+		HVZU L 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee2",0,0)
+		HVZU L 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee2",0,0)
+		HVZU L 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee2",0,0)
+		HVZU M 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		HVZU M 1 A_CustomMeleeAttack(Random(4,6)*8, "Havizu/Melee", None, Melee, True)
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		HVZU M 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		HVZU M 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		HVZU M 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		HVZU M 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		HVZU M 1 A_FaceTarget
+	    TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		HVZU M 1 A_FaceTarget
+	    TNT1 A 0 A_SpawnItem("HavizuTrailMelee3",0,0)
+		Goto See
+	Melee2:	
+		HVZU N 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee4",0,0)
+		HVZU N 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee4",0,0)
+		HVZU N 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee4",0,0)
+		HVZU N 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee4",0,0)
+		HVZU N 1 A_FaceTarget
+	    TNT1 A 0 A_SpawnItem("HavizuTrailMelee4",0,0)
+		HVZU O 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee5",0,0)
+		HVZU O 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee5",0,0)
+		HVZU O 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee5",0,0)
+		HVZU O 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee5",0,0)
+		HVZU O 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee5",0,0)
+		HVZU P 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		HVZU P 1 A_CustomMeleeAttack(Random(4,6)*8, "Havizu/Melee", None, Melee, True)
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		HVZU P 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		HVZU P 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		HVZU P 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		HVZU P 1 A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		HVZU P 1 A_FaceTarget
+	    TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		HVZU P 1 A_FaceTarget
+	    TNT1 A 0 A_SpawnItem("HavizuTrailMelee6",0,0)
+		Goto See	
+	Missile:
+		TNT1 A 0 A_Jump(256, "Missile1", "Missile2", "Missile3", "Missile4")
+	Missile1:	
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail3",0,0)
+		HVZU C 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail4",0,0)
+		TNT1 A 0 A_CustomMissile("FlameHavizu",42,0,5,0)
+		TNT1 A 0 A_CustomMissile("FlameHavizu",42,0,0,0)
+		TNT1 A 0 A_CustomMissile("FlameHavizu",42,0,-5,0)
+		HVZU D 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail4",0,0)
+		HVZU D 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail4",0,0)
+		HVZU D 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail4",0,0)
+		HVZU D 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail4",0,0)
+		HVZU D 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail4",0,0)
+		Goto See
+	Missile2:	
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail5",0,0)
+		HVZU E 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail6",0,0)
+		TNT1 A 0 A_CustomMissile("ElectroHavizu",42,0,0,0)
+		HVZU F 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail6",0,0)
+		HVZU F 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail6",0,0)
+		HVZU F 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail6",0,0)
+		HVZU F 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail6",0,0)
+		HVZU F 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail6",0,0)
+		Goto See	
+	Missile3:	
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail7",0,0)
+		HVZU G 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail8",0,0)
+		TNT1 A 0 A_CustomMissile("AcidoHavizu",42,0,10,0)
+		TNT1 A 0 A_CustomMissile("AcidoHavizu",42,0,5,0)
+		TNT1 A 0 A_CustomMissile("AcidoHavizu",42,0,0,0)
+		TNT1 A 0 A_CustomMissile("AcidoHavizu",42,0,-5,0)
+		TNT1 A 0 A_CustomMissile("AcidoHavizu",42,0,-10,0)
+		HVZU H 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail8",0,0)
+		HVZU H 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail8",0,0)
+		HVZU H 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail8",0,0)
+		HVZU H 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail8",0,0)
+		HVZU H 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail8",0,0)
+		Goto See	
+	Missile4:
+	    HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail9",0,0)
+		HVZU I 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,0,0)
+		HVZU J 1 Bright A_FaceTarget
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-5,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-10,0)
+		HVZU J 1 Bright A_FaceTarget
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-15,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-20,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-25,0)
+		HVZU J 1 Bright A_FaceTarget
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-30,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-25,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-20,0)
+		HVZU J 1 Bright A_FaceTarget
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-15,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-10,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,-5,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,0,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,5,0)
+		HVZU J 1 Bright A_FaceTarget
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,10,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,15,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,20,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,25,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,30,0)
+		HVZU J 1 Bright A_FaceTarget
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,25,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,20,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,15,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,10,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,5,0)
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget 
+		HVZU J 1 Bright A_FaceTarget
+		TNT1 A 0 A_SpawnItem("HavizuTrail10",0,0)
+		TNT1 A 0 A_CustomMissile("LightHavizu",42,0,0,0)
+		Goto See
+	Pain:
+		TNT1 A 0 A_UnSetShootable
+		TNT1 A 0 A_ChangeFlag("NoPain", 1)
+		TNT1 A 0 A_SetTranslucent(0.30, 0)
+		TNT1 A 0 A_Pain
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		HVZU A 1 A_Wander
+		TNT1 A 0 A_SpawnItem("HavizuTrailPain",0,0)
+		TNT1 A 0 A_SetTranslucent(1.0, 0)
+		TNT1 A 0 A_SetShootable
+		TNT1 A 0 A_ChangeFlag("NoPain", 0)
+		Goto See
+	Death:
+		HVZU Q 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU Q 1 A_Fall
+		HVZU Q 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU Q 1 
+		HVZU Q 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU Q 1 
+		HVZU R 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU R 1 A_Scream
+		HVZU R 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU R 1 
+		HVZU R 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU R 1 
+		HVZU S 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU S 1 
+		HVZU S 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU S 1 
+		HVZU S 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU S 1 
+		HVZU T 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU T 1 
+		HVZU T 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU T 1 
+		HVZU T 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU T 1 A_NoBlocking
+		HVZU U 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU U 1 
+		HVZU U 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU U 1 
+		HVZU U 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU U 1 
+	    TNT1 A 0 A_PlaySound("Havizu/Soul")
+		HVZU V 1 A_SpawnItemEx("HavizuSmokeDeath", 0, 0,0,random(-9,9),random(-9,9),random(5,9), 48, 128)
+		HVZU V 1 A_SpawnItemEx("HavizuSoul", 0,0,10, 0,0,1)
+		HVZU V 1 
+		HVZU V 1 
+		HVZU V 1
+		HVZU V 1
+		HVZU W 1
+		HVZU W 1
+		HVZU W 1
+		HVZU W 1
+		HVZU W 1
+		HVZU W 1
+		HVZU X 1
+		HVZU X 1
+		HVZU X 1
+		HVZU X 1
+		HVZU X 1
+		HVZU X 1
+		HVZU Y -1  A_SetFloorClip
+		Stop
+	}
+}
+
+ACTOR HavizuSoul
+{
+	+NOBLOCKMAP
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		HVSM ABC 5
+		HVSM DEFG 9
+		Stop
+	}
+}
+
+ACTOR HavizuTrail1
+{   
+    RenderStyle Translucent
+	+NOGRAVITY
+    +CLIENTSIDEONLY
+    +DONTSPLASH
+    +NOINTERACTION
+    +NOCLIP
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU A 2 A_FadeOut(0.18)
+      Goto Spawn+1 
+	  }
+}
+
+ACTOR HavizuTrail2 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU B 2 A_FadeOut(0.18)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail3 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU C 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail4 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU D 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail5 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU E 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail6 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU F 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail7 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU G 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail8 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU H 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail9 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU I 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrail10 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU J 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrailMelee1 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU K 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrailMelee2 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU L 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrailMelee3 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU M 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrailMelee4 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU N 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrailMelee5 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU O 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrailMelee6 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZU P 2 Bright A_FadeOut(0.30)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuTrailPain : HavizuTrail1
+{
+    RenderStyle Add
+	States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVZ1 A 2 Bright A_FadeOut(0.08)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR HavizuSmokeDeath
+{
+	+NOBLOCKMAP
+	+NOGRAVITY
+	RenderStyle Add
+	States
+	{
+	Spawn:
+		TNT1 A 0 
+		HVDH ABCDEFGHIJKLM 2
+		Stop
+	}
+}
+
+ACTOR FlameHavizu
+{
+	Speed 18
+	FastSpeed 24
+	Radius 10
+	Height 10
+	Mass 5
+	Damage 5
+	DamageType "PowerHavizu"
+	Decal "MinotaurScorch"
+	Projectile
+	SeeSound "HavizuFlame"
+	DeathSound "HavizuFlameExplode"
+	States
+	{
+	Spawn:
+		HVFL A 1 Bright A_SpawnItem("ParticleFlameHavizuSpawn",0,0,0,1)
+		TNT1 A 0 A_SpawnItem("FlameHavizuTrail1",0,0)
+		HVFL A 1 Bright
+		TNT1 A 0 A_SpawnItem("FlameHavizuTrail1",0,0)
+		HVFL A 1 Bright
+		TNT1 A 0 A_SpawnItem("FlameHavizuTrail1",0,0)
+		HVFL B 1 Bright A_SpawnItem("ParticleFlameHavizuSpawn",0,0,0,1)
+		TNT1 A 0 A_SpawnItem("FlameHavizuTrail2",0,0)
+		HVFL B 1 Bright
+		TNT1 A 0 A_SpawnItem("FlameHavizuTrail2",0,0)
+		HVFL B 1 Bright
+		TNT1 A 0 A_SpawnItem("FlameHavizuTrail2",0,0)
+		Loop
+	Death:
+		TNT1 A 0 A_CustomMissile("FlameHavizuBlast",0,0,random(0,359),CMF_TRACKOWNER,random(0,60))
+        TNT1 A 0 A_CustomMissile("FlameHavizuBlast",0,0,random(0,359),CMF_TRACKOWNER,random(0,60))
+        TNT1 A 0 A_CustomMissile("FlameHavizuBlast",0,0,random(0,359),CMF_TRACKOWNER,random(0,60))
+        TNT1 A 0 A_CustomMissile("FlameHavizuBlast",0,0,random(0,359),CMF_TRACKOWNER,random(0,60))
+        TNT1 A 0 A_CustomMissile("FlameHavizuBlast",0,0,random(0,359),CMF_TRACKOWNER,random(0,60))
+        TNT1 A 0 A_CustomMissile("FlameHavizuBlast",0,0,random(0,359),CMF_TRACKOWNER,random(0,60))
+		HVFL C 1 Bright
+		HVFL C 1 Bright
+		HVFL C 1 Bright
+		HVFL C 1 Bright
+		HVFL D 1 Bright 
+		HVFL D 1 Bright 
+		HVFL D 1 Bright 
+		HVFL D 1 Bright
+		HVFL F 1 Bright
+		HVFL F 1 Bright
+		HVFL F 1 Bright
+		HVFL F 1 Bright
+		HVFL GHI 4 Bright 
+		Stop
+	}
+}
+
+ACTOR ParticleFlameHavizuSpawn
+{
+	Radius 2
+	Height 5
+	Mass 5
+	+NOBLOCKMAP 
+	+DROPOFF
+	+FLOORCLIP 
+	+NOTELEPORT
+	States
+	{
+	Spawn:
+		FLSM ABCDEFG 4 Bright
+		Stop
+	}
+}
+
+ACTOR FlameHavizuTrail1 : HavizuTrail1
+{   
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVFL A 2 Bright A_FadeOut(0.22)
+      Goto Spawn+1 
+	  }
+}
+
+ACTOR FlameHavizuTrail2 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVFL B 2 Bright A_FadeOut(0.22)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR FlameHavizuBlast
+{
+  Radius 8
+  Height 6
+  Speed 25
+  FastSpeed 28
+  Damage 1
+  Gravity 0.825
+  +THRUGHOST
+  +NOBLOCKMAP
+  +MISSILE
+  +DROPOFF
+  +NOTELEPORT
+  +FIREDAMAGE
+  Damagetype "PowerHavizu"
+  States
+  {
+  Spawn:
+    FLBT A 1 Bright A_SpawnItem("FlameHavizuBlastTrail1",0,0)
+	FLBT A 1 Bright A_SpawnItem("FlameHavizuBlastTrail1",0,0)
+	FLBT B 1 Bright A_SpawnItem("FlameHavizuBlastTrail2",0,0)
+	FLBT B 1 Bright A_SpawnItem("FlameHavizuBlastTrail2",0,0)
+    Loop
+  Death:
+    FLBT CDEFG 4 Bright
+    Stop
+  }
+}
+
+ACTOR FlameHavizuBlastTrail1 : HavizuTrail1
+{   
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  FLBT A 2 Bright A_FadeOut(0.28)
+      Goto Spawn+1 
+	  }
+}
+
+ACTOR FlameHavizuBlastTrail2 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  FLBT B 2 Bright A_FadeOut(0.28)
+	  Goto Spawn+1    
+	  }
+}
+
+
+ACTOR ElectroHavizu
+{
+    Radius 18
+    Height 18
+    Speed 6
+	FastSpeed 8
+    Projectile
+	RenderStyle Add
+    Damagetype "PowerHavizu"
+	Decal "SorcererLightning"
+	+SEEKERMISSILE
+    SeeSound "HavizuElectro"
+    Deathsound "HavizuElectroExplode"
+    States
+    {
+     Spawn:
+		TNT1 A 0 A_PlaySoundEx("Electro/Continuous", "Electro", 1)
+		HVTR A 1 Bright A_SpawnItemEx("ElectroHavizuTrail1",0,0,8,random(-2,2),random(-2,2),random(-2,2),random(1,360))
+		TNT1 A 0 A_SeekerMissile(30,60)
+		HVTR B 1 Bright A_SpawnItemEx("ElectroHavizuTrail2",0,0,8,random(-2,2),random(-2,2),random(-2,2),random(1,360))
+		TNT1 A 0 A_SeekerMissile(30,60)
+		HVTR C 1 Bright A_SpawnItemEx("ElectroHavizuTrail1",0,0,8,random(-2,2),random(-2,2),random(-2,2),random(1,360))
+		TNT1 A 0 A_SeekerMissile(30,60)
+		HVTR D 1 Bright A_SpawnItemEx("ElectroHavizuTrail2",0,0,8,random(-2,2),random(-2,2),random(-2,2),random(1,360))
+		TNT1 A 0 A_SeekerMissile(30,60)
+		HVTR E 1 Bright A_SpawnItemEx("ElectroHavizuTrail1",0,0,8,random(-2,2),random(-2,2),random(-2,2),random(1,360))
+        TNT1 A 0 A_SeekerMissile(30,60)
+		Loop
+     Death:
+		TNT1 A 0 A_StopSoundEx("Electro")
+		TNT1 A 0 A_Explode(200 ,128, 0)
+		HVTR FGHIJK 4 Bright 
+        Stop
+   }
+}
+
+Actor ElectroHavizuTrail1
+{
+    +NOCLIP
+    +NOGRAVITY
+    +NOINTERACTION
+    +NOTIMEFREEZE
+    RenderStyle Add
+    States
+    {
+    Spawn:
+        TNT1 A 2
+        HVT1 ABCDEFGH 2 Bright
+        Stop
+        }
+}
+
+ACTOR ElectroHavizuTrail2 : ElectroHavizuTrail1
+{   
+    States
+    {
+    Spawn:
+        TNT1 A 2
+        HVT2 ABCDEFG 2 Bright
+        Stop
+        }
+}
+
+ACTOR AcidoHavizu
+{
+	Speed 24
+	FastSpeed 30
+	Radius 8
+	Height 10
+	Damage 3
+	Projectile
+	Decal "PlasmaScorchLower"
+	DamageType "PowerHavizu"
+	PoisonDamage 32
+	RenderStyle Add
+	SeeSound "HavizuAcido"
+	DeathSound "HavizuAcidoExplode"
+	States
+	{
+	Spawn:
+		TNT1 A 0 A_PlaySoundEx("Acido/Continuous", "Acido", 1)
+		HVAC A 1 Bright A_SpawnItem("AcidoHavizuTrail1",0,0) 
+		HVAC A 1 Bright A_SpawnItem("AcidoHavizuTrail1",0,0)  
+		HVAC B 1 Bright A_SpawnItem("AcidoHavizuTrail2",0,0) 
+		HVAC B 1 Bright A_SpawnItem("AcidoHavizuTrail2",0,0) 
+		Loop
+	Death:
+		TNT1 A 0 A_StopSoundEx("Acido")
+		HVAC C 4 Bright 
+		HVAC DEFGH 4 Bright  
+		Stop
+	}
+}
+
+ACTOR AcidoHavizuTrail1 : HavizuTrail1
+{   
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVAC A 2 Bright A_FadeOut(0.40)
+      Goto Spawn+1 
+	  }
+}
+
+ACTOR AcidoHavizuTrail2 : HavizuTrail1
+{
+    States
+    {
+    Spawn:
+      TNT1 A 1
+	  HVAC B 2 Bright A_FadeOut(0.40)
+	  Goto Spawn+1    
+	  }
+}
+
+ACTOR LightHavizu
+{
+	Speed 12
+	FastSpeed 20
+	Radius 10
+	Height 10
+	Projectile
+	Decal "DoomImpScorch"
+	DamageType "PowerHavizu"
+	SeeSound "HavizuLight"
+	DeathSound "HavizuLightExplode"
+	States
+	{
+	Spawn:
+		HVLG ABC 2 Bright
+		Loop
+	Death:
+		TNT1 A 0 A_SpawnItemEx("LightHavizuTrail", 1, 1, random(8,32), random(0,5), random(0,5), 0, random(0,360))
+		TNT1 A 0 A_SpawnItemEx("LightHavizuTrail", 1, 1, random(8,32), random(0,5), random(0,5), 0, random(0,360))
+		TNT1 A 0 A_SpawnItemEx("LightHavizuTrail", 1, 1, random(8,32), random(0,5), random(0,5), 0, random(0,360))
+		TNT1 A 0 A_SpawnItemEx("LightHavizuTrail", 1, 1, random(8,32), random(0,5), random(0,5), 0, random(0,360))
+		HVLG D 2 Bright
+		HVLG E 2 Bright A_Explode(12, 64)
+		HVLG FGH 2 Bright
+		Stop
+	}
+}
+
+Actor LightHavizuTrail
+{
+    Radius 2
+	Height 5
+	Mass 5
+	+NOBLOCKMAP 
+	+DROPOFF
+	+FLOORCLIP 
+	+NOTELEPORT
+    RenderStyle Translucent
+    States
+    {
+    Spawn:
+        TNT1 A 2
+        LGTL ABCDE 2 Bright
+        Stop
+        }
+}

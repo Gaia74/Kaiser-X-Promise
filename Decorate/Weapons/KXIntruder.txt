@@ -1,0 +1,531 @@
+ACTOR Intruder : KXBaseWeapon
+{
+   Weapon.SelectionOrder 1850
+   Inventory.PickupMessage "You got the Intruder!"
+   Obituary "%o was fried by %k's Intruder."
+   Scale 0.6
+   Weapon.SlotNumber 2
+   Weapon.AmmoUse 0
+   Weapon.AmmoType "KXIntruderCharge"
+   Weapon.UpSound "weapons/Smallup"
+   +WEAPON.AMMO_OPTIONAL
+   +WEAPON.NOALERT
+   States
+   {
+   Spawn:
+      PLBT A -1
+      Loop
+   Ready:
+	  PLBG A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+      PLBG A 1 A_WeaponReady
+      Loop
+   Deselect:
+      PLBG AA 0 A_Lower
+      PLBG A 1 A_Lower
+      Loop
+   Select:
+      PLBG AA 0 A_Raise
+	  FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+      PLBG A 1 A_Raise
+      Loop
+   Fire:
+      PLBG A 0 A_JumpIfInventory("PistolUpgrade", 1, "BetterFire")
+      PLBG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      PLBG E 0 A_Light1
+      PLBG E 0 A_PlaySound("Weapon/IntruderFire",CHAN_WEAPON)
+      PLBG E 0 Bright A_FireCustomMissile("IntruderBall",0,1,9,3)
+	  PLBG E 2 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      PLBG C 0 A_Light0
+	  PLBG C 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      PLBG D 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      PLBG A 0 A_ReFire
+      Goto Ready
+   BetterFire:
+      PLBG A 3
+      PLBG E 0 A_Light1
+      PLBG E 0 A_PlaySound("Weapon/IntruderFireUp",CHAN_WEAPON)
+      PLBG E 2 Bright A_FireCustomMissile("IntruderHeavenPlasma",0,1,9,3)
+      PLBG C 2 A_Light0
+      PLBG D 2
+      PLBG A 0 A_ReFire
+      Goto Ready
+   AltFire:
+      PLBG A 0 A_PlaySound("heavenguard/attack",CHAN_VOICE,1,0)
+   LoopingAltFire:
+      PLBG A 0 A_JumpIfInventory("KXIntruderCharge",27,"LoopingAltFireSecondary")
+	  PLBG A 0 A_PlaySound("Weapon/IntruderCharge",CHAN_WEAPON,1,1)
+	  PLBG A 0 A_GiveInventory("KXIntruderCharge", 1)
+	  PLBG AA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  PLBG A 0 A_Refire("LoopingAltFire")
+	  Goto ReallyAltFire
+	LoopingAltFireSecondary:
+	  PLBG A 0 A_PlaySound("Weapon/IntruderChargeLoop",CHAN_WEAPON,1,1)
+	  PLBG A 0 A_GiveInventory("KXIntruderCharge", 1)
+	  PLBG AA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  PLBG A 0 A_Refire("LoopingAltFireSecondary")
+	  Goto ReallyAltFire
+    ReallyAltFire:
+      PLBG A 0 A_StopSound(CHAN_WEAPON)
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",30,"ReleaseAltFireSix")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",24,"ReleaseAltFireFive")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",18,"ReleaseAltFireFour")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",12,"ReleaseAltFireThree")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",6,"ReleaseAltFireTwo")
+	  Goto ReleaseAltFireOne
+  ReleaseAltFireOne:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	PLBG E 0 A_Light1
+    PLBG E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    PLBG E 0 Bright A_FireCustomMissile("IntruderChargedBallOne",0,1,9,3)
+	Goto AltFireAnimation
+  ReleaseAltFireTwo:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	PLBG E 0 A_Light1
+    PLBG E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    PLBG E 0 Bright A_FireCustomMissile("IntruderChargedBallTwo",0,1,9,3)
+	Goto AltFireAnimation
+  ReleaseAltFireThree:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	PLBG E 0 A_Light1
+    PLBG E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    PLBG E 0 Bright A_FireCustomMissile("IntruderChargedBallThree",0,1,9,3)
+	Goto AltFireAnimation
+  ReleaseAltFireFour:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	PLBG E 0 A_Light1
+    PLBG E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    PLBG E 0 Bright A_FireCustomMissile("IntruderChargedBallFour",0,1,9,3)
+	Goto AltFireAnimation
+  ReleaseAltFireFive:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	PLBG E 0 A_Light1
+    PLBG E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    PLBG E 0 Bright A_FireCustomMissile("IntruderChargedBallFive",0,1,9,3)
+	Goto AltFireAnimation
+  ReleaseAltFireSix:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	PLBG E 0 A_Light1
+    PLBG E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    PLBG E 0 Bright A_FireCustomMissile("IntruderChargedBallSix",0,1,9,3)
+	Goto AltFireAnimation
+  AltFireAnimation:
+      PLBG E 3 Bright 
+	  PLBG C 3 A_Light0
+      PLBG D 3
+	  PLBG A 6
+      Goto Ready
+   KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		PLBG A 1 bright Offset(0,70)
+	    PLBG A 1 bright Offset(0,60)
+	    PLBG A 1 bright Offset(0,50)
+	    PLBG A 1 bright Offset(0,40)
+		Goto Ready
+   }
+}
+
+ACTOR DualIntruders : KXBaseWeapon
+{
+   Weapon.SelectionOrder 1850
+   Inventory.PickupMessage "You got the Intruder!"
+   Obituary "%o was fried by %k's Intruders."
+   Scale 0.6
+   Weapon.SlotNumber 2
+   Weapon.AmmoUse 0
+   Weapon.AmmoType "KXIntruderCharge"
+   Inventory.PickupSound "weapons/Smallup"
+   Weapon.UpSound "weapons/Smallup"
+   +WEAPON.AMMO_OPTIONAL
+   +WEAPON.NOALERT
+   States
+   {
+   Spawn:
+      PLBT A -1
+      Loop
+   Ready:
+	  INTD A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+      INTD A 1 A_WeaponReady
+      Loop
+   Deselect:
+      INTD AA 0 A_Lower
+      INTD A 1 A_Lower
+      Loop
+   Select:
+      INTD AA 0 A_Raise
+	  FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+      INTD A 1 A_Raise
+      Loop
+   Fire:
+      INTD A 0 A_JumpIfInventory("PistolUpgrade", 1, "BetterFire")
+      INTD B 0 A_Light1
+      INTD B 0 A_PlaySound("Weapon/IntruderFire",CHAN_WEAPON)
+      INTD B 0 Bright A_FireCustomMissile("IntruderBall",0,1,9,3)
+	  INTD B 2 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD C 0 A_Light0
+	  INTD C 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD D 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD E 0 A_Light1
+      INTD E 0 A_PlaySound("Weapon/IntruderFire",CHAN_WEAPON)
+      INTD E 0 Bright A_FireCustomMissile("IntruderBall",0,1,-9,3)
+	  INTD E 2 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD G 0 A_Light0
+	  INTD F 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD G 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD A 0 A_ReFire
+      Goto Ready
+   BetterFire:
+      INTD B 0 A_Light1
+      INTD B 0 A_PlaySound("Weapon/IntruderFireUp",CHAN_WEAPON)
+      INTD B 0 Bright A_FireCustomMissile("IntruderHeavenPlasma",0,1,9,3)
+	  INTD B 2 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD C 0 A_Light0
+	  INTD C 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD D 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD E 0 A_Light1
+      INTD E 0 A_PlaySound("Weapon/IntruderFireUp",CHAN_WEAPON)
+      INTD E 0 Bright A_FireCustomMissile("IntruderHeavenPlasma",0,1,-9,3)
+	  INTD E 2 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD G 0 A_Light0
+	  INTD F 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD G 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+      INTD A 0 A_ReFire
+      Goto Ready   
+  AltFire:
+      INTD A 0 A_PlaySound("heavenguard/attack",CHAN_VOICE,1,0)
+   LoopingAltFire:
+      INTD A 0 A_JumpIfInventory("KXIntruderCharge",27,"LoopingAltFireSecondary")
+	  PLBG A 0 A_PlaySound("Weapon/IntruderCharge",CHAN_WEAPON,1,1)
+	  INTD A 0 A_GiveInventory("KXIntruderCharge", 1)
+	  INTD AA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  INTD A 0 A_Refire("LoopingAltFire")
+	  Goto ReallyAltFire
+	LoopingAltFireSecondary:
+	  INTD A 0 A_PlaySound("Weapon/IntruderChargeLoop",CHAN_WEAPON,1,1)
+	  INTD A 0 A_GiveInventory("KXIntruderCharge", 1)
+	  INTD AA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+	  INTD A 0 A_Refire("LoopingAltFireSecondary")
+	  Goto ReallyAltFire
+    ReallyAltFire:
+      INTD A 0 A_StopSound(CHAN_WEAPON)
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",30,"ReleaseAltFireSix")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",24,"ReleaseAltFireFive")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",18,"ReleaseAltFireFour")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",12,"ReleaseAltFireThree")
+	  PLBG A 0 A_JumpIfInventory("KXIntruderCharge",6,"ReleaseAltFireTwo")
+	  Goto ReleaseAltFireOne
+  ReleaseAltFireOne:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	INTD E 0 A_Light1
+    INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    INTD B 5 Bright A_FireCustomMissile("IntruderChargedBallOne",0,1,9,3)
+	INTD CD 5 A_Light0 
+	INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+	INTD E 5 Bright A_FireCustomMissile("IntruderChargedBallOne",0,1,-9,3)
+	INTD F 5 A_Light0
+    INTD G 5
+	INTD A 15
+	Goto Ready
+  ReleaseAltFireTwo:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	INTD E 0 A_Light1
+    INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    INTD B 5 Bright A_FireCustomMissile("IntruderChargedBallTwo",0,1,9,3)
+	INTD CD 5 A_Light0 
+	INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+	INTD E 5 Bright A_FireCustomMissile("IntruderChargedBallTwo",0,1,-9,3)
+	INTD F 5 A_Light0
+    INTD G 5
+	INTD A 15
+	Goto Ready
+  ReleaseAltFireThree:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	INTD E 0 A_Light1
+    INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    INTD B 5 Bright A_FireCustomMissile("IntruderChargedBallThree",0,1,9,3)
+	INTD CD 5 A_Light0 
+	INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+	INTD E 5 Bright A_FireCustomMissile("IntruderChargedBallThree",0,1,-9,3)
+	INTD F 5 A_Light0
+    INTD G 5
+	INTD A 15
+	Goto Ready
+  ReleaseAltFireFour:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	INTD E 0 A_Light1
+    INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    INTD B 5 Bright A_FireCustomMissile("IntruderChargedBallFour",0,1,9,3)
+	INTD CD 5 A_Light0 
+	INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+	INTD E 5 Bright A_FireCustomMissile("IntruderChargedBallFour",0,1,-9,3)
+	INTD F 5 A_Light0
+    INTD G 5
+	INTD A 15
+	Goto Ready
+  ReleaseAltFireFive:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	INTD E 0 A_Light1
+    INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    INTD B 5 Bright A_FireCustomMissile("IntruderChargedBallFive",0,1,9,3)
+	INTD CD 5 A_Light0 
+	INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+	INTD E 5 Bright A_FireCustomMissile("IntruderChargedBallFive",0,1,-9,3)
+	INTD F 5 A_Light0
+    INTD G 5
+	INTD A 15
+	Goto Ready
+  ReleaseAltFireSix:
+	NULL A 0 A_TakeInventory("KXIntruderCharge",30)
+	INTD E 0 A_Light1
+    INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+    INTD B 5 Bright A_FireCustomMissile("IntruderChargedBallSix",0,1,9,3)
+	INTD CD 5 A_Light0 
+	INTD E 0 A_PlayWeaponSound("Weapon/IntruderChargeFire")
+	INTD E 5 Bright A_FireCustomMissile("IntruderChargedBallSix",0,1,-9,3)
+	INTD F 5 A_Light0
+    INTD G 5
+	INTD A 15
+	Goto Ready
+   KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		INTD A 1 bright Offset(0,70)
+	    INTD A 1 bright Offset(0,60)
+	    INTD A 1 bright Offset(0,50)
+	    INTD A 1 bright Offset(0,40)
+		Goto Ready
+   }
+}
+
+ACTOR DualIntruderPickup : CustomInventory
+{ 
+   +FLOORCLIP
+   +AUTOACTIVATE
+   Inventory.MaxAmount 1
+   Inventory.PickupSound "misc/w_pkup" 
+   Inventory.PickupMessage "Picked up another intruder" 
+   Scale 0.6
+   States 
+   { 
+   Spawn: 
+      PLBT A -1
+      loop 
+   Pickup: 
+      TNT1 A 0 A_TakeInventory("Intruder", 1) 
+      TNT1 A 0 A_GiveInventory("DualIntruders", 1) 
+      Stop 
+   } 
+}
+
+ACTOR IntruderBall
+{
+	Radius 13
+	Height 8
+	Speed 80
+	Damage (5*Random(1,4))
+	Projectile
+	RenderStyle Add
+	DeathSound "Weapon/IntruderBallDeath"
+	Alpha 0.9
+	Scale 0.7
+	States
+	{
+	Spawn:
+		TNT1 A 1
+		TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (2 *momx)/-35.0, -(2 *momy)/-35.0, 2+(2 *momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (4 *momx)/-35.0, -(4 *momy)/-35.0, 2+(4 *momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (6*momx)/-35.0, -(6*momy)/-35.0, 2+(6*momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (8*momx)/-35.0, -(8*momy)/-35.0, 2+(8*momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (10*momx)/-35.0, -(10*momy)/-35.0, 2+(10*momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (12*momx)/-35.0, -(12*momy)/-35.0, 2+(12*momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (14*momx)/-35.0, -(14*momy)/-35.0, 2+(14*momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        TNT1 A 0 A_SpawnItemEx("IntruderBallTrail", (16*momx)/-35.0, -(16*momy)/-35.0, 2+(16*momz)/-35.0, 0,0,0, 0, SXF_ABSOLUTEANGLE)
+        Loop
+	Death:
+		PLSE AAAAA 0 bright A_SpawnItemEx("PlasmaParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+		PLSE BCDEF 2 bright
+		PLSE GHIJKLMN 1 bright
+		Stop
+	}
+}
+
+Actor IntruderBallTrail
+{
++ClientSideOnly
++NoGravity
++NoInteraction
++NoBlockMap
+Renderstyle Add
+Scale 0.15
+Alpha 0.5
+States
+	{
+	Spawn:
+		PLSE A 2 BRIGHT
+		Stop
+	}
+}
+
+ACTOR IntruderChargedBallOne : FastProjectile
+{
+  Speed 100
+  Damage (10*Random(1,1))
+  Radius 13
+  Height 8
+  Projectile
+  MissileType "IntruderChargedBallTrail1"
+  MissileHeight 8
+  RenderStyle Add
+  Alpha 0.9
+  Scale 0.5
+  States
+  {
+  Spawn:
+    TNT1 A 1
+	Loop
+  Death:
+	PLSE AAAAAAAAAA 0 bright A_SpawnItemEx("PlasmaParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+	PLSE BCDEF 2 bright
+	PLSE GHIJKLMN 1 bright
+	Stop
+  }
+}
+
+ACTOR IntruderChargedBallTwo : IntruderChargedBallOne
+{
+   Damage (20*Random(1,1))
+   Scale 0.6
+   Speed 110
+   MissileType "IntruderChargedBallTrail2"
+}
+
+ACTOR IntruderChargedBallThree : IntruderChargedBallOne
+{
+   Damage (40*Random(1,1))
+   Scale 0.7
+   Speed 120
+   MissileType "IntruderChargedBallTrail3"
+}
+
+ACTOR IntruderChargedBallFour : IntruderChargedBallOne
+{
+   Damage (60*Random(1,1))
+   Scale 0.8
+   Speed 130
+   MissileType "IntruderChargedBallTrail4"
+}
+
+ACTOR IntruderChargedBallFive : IntruderChargedBallOne
+{
+   Damage (80*Random(1,1))
+   Scale 0.9
+   Speed 140
+   MissileType "IntruderChargedBallTrail5"
+}
+
+ACTOR IntruderChargedBallSix : IntruderChargedBallOne
+{
+   Damage (100*Random(1,1))
+   Scale 1.0
+   Speed 150
+   MissileType "IntruderChargedBallTrail6"
+}
+
+Actor IntruderChargedBallTrail6
+{
+    Scale 0.3
+    Radius 1
+    Height 1
+    Speed 0
+    Damage 0
+    RenderStyle Add
+	+NoInteraction
+	+ClientSideOnly
+	+NoGravity
+	+NoBlockMap
+	+ThruActors
+    Alpha 1
+    States
+    {
+    Spawn:
+	    PLSE A 0 Bright A_SetScale(ScaleX*0.9)
+        PLSE A 1 Bright A_FadeOut(0.08)
+        Loop
+    }
+}
+
+Actor IntruderChargedBallTrail5 : IntruderChargedBallTrail6
+{
+    Scale 0.25
+}
+
+Actor IntruderChargedBallTrail4 : IntruderChargedBallTrail6
+{
+    Scale 0.20
+}
+
+Actor IntruderChargedBallTrail3 : IntruderChargedBallTrail6
+{
+    Scale 0.15
+}
+
+Actor IntruderChargedBallTrail2 : IntruderChargedBallTrail6
+{
+    Scale 0.10
+}
+
+Actor IntruderChargedBallTrail1 : IntruderChargedBallTrail6
+{
+    Scale 0.05
+}
+
+ACTOR IntruderHeavenPlasma : FastProjectile
+{
+	Radius 13
+	Height 8
+	Speed 100
+	Damage (6*Random(1,4))
+	Projectile
+	RenderStyle Add
+	DeathSound "Weapon/IntruderBallDeath"
+	MissileType "IntruderHeavenPlasmaTrail"
+	MissileHeight 8
+	Alpha 0.9
+	Scale 1.0
+	States
+	{
+	Spawn:
+		TNT1 A 1
+        Loop
+	Death:
+		PLSE AAAAA 0 bright A_SpawnItemEx("PlasmaParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+		PLZM H 0
+		PLZM H 0 A_Explode(8, 32)
+		PLZM HIJKL 3 bright
+		Stop
+	}
+}
+
+ACTOR IntruderHeavenPlasmaTrail
+{
+  RenderStyle Add
+  Alpha 0.75
+  Scale 0.25
+  +NoBlockMap
+  +NoInteraction
+  +NoGravity
+  +ClientSideOnly
+  States
+  {
+  Spawn:
+	PLZM M 0 A_SetScale(ScaleX-0.01)
+    PLZM M 1 A_FadeOut(0.05)
+	Loop
+  }
+}
+
+ACTOR KXIntruderCharge : Ammo { Inventory.MaxAmount 30 Inventory.Icon "CELLA0" }

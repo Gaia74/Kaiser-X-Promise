@@ -1,0 +1,88 @@
+ACTOR KaiserScout 7516
+{
+	//$Category LowTierSoldiers 
+	Health 150
+	Speed 14
+	Radius 20
+	Height 56
+	Mass 450
+	PainChance 40
+	Monster
+	+DROPOFF
+	+NOBLOOD
+	+MISSILEMORE
+	+LOOKALLAROUND
+	+DONTHARMSPECIES
+    Species "KX"
+	DamageFactor "KX", 0.0
+	Obituary "%o intrusion was detected by a Kaiser-scout."
+	MinMissileChance 150
+	SeeSound "Robot/See"
+	ActiveSound "Robot/Active"
+	painsound "Robot/Pain"
+    deathsound "Robot/Death"        
+	States
+	{
+	Spawn:
+		MECH H 1 A_Look
+		loop
+	See:
+		MECH A 4 A_Chase
+		MECH A 0 A_playsound("Robot/SmallStep")
+		MECH BC 4 A_Chase
+		MECH A 0 A_playsound("Robot/SmallStep")
+		MECH D 4 A_Chase
+		loop
+	Melee:
+	Missile: 
+	    MECH E 0 A_PlaySound("Robot/Alert")
+	    MECH E 15 A_FaceTarget
+		MECH F 0 A_PlaySound("Robot/MachineGunFire")
+        MECH F 0 Bright A_CustomMissile("KXScoutDustParticle",50,-12,0)
+		MECH F 0 Bright A_CustomMissile("PisCaseSpawn",50,-12,0)
+		MECH F 2 Bright A_CustomMissile("KXScoutBullet", 48,-12,frandom(-3,3),CMF_OFFSETPITCH,frandom(-2,2))
+		MECH E 2 A_FaceTarget
+		MECH F 0 A_PlaySound("Robot/MachineGunFire")
+		MECH F 0 Bright A_CustomMissile("KXScoutDustParticle",48,-12,0)
+		MECH F 0 Bright A_CustomMissile("PisCaseSpawn",50,-12,0)
+        MECH F 2 Bright A_CustomMissile("KXScoutBullet", 48,-12,frandom(-3,3),CMF_OFFSETPITCH,frandom(-2,2))
+		MECH E 2 A_FaceTarget
+        MECH E 0 A_CPosRefire
+        Goto Missile+2
+	Pain:
+	    MECH G 2
+		MECH G 2 A_Pain
+		Goto See
+	Death:
+	    TNT1 AAAAAAAAAAAAAAAAA 0 A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-3,3),frandom(-3,3),random(15,35),frandom(-8,8),frandom(-8,8),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+		MECH Q 5 Bright A_PlaySound("weapons/rocklx", CHAN_Item)
+		MECH Q 0 A_Explode(32,128)
+		MECH Q 0 A_Fall
+		MECH Q 0 A_Scream
+		MECH RR 2 Bright 
+		TNT1 A 0 Bright A_PlaySound("Robot/DeathEffect", CHAN_Weapon)
+		MECH SSTT 2 Bright 
+		MECH UVW 5 Bright 
+		MECH X -1
+		Stop
+	}
+}
+
+ACTOR KXScoutBullet : KaiserXBullet
+{
+	Damage (random(1,5))
+}
+
+Actor KXScoutDustParticle : KXDustParticle
+{
+	Scale 0.1
+	Speed 2
+	States
+	{
+  Spawn:
+  Death:
+    KDUS A 0 Bright A_SetScale(ScaleX+0.01)
+    KDUS A 1 Bright A_FadeOut(0.05)
+    Loop
+	}
+}

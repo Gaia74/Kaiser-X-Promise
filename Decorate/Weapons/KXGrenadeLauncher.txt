@@ -1,0 +1,97 @@
+ACTOR KXGrenadeLauncher : KXBaseWeapon 7483 
+{ 
+  //$Category Weapons
+  Radius 20
+  Height 16
+  Weapon.SelectionOrder 2500
+  +WEAPON.NOAUTOFIRE
+  +WEAPON.NOAUTOAIM
+  Weapon.AmmoUse 1
+  Weapon.AmmoGive 2
+  Weapon.AmmoType "RocketAmmo"
+  Weapon.Kickback 100
+  Weapon.SlotNumber 5
+  Weapon.AmmoUse2 1
+  Weapon.AmmoType2 "RocketAmmo"
+  Inventory.PickupMessage "You got the grenade launcher!"
+  Obituary "%o caught %k's grenade."
+  Inventory.PickupSound "Weapons/GrenadeLauncher/Pickup"
+  Weapon.UpSound "Weapons/GrenadeLauncher/Up"
+  States
+  {
+  Spawn:
+    GLAU A -1
+    Stop
+  Ready: 
+	GRLG A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+    GRLG A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+    Goto Ready
+  Deselect:
+    GRLG A 0 A_Lower
+    GRLG A 1 A_Lower
+    Loop
+  Select:
+    GRLG A 1 Offset(-57,92)
+	FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+	GRLG A 1 Offset(-56,87)
+	GRLG A 1 Offset(-55,82)
+	GRLG A 1 Offset(-54,77)
+	GRLG A 1 Offset(-52,72)
+	GRLG A 1 Offset(-49,67)
+	GRLG A 1 Offset(-45,62)
+	GRLG A 1 Offset(-40,57)
+	GRLG A 1 Offset(-34,52)
+	GRLG A 1 Offset(-27,47)
+	GRLG A 1 Offset(-19,42)
+	GRLG A 1 Offset(-10,37)
+	Goto Ready
+  Fire: 
+	GRLG A 2 A_GunFlash
+	GRLG B 0 A_PlayWeaponSound ("Weapons/GrenadeLauncher/Fire")
+    GRLG B 0 A_FireCustomMissile("KXPlayerGrenade1", 0, 1, 0, 0, 0, 6.328125)
+	GRLG A 0 Radius_Quake(4,4,0,1,0)
+	GRLG A 0 A_ZoomFactor(0.975)
+	GRLG A 1 OffSet(0,42) A_ZoomFactor(0.950)
+	GRLG A 1 OffSet(0,52) A_ZoomFactor(0.925)
+	GRLG A 1 OffSet(0,62) A_ZoomFactor(0.9)
+	GRLG A 1 OffSet(0,52) A_ZoomFactor(0.925)
+	GRLG A 1 OffSet(0,42) A_ZoomFactor(0.950)
+	GRLG A 1 OffSet(0,32) A_ZoomFactor(0.975)
+	GRLG A 1 A_ZoomFactor(1.0)
+	GRLG A 11
+    GRLG A 0 A_ReFire
+    Goto Ready 
+  AltFire:
+	GRLG A 2 A_GunFlash
+	GRLG B 0 A_PlayWeaponSound ("Weapons/GrenadeLauncher/Fire")
+    GRLG B 0 A_FireCustomMissile("KXPlayerGrenade2", 0, 1, 0, 0, 0, 6.328125)
+	GRLG A 0 Radius_Quake(4,4,0,1,0)
+	GRLG A 0 A_ZoomFactor(0.975)
+	GRLG A 1 OffSet(0,42) A_ZoomFactor(0.950)
+	GRLG A 1 OffSet(0,52) A_ZoomFactor(0.925)
+	GRLG A 1 OffSet(0,62) A_ZoomFactor(0.9)
+	GRLG A 1 OffSet(0,52) A_ZoomFactor(0.925)
+	GRLG A 1 OffSet(0,42) A_ZoomFactor(0.950)
+	GRLG A 1 OffSet(0,32) A_ZoomFactor(0.975)
+	GRLG A 1 A_ZoomFactor(1.0)
+	GRLG A 11
+    GRLG A 0 A_ReFire
+    Goto Ready 
+  Flash: 
+    GRLF A 5 bright A_Light1
+    GRLF B 1 bright
+    GRLF C 1 bright A_Light2
+    GRLF D 1 bright A_Light2
+    Goto LightDone
+  KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		GRLG A 1 bright Offset(0,70)
+	    GRLG A 1 bright Offset(0,60)
+	    GRLG A 1 bright Offset(0,50)
+	    GRLG A 1 bright Offset(0,40)
+		Goto Ready
+  }
+}

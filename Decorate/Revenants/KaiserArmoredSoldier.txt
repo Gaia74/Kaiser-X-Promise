@@ -1,0 +1,365 @@
+///////////////////////////////////////////////////////////////////
+//Terminator
+//created by: Vader
+///////////////////////////////////////////////////////////////////
+
+
+ACTOR KaiserArmoredSoldier 7610 
+{ 
+//$Category RevSnipers
+Health 500 
+Radius 24 
+Height 64 
+Mass 1500 
+Speed 8
+PainChance 20
+MONSTER
+Obituary "%o was liquidated by a Kaiser Armored Soldier."
++FLOORCLIP 
++MISSILEMORE
++NORADIUSDMG
++DONTHARMSPECIES
+Species "KX"
+DamageFactor "KX", 0.0
+SeeSound "monster/termsit" 
+PainSound "monster/termpin" 
+DeathSound "monster/termdth"
+ActiveSound "Terminator/termact"
+Var int user_fire;
+States 
+   { 
+   Spawn: 
+       TERM AB 10 A_Look 
+       Loop 
+   See:
+       TERM A 0 A_Playsound("Terminator/Step")
+       TERM AABB 4 A_Chase
+       TERM C 0 A_Playsound("Terminator/Step")
+       TERM CCDD 4 A_Chase 
+       Loop 
+   Pain:
+       TERM L 3 A_Pain
+       TERM L 3
+       Goto See
+   Missile:
+       TNT1 A 0 A_Jump(128,"SMG","Blast","Red","PlasmaGrenade")
+     Blast:
+       TERM E 6 A_FaceTarget
+       TERM F 6 Bright A_CustomMissile("TerminatorBlaster",38,15,0,0)
+       TERM E 0 A_jump(128,1)
+       Goto See
+	   TERM E 6 A_FaceTarget
+       TERM F 6 Bright A_CustomMissile("TerminatorBlaster",38,15,0,0)
+       TERM E 0 A_jump(128,1)
+       Goto See
+	   TERM E 6 A_FaceTarget
+       TERM F 6 Bright A_CustomMissile("TerminatorBlaster",38,15,0,0)
+       TERM E 0 A_jump(128,1)
+       Goto See
+	 SMG:
+       TERM G 1 A_Facetarget
+	   TERM H 0 bright A_PlaySound ("Terminator/tershotB",CHAN_WEAPON,1.0,FALSE)
+	   TERM H 0 Bright A_CustomMissile("KXArachnophyteDustParticle",38,-15,0)
+	   TERM H 0 Bright A_CustomMissile("PisCaseSpawn",38,-15,0)
+	   TERM H 2 A_CustomMissile("KXScoutBullet",38,-15,frandom(-4,4),CMF_OFFSETPITCH,frandom(-1,1))
+       TERM G 1 A_Facetarget
+       TERM I 0 bright A_PlaySound ("Terminator/tershotB",CHAN_WEAPON,1.0,FALSE)
+	   TERM I 0 Bright A_CustomMissile("KXArachnophyteDustParticle",38,-15,0)
+	   TERM I 0 Bright A_CustomMissile("PisCaseSpawn",38,-15,0)
+	   TERM I 2 A_CustomMissile("KXScoutBullet",38,-15,frandom(-4,4),CMF_OFFSETPITCH,frandom(-1,1))
+       TERM G 1 Bright A_Facetarget
+	   TERM G 0 A_Jump(4,"See")
+       TERM G 0 A_Spidrefire
+       Loop
+	 Red:
+	   TNT1 A 0 A_SetUserVar(user_fire,0)
+	   TERM A 0 A_PlaySound("Terminator/Charge",CHAN_WEAPON,1.0)
+       TERM E 16 A_Facetarget
+	 RedLooping:
+	   TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+       TERM F 3 Bright A_CustomMissile("TerminatorPlasma",38,15,frandom(-1,1),CMF_OFFSETPITCH,frandom(-1,1))
+	   TERM E 3 Bright A_FaceTarget
+	   TNT1 A 0 A_JumpIf(user_fire>10,"See")
+       Loop
+	 PlasmaGrenade:
+	   TERM A 0 A_PlaySound("Terminator/Charge",CHAN_WEAPON,1.0)
+       TERM E 16 A_Facetarget
+       TERM F 4 Bright A_CustomMissile("TerminatorPlasmaGrenade",38,15,frandom(-10,10),2,frandom(5,20))
+	   TERM E 12 A_Facetarget
+       TERM F 4 Bright A_CustomMissile("TerminatorPlasmaGrenade",38,15,frandom(-10,10),2,frandom(5,20))
+	   TERM E 12 A_Facetarget
+       TERM F 4 Bright A_CustomMissile("TerminatorPlasmaGrenade",38,15,frandom(-10,10),2,frandom(5,20))
+	   TERM E 0 A_jump(128,1)
+	   Goto See
+	   TERM E 12 A_Facetarget
+       TERM F 4 Bright A_CustomMissile("TerminatorPlasmaGrenade",38,15,frandom(-10,10),2,frandom(5,20))
+	   TERM E 0 A_jump(128,1)
+	   Goto See
+	   TERM E 12 A_Facetarget
+       TERM F 4 Bright A_CustomMissile("TerminatorPlasmaGrenade",38,15,frandom(-10,10),2,frandom(5,20))
+       Goto See
+   Death:
+       TERM M 6 A_Scream
+       TERM N 4 
+       TERM OPQ 4 Bright
+       TERM R 0 Bright A_FaceTarget
+	   TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,0,36,frandom(-10,10),frandom(-10,10),frandom(0,10),random(1,360))
+	   TNT1 AAAAAAAAAAAAAAAAA 0 A_SpawnitemEx("KXShrapnelMetalParticle",0,0,30,frandom(-10,10),frandom(-10,10),frandom(5,15),random(0,360),SXF_NOCHECKPOSITION)
+       TERM R 0 Bright A_SpawnItemEx("TerminatorHead", 15, 0, 90, 10, 0, 0, -170, 128)
+       TERM R 0 Bright A_SpawnItemEx("TerminatorShoulder", 60, 0, 75, 8, 0, 0, -70, 128)
+       TERM R 4 Bright A_SpawnItemEx("TerminatorArm", 60, 0, 0, 3, 0, 4, -90, 128)
+       TERM STUV 4 Bright
+       TERM W 4 
+       TERM X 6 A_Fall
+       TERM Y 6
+       TERM Z 1 A_Playsound("Terminator/terstepA")
+       TERM Z 5 
+       TERM [ -1   
+       Stop
+   } 
+}
+
+
+ACTOR TerminatorBlaster
+{
+   Radius 8
+   Height 12
+   Speed 35
+   Damage 5
+   PROJECTILE
+   RENDERSTYLE ADD
+   alpha 0.85
+   SeeSound "Terminator/tershotA"
+   DeathSound "Mancubus/FireBallDeath"
+   Decal RevenantScorch
+   States
+   {
+   Spawn: 
+      BLST A 1 Bright A_SpawnItemEx("KXExplosiveFireBallParticle2",0,FRandom(-3,3),FRandom(-4,4),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+      loop
+   Death:
+      TNT1 A 0 A_Explode(64,128)
+      BLST BCDEFGHIJKL 2 Bright 
+      stop
+   }
+}
+
+actor TerminatorPlasma
+{
+    Radius 10
+    Height 20
+    Speed 20
+    Damage 4
+    Scale 0.6
+    +SEEKERMISSILE
+    PROJECTILE
+    RENDERSTYLE ADD
+    ALPHA 0.8
+    SeeSound "KXFusionSpider/Shot" 
+    DeathSound "KXFusionSpider/ShotDeath"
+	Translation "16:47=192:207", "168:191=192:207"
+    Decal CacoScorch
+    States
+    {
+    Spawn:
+        STAR A 2 Bright A_SeekerMissile(2,2)
+		TNT1 A 0 Bright A_SpawnItemEx("KXDiscipleParticle2",0,0,0,0,0,0,Random(0,360),SXF_TRANSFERTRANSLATION)
+        STAR B 2 Bright A_SeekerMissile(2,2)
+		TNT1 A 0 Bright A_SpawnItemEx("KXDiscipleParticle2",0,0,0,0,0,0,Random(0,360),SXF_TRANSFERTRANSLATION)
+        STAR C 2 Bright A_SeekerMissile(2,2)
+		TNT1 A 0 Bright A_SpawnItemEx("KXDiscipleParticle2",0,0,0,0,0,0,Random(0,360),SXF_TRANSFERTRANSLATION)
+        STAR D 2 Bright A_SeekerMissile(2,2)
+		TNT1 A 0 Bright A_SpawnItemEx("KXDiscipleParticle2",0,0,0,0,0,0,Random(0,360),SXF_TRANSFERTRANSLATION)
+        Loop
+    Death:
+        STAR EFGHIJKLMNO 3 Bright
+        Stop
+    }
+}
+
+Actor TerminatorPlasmaParticle : KXDiscipleParticle2
+{
+	Translation "168:191=192:207", "16:47=192:207"
+}
+
+actor TerminatorPlasmaGrenade
+{
+    Radius 6
+    Height 12
+    Speed 20
+    Damage 5
+    PROJECTILE
+    +DoomBounce
+    -NoGravity
+	+NoBounceSound
+    RENDERSTYLE ADD
+    ALPHA 0.8
+	SeeSound "Terminator/Grenade"
+    DeathSound "Terminator/PlasmaExplosion"
+	Translation "16:47=192:207", "168:191=192:207"
+    States
+    {
+    Spawn:
+    	TGND BBBBCCCCAAAA 1 Bright A_SpawnItemEx("TerminatorPlasmaGrenadeTrail",0,0,0,0,0,0,0,128)
+    	TGND A 0 A_Jumpifcloser(48, 1)
+        Loop
+    Death:
+    	STAR E 0 Bright A_Explode(40,72,1)
+		STAR E 0 A_PlaySound("Terminator/PlasmaExplosion",CHAN_AUTO,1.0)
+		STAR EEEEEEEEEE 0 Bright A_SpawnItemEx("TerminatorPlasmaGrenadeEffect1",0,0,0,frandom(-5,5),frandom(-5,5),frandom(5,10),frandom(-180,180))
+    	STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,0,2,0)
+    	STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,20,2,0)
+    	STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,40,2,0)
+    	STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,60,2,0)
+    	STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,80,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,100,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,120,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,140,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,160,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,180,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,200,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,220,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,240,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,260,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,280,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,300,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,320,2,0)
+        STAR E 0 Bright A_custommissile("TerminatorPlasmaGrenadeBlast",0,0,340,2,0)
+		STAR A 0 A_SetScale(1.5)
+        STAR EFGHIJKLMNO 4 Bright
+        Stop
+    }
+}
+
+ACTOR TerminatorPlasmaGrenadeTrail
+{       
+   	Projectile
+   	+NoBlockMap
+	+BloodlessImpact
+	+ClientSideOnly
+    -BloodSplatter
+    +DontSplash
+    +ForceXYBillBoard
+    Renderstyle ADD
+	Alpha 0.9
+	Translation "16:47=192:207", "168:191=192:207"
+	States
+	{   
+	Spawn:
+	    TGTR AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHHIIII 1 Bright A_FadeOut(0.02)
+	    Wait
+	}
+}  
+
+
+actor TerminatorPlasmaGrenadeBlast
+{
+    Radius 6
+    Height 12
+    Speed 5
+    Damage (15)
+    PROJECTILE
+    RENDERSTYLE ADD
+    ALPHA 0.8
+	Translation "16:47=192:207", "168:191=192:207"
+    States
+    {
+    Spawn:
+	Death:
+    	TGBL ABCDEFGHIJK 2 Bright
+        stop
+    }
+}
+
+Actor TerminatorPlasmaGrenadeEffect1 : KXBaronFireParticle
+{
+	+DoomBounce
+	-NoGravity
+	Gravity 0.85
+	BounceCount 2
+	Translation "16:47=192:207", "168:191=192:207"
+	States
+	{
+  Spawn:
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 Bright A_SpawnItemEx("TerminatorPlasmaGrenadeEffect2",0,0,0,frandom(-1,1),frandom(-1,1),frandom(-1,1),random(1,360), SXF_TRANSFERTRANSLATION)
+    Stop
+	}
+}
+
+Actor TerminatorPlasmaGrenadeEffect2 : KXBaronFireParticle
+{
+	Scale 0.25
+	States
+	{
+	Spawn:
+		STAR EFGHIJKLMNO 1 Bright
+        Stop
+	}
+}
+
+ACTOR TerminatorArm
+{
+	Radius 12
+	Height 15
+	Speed 3
+	Mass 1000
+	Projectile
+	Gravity 0.7
+	-NOGRAVITY
+      States
+	{
+	Spawn:
+         TARM ABCDEF 5
+		 Wait
+    Death:
+		 TARM A 0 A_Stop
+         TARM F -1
+         Stop
+	}
+}
+
+actor TerminatorHead
+{
+    Radius 6
+    Height 8
+    Speed 10
+    Mass 1000
+	Projectile
+	-NOGRAVITY
+    +DOOMBOUNCE
+	+DROPOFF
+	BounceType Doom
+    BounceSound "Paladin/Bounce2"
+    States
+    {
+    Spawn:
+    	THAD DEFGHABC 2
+        loop
+    Death:
+    	THAD I -1
+        Stop
+    }
+}
+
+actor TerminatorShoulder
+{
+    Radius 8
+    Height 8
+    Speed 8
+	Projectile
+    Mass 1000
+    +DROPOFF
+	+DOOMBOUNCE
+	-NOGRAVITY
+	BounceType Doom
+    BounceSound "Paladin/Bounce2"
+    States
+    {
+    Spawn:
+    	TSHO ABCDEFGH 2
+        loop
+    Death:
+    	TSHO I -1
+        Stop
+    }
+}

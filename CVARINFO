@@ -1,0 +1,3 @@
+server int Kaiser_NoFinal = 0;
+server int WantsMusicCredits = 1;
+server int WantsAutoSaves = 1;

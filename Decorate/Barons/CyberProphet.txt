@@ -1,0 +1,665 @@
+ACTOR CyberProphet : Baronofhell 7605 
+{ 
+  //$Category Barons
+  obituary "%o now understands how Lord God Kaiser Hell is superior by a Cyber Prophet"
+  hitobituary "%o now understands how Lord God Kaiser Hell is superior by a Cyber Prophet" 
+  health 3000
+  radius 24
+  height 64
+  mass 1000
+  speed 12
+  Translation "112:127=160:167", "168:191=112:127", "16:47=194:207", "48:79=168:191"
+  painchance 40
+  seesound "cbaron/sight"
+  painsound "cbaron/pain"
+  deathsound "cbaron/death"
+  activesound "cbaron/active"
+  DamageFactor "KThunder", 0.0
+  MONSTER
+  +DONTRIP
+  +NOINFIGHTING
+  +NORADIUSDMG
+  +NOICEDEATH
+  +DONTHARMSPECIES
+  +MISSILEMORE
+  Species "KX"
+  DamageFactor "KX", 0.0
+  DamageType "KX"
+  var int user_fire;
+  states
+  {
+  Spawn:
+    CBOS AB 10 A_Look
+    loop
+  See:
+	CBOS AA 3 A_VileChase  
+    CBOS B 0 A_PlaySound("cbaron/metal",CHAN_6,1.0)
+    CBOS BBCCD 3 A_VileChase
+	CBOS D 0 A_PlaySound("cbaron/Step",CHAN_7,1.0)
+	CBOS D 3 A_VileChase
+    loop
+  Melee:
+    CBOS A 0 A_ChangeFlag("NOPAIN",1)
+    CBOS PQ 5 A_FaceTarget
+    CBOS R 5 A_CustomComboAttack("BaronBall", 32, 5 * random(15, 35), "baron/melee")
+	CBOS A 0 A_ChangeFlag("NOPAIN",0)
+    Goto See
+  InstaMelee:
+	CBOS E 0 A_PlaySound("cbaron/DashHit",CHAN_ITEM,1.0)
+    CBOS E 0 A_FaceTarget
+	CBOS E 0 A_ScaleVelocity(0)
+    CBOS Q 4 A_CustomMeleeAttack(5*random(10,30),"cbaron/DashHit","","Melee",True)
+	CBOS RR 4 A_FaceTarget
+    Goto See
+  Heal:
+	CBOS E 0 A_PlaySound("CyberProphet/Resurrects",CHAN_ITEM,1.0)
+    CBOS HHHHHHHHHHHHHHHHHHHHHHHHHHHHHH 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+    goto See
+  Missile:
+    TNT1 A 0 A_Jump(256,"Grenades","Dash","Stomp","Baron","EFire","Thunder","Shield","IceShotgun","Healing")
+	Goto See
+  Stomp:
+    CBOS A 0 A_PlaySound("cbaron/roar",CHAN_VOICE,1.0)
+    CBOS PPPPPA 4 A_FaceTarget
+	CBOS P 0 Bright A_PlaySound("cbaron/jump")
+	TNT1 A 0 ThrustThingZ(0,30,0,1)
+	TNT1 A 0 A_Recoil(-35)
+	TNT1 AAAAAAAAAA 0 A_SpawnItemEx("KXArachnobaronDust",0,0,3,random(-6,6),random(-6,6),random(0,1),random(0,360))
+	TNT1 A 0 A_FaceTarget
+	Goto StompAnimation
+  StompAnimation:
+	CBOS P 1 BRIGHT A_SpawnItemEx("KXCyberBaronDashTrailOne",0,0,0,0,0,0,0,SXF_CLIENTSIDE|SXF_TRANSFERTRANSLATION)
+	CBOS P 0 Bright A_JumpIfCloser(70,"EndStomp")
+	CBOS P 0 BRIGHT A_JumpIf(Momz==0,"EndStomp")
+	Loop
+  EndStomp:
+    CBOS Q 0 BRIGHT A_SpawnItemEx("KXStompEffect",0,0,3,0,0,0,0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_PlaySound("cbaron/Stomp")
+	TNT1 A 0 A_Explode(192,172)
+	CBOS R 20 A_ScaleVelocity(0)
+	Goto See
+  Dash:
+    CBOS P 5 A_FaceTarget
+	CBOS P 0 Bright A_PlaySound("cbaron/dash")
+	TNT1 A 0 ThrustThingZ(0,10,0,1)
+	TNT1 A 0 A_Recoil(-30)
+	TNT1 A 0 A_FaceTarget
+	Goto RealDash
+  RealDash:
+    CBOS P 0 A_SpawnItemEx("KXCyberBaronDashTrailOne", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS P 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS P 0 A_SpawnItemEx("KXCyberBaronDashTrailOne", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS P 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS P 0 A_SpawnItemEx("KXCyberBaronDashTrailOne", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS P 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS P 0 A_SpawnItemEx("KXCyberBaronDashTrailOne", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS P 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS P 0 A_SpawnItemEx("KXCyberBaronDashTrailOne", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS P 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS Q 0 A_SpawnItemEx("KXCyberBaronDashTrailTwo", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS Q 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS Q 0 A_SpawnItemEx("KXCyberBaronDashTrailTwo", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS Q 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS Q 0 A_SpawnItemEx("KXCyberBaronDashTrailTwo", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS Q 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS Q 0 A_SpawnItemEx("KXCyberBaronDashTrailTwo", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS Q 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS Q 0 A_SpawnItemEx("KXCyberBaronDashTrailTwo", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS Q 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS R 0 A_SpawnItemEx("KXCyberBaronDashTrailThree", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS R 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS R 0 A_SpawnItemEx("KXCyberBaronDashTrailThree", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS R 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS R 0 A_SpawnItemEx("KXCyberBaronDashTrailThree", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS R 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS R 0 A_SpawnItemEx("KXCyberBaronDashTrailThree", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS R 1 Bright A_JumpIfCloser(70,"DashCheck")
+	CBOS R 0 A_SpawnItemEx("KXCyberBaronDashTrailThree", 0, 0, 0, 0, 0, 0, 0, SXF_CLIENTSIDE |SXF_TRANSFERTRANSLATION)
+	CBOS R 1 Bright A_JumpIfCloser(70,"DashCheck")
+	TNT1 A 0 A_ChangeFlag(SLIDESONWALLS,0)
+	TNT1 A 0 A_Jump(80,"Dash")
+    Goto See
+  DashCheck:
+    TNT1 A 0 A_JumpIfTargetInsideMeleeRange("InstaMelee")
+	Goto See
+  Grenades: 
+    CBOS E 0 A_PlaySound ("cbaron/Ready")
+    CBOS EEEE 5 A_FaceTarget
+	CBOS F 0 Bright A_CustomMissile("PaladinGrenadeEffect",34,16,0)
+    CBOS F 10 Bright A_CustomMissile("PaladinGrenade", 27,16,frandom(-1,1),2,frandom(0,10))
+    CBOS E 5 A_FaceTarget
+	TNT1 A 0 A_Jump(144,1)
+    Goto See
+	CBOS F 0 Bright A_CustomMissile("PaladinGrenadeEffect",34,16,0)
+	CBOS F 5 Bright A_CustomMissile("PaladinGrenade", 27,16,frandom(-1,1),2,frandom(0,10))
+    CBOS E 5 A_FaceTarget
+	TNT1 A 0 A_Jump(144,1)
+    Goto See
+	CBOS F 0 Bright A_CustomMissile("PaladinGrenadeEffect",34,16,0)
+	CBOS F 5 Bright A_CustomMissile("PaladinGrenade", 27,16,frandom(-1,1),2,frandom(0,10))
+    CBOS E 5 A_FaceTarget
+    Goto See
+  IceShotgun:
+    CBOS E 10 A_FaceTarget
+    CBOS FFFFFFFFFF 0 BRIGHT A_CustomMissile("CyberProphetIceBall", 27, 0, random(-15, 15), 0)
+    CBOS F 10 A_FaceTarget
+    Goto See
+  Baron:
+    CBOS PQ 4 A_FaceTarget
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 15)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -15)
+    CBOS R 4 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 0)
+	TNT1 A 0 A_Jump(128,1)
+    Goto See
+	CBOS PQ 4 A_FaceTarget
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 15)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -15)
+    CBOS R 4 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 0)
+	TNT1 A 0 A_Jump(128,1)
+    Goto See
+	CBOS PQ 4 A_FaceTarget
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 15)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -15)
+    CBOS R 4 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 0)
+	TNT1 A 0 A_Jump(128,1)
+    Goto See
+	CBOS PQ 4 A_FaceTarget
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 15)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -15)
+    CBOS R 4 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 0)
+	TNT1 A 0 A_Jump(128,1)
+    Goto See
+	CBOS PQ 4 A_FaceTarget
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 7)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 15)
+    CBOS R 0 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, -15)
+    CBOS R 4 BRIGHT A_Custommissile ("CyberProphetBaronBall", 27, 0, 0)
+    Goto See
+  EFire:
+    CBOS E 10 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	Goto EFireLoop
+  EFireLoop:
+	CBOS E 0 A_SetUserVar(user_fire,user_fire+1)
+    CBOS EF 1 BRIGHT A_CustomMissile("DFlare",27,0,frandom(-10, 10), 0)
+	CBOS F 0 A_FaceTarget
+	CBOS F 0 A_JumpIf(user_fire>30,"See")
+    Loop
+  Thunder:
+	CBOS E 0 A_PlaySound ("CyberProphet/ThunderChar",CHAN_WEAPON,1.5)
+    CBOS A 0 A_FaceTarget
+    CBOS PPPPPPPPPPPPPPPPPPPPPPPPPPPP 1 A_SpawnItemEx("EMPTrail", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 35)*0.1), Random(0, 360), 128)
+	CBOS A 0 A_FaceTarget
+    CBOS QQQQQQQQQQ 1 A_SpawnItemEx("EMPTrail", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS A 0 A_FaceTarget
+	CBOS RRRRRRRRRRRRRRR 3 A_SpawnItemEx("CyberProphetThunderMagic",frandom(-768,768),0,floorz-z+1,0,0,0,random(1,360))
+    Goto See
+  Shield:
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+    CBOS E 0 A_PlaySound ("CyberProphet/ShieldStart",CHAN_WEAPON,1.5)
+	Goto LoopingShield
+  LoopingShield:
+    CBOS E 0 A_FaceTarget
+	CBOS E 0 A_PlaySound ("CyberProphet/ShieldLoop",CHAN_VOICE,1.0,True)
+    CBOS E 1 bright A_SpawnItemEx ("ShieldSpawner", 0, 96, 0, 0, 0, 0, -270, 32)
+    CBOS FFFFFFF 1 bright A_SpawnItemEx ("ShieldSpawner", 0, 96, 0, 0, 0, 0, -270, 32)
+	CBOS E 0 A_SetUserVar(user_fire,user_fire+1)
+	CBOS F 0 A_JumpIf(user_fire>12,"StopShield")
+	Loop
+  StopShield:
+	CBOS A 0 A_StopSound(CHAN_VOICE)
+	CBOS A 0 A_PlaySound ("CyberProphet/ShieldEnd",CHAN_VOICE,1.0)
+	Goto See
+  Healing:
+    CBOS P 0 A_FaceTarget
+	CBOS P 0 A_PlaySound ("CyberProphet/Heal",CHAN_6,1.0)
+	CBOS PPPPPPPPPP 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS P 0 A_FaceTarget
+	CBOS PPPPPPPPPP 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS P 0 A_FaceTarget
+	CBOS PPPPPPPPPP 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS P 0 A_FaceTarget
+	CBOS PPPPPPPPPP 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS P 0 A_FaceTarget
+	CBOS PPPPPPPPPP 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS P 0 A_FaceTarget
+	CBOS PPPPPPPPPP 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS P 0 A_FaceTarget
+	CBOS PPPPPPPPPP 1 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(3,7), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	CBOS Q 8 Bright
+	CBOS P 0 A_PlaySound ("CyberProphet/HealUnleash",CHAN_6,1.0)
+	CBOS A 0 A_RadiusGive("CyberProphetCure",512,RGF_MONSTERS,1)
+	CBOS A 0 A_SetUserVar(user_fire,user_fire+0)
+	Goto Wave
+  Wave:
+	CBOS A 0 A_CustomMissile("CyberProphetCureWaveEffect",32,0,user_fire)
+	CBOS A 0 A_JumpIf(user_fire>360,"EndWave")
+	CBOS A 0 A_SetUserVar(user_fire,user_fire+4)
+	Loop
+  EndWave:
+	CBOS A 0 A_SetUserVar(user_fire,0)
+	CBOS R 70 Bright
+	Goto See
+  Pain:
+    CBOS H 2
+    CBOS H 2 A_Pain
+    TNT1 A 0 A_Jump(64, "Shield")
+    goto See
+  Raise:
+    CBOS O -1
+    Stop
+  Death:
+    CBOS HHHHHHHHHH 4 BRIGHT A_CustomMissile("ExplosionEffect",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 8
+    CBOS J 8 A_Scream
+    CBOS K 4 bright
+	CBOS A 0 A_SpawnItemEx("KXCyberBaronExplosionDeathEffectSpawner",0,0,1,0,0,0,0,SXF_NOCHECKPOSITION)
+    CBOS K 4 bright
+	CBOS L 8 bright A_NoBlocking
+    CBOS M 8 bright
+    CBOS N 8 bright
+    CBOS O -1
+    stop
+   }
+}  
+
+ACTOR CyberProphetTest : CyberProphet
+{
+  states
+  {
+  Missile:
+    TNT1 A 0 A_Jump(256,"Thunder")
+	Goto See
+  }
+}
+
+ACTOR CyberProphetIceBall : CyberBorealBall
+{
+  Speed 1
+  States
+  {
+  Spawn:
+	BAL7 A 0
+    BAL7 A 0 A_ScaleVelocity(frandom(7.0,20.0))
+    BAL7 AABB 2 bright A_SpawnItemEx("KXExplosiveFireBallParticle2",0,FRandom(-3,3),FRandom(-4,4),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180),SXF_TRANSFERTRANSLATION)
+    Goto Spawn+2
+  Death:
+	TNT1 A 0 A_GiveInventory("CyberBorealFrost1",1,AAPTR_TRACER)
+    ARCB AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBaronFireParticle",0,0,0,random(-4,4),random(-4,4),random(-4,4),random(1,360), SXF_TRANSFERTRANSLATION)
+	ARCB DEFGHI 3 Bright
+    Stop
+  }
+}
+
+ACTOR CyberProphetGroundLightningTracer
+{
+  Radius 4
+  Height 6
+  Speed 15
+  Damage 12
+  RENDERSTYLE Add
+  Alpha 0.40
+  ReactionTime 15//34
+  SEESOUND "thor/attackr2"
+  PROJECTILE
+  Species "KX"
+  +FloorHugger
+  +ThruSpecies
+  +SeekerMissile
+  states
+  {
+  Spawn:
+    ICWS ABCDEFGHI 1 BRIGHT A_SpawnItemEx("TracerTrail",0,0,0,0,0,0,0,128)
+	TNT1 A 0 A_Jump(128, 2)
+    ICWS A 0 BRIGHT A_SeekerMissile(90,90)
+    TNT1 A 0 A_CountDown
+    Goto Spawn+2
+  Death:
+    ICWS ABCDEFGHI 5 BRIGHT A_Stop
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    ICWS ABCDEFGHI 1 BRIGHT A_CustomMissile("GroundSmoke",0,10,random(0,360),2,random(80,100))
+    Stop
+  }
+}
+
+ACTOR CyberProphetBaronBall : BaronBall
+{
+  Speed 22
+  Damage 12
+  Translation "112:127=176:191"
+  States
+  {
+  Death:
+    ARCB AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBaronFireParticle",0,0,0,random(-4,4),random(-4,4),random(-4,4),random(1,360), SXF_TRANSFERTRANSLATION)
+	ARCB DEFGHI 3 Bright
+    Stop
+  }
+}
+
+Actor CyberProphetCureWaveEffect : BfgParticle
+{
+	Scale 0.5
+	Alpha 1.0
+	RenderStyle Add
+	Speed 20
+	+ThruActors
+	States
+	{
+	Spawn:
+	Death:
+		CBTS KKLLMMNNOOPPQQRRSSTTUUVVWW 1 Bright A_FadeOut(0.03)
+		Stop
+	}
+}
+
+ACTOR CyberProphetCure : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "If u read this, remember to drink water and be kind to yourself :)."
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 1 Acs_NamedExecuteAlways("CyberProphetCureCheck",0,0,0,0)
+    Stop
+  }
+}
+
+ACTOR CyberProphetCureEffectSuccess : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "Sale ZDW."
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("CyberProphetHealParticle", FRandom(24, 32), 0, FRandom(1,15), 0, 0, (Random(20, 70)*0.1), Random(0, 360), 128)
+	TNT1 A 1
+    Stop
+  }
+}
+
+Actor CyberProphetHealParticle : BfgParticle
+{
+	Scale 0.33
+	RenderStyle Add
+	States
+	{
+  Spawn:
+  Death:
+    CBTS S 1 Bright A_FadeOut(0.04)
+    Loop
+	}
+}
+
+Actor CyberProphetThunderMagic 
+{
+	Radius 1
+	Height 1
+    Speed 0
+	Damage (0)
+	Species "KX"
+	RenderStyle Add
+	Alpha 1.0
+	+DONTHARMSPECIES
+	+THRUSPECIES
+	+FLOORHUGGER
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySound("KXEffects/Warning",CHAN_7,1.0)
+		KWRG ABCDEFGHIJKLMNOPQRST 2
+		TNT1 A 10
+		TNT1 A 0 A_SetScale(1.0,2.0)
+		TNT1 A 0 A_PlaySound("CyberProphet/ThunderHit",CHAN_6,1.0)
+		TNT1 A 0 A_FadeOut(0.99)
+		Goto Death
+	Death:
+		TNT1 AAAAAAAAAA 0 A_SpawnItemEx("EMPTrail",1,0,floorz-z+1,frandom(-5,5),frandom(-5,5),frandom(0,10),random(1,360))
+		TNT1 A 0 A_SpawnItemEx("CyberProphetThunderMagicEffect",1,0,floorz-z+1,0,0,0,0,SXF_NOCHECKPOSITION)
+	    TNT1 A 0 A_Explode(128,192)
+		ZOT1 AABBC 1 A_FadeIn(0.2)
+		ZOT1 CDDEE 1
+		Goto Dissapear
+	Dissapear:
+		ZOT1 AABBCCDDEE 1 A_FadeOut(0.04)
+		Loop
+	}
+}
+
+Actor CyberProphetThunderMagicEffect 
+{
+	Radius 1
+	Height 1
+    Speed 0
+	+NoBlockMap
+	+NoInteraction
+	+ClientSideOnly
+	Scale 0.4
+	RenderStyle Add
+	States
+	{
+	Spawn:
+	TXP1 AABBCCDDEEFFGGHHII 1 A_SetScale(ScaleX+0.04)
+	TNT1 A 0 A_FadeOut(0.12)
+	TXP1 JJ 1 A_SetScale(ScaleX+0.04)
+	TNT1 A 0 A_FadeOut(0.12)
+	TXP1 KK 1 A_SetScale(ScaleX+0.04)
+	TNT1 A 0 A_FadeOut(0.12)
+	TXP1 LL 1 A_SetScale(ScaleX+0.04)
+	TNT1 A 0 A_FadeOut(0.12)
+	TXP1 MM 1 A_SetScale(ScaleX+0.04)
+	TNT1 A 0 A_FadeOut(0.12)
+	TXP1 NN 1 A_SetScale(ScaleX+0.04)
+	TNT1 A 0 A_FadeOut(0.12)
+	TXP1 OO 1 A_SetScale(ScaleX+0.04)
+	TNT1 A 0 A_FadeOut(0.12)
+	TXP1 PP 1 A_SetScale(ScaleX+0.04)
+	Stop
+	}
+}
+
+actor ShieldPart
+{
+  Radius 12
+  Height 12
+  Scale 0.5
+  RenderStyle None
+  Alpha 0.25
+  Bloodtype "ShieldHit"
+  Health 200
+  +SHOOTABLE
+  +NOGRAVITY
+  +NOTELEPORT
+  +NODAMAGE
+  +DONTRIP
+  +NOBLOODDECALS
+  +FLOORCLIP
+  +REFLECTIVE
+  States
+  {
+  Spawn:
+    HEXA A 2 bright
+    stop
+  Death:
+    TNT1 A 2
+    stop
+  }
+}
+
+actor ShieldPartVisual
+{
+  Radius 8
+  Height 8
+  Scale 0.5
+  RenderStyle Add	//Fuzzy looks great in software mode
+  Alpha 0.25
+  +NOINTERACTION
+  +CLIENTSIDEONLY
+  +FLOORCLIP
+  States
+  {
+  Spawn:
+    HEXA A 2 bright
+    stop
+  Death:
+    TNT1 A 2
+    stop
+  }
+}
+
+actor ShieldSpawner
+{
+  Radius 1
+  Height 1
+  +NOGRAVITY
+  +NOINTERACTION
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    TNT1 A 1
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner4up", 0, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner5up", 24, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner5up", -24, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner4up", 48, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner4up", -48, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner3up", 72, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner3up", -72, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner2up", 96, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldSpawner2up", -96, 0, 0, 0, 0, 0, 0, 32)
+    stop
+  }
+}
+
+actor ShieldSpawner5up
+{
+  Radius 1
+  Height 1
+  +NOGRAVITY
+  +NOINTERACTION
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    TNT1 A 1
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 16, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 32, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 48, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 64, 0, 0, 0, 0, 32)
+    //TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 0, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 16, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 32, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 48, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 64, 0, 0, 0, 0, 32)
+    stop
+  }
+}
+
+actor ShieldSpawner4up
+{
+  Radius 1
+  Height 1
+  +NOGRAVITY
+  +NOINTERACTION
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    TNT1 A 1
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 8, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 24, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 40, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 56, 0, 0, 0, 0, 32)
+    //TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 8, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 24, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 40, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 56, 0, 0, 0, 0, 32)
+    stop
+  }
+}
+
+actor ShieldSpawner3up
+{
+  Radius 1
+  Height 1
+  +NOGRAVITY
+  +NOINTERACTION
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    TNT1 A 1
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 16, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 32, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 48, 0, 0, 0, 0, 32)
+    //TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 16, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 32, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 48, 0, 0, 0, 0, 32)
+    stop
+  }
+}
+
+
+actor ShieldSpawner2up
+{
+  Radius 1
+  Height 1
+  +NOGRAVITY
+  +NOINTERACTION
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    TNT1 A 1
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 24, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPart", 0, 0, 40, 0, 0, 0, 0, 32)
+    //TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 24, 0, 0, 0, 0, 32)
+    TNT1 A 0 A_SpawnItemEx ("ShieldPartVisual", 0, 0, 40, 0, 0, 0, 0, 32)
+    stop
+  }
+}
+
+actor ShieldHit
+{
+  Radius 1
+  Height 1
+  Scale 0.5
+  Renderstyle Add
+  +NOGRAVITY
+  +NOINTERACTION
+  States
+  {
+  Spawn:
+    FHIT A 0 bright
+    FHIT A 1 bright A_Stop
+    FHIT A 0 bright A_PlaySound ("CyberProphet/ShieldHit")
+    FHIT BCDEFGH 1 bright
+    stop
+  }
+}

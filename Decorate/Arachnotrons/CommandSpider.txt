@@ -1,0 +1,175 @@
+ACTOR CommandSpider : Arachnotron 7582 
+{ 
+  //$Category KSpiders
+  Health 3500
+  PainChance 20
+  Scale 1.2
+  Speed 16
+  Radius 64
+  Height 64
+  Mass 3000
+  SeeSound "baby/sight"
+  PainSound "baby/pain"
+  DeathSound "baby/death"
+  ActiveSound "baby/active"
+  +NOTARGET
+  +MISSILEMORE
+  +DONTHARMSPECIES
+  Species "KX"
+  DamageFactor "KX", 0.0
+  Obituary "%o was extinguished by a spider commander"
+  States
+  {
+  Spawn:
+    MSPI A 10 A_Look
+    Loop
+  See:
+    MSPI A 20
+    MSPI A 3 A_BabyMetal
+    MSPI ABBCC 3 A_Chase
+    MSPI D 3 A_BabyMetal
+    MSPI DEEFF 3 A_Chase
+    Goto See+1
+  Missile:
+    TNT1 A 0 A_Jump(128,"Rapid", "Grenade", "NormalFusion", "Creator", "Railgun")
+	Goto See+1
+  NormalFusion:
+    MSPI A 15 A_FaceTarget
+    MSPI QRQRQRQRQR 1 Bright A_CustomMissile("FusionShot", 40, 0, random(-50, 50), 0)
+	MSPI A 0 A_FaceTarget
+	MSPI QRQRQRQRQR 1 Bright A_CustomMissile("FusionShot", 40, 0, random(-50, 50), 0)
+	MSPI A 0 A_FaceTarget
+	MSPI QRQRQRQRQR 1 Bright A_CustomMissile("FusionShot", 40, 0, random(-50, 50), 0)
+	MSPI A 0 A_FaceTarget
+    Goto See+1
+  Rapid:
+    MSPI A 4 A_FaceTarget
+    MSPI A 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,0)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,15)
+    MSPI G 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,-15)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,10)
+    MSPI G 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,-30)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,30)
+    MSPI G 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,-10)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,25)
+    MSPI G 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,5)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,-5)
+    MSPI G 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,0)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,-45)  
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,40)
+    MSPI G 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,-20)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,10)
+    MSPI G 0 A_FaceTarget
+    MSPI Q 3 Bright A_CustomMissile("RapidFusionShot",20,0,-35)
+    MSPI R 3 Bright A_CustomMissile("RapidFusionShot",20,0,50)
+    MSPI R 1 Bright
+    Goto See+1
+  Grenade:
+    MSPI A 4 A_FaceTarget
+    MSPI G 3 Bright A_CustomMissile("BorgNailBomb",20,0,0,2,random(-5,20))
+    MSPI H 3 Bright A_CustomMissile("BorgNailBomb",20,0,15,2,random(-5,20))
+    MSPI A 4 A_FaceTarget
+    MSPI G 3 Bright A_CustomMissile("BorgNailBomb",20,0,15,2,random(-5,20))
+    MSPI H 3 Bright A_CustomMissile("BorgNailBomb",20,0,-15,2,random(-5,20))
+    MSPI A 4 A_FaceTarget
+    MSPI G 3 Bright A_CustomMissile("BorgNailBomb",20,0,0,2,random(-5,20))
+    MSPI H 3 Bright A_CustomMissile("BorgNailBomb",20,0,-15,2,random(-5,20))
+    Goto See+1
+  Railgun:
+    MSPI A 20 A_PlaySound ("baby/chargerailgun")
+    MSPI A 4 A_FaceTarget
+    MSPI G 3 Bright A_CustomRailgun(300, 0, "Blue", "Blue") 
+    MSPI H 3 Bright
+    Goto See+1
+  Creator:
+	MSPI I 20 A_PlaySound("baby/sight")
+	MSPI I 0 A_CustomMissile("CommandFusionCube",24,0,135)
+	MSPI I 0 A_CustomMissile("CommandFusionCube",24,0,-135)
+    MSPI I 0 A_CustomMissile("CommandFusionCube",24,0,45)
+    MSPI I 3 A_CustomMissile("CommandFusionCube",24,0,-45)
+    Goto See+1
+  Pain:
+    MSPI I 10 A_Pain
+    Goto See+1
+  Death:
+    MSPI I 20 A_Scream
+	MSPI J 6
+	TNT1 A 0 A_CustomMissile("ExplosionEffect",random(10,100),random(-4,4),random(0,359),2,random(-10,10))
+	MSP2 KKKKK 2 Bright A_CustomMissile("ExplosionEffect",random(10,100),random(-4,4),random(0,359),2,random(-10,10))
+    MSPI L 6 A_NoBlocking
+    MSPI MN 6
+    MSPI O 6
+    MSPI P -1 
+    Stop
+  }
+}
+
+actor CommandFusionCube : PlasmaBall
+{
+  SeeSound ""
+  DeathSound ""
+  RenderStyle Normal
+  Speed 32
+  +SeekerMissile
+  +DOOMBOUNCE
+  +DEHEXPLOSION
+  +NOBOUNCESOUND
+  Scale 0.75
+  States
+  {
+  Spawn:
+    TNT1 A 12 
+    TNT1 A 0 A_Stop
+  Death:
+    TNT1 A 0 A_Jump(256,"Fusion", "Cgun", "Baron", "Shredder", "RailArachnotron")
+  Fusion:
+    TNT1 A 0 Bright A_SpawnItem("TeleportFog",0,0)
+    TNT1 A 1 Bright A_SpawnItem("FusionSpider",0,0)
+    Stop
+  Cgun:
+    TNT1 A 0 Bright A_SpawnItem("TeleportFog",0,0)
+    TNT1 A 1 Bright A_SpawnItem("CgunSpider",0,0)
+    Stop
+  Baron:
+    TNT1 A 0 Bright A_SpawnItem("TeleportFog",0,0)
+    TNT1 A 1 Bright A_SpawnItem("ArachnoBaron",0,0)
+    Stop
+  Shredder:
+    TNT1 A 0 Bright A_SpawnItem("TeleportFog",0,0)
+    TNT1 A 1 Bright A_SpawnItem("ArachnoShredder",0,0)
+    Stop
+  RailArachnotron:
+    TNT1 A 0 Bright A_SpawnItem("TeleportFog",0,0)
+    TNT1 A 1 Bright A_SpawnItem("RailArachnotron",0,0)
+  }
+}
+
+Actor RapidFusionShot
+{
+  Radius 13
+  Height 8
+  Speed 20
+  Damage 20  
+  Scale 1.0   
+  RenderStyle Add
+  SeeSound "fusionspid/see" 
+  DeathSound "fusionspid/die"
+  Projectile
+  Decal PlasmaScorchLower
+  states
+  {
+  Spawn:
+    FS03 AB 10 Bright A_SpawnItemEx("KXFusionSpiderParticle",FRandom(-3,3),FRandom(-3,3),FRandom(-4,4),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(-180,180))
+    Loop
+  Death:
+    FS03 HIJG 3 Bright
+    Stop
+  }
+}

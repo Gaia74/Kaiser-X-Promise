@@ -1,0 +1,107 @@
+#library "KXGLOBAL"
+#include "zcommon.acs"
+
+world str 0:KXObjectives[];
+world bool 1:KXObjectivesSide[];
+
+Script "KXObjectivesSetter" Enter
+{
+	KXObjectives[0] = "";
+	KXObjectives[1] = "";
+	KXObjectives[2] = "";
+	KXObjectives[3] = "";
+	KXObjectives[4] = "";
+	KXObjectives[5] = "";
+	KXObjectives[6] = "";
+	KXObjectives[7] = "";
+	KXObjectives[8] = "";
+	KXObjectives[9] = "";
+	
+	KXObjectivesSide[0] = 0;
+	KXObjectivesSide[1] = 0;
+	KXObjectivesSide[2] = 0;
+	KXObjectivesSide[3] = 0;
+	KXObjectivesSide[4] = 0;
+	KXObjectivesSide[5] = 0;
+	KXObjectivesSide[6] = 0;
+	KXObjectivesSide[7] = 0;
+	KXObjectivesSide[8] = 0;
+	KXObjectivesSide[9] = 0;
+}
+
+
+function void KXObjectivesAdd (str newObj, bool Main)
+{
+	for(int y = 0; y < 10; y++)
+	{
+		if(KXObjectives[y] == newObj)
+		{
+			return;
+		}
+	}
+
+	for(int i = 0; i < 10; i++) {
+		if(KXObjectives[i] == "") {
+			KXObjectives[i] = newObj;
+			KXObjectivesSide[i] = Main;
+			
+			SetHudSize(640, 400, FALSE);
+			SetFont("BIGFONT");
+			if(KXObjectivesSide[i] == 0) {
+			HudMessage(s:"New objective received, press \cj", k:"KXObjectivesSlot", s:"\cf for details";HUDMSG_FADEINOUT,0,CR_GOLD,320.4,300.0,5.0,0.5,0.5,1.0);
+			AmbientSound("KXObjective/NewMain",127);
+			} else {
+			HudMessage(s:"New side objective received, press \cj", k:"KXObjectivesSlot", s:"\cy for details";HUDMSG_FADEINOUT,0,CR_SAPPHIRE,320.4,300.0,5.0,0.5,0.5,1.0);
+			AmbientSound("KXObjective/NewSide",127);
+			}
+			SetHudSize(0, 0, FALSE);
+			SetFont("SmallFont");
+			return;
+		}
+	}
+	return;
+}
+
+function void KXObjectivesDelete (str newObj)
+{
+	for(int i = 0; i < 10; i++) {
+		if(KXObjectives[i] == newObj) {
+			SetHudSize(640, 400, FALSE);
+			SetFont("BIGFONT");
+			
+			if(KXObjectivesSide[i] == 0) {
+			HudMessage(s:"Objective completed!";HUDMSG_FADEINOUT,0,CR_GOLD,320.4,300.0,5.0,0.5,0.5,1.0);
+			AmbientSound("KXObjective/ComMain",127);
+			} else {
+			HudMessage(s:"Side objective completed, press \cj", k:"KXObjectivesSlot", s:"\cy for details";HUDMSG_FADEINOUT,0,CR_SAPPHIRE,320.4,300.0,5.0,0.5,0.5,1.0);
+			AmbientSound("KXObjective/ComSide",127);
+			}
+			
+			KXObjectives[i] = "";
+			KXObjectivesSide[i] = 0;
+			SetHudSize(0, 0, FALSE);
+			SetFont("SmallFont");
+			return;
+		}
+	}
+	return;
+}
+
+function void KXObjectivesUpdate (str oldObj, str newObj, Bool Main)
+{
+	for(int i = 0; i < 10; i++) {
+		if(KXObjectives[i] == oldObj) {
+			KXObjectives[i] = newObj;
+			KXObjectivesSide[i] = Main;
+			
+			SetHudSize(640, 400, FALSE);
+			SetFont("BIGFONT");
+			HudMessage(s:"Objective update, press \cj", k:"KXObjectivesSlot", s:"\cf for details!";HUDMSG_FADEINOUT,0,CR_GOLD,320.4,300.0,5.0,0.5,0.5,1.0);
+			AmbientSound("KXObjective/Update",127);
+			SetHudSize(0, 0, FALSE);
+			SetFont("SmallFont");
+			return;
+		}
+	}
+	return;
+}

@@ -1,0 +1,134 @@
+ACTOR KXChaingun : KXBaseWeapon replaces chaingun
+{
+    Weapon.AmmoUse2 2
+    Weapon.AmmoType2 "NewClip"
+    Weapon.AmmoType1 "NewClip"
+	decal bulletchip
+	Tag "Chaingun"
+	Weapon.UpSound "weapons/chaingunUp"
+	Weapon.SelectionOrder 700
+    Weapon.AmmoUse 1
+    Weapon.AmmoGive 20
+	Weapon.SlotNumber 4
+	Inventory.PickupSound "weapons/NormalUp"
+    Inventory.PickupMessage "You got the chaingun"
+    Obituary "%o was mowed down by %k's chaingun."
+	Tag "Chaingun"
+	States
+	{
+	Ready:
+		PKCG A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+		PKCG A 1 A_WeaponReady
+		Loop
+	Deselect:
+	    PKCG A 0 A_Lower 
+		PKCG A 1 A_Lower
+		Loop
+	Select:
+		PKCG A 1 Offset(57,92)
+	    FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+		PKCG B 1 Offset(56,82)
+		PKCG C 1 Offset(55,72)
+		PKCG D 1 Offset(54,62)
+		PKCG A 1 Offset(52,52)
+		PKCG B 1 Offset(49,42)
+		PKCG C 1 Offset(45,32)
+		PKCG D 1 Offset(40,32)
+		PKCG A 1 Offset(34,32)
+		PKCG B 1 Offset(27,32)
+		PKCG C 1 Offset(19,32)
+		PKCG D 1 Offset(10,32)
+		Goto Ready
+	Fire:
+	    CHGG A 0 A_PlaySound("weapons/chngun", CHAN_WEAPON)
+        CHGG A 0 A_GunFlash
+		PKCG A 1 Offset(0,35) A_FireBullets(4.0, 0, 1, 5, "BulletPuff")
+        TNT1 A 0 A_FireCustomMissile("CPPisCaseSpawn",0,0,0,1)
+		TNT1 A 0 Radius_Quake(1,2,0,1,0)
+		TNT1 A 0 A_SetPitch(pitch+0.4)
+		PKCG B 1 Offset(0,34)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		PKCG C 1 Offset(0,33)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		CHGG A 0 A_PlaySound("weapons/chngun", CHAN_WEAPON)
+        CHGG A 0 A_GunFlash
+		PKCG D 1 Offset(0,35) A_FireBullets(4.0, 0, 1, 5, "BulletPuff")
+        TNT1 A 0 A_FireCustomMissile("CPPisCaseSpawn",0,0,0,1)
+		TNT1 A 0 Radius_Quake(1,2,0,1,0)
+		TNT1 A 0 A_SetPitch(pitch+0.4)
+		PKCG A 1 Offset(0,34)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		PKCG B 1 Offset(0,33)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		CHGG A 0 A_PlaySound("weapons/chngun", CHAN_WEAPON)
+        CHGG A 0 A_GunFlash
+		PKCG C 1 Offset(0,35) A_FireBullets(4.0, 0, 1, 5, "BulletPuff")
+        TNT1 A 0 A_FireCustomMissile("CPPisCaseSpawn",0,0,0,1)
+		TNT1 A 0 Radius_Quake(1,2,0,1,0)
+		TNT1 A 0 A_SetPitch(pitch+0.4)
+		PKCG D 1 Offset(0,34)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		PKCG A 1 Offset(0,33)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		CHGG A 0 A_PlaySound("weapons/chngun", CHAN_WEAPON)
+        CHGG A 0 A_GunFlash
+		PKCG B 1 Offset(0,35) A_FireBullets(4.0, 0, 1, 5, "BulletPuff")
+        TNT1 A 0 A_FireCustomMissile("CPPisCaseSpawn",0,0,0,1)
+		TNT1 A 0 Radius_Quake(1,2,0,1,0)
+		TNT1 A 0 A_SetPitch(pitch+0.4)
+		PKCG C 1 Offset(0,34)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		PKCG D 1 Offset(0,33)
+		TNT1 A 0 A_SetPitch(pitch-0.2)
+		PKCG A 1 A_Refire
+		PKCG B 2 A_Weaponready
+		PKCG C 3 A_Weaponready
+		PKCG D 3 A_Weaponready
+		Goto Ready
+   AltFire:
+        PKCG A 0 A_JumpIfInventory("ChaingunUpgrade", 1, "Alternative")
+        Goto Ready
+   Alternative:
+        PKCG A 1 Offset(0,36) A_FireCustomMissile ("ChaingunNail",random(3,-3),1,0,0,0)
+		CHGG B 0 A_PlaySound("weapons/nailfire", CHAN_WEAPON)
+		CHGG A 0 A_GunFlash
+		PKCG B 1 Offset(0,35)
+		PKCG C 1 Offset(0,34)
+		PKCG D 1 Offset(0,33)
+		PKCG A 1 Offset(0,36) A_FireCustomMissile ("ChaingunNail",random(3,-3),1,0,0,0)
+		CHGG B 0 A_PlaySound("weapons/nailfire", CHAN_WEAPON)
+		CHGG A 0 A_GunFlash
+		PKCG B 1 Offset(0,35)
+		PKCG C 1 Offset(0,34)
+		PKCG D 1 Offset(0,33)
+		PKCG A 1 A_Refire
+		PKCG B 2 A_Weaponready
+		PKCG C 3 A_Weaponready
+		PKCG D 3 A_Weaponready
+		Goto Ready
+	Flash:
+		TNT1 A 0
+		TNT1 A 0 a_jump(128,4)
+		CHGF A 2 Bright A_Light2
+		PKCF B 1 Bright A_Light2
+		TNT1 A 2 A_Light2
+		Goto LightDone
+		CHGF A 2 Bright A_Light1
+		PKCF B 1 Bright A_Light1
+		TNT1 A 2 A_Light1
+		Goto LightDone
+	Spawn:
+     MGUN A -1
+     Stop
+	 KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		PKCG A 1 bright Offset(0,70)
+	    PKCG A 1 bright Offset(0,60)
+	    PKCG A 1 bright Offset(0,50)
+	    PKCG A 1 bright Offset(0,40)
+		Goto Ready
+	}
+}

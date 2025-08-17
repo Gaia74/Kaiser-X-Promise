@@ -1,0 +1,571 @@
+// Status Bar Normal
+
+interpolatehealth true, 15;
+interpolatearmor true, 15;
+Height 0;
+Resolution 480,300;
+
+statusbar normal, fullscreenoffsets
+{
+	drawselectedinventory alternateonempty, SMALLFONT, 170, -50
+	{
+		drawmugshot "STF", 5, 1143, 1168;
+	}
+	
+	IsSelected KXBlueKnightHands
+	{
+		drawimage "BLKNICON", 30, -85;
+	} else {
+		drawimage PlayerIcon, 30, -85;
+	}
+	
+    drawbar "KXBAR2", "KXBAR1", Armor (100), Horizontal, 30, -40;
+    drawbar "KXBAR3", "KXBAR3B", Armor (200), Horizontal, 30, -40;
+	drawbar "KXBAR4", "KXBAR3B", Armor (400), Horizontal, 30, -40;
+	drawbar "KXBAR7", "KXBAR4B", Armor (600), Horizontal, 30, -40;
+	drawimage armoricon, 15, -35;
+    drawnumber 4, Smallfont, LightBlue, armor, drawshadow, interpolate(15), 160, -40;
+	
+	drawbar "KXBAR2", "KXBAR1", Health (100), Horizontal, 30, -20;
+    drawbar "KXBAR3", "KXBAR3B", Health (200), Horizontal, 30, -20;
+	drawbar "KXBAR4", "KXBAR3B", Health (400), Horizontal, 30, -20;
+	drawimage "KXHPA0", 15, -5;
+    drawnumber 4, Smallfont, LightBlue, health, drawshadow, interpolate(15), 160, -20;
+	
+	
+	drawswitchableimage BlueCard && BlueSkull, "nullimage", "STKEYS0", "STKEYS3", "STKEYS6", 160, -10;
+	drawswitchableimage YellowCard && YellowSkull, "nullimage", "STKEYS1", "STKEYS4", "STKEYS7", 170, -10;
+	drawswitchableimage RedCard && RedSkull, "nullimage", "STKEYS2", "STKEYS5", "STKEYS8", 180, -10;
+	
+	drawnumber 3, Smallfont, LightBlue, Ammo Shell, drawshadow, interpolate(15), -20, -77;
+	drawimage "SHELA0", -10, -70;
+	drawnumber 3, Smallfont, LightBlue, Ammo NewClip, drawshadow, interpolate(15), -20, -101;
+	drawimage "CLIPA0", -10, -90;
+	drawnumber 3, Smallfont, LightBlue, Ammo RocketAmmo, drawshadow, interpolate(15), -20, -128;
+	drawimage "ROCKA0", -10, -110;
+	drawnumber 3, Smallfont, LightBlue, Ammo Cell, drawshadow, interpolate(15), -20, -150;
+	drawimage "CELlA0", -10, -140;
+	drawnumber 3, Smallfont, LightBlue, Ammo RiflesAmmo, drawshadow, interpolate(15), -20, -170;
+	drawimage "SNPPB0", -10, -160;
+	
+	IsSelected Not KXBlueKnightHands
+	{
+		drawimage "FAITA0", 62, -95, center;
+		drawnumber 3, Smallfont, LightBlue, Ammo FaithItem, drawshadow, interpolate(15), 72, -80;	
+	}
+	
+	drawbar "KXBAR5", "KXBAR1", Ammo HeavenFaith, Horizontal, interpolate(15), -130, -50;
+	drawimage "BLMAA0", -15, -40;
+	drawnumber 4, Smallfont, LightBlue, Ammo HeavenFaith, drawshadow, interpolate(15), -140, -50;
+
+	drawbar "KXBAR6", "KXBAR1", ammo2, Horizontal, interpolate(15), -130, -35;
+	drawimage ammoicon2, -15, -27;
+    drawnumber 4, Smallfont, LightBlue, ammo2, drawshadow, interpolate(15), -140, -35;
+	
+	drawbar "KXBAR6", "KXBAR1", ammo1, Horizontal, interpolate(15), -130, -20;
+	drawimage ammoicon1, -15, -12;
+    drawnumber 4, Smallfont, LightBlue, ammo1, drawshadow, interpolate(15), -140, -20;	
+	
+	IsSelected HeavenBlaster
+	{
+		InInventory KXRailgunCharge, 100 
+		{ 
+		drawimage "KXRBAR1", -130, -35; 
+		}
+	}
+	
+	IsSelected Intruder
+	{
+		InInventory KXIntruderCharge, 30
+		{ 
+		drawimage "KXRBAR1", -130, -20; 
+		}
+	}
+	
+	IsSelected DualIntruders
+	{
+		InInventory KXIntruderCharge, 30
+		{ 
+		drawimage "KXRBAR1", -130, -20; 
+		}
+	}
+	
+	IsSelected HeavenGuardRifle
+	{
+	InInventory KXHeavenGuardRifleCharge, 30
+	  { 
+		drawimage "KXRBAR1", -130, -35; 
+	  }
+	}
+	
+	inInventory KXHudSkill1Token, 1 { 
+	inInventory KXHudSkill1Token,39 { drawImage "KXHSKI40", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,38 { drawImage "KXHSKI39", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,37 { drawImage "KXHSKI38", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,36 { drawImage "KXHSKI37", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,35 { drawImage "KXHSKI36", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,34 { drawImage "KXHSKI35", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,33 { drawImage "KXHSKI34", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,32 { drawImage "KXHSKI33", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,31 { drawImage "KXHSKI32", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,30 { drawImage "KXHSKI31", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,29 { drawImage "KXHSKI30", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,28 { drawImage "KXHSKI29", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,27 { drawImage "KXHSKI28", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,26 { drawImage "KXHSKI27", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,25 { drawImage "KXHSKI26", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,24 { drawImage "KXHSKI25", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,23 { drawImage "KXHSKI24", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,22 { drawImage "KXHSKI23", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,21 { drawImage "KXHSKI22", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,20 { drawImage "KXHSKI21", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,19 { drawImage "KXHSKI20", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,18 { drawImage "KXHSKI19", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,17 { drawImage "KXHSKI18", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,16 { drawImage "KXHSKI17", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,15 { drawImage "KXHSKI16", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,14 { drawImage "KXHSKI15", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,13 { drawImage "KXHSKI14", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,12 { drawImage "KXHSKI13", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,11 { drawImage "KXHSKI12", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,10 { drawImage "KXHSKI11", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 9 { drawImage "KXHSKI10", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 8 { drawImage "KXHSKI9", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 7 { drawImage "KXHSKI8", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 6 { drawImage "KXHSKI7", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 5 { drawImage "KXHSKI6", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 4 { drawImage "KXHSKI5", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 3 { drawImage "KXHSKI4", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 2 { drawImage "KXHSKI3", 45, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 45, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 45, -60, center,30,30,forcescale; }
+	
+	inInventory KXHudSkill2Token, 1 { 
+	inInventory KXHudSkill2Token,39 { drawImage "KXHSKI40", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,38 { drawImage "KXHSKI39", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,37 { drawImage "KXHSKI38", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,36 { drawImage "KXHSKI37", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,35 { drawImage "KXHSKI36", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,34 { drawImage "KXHSKI35", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,33 { drawImage "KXHSKI34", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,32 { drawImage "KXHSKI33", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,31 { drawImage "KXHSKI32", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,30 { drawImage "KXHSKI31", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,29 { drawImage "KXHSKI30", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,28 { drawImage "KXHSKI29", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,27 { drawImage "KXHSKI28", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,26 { drawImage "KXHSKI27", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,25 { drawImage "KXHSKI26", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,24 { drawImage "KXHSKI25", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,23 { drawImage "KXHSKI24", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,22 { drawImage "KXHSKI23", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,21 { drawImage "KXHSKI22", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,20 { drawImage "KXHSKI21", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,19 { drawImage "KXHSKI20", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,18 { drawImage "KXHSKI19", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,17 { drawImage "KXHSKI18", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,16 { drawImage "KXHSKI17", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,15 { drawImage "KXHSKI16", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,14 { drawImage "KXHSKI15", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,13 { drawImage "KXHSKI14", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,12 { drawImage "KXHSKI13", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,11 { drawImage "KXHSKI12", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,10 { drawImage "KXHSKI11", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 9 { drawImage "KXHSKI10", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 8 { drawImage "KXHSKI9", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 7 { drawImage "KXHSKI8", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 6 { drawImage "KXHSKI7", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 5 { drawImage "KXHSKI6", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 4 { drawImage "KXHSKI5", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 3 { drawImage "KXHSKI4", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 2 { drawImage "KXHSKI3", 80, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 80, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 80, -60, center,30,30,forcescale; }
+	
+	inInventory KXHudSkill3Token, 1 { 
+	inInventory KXHudSkill3Token,39 { drawImage "KXHSKI40", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,38 { drawImage "KXHSKI39", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,37 { drawImage "KXHSKI38", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,36 { drawImage "KXHSKI37", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,35 { drawImage "KXHSKI36", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,34 { drawImage "KXHSKI35", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,33 { drawImage "KXHSKI34", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,32 { drawImage "KXHSKI33", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,31 { drawImage "KXHSKI32", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,30 { drawImage "KXHSKI31", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,29 { drawImage "KXHSKI30", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,28 { drawImage "KXHSKI29", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,27 { drawImage "KXHSKI28", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,26 { drawImage "KXHSKI27", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,25 { drawImage "KXHSKI26", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,24 { drawImage "KXHSKI25", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,23 { drawImage "KXHSKI24", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,22 { drawImage "KXHSKI23", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,21 { drawImage "KXHSKI22", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,20 { drawImage "KXHSKI21", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,19 { drawImage "KXHSKI20", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,18 { drawImage "KXHSKI19", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,17 { drawImage "KXHSKI18", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,16 { drawImage "KXHSKI17", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,15 { drawImage "KXHSKI16", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,14 { drawImage "KXHSKI15", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,13 { drawImage "KXHSKI14", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,12 { drawImage "KXHSKI13", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,11 { drawImage "KXHSKI12", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,10 { drawImage "KXHSKI11", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 9 { drawImage "KXHSKI10", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 8 { drawImage "KXHSKI9", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 7 { drawImage "KXHSKI8", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 6 { drawImage "KXHSKI7", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 5 { drawImage "KXHSKI6", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 4 { drawImage "KXHSKI5", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 3 { drawImage "KXHSKI4", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 2 { drawImage "KXHSKI3", 115, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 115, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 115, -60, center,30,30,forcescale; }
+	
+	inInventory KXHudSkill4Token, 1 { 
+	inInventory KXHudSkill4Token,39 { drawImage "KXHSKI40", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,38 { drawImage "KXHSKI39", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,37 { drawImage "KXHSKI38", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,36 { drawImage "KXHSKI37", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,35 { drawImage "KXHSKI36", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,34 { drawImage "KXHSKI35", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,33 { drawImage "KXHSKI34", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,32 { drawImage "KXHSKI33", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,31 { drawImage "KXHSKI32", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,30 { drawImage "KXHSKI31", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,29 { drawImage "KXHSKI30", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,28 { drawImage "KXHSKI29", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,27 { drawImage "KXHSKI28", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,26 { drawImage "KXHSKI27", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,25 { drawImage "KXHSKI26", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,24 { drawImage "KXHSKI25", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,23 { drawImage "KXHSKI24", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,22 { drawImage "KXHSKI23", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,21 { drawImage "KXHSKI22", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,20 { drawImage "KXHSKI21", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,19 { drawImage "KXHSKI20", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,18 { drawImage "KXHSKI19", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,17 { drawImage "KXHSKI18", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,16 { drawImage "KXHSKI17", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,15 { drawImage "KXHSKI16", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,14 { drawImage "KXHSKI15", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,13 { drawImage "KXHSKI14", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,12 { drawImage "KXHSKI13", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,11 { drawImage "KXHSKI12", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,10 { drawImage "KXHSKI11", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 9 { drawImage "KXHSKI10", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 8 { drawImage "KXHSKI9", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 7 { drawImage "KXHSKI8", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 6 { drawImage "KXHSKI7", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 5 { drawImage "KXHSKI6", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 4 { drawImage "KXHSKI5", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 3 { drawImage "KXHSKI4", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 2 { drawImage "KXHSKI3", 150, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 150, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 150, -60, center,30,30,forcescale; }
+	
+
+	gamemode deathmatch, teamgame
+	{
+     	drawnumber 8, SMALLFONT, darkred, frags, 302, 8;
+       DrawString SMALLFONT, darkred, "Frags", 302, 0;
+   
+    }
+}
+
+statusbar inventory // Standard bar overlay (ZDoom Addition)
+{
+	drawinventorybar Doom, 7, INDEXFONT, 50, 170;
+}
+
+statusbar inventoryfullscreen // ZDoom HUD overlay.
+{
+	drawinventorybar Doom, translucent, 7, INDEXFONT, 50, 170;
+}
+
+interpolatehealth true, 15;
+interpolatearmor true, 15;
+Height 0;
+Resolution 480,300;
+
+// Fullscreen HUD
+statusbar fullscreen, fullscreenoffsets
+{
+drawselectedinventory alternateonempty, SMALLFONT, 170, -50
+	{
+		drawmugshot "STF", 5, 1143, 1168;
+	}
+	
+	IsSelected KXBlueKnightHands
+	{
+		drawimage "BLKNICON", 30, -85;
+	} else {
+		drawimage PlayerIcon, 30, -85;
+	}
+	
+    drawbar "KXBAR2", "KXBAR1", Armor (100), Horizontal, 30, -40;
+    drawbar "KXBAR3", "KXBAR3B", Armor (200), Horizontal, 30, -40;
+	drawbar "KXBAR4", "KXBAR3B", Armor (400), Horizontal, 30, -40;
+	drawbar "KXBAR7", "KXBAR4B", Armor (600), Horizontal, 30, -40;
+	drawimage armoricon, 15, -35;
+    drawnumber 4, Smallfont, LightBlue, armor, drawshadow, interpolate(15), 160, -40;
+	
+	drawbar "KXBAR2", "KXBAR1", Health (100), Horizontal, 30, -20;
+    drawbar "KXBAR3", "KXBAR3B", Health (200), Horizontal, 30, -20;
+	drawbar "KXBAR4", "KXBAR3B", Health (400), Horizontal, 30, -20;
+	drawimage "KXHPA0", 15, -5;
+    drawnumber 4, Smallfont, LightBlue, health, drawshadow, interpolate(15), 160, -20;
+	
+	
+	drawswitchableimage BlueCard && BlueSkull, "nullimage", "STKEYS0", "STKEYS3", "STKEYS6", 160, -10;
+	drawswitchableimage YellowCard && YellowSkull, "nullimage", "STKEYS1", "STKEYS4", "STKEYS7", 170, -10;
+	drawswitchableimage RedCard && RedSkull, "nullimage", "STKEYS2", "STKEYS5", "STKEYS8", 180, -10;
+	
+	drawnumber 3, Smallfont, LightBlue, Ammo Shell, drawshadow, interpolate(15), -20, -77;
+	drawimage "SHELA0", -10, -70;
+	drawnumber 3, Smallfont, LightBlue, Ammo NewClip, drawshadow, interpolate(15), -20, -101;
+	drawimage "CLIPA0", -10, -90;
+	drawnumber 3, Smallfont, LightBlue, Ammo RocketAmmo, drawshadow, interpolate(15), -20, -128;
+	drawimage "ROCKA0", -10, -110;
+	drawnumber 3, Smallfont, LightBlue, Ammo Cell, drawshadow, interpolate(15), -20, -150;
+	drawimage "CELlA0", -10, -140;
+	drawnumber 3, Smallfont, LightBlue, Ammo RiflesAmmo, drawshadow, interpolate(15), -20, -170;
+	drawimage "SNPPB0", -10, -160;
+	
+	IsSelected Not KXBlueKnightHands
+	{
+		drawimage "FAITA0", 62, -95, center;
+		drawnumber 3, Smallfont, LightBlue, Ammo FaithItem, drawshadow, interpolate(15), 72, -80;	
+	}
+	
+	drawbar "KXBAR5", "KXBAR1", Ammo HeavenFaith, Horizontal, interpolate(15), -130, -50;
+	drawimage "BLMAA0", -15, -40;
+    drawnumber 4, Smallfont, LightBlue, Ammo HeavenFaith, drawshadow, interpolate(15), -140, -50;
+    
+	drawbar "KXBAR6", "KXBAR1", ammo2, Horizontal, interpolate(15), -130, -35;
+	drawimage ammoicon2, -15, -27;
+    drawnumber 4, Smallfont, LightBlue, ammo2, drawshadow, interpolate(15), -140, -35;
+	
+	drawbar "KXBAR6", "KXBAR1", ammo1, Horizontal, interpolate(15), -130, -20;
+	drawimage ammoicon1, -15, -12;
+    drawnumber 4, Smallfont, LightBlue, ammo1, drawshadow, interpolate(15), -140, -20;	
+	
+	IsSelected HeavenBlaster
+	{
+		InInventory KXRailgunCharge, 100 
+		{ 
+		drawimage "KXRBAR1", -130, -35; 
+		}
+	}
+	
+	IsSelected Intruder
+	{
+		InInventory KXIntruderCharge, 30
+		{ 
+		drawimage "KXRBAR1", -130, -20; 
+		}
+	}
+	
+	IsSelected DualIntruders
+	{
+		InInventory KXIntruderCharge, 30
+		{ 
+		drawimage "KXRBAR1", -130, -20; 
+		}
+	}
+	
+	IsSelected HeavenGuardRifle
+	{
+	InInventory KXHeavenGuardRifleCharge, 30
+	  { 
+		drawimage "KXRBAR1", -130, -35; 
+	  }
+	}
+	
+	inInventory KXHudSkill1Token, 1 { 
+	inInventory KXHudSkill1Token,39 { drawImage "KXHSKI40", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,38 { drawImage "KXHSKI39", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,37 { drawImage "KXHSKI38", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,36 { drawImage "KXHSKI37", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,35 { drawImage "KXHSKI36", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,34 { drawImage "KXHSKI35", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,33 { drawImage "KXHSKI34", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,32 { drawImage "KXHSKI33", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,31 { drawImage "KXHSKI32", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,30 { drawImage "KXHSKI31", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,29 { drawImage "KXHSKI30", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,28 { drawImage "KXHSKI29", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,27 { drawImage "KXHSKI28", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,26 { drawImage "KXHSKI27", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,25 { drawImage "KXHSKI26", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,24 { drawImage "KXHSKI25", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,23 { drawImage "KXHSKI24", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,22 { drawImage "KXHSKI23", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,21 { drawImage "KXHSKI22", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,20 { drawImage "KXHSKI21", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,19 { drawImage "KXHSKI20", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,18 { drawImage "KXHSKI19", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,17 { drawImage "KXHSKI18", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,16 { drawImage "KXHSKI17", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,15 { drawImage "KXHSKI16", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,14 { drawImage "KXHSKI15", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,13 { drawImage "KXHSKI14", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,12 { drawImage "KXHSKI13", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,11 { drawImage "KXHSKI12", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token,10 { drawImage "KXHSKI11", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 9 { drawImage "KXHSKI10", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 8 { drawImage "KXHSKI9", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 7 { drawImage "KXHSKI8", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 6 { drawImage "KXHSKI7", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 5 { drawImage "KXHSKI6", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 4 { drawImage "KXHSKI5", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 3 { drawImage "KXHSKI4", 45, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill1Token, 2 { drawImage "KXHSKI3", 45, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 45, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 45, -60, center,30,30,forcescale; }
+	
+	inInventory KXHudSkill2Token, 1 { 
+	inInventory KXHudSkill2Token,39 { drawImage "KXHSKI40", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,38 { drawImage "KXHSKI39", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,37 { drawImage "KXHSKI38", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,36 { drawImage "KXHSKI37", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,35 { drawImage "KXHSKI36", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,34 { drawImage "KXHSKI35", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,33 { drawImage "KXHSKI34", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,32 { drawImage "KXHSKI33", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,31 { drawImage "KXHSKI32", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,30 { drawImage "KXHSKI31", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,29 { drawImage "KXHSKI30", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,28 { drawImage "KXHSKI29", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,27 { drawImage "KXHSKI28", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,26 { drawImage "KXHSKI27", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,25 { drawImage "KXHSKI26", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,24 { drawImage "KXHSKI25", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,23 { drawImage "KXHSKI24", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,22 { drawImage "KXHSKI23", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,21 { drawImage "KXHSKI22", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,20 { drawImage "KXHSKI21", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,19 { drawImage "KXHSKI20", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,18 { drawImage "KXHSKI19", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,17 { drawImage "KXHSKI18", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,16 { drawImage "KXHSKI17", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,15 { drawImage "KXHSKI16", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,14 { drawImage "KXHSKI15", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,13 { drawImage "KXHSKI14", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,12 { drawImage "KXHSKI13", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,11 { drawImage "KXHSKI12", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token,10 { drawImage "KXHSKI11", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 9 { drawImage "KXHSKI10", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 8 { drawImage "KXHSKI9", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 7 { drawImage "KXHSKI8", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 6 { drawImage "KXHSKI7", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 5 { drawImage "KXHSKI6", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 4 { drawImage "KXHSKI5", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 3 { drawImage "KXHSKI4", 80, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill2Token, 2 { drawImage "KXHSKI3", 80, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 80, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 80, -60, center,30,30,forcescale; }
+	
+	inInventory KXHudSkill3Token, 1 { 
+	inInventory KXHudSkill3Token,39 { drawImage "KXHSKI40", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,38 { drawImage "KXHSKI39", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,37 { drawImage "KXHSKI38", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,36 { drawImage "KXHSKI37", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,35 { drawImage "KXHSKI36", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,34 { drawImage "KXHSKI35", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,33 { drawImage "KXHSKI34", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,32 { drawImage "KXHSKI33", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,31 { drawImage "KXHSKI32", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,30 { drawImage "KXHSKI31", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,29 { drawImage "KXHSKI30", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,28 { drawImage "KXHSKI29", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,27 { drawImage "KXHSKI28", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,26 { drawImage "KXHSKI27", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,25 { drawImage "KXHSKI26", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,24 { drawImage "KXHSKI25", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,23 { drawImage "KXHSKI24", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,22 { drawImage "KXHSKI23", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,21 { drawImage "KXHSKI22", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,20 { drawImage "KXHSKI21", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,19 { drawImage "KXHSKI20", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,18 { drawImage "KXHSKI19", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,17 { drawImage "KXHSKI18", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,16 { drawImage "KXHSKI17", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,15 { drawImage "KXHSKI16", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,14 { drawImage "KXHSKI15", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,13 { drawImage "KXHSKI14", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,12 { drawImage "KXHSKI13", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,11 { drawImage "KXHSKI12", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token,10 { drawImage "KXHSKI11", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 9 { drawImage "KXHSKI10", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 8 { drawImage "KXHSKI9", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 7 { drawImage "KXHSKI8", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 6 { drawImage "KXHSKI7", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 5 { drawImage "KXHSKI6", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 4 { drawImage "KXHSKI5", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 3 { drawImage "KXHSKI4", 115, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill3Token, 2 { drawImage "KXHSKI3", 115, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 115, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 115, -60, center,30,30,forcescale; }
+	
+	inInventory KXHudSkill4Token, 1 { 
+	inInventory KXHudSkill4Token,39 { drawImage "KXHSKI40", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,38 { drawImage "KXHSKI39", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,37 { drawImage "KXHSKI38", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,36 { drawImage "KXHSKI37", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,35 { drawImage "KXHSKI36", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,34 { drawImage "KXHSKI35", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,33 { drawImage "KXHSKI34", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,32 { drawImage "KXHSKI33", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,31 { drawImage "KXHSKI32", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,30 { drawImage "KXHSKI31", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,29 { drawImage "KXHSKI30", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,28 { drawImage "KXHSKI29", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,27 { drawImage "KXHSKI28", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,26 { drawImage "KXHSKI27", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,25 { drawImage "KXHSKI26", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,24 { drawImage "KXHSKI25", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,23 { drawImage "KXHSKI24", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,22 { drawImage "KXHSKI23", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,21 { drawImage "KXHSKI22", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,20 { drawImage "KXHSKI21", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,19 { drawImage "KXHSKI20", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,18 { drawImage "KXHSKI19", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,17 { drawImage "KXHSKI18", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,16 { drawImage "KXHSKI17", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,15 { drawImage "KXHSKI16", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,14 { drawImage "KXHSKI15", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,13 { drawImage "KXHSKI14", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,12 { drawImage "KXHSKI13", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,11 { drawImage "KXHSKI12", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token,10 { drawImage "KXHSKI11", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 9 { drawImage "KXHSKI10", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 8 { drawImage "KXHSKI9", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 7 { drawImage "KXHSKI8", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 6 { drawImage "KXHSKI7", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 5 { drawImage "KXHSKI6", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 4 { drawImage "KXHSKI5", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 3 { drawImage "KXHSKI4", 150, -60, center,30,30,forcescale; } else {
+	inInventory KXHudSkill4Token, 2 { drawImage "KXHSKI3", 150, -60, center,30,30,forcescale; } else {
+										  drawImage "KXHSKI2", 150, -60, center,30,30,forcescale;  
+	}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}
+	else {								 drawImage "KXHSKI1", 150, -60, center,30,30,forcescale; }
+	
+	gamemode deathmatch, teamgame
+	{
+     	drawnumber 8, SMALLFONT, darkred, frags, 302, 8;
+       DrawString SMALLFONT, darkred, "Frags", 302, 0;
+   
+    }
+}
+
+base None;

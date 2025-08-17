@@ -1,0 +1,240 @@
+ACTOR RocketImp 7527 
+{ 
+  //$Category Imps
+  Health 75
+  Radius 20
+  Height 56
+  Mass 100
+  Speed 8
+  PainChance 200
+  Monster
+  +FLOORCLIP
+  +MISSILEMORE
+  +DONTHARMSPECIES
+  +NOTARGET
+  Species "KX"
+  DamageFactor "KX", 0.0
+  SeeSound "CIMPSIT"
+  PainSound "CIMPPAIN"
+  DeathSound "CIMPDTH"
+  ActiveSound "CIMPACT"
+  Obituary "%o was blown apart by a Rocket Imp"
+  States
+  {
+  Spawn:
+    RIMP AB 10 A_Look
+    Loop
+  See:
+    RIMP AA 2 A_Chase
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/NoShoe",CHAN_7)
+	RIMP BB 2 A_Chase
+	RIMP CC 2 A_Chase
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/NoShoe",CHAN_7)
+	RIMP DD 2 A_Chase
+    Loop
+  Melee:
+  Missile:
+    RIMP E 6 A_FaceTarget
+    RIMP W 5 BRIGHT A_CustomMissile("ImpRocket")
+	RIMP F 5
+	RIMP G 6 A_FaceTarget
+    RIMP V 5 BRIGHT A_CustomMissile("ImpRocket")
+	RIMP G 5
+    Goto See
+  Pain:
+    RIMP H 2
+    RIMP H 2 A_Pain
+    Goto See
+  Death:
+    CIMP AAAAA 0 A_SpawnitemEx("GaiaBloodProjectile", frandom(-5,5), frandom(-5,5), frandom(0,2), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION)
+    RIMP I 8
+    RIMP J 8 A_Scream
+    RIMP K 6
+    RIMP L 6 A_NoBlocking
+    RIMP M -1
+    Stop
+  XDeath:
+    TNT1 A 0 A_CustomMissile("KXBloodExplosionEffect",32,0,0,0,0)
+    RIMP N 5 A_playsound("Rocketimp/xdie")
+	RIMP O 0 A_custommissile("Rocketarm2",30,-10,270)
+	RIMP O 0 A_custommissile("Rocketarm",30,10,93)
+    RIMP O 5 A_XScream
+	RIMP P 5 A_explode(80,100)
+    RIMP Q 5 A_NoBlocking
+    RIMP RST 5
+    RIMP U -1
+    Stop
+  Raise:
+    RIMP ML 8
+    RIMP KJI 6
+    Goto See
+  }
+}
+
+ACTOR AssassinRocketImp 7555 
+{ 
+  //$Category KaiserKnights
+  Health 300
+  Radius 20
+  Height 56
+  Mass 100
+  Speed 14
+  Translation "64:79=[50,50,50]:[0,0,0]"
+  PainChance 10
+  Monster
+  +FLOORCLIP
+  +MISSILEMORE
+  +DONTHARMSPECIES
+  +NOTARGET
+  Species "KX"
+  DamageFactor "KX", 0.0
+  SeeSound "imp/sight"
+  PainSound "imp/pain"
+  DeathSound "imp/death"
+  ActiveSound "imp/active"
+  Obituary "%o was blown apart by a Assassin Rocket Imp"
+  States
+  {
+  Spawn:
+    RIMP AB 10 A_Look
+    Loop
+  See:
+    RIMP AABBCCDD 3 A_Chase
+    Loop
+  Melee:
+  Missile:
+    RIMP E 6 A_FaceTarget
+    RIMP W 5 BRIGHT A_CustomMissile("ImpRocket")
+    RIMP F 5
+    RIMP G 6 A_FaceTarget
+    RIMP V 5 BRIGHT A_CustomMissile("ImpRocket")
+    RIMP G 4 
+    RIMP G 1 A_SpidRefire
+    Goto Missile
+  Pain:
+    RIMP H 2
+    RIMP H 2 A_Pain
+    Goto See
+  Death:
+    RIMP I 8
+    RIMP J 8 A_Scream
+    RIMP K 6
+    RIMP L 6 A_NoBlocking
+    RIMP M -1
+    Stop
+  XDeath:
+    RIMP N 5 A_playsound("Rocketimp/xdie")
+	RIMP O 0 A_custommissile("Rocketarm2",30,-10,270)
+	RIMP O 0 A_custommissile("Rocketarm",30,10,93)
+    RIMP O 5 A_XScream
+	RIMP P 5 A_explode(80,100)
+    RIMP Q 5 A_NoBlocking
+    RIMP RST 5
+    RIMP U -1
+    Stop
+  Raise:
+    RIMP ML 8
+    RIMP KJI 6
+    Goto See
+  }
+}
+
+
+ACTOR RocketArm
+{
+	Radius 12
+	Height 10
+	Speed 4
+	+DOOMBOUNCE
+	+DROPOFF
+	+Missile
+      States
+	{
+	Spawn:
+     IARM ABCD 3
+     Loop
+	Death:
+	 IARM E -1
+	 Loop
+	}
+} 
+
+ACTOR RocketArm2
+{
+	Radius 12
+	Height 10
+	Speed 4
+	+DOOMBOUNCE
+	+DROPOFF
+	+Missile
+      States
+	{
+	Spawn:
+     IAR2 ABCD 3
+     Loop
+	Death:
+	 IAR2 E -1
+	 Loop
+	}
+} 
+
+ACTOR HungRocketImp  //20129
+{
+  +NOGRAVITY
+  +SPAWNCEILING
+  Height 67
+  States
+  {
+  Spawn:
+    RIHN A -1
+    stop
+  }
+}
+
+ACTOR ImpRocket
+{
+  Radius 11
+  Height 8
+  Speed 20
+  Damage 6
+  Scale 0.75
+  Projectile
+  +RANDOMIZE
+  SeeSound "Rocketimp/Fire"
+  DeathSound "Rocketimp/Explode"
+  Obituary "%o rode %k's rocket."
+  Decal RocketImpScorch
+  States
+  {
+  Spawn:
+    IMIS A 1 Bright A_CustomMissile("KXImpRocketTrail",0,0,0)
+    Loop
+  Death:
+    TNT1 A 0 Bright A_Explode(10,64)
+	TNT1 A 1 A_SpawnItemEx("KXSmallExplosionEffect1",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+    Stop
+  }
+}
+
+Actor KXImpRocketTrail
+{
+    Radius 1
+    Height 1
+    Speed 0
+    Damage 0
+	Scale 0.06
+    PROJECTILE
+    RenderStyle Add
+	+CLIENTSIDEONLY
+    +RANDOMIZE
+    Alpha 0.5
+    States
+    {
+    Spawn:
+	    TNT1 A 4
+	Looping:
+		KDUS A 0 Bright A_SetScale(ScaleX+0.01)
+		KDUS A 1 Bright A_FadeOut(0.05)
+		Loop
+    }
+}

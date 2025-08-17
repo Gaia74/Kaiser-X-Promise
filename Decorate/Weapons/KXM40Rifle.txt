@@ -1,0 +1,178 @@
+Actor M40Rifle : KXBaseWeapon 7487 
+{ 
+  //$Category weapons
+  Obituary "%o was sniped out by %k's M40"
+  Radius 20
+  Height 16
+  Inventory.PickupMessage "You got the M40A1 Sniper Rifle"
+  Weapon.SelectionOrder 1
+  Weapon.SlotNumber 8
+  Weapon.KickBack 125
+  Weapon.AmmoType "RiflesAmmo"
+  Weapon.AmmoUse 15
+  Weapon.AmmoGive 60
+  +Weapon.NoAlert
+  +Weapon.NoAutoFire
+  Scale 0.8
+  Decal BulletChip
+  Inventory.PickupSound "M40Rifle/Bolt1"
+  Weapon.UpSound "M40Rifle/Bolt2"
+  Tag "M40A1 Sniper Rifle"
+  States
+  {
+  Spawn:
+    SNPP A -1
+    Stop
+  Ready:
+	SNPG A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+    SNPG A 0 A_JumpIfInventory("M40A1Zoom", 1, "ScopedReady")
+    SNPG A 1 A_WeaponReady
+    Loop
+  ScopedReady:
+    SNPS A 1 A_WeaponReady(1)
+    Loop
+  Deselect:
+    SNPG A 0 A_JumpIfInventory("M40A1Zoom", 1, "ScopedDeselect")
+    SNPG A 0 A_Lower
+	SNPG A 1 A_Lower
+    Loop
+  ScopedDeselect:
+    SNPG A 0 A_TakeInventory("M40A1Zoom", 2)
+    SNPG A 0 A_PlaySound("M40Rifle/Scope")
+    SNPG A 2 A_ZoomFactor(1.0)
+    SNPG A 0 A_Lower
+	SNPG A 1 A_Lower
+    Goto ScopedDeselect+3
+  Select:
+    SNPG H 0 A_PlayWeaponSound("M40Rifle/Bolt2")
+	SNPG E 1 Offset(-43,84)
+	FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+	SNPG E 1 Offset(-42,80)
+	SNPG E 1 Offset(-40,76)
+	SNPG D 1 Offset(-38,72)
+	SNPG D 1 Offset(-36,68)
+	SNPG D 1 Offset(-33,64)
+    SNPG C 1 Offset(-30,60)
+	SNPG C 1 Offset(-27,56)
+	SNPG C 1 Offset(-23,52)
+	SNPG C 1 Offset(-19,48)
+	SNPG B 1 Offset(-15,44)
+	SNPG B 1 Offset(-10,40)
+	SNPG B 1 Offset(-5,36)
+    Goto Ready
+  Fire:
+    SNPG A 0 A_JumpIfInventory("M40A1Zoom", 1, "ScopedFire")
+	SNPG A 0 A_JumpIfInventory("SniperUpgrade", 1, "BetterFire")
+    SNPG A 0 A_AlertMonsters
+    SNPG A 0 A_FireBullets (0.0, 0.0, 1, random(150,200), "M40Puff", FBF_USEAMMO|FBF_NORANDOM)
+    SNPG A 0 A_PlaySound("M40Rifle/Fire", CHAN_WEAPON, 1.0)
+    SNPG A 0 A_Quake(2, 2, 0, 1)
+    SNPG A 0 A_SetPitch(Pitch-0.5)
+    SNPF AB 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPF CDE 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG BC 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG DEF 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG H 0 A_PlaySound("M40Rifle/Bolt1", CHAN_6, 1.0)
+	SNPG H 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+	TNT1 A 0 A_FireCustomMissile("RRifCaseSpawn",0,0,0,1)
+    SNPG IJ 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG K 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG JI 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG H 2 A_PlaySound("M40Rifle/Bolt2", CHAN_7, 1.0)
+    SNPG FED 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG CB 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG A 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG A 0 A_ReFire 
+	SNPG A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    Goto Ready
+  BetterFire:
+    SNPG A 0 A_JumpIfInventory("M40A1Zoom", 1, "ScopedFire")
+    SNPG A 0 A_AlertMonsters
+    SNPG A 0 A_FireBullets (0.0, 0.0, 1, random(200,250), "M40Puff", FBF_USEAMMO|FBF_NORANDOM)
+    SNPG A 0 A_PlaySound("M40Rifle/Fire", CHAN_WEAPON, 1.0)
+    SNPG A 0 A_Quake(2, 2, 0, 1)
+    SNPG A 0 A_SetPitch(Pitch-0.5)
+    SNPF AB 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPF CDE 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG A 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG BC 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG DEF 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG H 0 A_PlaySound("M40Rifle/Bolt1", CHAN_6, 1.0)
+	SNPG H 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+	TNT1 A 0 A_FireCustomMissile("RRifCaseSpawn",0,0,0,1)
+    SNPG IJ 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG K 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG JI 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG H 2 A_PlaySound("M40Rifle/Bolt2", CHAN_7, 1.0)
+    SNPG FED 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG CB 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG A 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    SNPG A 0 A_ReFire 
+	SNPG A 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+    Goto Ready
+  ScopedFire:
+    SNPG A 0 A_JumpIfInventory("SniperUpgrade", 1, "BetterScopedFire")
+    SNPS A 0 A_AlertMonsters
+    SNPG A 0 A_FireBullets (0.0, 0.0, 1, random(150,200), "M40Puff", FBF_USEAMMO|FBF_NORANDOM)
+    SNPS A 0 A_PlaySound("M40Rifle/Fire", CHAN_WEAPON, 1.0)
+    SNPS A 0 A_Quake(2, 2, 0, 1)
+    SNPS A 0 A_SetPitch(Pitch-0.5)
+	SNPS EDCB 2
+    SNPS A 20
+    SNPS A 2 A_PlaySound("M40Rifle/Bolt1", CHAN_6, 1.0)
+	TNT1 A 0 A_FireCustomMissile("RRifCaseSpawn",0,0,0,1)
+    SNPS A 11
+    SNPS A 2 A_PlaySound("M40Rifle/Bolt2", CHAN_7, 1.0)
+    SNPS A 19
+    SNPS A 1 A_ReFire
+    Goto Ready
+  BetterScopedFire:
+    SNPS A 0 A_AlertMonsters
+    SNPG A 0 A_FireBullets (0.0, 0.0, 1, random(200,250), "M40Puff", FBF_USEAMMO|FBF_NORANDOM)
+    SNPS A 0 A_PlaySound("M40Rifle/Fire", CHAN_WEAPON, 1.0)
+    SNPS A 0 A_Quake(2, 2, 0, 1)
+    SNPS A 0 A_SetPitch(Pitch-0.5)
+    SNPS EDCB 2
+    SNPS A 20
+    SNPS A 2 A_PlaySound("M40Rifle/Bolt1", CHAN_6, 1.0)
+	TNT1 A 0 A_FireCustomMissile("RRifCaseSpawn",0,0,0,1)
+    SNPS A 11
+    SNPS A 2 A_PlaySound("M40Rifle/Bolt2", CHAN_7, 1.0)
+    SNPS A 19
+    SNPS A 1 A_ReFire
+    Goto Ready
+  AltFire:
+    SNPS A 0 A_JumpIfInventory("M40A1Zoom", 2, "ZoomOut")
+    SNPS A 0 A_JumpIfInventory("M40A1Zoom", 1, "ZoomMore")
+    SNPS A 0 A_PlaySound("M40Rifle/Scope")
+    SNPS A 0 A_GiveInventory("M40A1Zoom", 1)
+    SNPS A 2 A_ZoomFactor(6.0)
+    Goto Ready
+  ZoomMore:
+    SNPS A 0 A_PlaySound("M40Rifle/Scope")
+    SNPS A 0 A_GiveInventory("M40A1Zoom", 1)
+    SNPS A 2 A_ZoomFactor(12.0)
+    Goto Ready
+  ZoomOut:
+    SNPG A 0 A_TakeInventory("M40A1Zoom", 2)
+    SNPG A 0 A_PlaySound("M40Rifle/Scope")
+    SNPG A 2 A_ZoomFactor(1.0)
+    Goto Ready
+  ScopedReady:
+    SNPS A 1 A_WeaponReady(1)
+    Loop
+  KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		SNPG A 1 bright Offset(0,70)
+	    SNPG A 1 bright Offset(0,60)
+	    SNPG A 1 bright Offset(0,50)
+	    SNPG A 1 bright Offset(0,40)
+		Goto Ready
+  }
+}
+
+ACTOR M40A1Zoom : Inventory { Inventory.MaxAmount 2 }

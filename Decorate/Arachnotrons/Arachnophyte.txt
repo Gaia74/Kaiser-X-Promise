@@ -1,0 +1,96 @@
+ACTOR Arachnophyte 7557 
+{ 
+	//$Category AirForce
+    Health 500
+    Radius 64
+    Height 100
+    Speed 6
+    PainChance 15
+    Mass 5000
+    MONSTER 
+    +NoGravity
+    +FloatBob
+    +Float
+    +NOINFIGHTING
+    +NOTARGET
+	+DONTHARMSPECIES
+    Species "KX"
+	DamageFactor "KX", 0.0
+    SEESOUND "arachnophyte/sight"
+    PAINSOUND "arachnophyte/pain"
+    DEATHSOUND "arachnophyte/death"
+    ATTACKSOUND "spider/attack"
+    OBITUARY "%o was perforated by an Arachnophyte."
+    Decal Bulletchip
+    states
+    {
+    Spawn:
+        APYT A 0 A_PlaySound("arachnophyte/engine",CHAN_7,1.0,True)
+        APYT ABABAB 4 A_Look
+        Loop
+    See:
+        APYT A 0 A_PlaySound("arachnophyte/engine",CHAN_7,1.0,True)
+		APYT A 0 A_StopSound(CHAN_WEAPON)
+        APYT AABBAABBAABB 2 A_Chase
+        Loop
+    Missile:
+        APYT A 0 A_PlaySound("arachnophyte/engine",CHAN_7,1.0,True)
+		APYT A 0 A_PlaySound("Robot/Alert",CHAN_ITEM,1.0)
+        APYT BABAB 4 A_FaceTarget
+		Goto Looping
+	Looping:
+        APYT A 0 A_PlaySound("arachnophyte/engine",CHAN_7,1.0,True)
+		APYT A 0 bright A_PlaySound ("arachnophyte/fire",CHAN_WEAPON,1.0,TRUE)
+		APYT A 0 Bright A_CustomMissile("KXArachnophyteDustParticle",34,0,0)
+		APYT A 0 Bright A_CustomMissile("PisCaseSpawn",34,0,0)
+		APYT C 2 A_CustomMissile("KXArachnophyteBullet",32,0,frandom(-5,5),CMF_OFFSETPITCH,frandom(-1,1))
+		TNT1 A 0 A_FaceTarget
+		APYT A 0 A_PlaySound("arachnophyte/engine",CHAN_7,1.0,True)
+		APYT A 0 bright A_PlaySound ("arachnophyte/fire",CHAN_WEAPON,1.0,TRUE)
+		APYT A 0 Bright A_CustomMissile("KXArachnophyteDustParticle",34,0,0)
+		APYT A 0 Bright A_CustomMissile("PisCaseSpawn",34,0,0)
+		APYT D 1 A_CustomMissile("KXArachnophyteBullet",32,0,frandom(-5,5),CMF_OFFSETPITCH,frandom(-1,1))
+        APYT D 0 A_SpidRefire
+        Loop
+    Pain:
+		APYT A 0 A_StopSound(CHAN_WEAPON)
+        APYT A 3 A_Pain
+        Goto See
+    Death:
+        APYT A 0 A_PlaySound("spider/death")
+		APYT A 0 A_StopSound(CHAN_WEAPON)
+        APYT A 0 A_Scream
+        APYT EEEE 4 
+		TNT1 A 0 A_SpawnItemEx("KXBloodExplosionEffect",0,0,36,0,0,0,random(1,360))
+		TNT1 A 0 A_SpawnItemEx("KXArachnoExplosionDeath",0,0,36,0,0,0,random(1,360))
+		TNT1 A 0 A_PlaySound("Rocketimp/Explode",CHAN_6,1.0)
+		TNT1 AAAAAAAAAA 0 A_SpawnitemEx("KXShrapnelMetalParticle",frandom(-5,5),frandom(-5,5),32,frandom(-5,5),frandom(-5,5),frandom(5,10),random(0,360),SXF_NOCHECKPOSITION)
+		TNT1 AAAA 0 A_SpawnitemEx("KXSmallExplosionEffect1",frandom(-5,5),frandom(-5,5),frandom(10,40),0,0,0,0,SXF_NOCHECKPOSITION)
+        APYT F 8
+        APYT G 6 A_Explode
+        APYT H 6 A_Fall
+        APYT I 6 
+        APYT J 6 
+        Stop
+    }
+}
+
+ACTOR KXArachnophyteBullet : KaiserXBullet
+{
+	Speed 75
+	Damage (random(2,7))
+}
+
+Actor KXArachnophyteDustParticle : KXDustParticle
+{
+	Scale 0.1
+	Speed 3
+	States
+	{
+  Spawn:
+  Death:
+    KDUS A 0 Bright A_SetScale(ScaleX+0.02)
+    KDUS A 1 Bright A_FadeOut(0.05)
+    Loop
+	}
+}

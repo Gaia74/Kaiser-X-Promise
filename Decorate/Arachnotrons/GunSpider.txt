@@ -1,0 +1,85 @@
+actor CGunSpider 7525
+{
+  //$Category LowTierSoldiers 
+  obituary "%o was filled full of lead by an Arachnotron."
+  health 450
+  radius 64
+  height 64
+  mass 600
+  speed 12
+  painchance 128
+  seesound "CGunSpider/Sight"
+  painsound "baby/pain"
+  deathsound "CGunSpider/Death"
+  activesound "baby/active"
+  attacksound "CGunSpider/Attack"
+  decal "bulletchip"
+  MONSTER
+  +FLOORCLIP
+  +NOINFIGHTING
+  +NOTARGET
+  +DONTHARMSPECIES
+  Species "KX"
+  DamageFactor "KX", 0.0
+  states
+  {
+  Spawn:
+    CSPI AB 10 A_Look
+    loop
+  See:
+    CSPI A 20
+    CSPI A 3 A_BabyMetal
+    CSPI ABBCC 3 A_Chase
+    CSPI D 3 A_BabyMetal
+    CSPI DEEFF 3 A_Chase
+    goto See+1
+  Missile:
+    CSPI A 20 bright A_FaceTarget
+	CSPI G 0 A_PlaySound ("CGunSpider/Attack", CHAN_WEAPON, 1.0)
+	CSPI G 0 Bright A_CustomMissile("PisCaseSpawn",20,0,0)
+	CSPI G 0 Bright A_CustomMissile("KXCGunSpiderDustParticle",20,0,0)
+	CSPI G 1 bright A_CustomMissile("CGunSpiderBullet",20,0,frandom(-12,12),CMF_OFFSETPITCH,(random(25, 75)*frandom(-0.1,0.1)))
+	CSPI H 0 A_SpawnItemEx("PisCaseSpawn",0,10,30,-10)	
+    CSPI H 0 Bright A_CustomMissile("PisCaseSpawn",20,0,0)
+	CSPI H 0 Bright A_CustomMissile("KXCGunSpiderDustParticle",20,0,0)
+	CSPI H 1 bright A_CustomMissile("CGunSpiderBullet",20,0,frandom(-12,12),CMF_OFFSETPITCH,(random(25, 75)*frandom(-0.1,0.1)))
+	CSPI H 0 bright A_FaceTarget
+    CSPI H 0 bright A_SpidRefire
+    goto Missile+1
+  Pain:
+    CSPI I 3
+    CSPI I 3 A_Pain
+    goto See+1
+  Death:
+	TNT1 A 0 A_SpawnItemEx("KXBloodExplosionEffect",0,0,36,0,0,0,random(1,360))
+	TNT1 A 0 A_SpawnItemEx("KXArachnoExplosionDeath",0,0,36,0,0,0,random(1,360))
+    CSPI J 20 A_Scream
+    CSPI K 7 A_NoBlocking
+    CSPI LMNO 7
+    CSPI P -1 A_BossDeath
+    stop
+  Raise:
+    CSPI PONMLKJ 5
+    goto See+1
+  }
+}
+
+ACTOR CGunSpiderBullet : KaiserXBullet
+{
+	Speed 70
+	Damage (Random(1,8))
+}
+
+Actor KXCGunSpiderDustParticle : KXDustParticle
+{
+	Scale 0.1
+	Speed 3
+	States
+	{
+  Spawn:
+  Death:
+    KDUS A 0 Bright A_SetScale(ScaleX+0.015)
+    KDUS A 1 Bright A_FadeOut(0.05)
+    Loop
+	}
+}

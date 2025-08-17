@@ -1,0 +1,2633 @@
+ACTOR KaiserEliteGuard : Baronofhell 7608 
+{  
+  //$Category Boss
+  obituary "%o Had a really hard time playing with a Kaiser Elite Guard"
+  hitobituary "%o Had a really hard time playing with a Kaiser Elite Guard"
+  health 7000
+  radius 24
+  height 64
+  mass 1000
+  speed 13
+  painchance 5
+  seesound "cbaron/sight"
+  painsound "cbaron/pain"
+  deathsound "cbaron/death"
+  activesound "cbaron/active"
+  DamageFactor "GasterBlaster", 0.0
+  DamageFactor "GasterBlaster2", 0.0
+  DamageFactor "NoPuff", 0.0
+  DamageFactor "PlasmaBall", 0.5
+  DamageFactor "BfgBall", 0.5
+  DamageFactor "Railgun", 0.1
+  MONSTER
+  +MISSILEMORE
+  +LOOKALLAROUND
+  +DONTRIP
+  +NORADIUSDMG
+  +DONTHURTSPECIES
+  +BOSS
+  +NOTARGET
+  +DONTMORPH
+  +NOICEDEATH
+  var int user_elite;
+  states
+  {
+  Spawn:
+    KERE ABCDEFG 3 A_Look
+    loop
+  See:
+    TNT1 A 0 A_ChangeFLag("NODROPOFF", 0)
+	TNT1 A 0 A_SetUserVar(user_elite,0)
+    TNT1 A 0 A_Jump(128, "StrafeDecide")
+    TNT1 A 0 HealThing(5) 
+    KELT A 3 A_chase
+	TNT1 A 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+	KELT A 3 A_chase
+	TNT1 A 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+    KELT B 0 A_playsound("cbaron/metal")
+	KELT B 3 A_chase
+	TNT1 B 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+	KELT B 3 A_chase
+	TNT1 B 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+	KELT C 3 A_chase
+	TNT1 C 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+	KELT C 3 A_chase
+	TNT1 C 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+	KELT D 3 A_chase
+	TNT1 D 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+	KELT D 0 A_playsound("cbaron/Step")
+	KELT D 3 A_chase
+	TNT1 D 0 Bright A_SpawnItemEx("KaiserEliteGuardEyeFire",5,-4,60,random(-2,2),random(-2,2),random(-2,2),random(-180,180),SXF_NOCHECKPOSITION)
+    TNT1 A 0 HealThing(5)
+    KELT D 0 Bright A_customMissile(BruiserFire,0,16,0)
+    TNT1 A 0 A_Jump(128, "StrafeDecide")
+    loop 
+  Idle:
+    KELT H 10 A_PLaySoundEx("cbaron/Laugh", 4, 0, 2)
+    KELT H 10 A_PLaySoundEx("cbaron/Laugh", 4, 0, 2)
+    KELT H 10 A_PLaySoundEx("cbaron/Laugh", 4, 0, 2) 
+    KELT H 10 A_PLaySoundEx("cbaron/Laugh", 4, 0, 2)
+    Goto Spawn
+  Missile:
+    TNT1 A 0 A_Jump(128,"Cyber", "GasterCannon", "RandomChains", "GasterFour", "RandomGaster")
+    TNT1 A 0 A_Jump(128,"Lightning", "Thamuz", "Mouth", "PlasmaCannon", "Bouncing", "Grenade", "MegaShock",  "MegaChain")	
+	Goto See
+  Cyber:
+    KELT E 10 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+	TNT1 A 0 A_SetUserVar(user_elite,user_elite+1)
+    KELT A 0 A_FaceTarget
+    TNT1 A 0 A_Recoil(-3)
+    KELT A 0 ThrustThing(angle*256/360+random(64,192), 30, 0, 0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,random(-5,5))
+    TNT1 A 0 A_JumpIf(user_elite>15,"See")
+    Goto Cyber+2
+  GasterCannon:
+    TNT1 A 0 A_PlaySoundEx("elite/gasterready",2,0,1)
+    KELT E 30 A_FaceTarget
+    KELT F 10 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    Goto See
+  MegaChain:
+    TNT1 A 0 A_SetUserVar(user_elite,user_elite+1)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT R 1 A_FaceTarget
+    KELT R 6 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    TNT1 A 0 A_JumpIf(user_elite>10,"See")
+    Loop
+  RandomGaster:
+    KELT PQ 8 A_FaceTarget
+    KELT A 0 A_UnSetShootable
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright  
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+	Goto RandomGasterLoop
+  RandomGasterLoop:
+    TNT1 A 0 A_SetUserVar(user_elite,user_elite+1)
+    TNT1 A 12 Bright A_customMissile("GasterBlasterRandom",27,16,0)
+	TNT1 A 0 A_JumpIf(user_elite>40,"RandomGasterEnd")
+	Loop
+  RandomGasterEnd:
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.10)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(1.0)
+    KELT A 0 A_SetShootable
+	Goto See
+  RandomChains:
+    TNT1 A 0 A_PlaySoundEx("elite/gasterready",2,0,1)
+    KELT S 40 A_FaceTarget
+    KELT T 10 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    KELT U 0 Bright A_customMissile("KaiserChainAttack",27,16,0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT U 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT VV 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttack2", 27, 0, random(-180, 180), 0)
+    KELT VV 0 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT V 1 Bright A_CustomMissile("KaiserChainAttackRandom", 27, 0, random(-180, 180), 0)
+    KELT P 8 A_FaceTarget
+    KELT Q 5 A_FaceTarget
+    KELT R 0 A_CustomMissile("GasterLineAttack",32,0,90)
+    KELT R 40 A_CustomMissile("GasterLineAttack",32,0,-90)
+    Goto See
+  Mouth:
+    KELT H 5 A_FaceTarget
+    KELT HHHHHHHHHHHHHHHHHHHHHHHHHHHH 1 Bright A_CustomMissile("FatShot", 50, 0, random(-20, 20), 0)
+    KELT H 0 Bright A_CustomMissile("GasterCube", 27, 0, random(-90, 90), 0)
+    KELT H 5 A_FaceTarget
+    KELT HHHHHHHHHHHHHHHHHHHHHHHHHHHH 1 Bright A_CustomMissile("FatShot", 50, 0, random(-20, 20), 0)
+    KELT H 0 Bright A_CustomMissile("GasterCube", 27, 0, random(-90, 90), 0)
+	KELT H 5 A_FaceTarget
+    KELT HHHHHHHHHHHHHHHHHHHHHHHHHHHH 1 Bright A_CustomMissile("FatShot", 50, 0, random(-20, 20), 0)
+    KELT H 0 Bright A_CustomMissile("GasterCube", 27, 0, random(-90, 90), 0)
+	KELT H 5 A_FaceTarget
+    KELT HHHHHHHHHHHHHHHHHHHHHHHHHHHH 1 Bright A_CustomMissile("FatShot", 50, 0, random(-20, 20), 0)
+    KELT H 0 Bright A_CustomMissile("GasterCube", 27, 0, random(-90, 90), 0)
+    KELT H 5 A_FaceTarget
+    KELT E 10 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gasterready",2,0,1)
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    Goto See
+  Lightning:
+    KELT E 10 A_FaceTarget
+    KELT E 10 A_FaceTarget
+	KELT F 0 BRIGHT A_CustomMissile("LightningBallL",32,16,0,2,0)
+    KELT F 10 BRIGHT A_CustomMissile("SuperPlasmaWave",32,16,0,2,0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    Goto See
+  Bouncing:
+    KELT PQ 8 A_FaceTarget
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 100)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -100)    
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 10)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -10)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 30)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -30)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 50)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -50)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 70)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -70)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 110)
+    KELT R 5 A_CustomMissile("BouncingBall", 27, -16, -110)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 100)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -100)    
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 10)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -10)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 30)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -30)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 50)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -50)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 70)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -70)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 110)
+    KELT R 5 A_CustomMissile("BouncingBall", 27, -16, -110)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 100)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -100)    
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 10)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -10)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 30)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -30)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 50)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -50)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 70)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -70)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 110)
+    KELT R 5 A_CustomMissile("BouncingBall", 27, -16, -110)
+    Goto See
+  Thamuz:
+    KELT E 10 A_FaceTarget
+    KELT F 10 Bright A_customMissile(DCBMiss1,27,16,0)
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT E 15 A_FaceTarget
+    KELT F 10 Bright A_customMissile(DCBMiss1,27,16,0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    Goto see
+  PlasmaCannon:
+    KELT E 5 A_FaceTarget
+	KELT A 0 A_SetUserVar(user_elite,user_elite+1)
+    KELT FFFFFFFFFF 4 Bright A_CustomMissile("ElitePlasmaBall", 27, 0, random(-20, 20), 0)
+    KELT A 0 A_FaceTarget
+    TNT1 A 0 A_Recoil(-10)
+    KELT A 0 ThrustThing(angle*256/360+random(0,256), 25, 0, 0)
+	TNT1 A 0 A_JumpIf(user_elite>8,"See")
+    Goto PlasmaCannon+1
+  Grenade:
+    KELT A 0 A_SetUserVar(user_elite,user_elite+1)
+    KELT EE 4 A_FaceTarget
+    KELT F 4 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10),2,random(-5,20))
+    KELT A 0 A_FaceTarget
+    TNT1 A 0 A_Recoil(-6)
+    KELT A 0 ThrustThing(angle*256/360+random(0,256), 15, 0, 0)
+	TNT1 A 0 A_JumpIf(user_elite>15,"GrenadeEnd")
+	Loop
+  GrenadeEnd:
+    KELT PQ 3 A_FaceTarget
+    KELT R 0 A_CustomMissile("GasterCube", 27, -16, 90)
+    KELT R 0 A_CustomMissile("GasterCube", 27, -16, -90)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 3 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT E 10 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gasterready",2,0,1)
+    KELT F 5 A_FaceTarget
+    TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+    GASA E 0 A_CustomRailgun(Random(100,250),0, "Blue", "White",RGF_FULLBRIGHT|RGF_SILENT,1,0,"GBlasterPuff",0,0,0,0,20.0,1.0,"GasterParticle")
+    Goto See
+  GasterFour:
+    KELT PQ 8 A_FaceTarget
+    KELT R 0 A_CustomMissile("GasterFourCube", 27, -16, 0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright  
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.10)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    KELT R 0 A_CustomMissile("GasterFourCube", 27, -16, 0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright  
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.10)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    KELT R 0 A_CustomMissile("GasterFourCube", 27, -16, 0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright  
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.10)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(1.0)
+    Goto See
+  MegaShock:
+    KELT A 5 A_SetUserVar(user_elite,user_elite+1)
+    KELT B 2
+	KELT A 0 A_Playsound("Terminator/terstepA")
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	KELT A 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -180)
+	KELT A 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -60)
+	KELT A 3 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, 60)
+	TNT1 A 0 A_JumpIf(user_elite>5,"See")
+	Loop
+  Melee:
+    TNT1 A 0 A_Jump(256,"Shock", "FireBeam", "Chain")
+	Goto See
+  FireBeam:
+    KELT PQ 8 A_FaceTarget
+    KELT R 0 Bright A_CustomMissile("GasterCube", 27, 0, 90, 0)
+    KELT R 0 Bright A_CustomMissile("GasterCube", 27, 0, -90, 0)
+    KELT R 8 A_CustomMeleeAttack(random(500, 500), "baron/melee")
+    Goto See
+  Chain:
+    KELT VUT 5 A_FaceTarget
+    KELT R 0 A_CustomMissile("KaiserChainAttack2", 27, 0, 0)
+    KELT R 0 A_CustomMissile("KaiserChainAttack2", 27, 0, 5)
+    KELT R 0 A_CustomMissile("KaiserChainAttack2", 27, 0, -5)
+    KELT R 0 A_CustomMissile("KaiserChainAttack2", 27, 0, 10)
+    KELT R 0 A_CustomMissile("KaiserChainAttack2", 27, 0, -10)
+    KELT R 0 A_CustomMissile("KaiserChainAttack2", 27, 0, 15)
+    KELT R 0 A_CustomMissile("KaiserChainAttack2", 27, 0, -15)
+    KELT R 0 Bright A_CustomMissile("GasterCube", 27, 0, 90, 0)
+    KELT R 0 Bright A_CustomMissile("GasterCube", 27, 0, -90, 0)
+    KELT S 8 A_CustomMissile("BaronBall", 27, -16, 0)   
+    Goto See
+  Shock:
+    KELT A 0 A_Playsound("Terminator/terstepA")
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	KELT A 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -180)
+	KELT A 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -60)
+	KELT A 3 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, 60)
+	Goto See
+ Pain:
+    KELT H 2
+    KELT H 2 A_Pain
+    TNT1 A 0 A_Jump(128,"Teleport")
+    TNT1 A 0 A_Jump(128,"Barrier")
+    Goto See
+ Barrier:
+    KELT PQ 4 A_FaceTarget
+    KELT R 0 A_CustomMissile("ChainBarrier", 27, 0, 0)
+    KELT R 0 A_CustomMissile("GasterCube", 27, -16, 90)
+    KELT R 4 A_CustomMissile("GasterCube", 27, -16, -90)
+    Goto See
+ Teleport:
+    KELT A 1 A_FaceTarget
+    KELT A 3
+    KELT A 3 Bright  
+    KELT R 0 A_CustomMissile("GasterCube", 27, -16, 90)
+    KELT R 0 A_CustomMissile("GasterCube", 27, -16, -90)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    Goto See
+  Death:
+    TNT1 A 0 A_Print("NUNCA ME RENDIRE!!!, ATAQUE FINAL!!!!!!!!!.")
+    CBOS I 8
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT E 5 A_FaceTarget
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,-15)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,15)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,-15)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,15)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,-15)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,15)
+    KELT E 5 A_FaceTarget
+    KELT F 5 Bright A_customMissile(Rocket,27,16,0)
+    KELT E 5 A_FaceTarget
+    KELT E 5 A_FaceTarget
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT E 5 A_FaceTarget
+	KELT FFFF 0 BRIGHT A_CustomMissile("LightningBallL",32,16,random(-180, 180),2,0)
+    KELT FFFF 0 BRIGHT A_CustomMissile("SuperPlasmaWave",32,16,random(-180, 180),2,0)
+    KELT F 0 BRIGHT A_CustomMissile("LightningBallL",32,16,0,2,0)
+    KELT F 10 BRIGHT A_CustomMissile("SuperPlasmaWave",32,16,0,2,0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT R 1 A_FaceTarget
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 8 A_FaceTarget
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-20)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-40)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-60)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-80)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-100)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-120)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-140)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,-160)
+    TNT1 A 0 A_CustomMissile("KaiserChainAttack2",50,0,180)
+    KELT R 8 A_CustomMissile("KaiserChainAttack2",50,0,0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT PQ 4 A_FaceTarget
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("GasterLineAttack", 27, -16, 90)
+    KELT R 0 A_CustomMissile("GasterLineAttack", 27, -16, -90)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 100)
+    KELT R 4 A_CustomMissile("BouncingBall", 27, -16, -100)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 4 A_FaceTarget
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("GasterLineAttack", 27, -16, 90)
+    KELT R 0 A_CustomMissile("GasterLineAttack", 27, -16, -90)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 100)
+    KELT R 4 A_CustomMissile("BouncingBall", 27, -16, -100)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT PQ 4 A_FaceTarget
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 0)
+    KELT R 0 A_CustomMissile("GasterLineAttack", 27, -16, 90)
+    KELT R 0 A_CustomMissile("GasterLineAttack", 27, -16, -90)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -20)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -40)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -60)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, -80)
+    KELT R 0 A_CustomMissile("BouncingBall", 27, -16, 100)
+    KELT R 4 A_CustomMissile("BouncingBall", 27, -16, -100)
+    KELT R 1 A_FaceTarget
+    KELT R 3
+    KELT R 3 Bright    
+    KELT R 1 A_PlaySound("pyro/tele")
+    KELT R 1 A_SetTranslucent(0.90)
+    KELT R 1 A_SetTranslucent(0.80)
+    KELT R 1 A_SetTranslucent(0.70)
+    KELT R 1 A_SetTranslucent(0.60)
+    KELT R 1 A_SetTranslucent(0.50)
+    KELT R 1 A_SetTranslucent(0.40)
+    KELT R 1 A_SetTranslucent(0.30)
+    KELT R 1 A_SetTranslucent(0.20)
+    KELT R 1 A_SetTranslucent(0.10)
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_Wander
+    TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_ExtChase(0,0,1,1)
+    KELT A 1 A_PlaySound("pyro/tele")
+    KELT A 1 A_SetTranslucent(0.10)
+    KELT A 1 A_SetTranslucent(0.20)
+    KELT A 1 A_SetTranslucent(0.30)
+    KELT A 1 A_SetTranslucent(0.40)
+    KELT A 1 A_SetTranslucent(0.50)
+    KELT A 1 A_SetTranslucent(0.60)
+    KELT A 1 A_SetTranslucent(0.70)
+    KELT A 1 A_SetTranslucent(0.80)
+    KELT A 1 A_SetTranslucent(0.90)
+    KELT A 1 A_SetTranslucent(1.0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT A 5
+    KELT B 2
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -180)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -60)
+	KELT A 3 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, 60)
+	KELT A 5
+    KELT B 2
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -180)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -60)
+	KELT A 3 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, 60)
+	KELT A 5
+    KELT B 2
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -180)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -60)
+	KELT A 3 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, 60)
+	KELT A 5
+    KELT B 2
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -180)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -60)
+	KELT A 3 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, 60)
+	KELT A 5
+    KELT B 2
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 0)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 20)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 30)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 40)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 50)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 60)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 70)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 80)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 90)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 100)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 110)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 120)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 130)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 140)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 150)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 160)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 180)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 190)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 200)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 210)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 220)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 230)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 240)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 250)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 260)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 270)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 280)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 290)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 300)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 310)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 320)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 330)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 340)
+	KELT A 0 A_CustomMissile("HHShock", 0, -48, 350)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -180)
+	HHND J 0 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, -60)
+	KELT A 3 A_CustomMissile ("KaiserEliteGuardRocks", 32, 0, 60)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT E 5 A_FaceTarget
+	KELT F 10 Bright A_customMissile(DCBMiss1,27,16,0)
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT FFFFF 0 Bright A_customMissile(DCBMiss2,27,16,random(-70, 70))
+    KELT FE 2 A_FaceTarget
+    KELT E 10 A_FaceTarget
+    KELT F 10 Bright A_customMissile(DCBMiss1,27,16,0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT E 2 A_FaceTarget
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT E 2 A_FaceTarget
+    KELT F 2 Bright A_CustomMissile("HellGrenade", 27, 16, random(-10, 10) , 2 ,random(-5,20))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT E 5 A_FaceTarget
+    KELT FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 1 Bright A_CustomMissile("ElitePlasmaBall", 27, 0, random(-20, 20), 0)
+    KELT E 0 A_FaceTarget
+    KELT FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 1 Bright A_CustomMissile("ElitePlasmaBall", 27, 0, random(-20, 20), 0)
+    KELT E 0 A_FaceTarget
+    KELT FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 1 Bright A_CustomMissile("ElitePlasmaBall", 27, 0, random(-20, 20), 0)
+    KELT E 0 A_FaceTarget
+    KELT FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 1 Bright A_CustomMissile("ElitePlasmaBall", 27, 0, random(-20, 20), 0)
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT PQ 4 A_FaceTarget
+    KELT RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR 5 BRIGHT A_CustomMissile("GasterCube", 40, 0, random(-90, 90), 0)         
+    KELT H 150 A_Print("Lo Lamento Kaiser Le He Fallado.")  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10)) 
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10)) 
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))   
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10)) 
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))   
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10)) 
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))   
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10)) 
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))  
+    KELT H 4 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))      
+    CBOS J 8 A_Scream
+    CBOS J 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS J 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS K 8 bright A_Playsound("world/barrelx")
+    CBOS K 0 Bright A_customMissile(PyroShot,-10,16,0)
+    CBOS K 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS K 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS L 8 bright A_NoBlocking
+    CBOS L 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS L 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS M 8 bright
+    CBOS M 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS M 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS N 8 bright
+    CBOS N 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS N 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS O 98
+    TNT1 A 0 A_BossDeath
+    CBOS O -1
+    stop  
+ StrafeDecide:
+    TNT1 A 0 A_Jump(256,"Left","Right")
+ Left:
+	KELT A 3 A_FaceTarget
+	KELT B 0 A_playsound("cbaron/metal")
+	TNT1 A 0 A_ChangeFLag("NODROPOFF", 1)
+	TNT1 A 0 A_Recoil(-3)
+	KELT B 3 ThrustThing(angle*256/360+192, 11, 0, 0)
+	KELT C 3 A_FaceTarget
+	TNT1 A 0 A_Recoil(-3)
+	TNT1 A 0 HealThing(5)
+	KELT D 3 ThrustThing(angle*256/360+192, 11, 0, 0)
+	KELT D 0 A_hoof
+	KELT D 0 Bright A_customMissile(BruiserFire,0,16,0)
+	TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+	Goto See
+ Right:
+	KELT A 3 A_FaceTarget
+	KELT B 0 A_playsound("cbaron/metal")
+	TNT1 A 0 A_ChangeFLag("NODROPOFF", 1)
+	TNT1 A 0 A_Recoil(-3)
+	KELT B 3 ThrustThing(angle*256/360+64, 11, 0, 0)
+	KELT C 3 A_FaceTarget
+	TNT1 A 0 A_Recoil(-3)
+	TNT1 A 0 HealThing(5)
+	KELT D 3 ThrustThing(angle*256/360+64, 11, 0, 0)
+	KELT D 0 A_hoof
+	KELT D 0 Bright A_customMissile(BruiserFire,0,16,0)
+	TNT1 A 0 A_JumpIfCloser(800, "FallBack")
+	Goto See	
+ FallBack:
+	TNT1 A 0 A_FaceTarget
+	TNT1 A 0 A_ChangeFLag("NODROPOFF", 1)
+	Goto See
+ Raise:
+	stop		
+    }
+}  
+          
+ACTOR KaiserEliteGuard2 : KaiserEliteGuard 
+{
+  health 3500
+  States
+  {
+  Missile:
+    TNT1 A 0 A_Jump(128,"Cyber", "GasterCannon", "RandomGaster")
+    TNT1 A 0 A_Jump(128,"Lightning", "Thamuz", "Mouth", "Bouncing", "Grenade", "MegaShock")
+  Death:
+    CBOS I 8
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS I 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS J 8 A_Scream
+    CBOS J 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS J 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS K 8 bright A_Playsound("world/barrelx")
+    CBOS K 0 Bright A_customMissile(PyroShot,-10,16,0)
+    CBOS K 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS K 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS K 8 bright A_NoBlocking
+    CBOS K 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS L 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS M 8 bright
+    CBOS M 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS M 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS N 8 bright
+    CBOS N 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    CBOS N 1 BRIGHT A_CustomMissile("KaiserEliteGuardBlower",random(20,42),random(-4,4),random(0,359),2,random(-10,10))
+    KELT O -1
+    stop
+   }
+}
+
+ACTOR GasterParticle
+{
+	+NOINTERACTION
+	DONTHURTSHOOTER
+	RenderStyle Add
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("GBlasterRealParticle",0,0,0,frandom(-3,3),frandom(-3,3),frandom(-3,3),random(1,360))
+		KBLS A 1 Bright A_SetScale(scalex-0.03)
+		TNT1 A 0 A_FadeOut(0.03)
+		Goto Spawn+2
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor GBlasterRealParticle
+{
+	Projectile
+	Damage 0
+	+NOBLOCKMAP
+	+BLOODLESSIMPACT
+	+CLIENTSIDEONLY 
+	+NoBlockMap
+    -BLOODSPLATTER
+    +DontSplash
+    +FORCEXYBILLBOARD
+	Speed 0
+	Radius 1
+	Height 1
+	Scale 0.1
+	RenderStyle Add
+	States
+	{
+  Spawn:
+  Death:
+    KBLS A 1 Bright A_FadeOut(0.03)
+    Loop
+	}
+}
+
+ACTOR GBlasterPuff
+{
+  +NOBLOCKMAP
+  +NOGRAVITY
+  +ALLOWPARTICLES
+  +RANDOMIZE
+  +ALWAYSPUFF
+  +PUFFONACTORS
+  +NOINTERACTION
+  -BLOODSPLATTER
+  Mass 5
+  RenderStyle Add
+  States
+  {
+  Spawn:
+  Death:
+    TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("GBlasterRealParticle",0,0,0,frandom(-20,20),frandom(-20,20),frandom(-20,20),random(1,360))
+	Goto RealDeath
+  RealDeath:
+	KBLS A 0 Bright A_SetScale(ScaleX+0.01)
+	KBLS AA 1 Bright A_FadeOut(0.02)
+    Loop
+  }
+}
+
+ACTOR KaiserChainAttack : FastProjectile
+{
+   Radius 8
+   Height 12
+   Speed 300
+   Damage (300)
+   PROJECTILE
+   SeeSound "weapons/sawup"
+   DeathSound "weapons/sawidle"
+   DONTHURTSHOOTER
+   +FLOORCLIP
+   +FloorHugger
+   +ACTIVATEPCROSS
+   +SOLID
+   States
+   {
+   Spawn: 
+      TNT1 A 1  
+      loop
+   Death:
+      KLSI EDCBAAABCDE 3 
+      stop
+   }
+}
+
+ACTOR KaiserChainAttack2
+{
+   Radius 8
+   Height 12
+   Speed 20
+   Damage 10
+   PROJECTILE
+   SeeSound "weapons/sawup"
+   DeathSound "weapons/sawidle"
+   DONTHURTSHOOTER
+   +FLOORCLIP
+   +RIPPER
+   +FloorHugger
+   +ACTIVATEPCROSS
+   +SOLID
+   States
+   {
+   Spawn: 
+      TNT1 A 0
+      KLSI EDCB 3
+      KLSI A 1 
+      TNT1 A 0 A_CustomMissile("HHTorpFX", 0, 0, 0)
+      Goto Spawn+5
+   Death:
+      KLSI ABCDE 3 
+      stop
+   }
+}
+
+ACTOR KaiserChainAttack3
+{
+   Radius 8
+   Height 12
+   Speed 0
+   Damage 0
+   PROJECTILE
+   DONTHURTSHOOTER
+   +ForceRadiusDmg
+   +FLOORCLIP
+   +FloorHugger
+   +ACTIVATEPCROSS
+   +SOLID
+   +Boss
+   States
+   {
+   Spawn: 
+      TNT1 A 1  
+   Death:
+      TNT1 A 0 A_PlaySound ("weapons/sawup")
+      KLSI EDC 3
+      TNT1 A 0 A_Explode(32,128)
+	  KLSI BAAABCDE 3 
+	  stop
+   }
+}
+
+Actor KaiserChainAttackRandom
+{
+	Projectile
+	+SEEKERMISSILE +THRUACTORS +NOCLIP
+	Radius 1
+	Height 1
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_Tracer2
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_SetAngle(Random(1,360))
+		TNT1 A 0 A_Jump(128,2)
+		TNT1 A 0 A_FaceTracer
+		TNT1 A 1 A_Recoil(-Random(64,512))
+		TNT1 A 0 A_CustomMissile("KaiserChainAttack3",0,0,0,2)
+		Stop
+	}
+}
+
+actor ChainBarrier : PlasmaBall
+{
+  SeeSound "brain/spit"
+  DeathSound "weapons/rocklx"
+  RenderStyle Normal
+  Speed 9
+  +SeekerMissile
+  +DOOMBOUNCE
+  +DEHEXPLOSION
+  +NOBOUNCESOUND
+  Scale 0.75
+  States
+  {
+  Spawn:
+    TNT1 A 6 
+    TNT1 A 0 A_PlaySoundEx("elite/gasterready",1,0,1)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,-90,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,-75,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,-60,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,-45,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,-30,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,-15,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,0,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,15,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,30,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,45,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,60,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,75,0,CMF_AIMDIRECTION)
+	TNT1 A 0 A_CustomMissile("ChainBar",0,90,0,CMF_AIMDIRECTION)
+   Death:
+    TNT1 A 1 A_NoBlocking
+    Stop
+  }
+}
+
+ACTOR ChainBar
+{
+  Health 500
+  Radius 30
+  Height 60
+  DeathSound "weapons/rocklx"
+  +SOLID
+  +SHOOTABLE
+  +NOBLOOD
+  +ACTIVATEMCROSS
+  +DONTGIB
+  +NOICEDEATH
+  +NOCLIP
+  States
+  {
+  Spawn:
+    TNT1 A 0 Bright A_SpawnItem("HHTorpFX",0,0)
+    KLSI A 5
+    TNT1 A 0 A_CustomMissile("HHTorpFX", 0, 0, 0)
+    Loop
+  Death:
+    MISL B 8 Bright 
+    MISL C 6 Bright
+    MISL D 4 Bright
+    TNT1 A 1 A_NoBlocking
+    Stop
+  }
+}
+
+Actor GasterBlaster
+{
+	MONSTER
+	DONTHURTSHOOTER
+	+THRUACTORS
+	+NOGRAVITY
+	+NOTARGETSWITCH
+	+INVULNERABLE
+	-COUNTKILL
+	-SHOOTABLE 
+	Alpha 0.1
+	States
+	{
+	Spawn:
+		TNT1 A 0  
+		TNT1 A 3
+		TNT1 AAAAAAAAAA 0 A_Look
+		Stop
+	See:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySoundEx("elite/gasterready",2,0,1)
+		GBLS A 0 A_ChangeVelocity(Random(-3,3),Random(-3,3),Random(-3,3),CVF_RELATIVE)
+		GBLS AAAAAAAAA 1 A_FadeIn(0.1)
+		GBLS AAAAAABC 3
+		TNT1 A 0 A_FaceTarget
+		GBLS D 3
+		TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+		TNT1 A 0 A_CustomRailgun(Random(40,200),0,"None", "None", RGF_SILENT|RGF_FULLBRIGHT,1,0,"GBlasterPuff",0,0,0,0,20,1,"GasterParticle")
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(30)
+		TNT1 A 0 A_Jump(256,"Leave")
+	Leave:
+		GBLS EF 1 A_FadeOut(0.04)
+		Loop
+	}
+}
+
+Actor GasterBlaster2 : GasterBlaster
+{
+	States
+	{
+	See:
+		TNT1 A 0
+		TNT1 A 0 A_PlaySoundEx("elite/gasterready",2,0,1)
+		GBLS AAAAAAAAA 1 A_FadeIn(0.1)
+		GBLS AAAAAABC 3
+		TNT1 A 0 A_FaceTarget
+		GBLS D 3
+		TNT1 A 0 A_PlaySoundEx("elite/gastershot",2,0,1)
+		TNT1 A 0 A_CustomRailgun(Random(30,200),0,"None", "None", RGF_SILENT|RGF_FULLBRIGHT,1,0,"GBlasterPuff",0,0,0,0,20,1,"GasterParticle")
+		TNT1 A 0 A_Stop
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_Recoil(30)
+		TNT1 A 0 A_Jump(256,"Leave")
+	Leave:
+		GBLS EF 1 A_FadeOut(0.04)
+		Loop
+	}
+}
+
+actor GasterCube : PlasmaBall
+{
+  SeeSound ""
+  DeathSound ""
+  RenderStyle Normal
+  Speed 18
+  +DOOMBOUNCE
+  +NOBOUNCESOUND
+  States
+  {
+  Spawn:
+    TNT1 A 6 
+    TNT1 A 0 A_Stop
+  Death:
+    TNT1 A 1 Bright A_SpawnItem("GasterBlaster",0,0)
+    Stop
+  }
+}
+
+Actor GasterBlasterRandom
+{
+	Projectile
+	+SEEKERMISSILE +THRUACTORS +NOCLIP
+	Radius 1
+	Height 1
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_Tracer2
+		TNT1 A 0 A_FaceTarget
+		TNT1 A 0 A_SetAngle(Random(1,360))
+		TNT1 A 0 A_Jump(128,2)
+		TNT1 A 0 A_FaceTracer
+		TNT1 A 1 A_Recoil(-Random(64,512))
+        TNT1 A 0 A_CustomMissile("GasterCube", 0, 0, random(-180, 180), 2)
+		Stop
+	}
+}
+
+actor GasterFourCube : PlasmaBall
+{
+  SeeSound ""
+  DeathSound ""
+  Speed 9999
+  States
+  {
+  Spawn:
+    TNT1 A 6 
+    Loop
+  Death:
+    TNT1 A 0 
+    TNT1 A 0 Bright A_customMissile(GasterFour,27,16,45)
+    TNT1 A 0 Bright A_customMissile(GasterFour,27,16,-45)
+    TNT1 A 0 Bright A_customMissile(GasterFour,27,16,135)
+    TNT1 A 1 Bright A_customMissile(GasterFour,27,16,-135)
+    Stop
+  }
+}
+
+actor GasterFour : GasterCube
+{
+  Speed 120
+  States
+  {
+  Spawn:
+    TNT1 A 0 
+    TNT1 A 6 
+    TNT1 A 0 A_Stop
+  Death:
+    TNT1 A 1 Bright A_SpawnItem("GasterBlaster",0,0)
+    Stop
+  }
+}
+
+actor GasterLineAttack : PlasmaBall
+{
+  SeeSound ""
+  DeathSound ""
+  Speed 36
+  +DOOMBOUNCE
+  +DEHEXPLOSION
+  +NOBOUNCESOUND
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    TNT1 A 0 
+    TNT1 A 1 Bright A_SpawnItem("GasterBlaster2",0,0)
+    TNT1 A 0
+    TNT1 A 0 
+    TNT1 A 0 Bright A_SpawnItem("GasterBlaster2",0,0)
+	TNT1 A 1
+    TNT1 A 0 
+    TNT1 A 0 Bright A_SpawnItem("GasterBlaster2",0,0)
+    TNT1 A 1
+    TNT1 A 0 
+    TNT1 A 1 Bright A_SpawnItem("GasterBlaster2",0,0)
+    TNT1 A 0
+    TNT1 A 0 
+    TNT1 A 1 Bright A_SpawnItem("GasterBlaster2",0,0)
+    TNT1 A 0 A_Stop
+  Death:
+    TNT1 A 1
+    Stop
+  }
+}
+
+Actor DustEffect
+{
+	+NOINTERACTION
+	+NOGRAVITY
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		HTFX EDCBA 2
+		Stop
+	}
+}
+
+actor KaiserEliteGuardBlower
+{
+  PROJECTILE
+  +INVISIBLE
+  Speed 4
+  Radius 1
+  Height 1
+  RenderStyle Add
+  States
+  {
+  Spawn:
+    TNT1 A 2 
+    TNT1 A 0 A_SpawnItem("KaiserEliteGuardAsploder",0,random(-5,5))
+    TNT1 A 2 
+    TNT1 A 0 A_SpawnItem("KaiserEliteGuardAsploder",0,random(-5,5))
+  Death:
+    TNT1 A 1 A_FadeOut
+    Stop
+  }
+}
+
+actor KaiserEliteGuardAsploder
+{
+  Scale 0.6
+  +NOGRAVITY
+  RenderStyle Add
+  States
+  {
+  Spawn:
+    TNT1 A 0 
+    TNT1 A 0 A_PlaySoundEx("weapons/rocklx", 4, 0, 2)
+	KXS2 A 1 Bright
+    KXS2 BCDEFGHIJKLMNOPQRSTUVWXYZ 1 Bright
+    Goto Death
+  Death:
+    KXS2 Z 1 Bright
+    Stop
+  }
+}
+
+ACTOR KaiserEliteGuardRocks
+{
+	PROJECTILE
+	+NoTarget
+	+ForceRadiusDmg
+	+SeekerMissile
+	+LookAllAround
+	Height 8
+	Radius 12
+	Speed 12
+	Damage 1
+	SeeSound "hammerhound/rocklaunch"
+	DeathSound "hammerhound/rocks"
+	ExplosionDamage 32
+	ExplosionRadius 128
+	var int user_angle;
+    var int user_angletwo;
+	States
+	{
+	Spawn:
+	    TNT1 A 0
+		TNT1 A 0 A_SetUserVar("user_angle", user_angle + random(8,64))
+		HHRB A 1 A_Warp(AAPTR_TARGET, 64, 0, 2, user_angle, WARPF_ABSOLUTEANGLE|WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE)
+        TNT1 F 0 A_SetUserVar("user_angle", user_angle + 8)
+		TNT1 A 0 A_Jump(2,"Launch")
+		Goto Spawn+2
+	Launch:
+	    TNT1 A 0 A_ClearTarget
+	    TNT1 A 0 A_LookEx(0,0,0,0,0,"Fly")
+		Goto Fly
+	Fly:
+	    TNT1 AAAAA 0 A_SeekerMissile(25,10,SMF_LOOK)
+	    TNT1 A 0 A_FaceTarget
+	    HHRB A 1
+		Goto Fly+2
+	Death:
+		HHRB A 3
+		HHRB B 3 A_Explode
+		HHPF A 0 A_CustomMissile("HHRock3", 4, 0, -55)
+		HHPF A 2 A_CustomMissile("HHRock3", 4, 0, 40)
+		HHPF B 0 A_CustomMissile("HHRock3", 4, 0, -15)
+		HHPF B 2 A_CustomMissile("HHRock3", 4, 0, 0)
+		HHPF C 0 A_CustomMissile("HHRock3", 4, 0, 15)
+		HHPF C 2 A_CustomMissile("HHRock3", 4, 0, -40)
+		HHPF D 0 A_CustomMissile("HHRock3", 4, 0, 55)
+		HHPF DEF 2
+		Stop
+	}
+}
+
+actor ElitePlasmaBall : Rocket 
+{
+	speed 25
+	translation "112:127=192:207"
+	SeeSound "CyberPrism/PlasmaFire"
+	deathsound "CyberPrism/PlasmaExplosion"
+	Damage (150*Random(1,1))
+	+THRUSPECIES
+	-ROCKETTRAIL
+	states
+	{
+	Spawn:
+		PLSS AB 1 Bright A_CustomMissile("PlasmaTrail",0,0,0)
+		loop
+	Death:
+	    BFE1 AAAAAAAAAA 0 A_SpawnItemEx("CyberPrismPlasmaExplosionEffect",0,0,5,frandom(-10,10),frandom(-10,10),frandom(-10,10),random(1,360))
+		BFE1 A 0 A_CustomMissile("CyberPrismPlasmaWave",0,0,0)
+		BFE1 ABCDEF 4 Bright 
+		stop
+	}
+}
+
+actor KaiserEliteGuardEyeFire
+{
+  +RANDOMIZE
+  +NOGRAVITY
+  RenderStyle Add
+  Alpha 1.0
+  States
+  {
+  Spawn:
+	HVFX L 1 Bright A_FadeOut(0.03)
+    Loop
+  }
+}

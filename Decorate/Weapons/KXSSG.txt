@@ -1,0 +1,134 @@
+ACTOR KXSuperShotgun : KXBaseWeapon replaces SuperShotgun
+{
+	decal bulletchip
+	Weapon.AmmoUse2 6
+    Weapon.AmmoType2 "Shell"
+	Tag "Super Shotgun"
+	Weapon.UpSound "weapons/sshotc"
+	Weapon.SelectionOrder 400
+    Weapon.AmmoUse 2
+    Weapon.AmmoGive 8
+    Weapon.AmmoType "Shell"
+	Weapon.SlotNumber 3
+	Inventory.PickupSound "weapons/sshoto"
+    Inventory.PickupMessage "$GOTSHOTGUN2"
+    Obituary "$OB_MPSSHOTGUN"
+    Tag "$TAG_SUPERSHOTGUN"
+	States
+	{
+	Ready:
+		PKS2 A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+		PKS2 A 1 A_WeaponReady
+		Loop
+	Deselect:
+	    PKS2 A 0 A_Lower
+		PKS2 A 1 A_Lower
+		Loop
+	Select:
+		PKS2 E 1 Offset(-78,109)
+	    FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+		PKS2 E 1 Offset(-66,97)
+		PKS2 E 1 Offset(-55,86)
+		PKS2 E 1 Offset(-45,76)
+		PKS2 D 1 Offset(-36,67)
+		PKS2 D 1 Offset(-28,59)
+		PKS2 D 1 Offset(-21,52)
+		PKS2 C 1 Offset(-15,46)
+		PKS2 C 1 Offset(-10,41) 
+		PKS2 C 1 Offset(-6,37) 
+		PKS2 B 1 Offset(-3,34) 
+		PKS2 B 1 Offset(-1,32) 
+		Goto Ready
+	Fire:
+		PKS2 A 0 A_FireShotgun2
+		TNT1 A 0 Radius_Quake(6,3,0,1,0)
+		TNT1 A 0 A_ZoomFactor(0.97)
+		PKS2 A 1 Offset(0,47) A_SetPitch(pitch-3.0)
+		TNT1 A 0 A_ZoomFactor(0.94)
+		PKS2 A 1 Offset(0,62) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(0.96)
+		PKS2 A 1 Offset(0,77) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(0.98)
+		PKS2 A 1 Offset(0,67) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(1.00)
+		PKS2 A 1 Offset(0,58)
+		PKS2 A 1 Offset(0,50)
+		PKS2 A 0 A_Checkreload
+		PKS2 A 1 Offset(0,43)
+		PKS2 A 1 Offset(0,37)
+		PKS2 A 1 Offset(0,32) 
+		PKS2 A 3
+		PKS2 B 2
+		PKS2 C 3
+		PKS2 D 4
+		PKS2 E 4
+		PKS2 F 2 A_OpenShotgun2
+        TNT1 A 0 A_FireCustomMissile("SShotCaseSpawn",0,0,0,1)
+        TNT1 A 0 A_FireCustomMissile("SShotCaseSpawn",0,0,0,1)
+		PKS2 GHIJ 2
+		PKS2 K 3
+		PKS2 L 2 A_LoadShotgun2
+		PKS2 M 3 
+		PKS2 NOPQ 2 
+		PKS2 R 3 A_CloseShotgun2
+		PKS2 S 3
+		PKS2 T 1 A_ReFire
+		Goto Ready
+	AltFire:
+	    PKCG A 0 A_JumpIfInventory("SuperShotgunUpgrade", 1, "Alternative")
+        Goto Ready
+	Alternative:
+		PKS2 A 0 A_PlayWeaponSound("weapons/sshotf")
+		PKS2 A 0 A_GunFlash
+        PKS2 A 0 A_FireBullets (11.2, 7.1, 20, 3, "KaiserSSGPuff")
+		TNT1 A 0 A_ZoomFactor(0.97)
+		PKS2 A 1 Offset(0,47) A_SetPitch(pitch-3.0)
+		TNT1 A 0 A_ZoomFactor(0.94)
+		PKS2 A 1 Offset(0,62) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(0.96)
+		PKS2 A 1 Offset(0,77) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(0.98)
+		PKS2 A 1 Offset(0,67) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(1.00)
+		PKS2 A 1 Offset(0,58)
+		PKS2 A 1 Offset(0,50)
+		PKS2 A 0 A_Checkreload
+		PKS2 A 1 Offset(0,43)
+		PKS2 A 1 Offset(0,37)
+		PKS2 A 1 Offset(0,32) 
+		PKS2 A 3
+		PKS2 B 2
+		PKS2 C 3
+		PKS2 D 4
+		PKS2 E 4
+		PKS2 F 2 A_OpenShotgun2
+        TNT1 A 0 A_FireCustomMissile("SShotCaseSpawn",0,0,0,1)
+        TNT1 A 0 A_FireCustomMissile("SShotCaseSpawn",0,0,0,1)
+		PKS2 GHIJ 2
+		PKS2 K 3
+		PKS2 L 2 A_LoadShotgun2
+		PKS2 M 3 
+		PKS2 NOPQ 2 
+		PKS2 R 3 A_CloseShotgun2
+		PKS2 S 3
+		PKS2 T 1 A_ReFire
+		Goto Ready
+	Flash:
+		SHT2 J 3 Bright A_Light2
+		SHT2 I 2 Bright A_Light1
+		Goto LightDone
+    Spawn:
+        SGN2 A -1
+        Stop
+	KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		PKS2 A 1 bright Offset(0,70)
+	    PKS2 A 1 bright Offset(0,60)
+	    PKS2 A 1 bright Offset(0,50)
+	    PKS2 A 1 bright Offset(0,40)
+		Goto Ready
+	}
+}

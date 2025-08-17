@@ -1,0 +1,191 @@
+Actor FaithItem : Ammo
+{
+  Inventory.PickupMessage "Your Good Actions Will Be Rewarded."
+  Inventory.Amount 1
+  Inventory.MaxAmount 50
+  Ammo.BackpackAmount 0
+  Ammo.BackpackMaxAmount 200
+  Inventory.Icon "FAITA0"
+  States
+  {
+  Spawn:
+    FAIT A -1
+    stop
+  }
+}
+
+ACTOR ShotgunUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Shotgun Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG2 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Shotgun With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+ACTOR SuperShotgunUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Super Shotgun Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG1 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Shotgun With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+ACTOR ChaingunUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Chaingun Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG3 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Chaingun With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+ACTOR PlasmaRifleUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Plasma Rifle Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG5 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Plasma Rifle With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+Actor RocketLauncherUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Rocket Launcher Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG4 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Rocket Launcher With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+Actor SniperUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Sniper Rifle Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG6 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Rocket Launcher With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+Actor RifleUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Assault Rifle Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG7 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Rocket Launcher With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+Actor GrenadeLauncherUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Grenade Launcher Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG8 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Print ("You Upgrade Your Rocket Launcher With Strange Tecnology, You Can Use Alternative Fire")
+    stop
+  }
+}
+
+Actor SwordUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Sword Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    FSWS A -1
+    Stop
+  Pickup:
+    TNT1 A 0 
+    stop
+  }
+}
+
+Actor PistolUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Pistol Upgrade!."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    PLBT A -1
+    Stop
+  Pickup:
+    TNT1 A 0 
+    stop
+  }
+}
+
+Actor HeavyRifleUpgrade : Inventory 
+{
+  Inventory.PickupMessage "Rifle Upgrade."
+  Inventory.Amount 1
+  Inventory.MaxAmount 1
+  States
+  {
+  Spawn:
+    UPG9 A -1
+    Stop
+  Pickup:
+    TNT1 A 0 
+    stop
+  }
+}

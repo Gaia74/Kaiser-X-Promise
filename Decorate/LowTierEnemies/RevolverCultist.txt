@@ -1,0 +1,89 @@
+ACTOR KXCultist2 7526
+{
+	//$Category LowTierSoldiers 
+	Health 50
+	Radius 20
+	Height 56
+	Speed 15
+	PainChance 100
+	+FloorClip
+	+DontHarmSpecies
+	Monster
+	SeeSound "monster/culsit" 
+	AttackSound "monster/culatk" 
+	PainSound "monster/culpai" 
+	DeathSound "monster/culdth" 
+	ActiveSound "monster/culsit"
+	Obituary "%o got the head full of bullets."
+	Species "KX"
+	GibHealth 30
+	DropItem "RiflesAmmo" 192
+	var int user_fire;
+	States
+	{
+		Spawn:
+			SHAH AB 10 A_Look
+			loop
+		See:
+			SHAH AABB 3 A_Chase 
+			TNT1 A 0 A_PlaySound("KXMonsterFootstep/Light")
+			SHAH CCDD 3 A_Chase 
+			TNT1 A 0 A_PlaySound("KXMonsterFootstep/Light")
+			TNT1 A 0 A_Jump(32,"Reloading")
+			loop
+		Missile:
+			TNT1 A 0 A_JumpIf(user_fire==6,"Reloading")
+			TNT1 A 0 A_PlaySound("Weapons/Revolver/Up")
+			SHAG A 12 A_FaceTarget
+			TNT1 A 0 A_FaceTarget
+			TNT1 A 0 A_JumpIf(user_fire==6,"Reloading")
+			TNT1 A 0 A_PlaySound("Weapons/Revolver/Fire",0)
+			SHAG B 0 Bright A_CustomMissile("KXScoutDustParticle",48,1,0)
+			SHAG B 0 Bright A_CustomMissile("CultistBullet",46,1,frandom(-1,1),CMF_OFFSETPITCH,frandom(-1,1))
+			TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+			SHAG B 5 Bright
+			SHAG A 10
+			TNT1 A 0 A_Jump(50,"See")
+			Goto Missile+3
+		Reloading:
+			TNT1 A 0 A_JumpIf(user_fire==0,"See")
+			TNT1 A 0 A_PlaySound("Weapons/Revolver/Open",CHAN_6)
+		    SHAH A 14
+			Goto ReloadLoop
+		ReloadLoop:
+			SHAH A 4
+			TNT1 A 0 A_PlaySound("Weapons/Revolver/Load",CHAN_7)
+			TNT1 A 0 A_CustomMissile("RRifCaseSpawn",32,0,0)
+			TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+		    SHAH A 4
+			TNT1 A 0 A_JumpIf(user_fire==0,"ReloadDone")
+			loop
+		ReloadDone:
+		    TNT1 A 0 A_PlaySound("Weapons/Revolver/Close",CHAN_6)
+			SHAH A 14
+			Goto See
+		Pain:
+			SHAP A 2 
+			SHAP A 2 A_Pain 
+			Goto See 
+		Death:
+			TNT1 AAAAA 0 A_SpawnitemEx("GaiaBloodProjectile", frandom(-3,3), frandom(-3,3), random(5,42), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION)
+			TNT1 A 0 A_NoBlocking
+			TNT1 A 0 A_Scream
+			SHAD ABCDE 5
+			SHAD E -1
+			Stop
+		XDeath:
+			TNT1 A 0 A_CustomMissile("KXBloodExplosionEffect",32,0,0,0,0)
+			TNT1 A 0 A_NoBlocking
+			TNT1 A 0 A_Scream
+			SHXD ABCDEFGH 4
+			SHXD I -1
+			Stop
+	}
+}
+
+ACTOR CultistBullet : KaiserXBullet
+{
+	Damage (random(5,12))
+}

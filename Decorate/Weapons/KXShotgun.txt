@@ -1,0 +1,173 @@
+ACTOR KXShotgun : KXBaseWeapon Replaces Shotgun
+{
+	Weapon.AmmoUse1 0
+	Weapon.AmmoUse2 0
+  	Weapon.AmmoGive1 0
+	Weapon.AmmoGive2 16
+  	Weapon.AmmoType1 "ShotgunClip"
+	Weapon.AmmoType2 "Shell"
+	AttackSound ""
+	decal bulletchip
+	+NOALERT
+	Tag "Shotgun"
+	Weapon.SelectionOrder 1300
+	Inventory.PickupSound "weapons/shotgun/cock1"
+    Inventory.PickupMessage "$GOTSHOTGUN"
+    Obituary "$OB_MPSHOTGUN"
+	Weapon.SlotNumber 3
+	States
+	{
+	Select: 
+		PKSG D 1 Offset(-50,92)
+	    FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+		PKSG D 1 Offset(-45,87)
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/cock1","SoundSlot7")
+		PKSG E 1 Offset(-40,82)
+		PKSG F 1 Offset(-35,77)
+		PKSG F 1 Offset(-30,72)
+		PKSG G 1 Offset(-20,62)
+		PKSG H 1 Offset(-15,57)
+		PKSG H 1 Offset(-10,52)
+		PKSG G 1 Offset(-5,47)
+		PKSG G 1 Offset(0,42)
+		PKSG F 1 Offset(0,37)
+		PKSG FEE 1 
+		PKSG DCB 2
+		Goto Ready
+	Deselect:
+		PKSG A 0 A_Lower
+		PKSG A 1 A_Lower
+		loop
+	Ready:
+		PKSG A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+		PKSG A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+		loop
+	Fire:
+		NULL A 0 A_AlertMonsters
+		NULL A 0 A_JumpIfInventory("ShotgunClip",1,1)
+		Goto DryFire
+		TNT1 A 0 A_ZoomFactor(0.98)
+		PKSG A 0 A_FireBullets (5.6, 0, 10, 5, "BulletPuff")
+		TNT1 A 0 Radius_Quake(3,2,0,1,0)
+		PKSG A 0 A_GunFlash
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/fire","Weapon")
+		NULL A 0 A_TakeInventory("ShotgunClip",1)
+		PKSG A 1 Offset(0,47) A_SetPitch(pitch-1.0)
+		TNT1 A 0 A_ZoomFactor(0.96)
+		PKSG A 1 Offset(0,62) A_SetPitch(pitch-1.0)
+		TNT1 A 0 A_ZoomFactor(0.97)
+		PKSG A 1 Offset(0,52) A_SetPitch(pitch+0.7)
+		TNT1 A 0 A_ZoomFactor(0.98)
+		PKSG A 1 Offset(0,42) A_SetPitch(pitch+0.7)
+		TNT1 A 0 A_ZoomFactor(0.99)
+		PKSG A 1 Offset(0,32) A_SetPitch(pitch+0.6)
+		TNT1 A 0 A_ZoomFactor(1.00)
+		PKSG AA 1
+		PKSG B 2
+		PKSG C 1
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/cock1","SoundSlot7")
+		TNT1 A 0 A_FireCustomMissile("ShotCaseSpawn",0,0,0,1)
+		PKSG D 2
+		PKSG E 1
+		PKSG F 2
+		PKSG G 1
+		PKSG H 2
+		PKSG GFEDCB 2
+		PKSG A 1
+		PKSG A 0 A_ReFire
+		Goto Ready
+	AltFire:
+	    PLSF A 0 A_JumpIfInventory("ShotgunUpgrade", 1, "Alternative")
+		Goto Ready
+	Alternative:
+	    NULL A 0 A_AlertMonsters
+		NULL A 0 A_JumpIfInventory("ShotgunClip",1,1)
+		Goto DryFire
+	    TNT1 A 0 A_ZoomFactor(0.98)
+		PKSG A 0 A_FireBullets (5.6, 0, 10, 5, "BulletPuff")
+		PKSG A 0 A_GunFlash
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/fire","Weapon")
+		NULL A 0 A_TakeInventory("ShotgunClip",1)
+		NULL A 0 A_FireCustomMissile("ShotCaseSpawn",0,0,0,1)
+		PKSG A 1 Offset(0,47) A_SetPitch(pitch-1.5)
+		TNT1 A 0 A_ZoomFactor(0.96)
+		PKSG A 1 Offset(0,62) A_SetPitch(pitch-1.5)
+		TNT1 A 0 A_ZoomFactor(0.97)
+		PKSG A 1 Offset(0,52) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(0.98)
+		PKSG A 1 Offset(0,42) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(0.99)
+		PKSG A 1 Offset(0,32) A_SetPitch(pitch+1.0)
+		TNT1 A 0 A_ZoomFactor(1.00)
+		PKSG AA 1
+		PKSG A 0 A_Refire
+		PKSG B 2
+		PKSG C 1
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/cock1","SoundSlot7")
+		PKSG D 2
+		PKSG E 1
+		PKSG F 2
+		PKSG G 1
+		PKSG H 2
+		PKSG GFEDCB 2
+		PKSG A 5
+		Goto Ready
+	Reload:
+		NULL A 0
+		NULL A 0 A_JumpIfInventory("ShotgunClip",0,"Ready")
+		NULL A 0 A_JumpIfInventory("Shell",1,1)
+		Goto Ready
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/open","SoundSlot5")
+		PKSG B 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		PKSG C 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		PKSG D 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		PKSG E 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		PKSG F 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		SHTR I 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+	ReloadAmmoLoop:
+		SHTR ABCDEF 1
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/shellin","SoundSlot6")
+		NULL A 0 A_TakeInventory("Shell",1)
+		NULL A 0 A_GiveInventory("ShotgunClip",1)
+		SHTR GHII 1 A_Refire("ReloadEnd")
+		NULL A 0 A_JumpIfInventory("Shell",1,1) // if not out of ammo, countinue reloading
+		goto ReloadEnd
+		NULL A 0 A_JumpIfInventory("ShotgunClip",0,"ReloadEnd") // if clip full, finish reload
+		goto ReloadAmmoLoop // otherwise continue
+	ReloadEnd:
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/cock1","SoundSlot7")
+		PKSG F 4 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		PKSG G 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		PKSG H 3 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)  
+		PKSG FEDCB 2 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH) 
+		Goto Ready
+	DryFire:
+		PKSG A 2
+		NULL A 0 A_PlaySoundEx("weapons/shotgun/dry", CHAN_AUTO)
+		PKSG A 5
+		goto Reload
+	Flash:
+		SHTF B 3 Bright A_Light2
+		SHTF A 2 Bright A_Light1
+		Goto LightDone
+	Spawn:
+    	SHOT A -1
+    	Stop
+	KXSkillLower:
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		PKSG A 1 bright Offset(0,70)
+	    PKSG A 1 bright Offset(0,60)
+	    PKSG A 1 bright Offset(0,50)
+	    PKSG A 1 bright Offset(0,40)
+		Goto Ready
+	}
+}
+
+Actor ShotgunClip : Ammo
+{
+	Inventory.MaxAmount 8
+	Inventory.Icon "SHELA0"
+}

@@ -1,0 +1,8 @@
+Lock 102
+{
+	BlueCard
+	YellowCard
+	RedCard 
+	Message "You need all 3 key cards to activate this object"
+	RemoteMessage "You need all 3 key cards to activate this object"
+}

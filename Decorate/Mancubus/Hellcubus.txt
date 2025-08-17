@@ -1,0 +1,181 @@
+ACTOR Hellcubus 7587 
+{ 
+  //$Category Mancubus
+  Health 800
+  Radius 48
+  Height 64
+  Mass 1000
+  Speed 10
+  PainChance 40
+  Monster
+  +FloorClip
+  +BossDeath
+  +DontHarmSpecies
+  Species "KX"
+  DamageFactor "KX", 0.0
+  SeeSound "Hellcubus/See"
+  PainSound "Hellcubus/Pain"
+  DeathSound "Hellcubus/Death"
+  ActiveSound "Hellcubus/Act"
+  Obituary "%o was sent to hell by the infernal flames of a Hellcubus."
+  Translation "192:207=16:47", "240:247=39:47"
+  var int user_fire;
+  States
+  {
+  Spawn:
+    FAT9 AB 15 A_Look
+    Loop
+  See:
+	FAT9 A 4 A_Chase
+	TNT1 A 0 A_PlaySound("Mancubus/FootStep")
+	FAT9 ABBCCD 4 A_Chase
+	TNT1 A 0 A_PlaySound("Mancubus/FootStep")
+	FAT9 DEEFF 4 A_Chase
+    Loop
+  Missile:
+	TNT1 A 0 A_JumpIfCloser(304,"FlameThrower")
+	TNT1 A 0 A_Jump(128,"Big")
+	TNT1 A 0 A_Jump(256,"Original","Nail")
+  FlameThrower:
+    TNT1 A 0 A_PlaySound("Hellcubus/Roar",CHAN_WEAPON)
+	FAT9 FG 6 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	TNT1 A 0 A_PlaySound("Hellcubus/FlameThrower",CHAN_VOICE)
+	Goto LoopingFlames
+  LoopingFlames:
+	FAT9 H 0 A_SetUserVar(user_fire,user_fire+1)
+	FAT9 H 0 bright A_CustomMissile("HellcubusFlameThrower",30,-25,frandom(-2,2)) 
+	FAT9 H 0 bright A_CustomMissile("HellcubusFlameThrower",30,25,frandom(-2,2))
+	FAT9 H 1 A_FaceTarget
+	FAT9 H 0 A_JumpIf(user_fire>30,"See")
+	Loop
+  Big:
+	TNT1 A 0 A_PlaySound("Hellcubus/Roar",CHAN_WEAPON)
+    FAT9 GGGG 5 A_FaceTarget
+    FAT9 G 0 Bright A_CustomMissile("HellcubusComet",30,25,frandom(-8,8))
+	FAT9 G 0 Bright A_CustomMissile("HellcubusComet",30,-25,frandom(-8,8))
+	FAT9 GGGGG 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,25,30,frandom(5,15),frandom(-2,2),frandom(5,20),random(1,360))
+	FAT9 GGGGG 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,-25,30,frandom(5,15),frandom(-2,2),frandom(5,20),random(1,360))
+    FAT9 HHIG 5 A_FaceTarget
+    FAT9 G 0 Bright A_CustomMissile("HellcubusComet",30,25,frandom(-8,8))
+	FAT9 G 0 Bright A_CustomMissile("HellcubusComet",30,-25,frandom(-8,8))
+	FAT9 GGGGG 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,25,30,frandom(5,15),frandom(-2,2),frandom(5,20),random(1,360))
+	FAT9 GGGGG 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,-25,30,frandom(5,15),frandom(-2,2),frandom(5,20),random(1,360))
+    FAT9 HHIG 5 A_FaceTarget
+    FAT9 G 0 Bright A_CustomMissile("HellcubusComet",30,25,frandom(-8,8))
+	FAT9 G 0 Bright A_CustomMissile("HellcubusComet",30,-25,frandom(-8,8))
+	FAT9 GGGGG 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,25,30,frandom(5,15),frandom(-2,2),frandom(5,20),random(1,360))
+	FAT9 GGGGG 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,-25,30,frandom(5,15),frandom(-2,2),frandom(5,20),random(1,360))
+    FAT9 HHIG 5 A_FaceTarget
+    Goto See
+  Original:
+    TNT1 A 0 A_PlaySound("Hellcubus/Roar",CHAN_WEAPON)
+    FAT9 GGGG 5 A_FaceTarget
+    FAT9 GGGG 0 Bright A_CustomMissile("KXFatShot",30,25,frandom(-15,15))
+	FAT9 GGGG 0 Bright A_CustomMissile("KXFatShot",30,-25,frandom(-15,15))
+    FAT9 HHIG 5 A_FaceTarget
+	Goto See
+  Nail:
+    TNT1 A 0 A_PlaySound("Hellcubus/Roar",CHAN_WEAPON)
+    FAT9 GGGG 5 A_FaceTarget
+    FAT9 G 0 Bright A_CustomMissile("KXMetalBall",30,25,0)
+	FAT9 G 0 Bright A_CustomMissile("KXMetalBall",30,-25,0)
+    FAT9 HHIG 5 A_FaceTarget
+	Goto See
+  Pain:
+    FAT9 J 3
+    FAT9 J 3 A_Pain
+    Goto See
+  Death:
+	FAT9 K 6 A_SpawnitemEx("KXBloodExplosionEffect",0,0,32,0,0,0,0,SXF_USEBLOODCOLOR|SXF_NOCHECKPOSITION)
+	FAT9 L 6 A_Scream
+	FAT9 M 6 A_NoBlocking
+	FAT9 NNNOOOPPPQQQRRRSSS 2 A_SpawnitemEx("GaiaBloodProjectile", frandom(-3,3), frandom(-3,3), random(1,6), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_USEBLOODCOLOR | SXF_NOCHECKPOSITION)
+	FAT9 T -1 A_BossDeath
+	Stop
+  Raise:
+    FAT9 R 5
+    FAT9 QPONMLK 5
+    Goto See
+  }
+}
+
+Actor HellcubusComet
+{
+  Radius 13
+  Height 8
+  Speed 20
+  Scale 0.75
+  Gravity 0.75
+  Damage 8
+  Projectile
+  SeeSound "weapons/firbfi"
+  DeathSound "Hellcubus/CometDeath"
+  RenderStyle Add
+  States
+  {
+  Spawn:
+    COMT AAAABBBBCCCC 1 Bright A_SpawnItemEx("HellcubusCometTrail", 0, 0, 0, 0, 0, 0, 0, 128)
+    Loop
+  Death:
+    COMT A 0 Bright A_Explode(160,160)
+	COMT A 0 A_SpawnItemEx("HellcubusCometGlow", 0, 0, 0, 0, 0, 0, 0, 128)
+	TNT1 AAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle",0,0,0,frandom(-5,5),frandom(-5,5),frandom(5,10),random(1,360))
+    COMT DEFGHI 3 Bright
+    Stop
+  }
+}
+
+Actor HellcubusCometTrail
+{
+    Radius 1
+    Height 1
+    Speed 0
+    Damage 0
+	RenderStyle Add
+    PROJECTILE
+    +DontSplash
+    +ClientSideOnly
+    +NoBlockMap
+    +NoInteraction
+    States
+    {
+    Spawn:
+	    TNT1 A 2 
+        FRTB ABCDEFGHI 1 Bright
+		Stop
+    }
+}
+
+Actor HellcubusCometGlow : HellcubusCometTrail
+{
+    Scale 1.75
+    States
+    {
+    Spawn:
+        FRTB ABCDEFGHI 2 Bright
+		Stop
+    }
+}
+
+Actor HellcubusFlameThrower
+{
+  Radius 15
+  Height 8
+  Speed 20
+  Scale 0.1
+  Damage (4)
+  RenderStyle Add
+  Alpha 1.0
+  Projectile
+  States
+  {
+  Spawn:
+      KXS4 ABCDEFGHIJKLMNOPQR 1 Bright A_SetScale(ScaleX+0.02)
+      Goto Death
+  Death:
+      "####" "#" 0 Bright A_SetScale(ScaleX+0.015)
+      "####" "#" 1 Bright A_FadeOut(0.1)
+      Loop
+  }
+}

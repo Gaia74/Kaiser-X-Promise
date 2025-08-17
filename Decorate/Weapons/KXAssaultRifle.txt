@@ -1,0 +1,197 @@
+actor KXAssaultRifle : KXBaseWeapon 7489 
+{ 
+    //$Category KXItems
+	Weapon.SelectionOrder 770
+	Weapon.AmmoUse1 1
+	Weapon.AmmoType1 "KXAssaultRifleLoad"
+	Weapon.AmmoType2 "RiflesAmmo"
+	Weapon.AmmoGive2 20
+	Weapon.SlotNumber 2
+	Inventory.PickupSound "Weapon/AssaultRifleMagOut"
+	Weapon.UpSound "Weapon/AssaultRifleCharge"
+	Inventory.PickupMessage "You got the Assault Rifle."
+	Obituary "%o was mowed down by %k's assault rifle."
+	decal "BulletChip"
+	Tag "Assault Rifle"
+	+Weapon.Ammo_Optional
+	+WEAPON.NOAUTOFIRE
+	+NoAlert
+	States
+	{
+	Ready:
+		ARRF A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+		ARRF A 0 A_JumpIfInventory("KXAssaultRifleZoom", 1, "ReadyZoom")
+		ARRF A 1 A_WeaponReady(WRF_ALLOWRELOAD)
+		Goto Ready
+	ReadyZoom: 
+		ARZO E 1 A_WeaponReady(WRF_ALLOWRELOAD)
+		Goto Ready
+	Deselect:
+		ARRF A 0 A_ZoomFactor(1.0)
+		ARRF A 0 A_TakeInventory("KXAssaultRifleZoom", 1)
+		ARRF A 0 A_Lower
+		ARRF A 1 A_Lower
+		ARRF A 0 A_TakeInventory("KXAssaultRifleZoom", 1)
+		Loop
+	Select:
+		TNT1 A 3
+		ARRF K 1 Offset(-35,92)
+		ARRF A 0 A_TakeInventory("KXAssaultRifleZoom", 1)
+		FSWD A 0 A_TakeInventory("KXFireSkillToken") 
+		ARRF J 1 Offset(-28,82)
+		ARRF I 1 Offset(-21,77)
+		ARRF H 1 Offset(-14,72)
+		ARRF G 1 Offset(-7,67)
+		ARRF F 1 Offset(0,62)
+		ARRF E 1 Offset(0,57)
+		ARRF D 1 Offset(0,52)
+		ARRF C 1 Offset(0,47) 
+		ARRF B 1 Offset(0,42)
+		ARRF A 1 Offset(0,37)
+		Goto Ready
+	Fire:
+		TNT1 A 0 A_JumpIfInventory("KXAssaultRifleZoom", 1, "FireZoom")
+		TNT1 A 0 A_JumpIfInventory("RifleUpgrade", 1, "Alternative")
+		TNT1 A 0 A_JumpIfNoAmmo("Reload")
+		TNT1 A 0 Radius_Quake(2,3,0,1,0)
+		TNT1 A 0 A_GunFlash
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire", CHAN_WEAPON)
+		TNT1 A 0 A_FireBullets(2.5, 1.5, 1, random(12,15), "BulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+		TNT1 A 0 A_FireCustomMissile("RRifCaseSpawn",0,0,10,1)
+		ARMZ ABC 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		ARRF A 0 A_ReFire
+		ARMZ D 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		Goto Ready+1
+	Hold: //second fire variant
+		TNT1 A 0 A_JumpIfInventory("KXAssaultRifleZoom", 1, "FireZoom")
+		TNT1 A 0 A_JumpIfInventory("RifleUpgrade", 1, "Alternative")
+		TNT1 A 0 A_JumpIfNoAmmo("Reload")
+		TNT1 A 0 Radius_Quake(2,3,0,1,0)
+		TNT1 A 0 A_GunFlash
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire", CHAN_WEAPON)
+		TNT1 A 0 A_FireBullets(2.5, 1.5, 1, random(12,15), "BulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+		TNT1 A 0 A_FireCustomMissile("RRifCaseSpawn",0,0,10,1)
+		ARMZ EFG 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		ARRF A 0 A_ReFire("Fire")
+		ARMZ D 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		Goto Ready+1
+	FireZoom: 
+		ARZO B 0 A_JumpIfInventory("RifleUpgrade", 1, "AlternativeZoom")
+		ARZO B 0 A_JumpIfNoAmmo("Reload")
+		TNT1 A 0 Radius_Quake(2,3,0,1,0)
+		ARZO B 0 A_GunFlash
+		ARZO B 0 A_AlertMonsters
+		ARZO A 0 A_PlaySound("Weapon/AssaultRifleFire", CHAN_WEAPON)
+		ARZO C 0 A_FireBullets(0.5, 0.5, 1, random(12,15), "BulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+		ARZO BC 1 Bright 
+		TNT1 A 0 A_FireCustomMissile("ARRifCaseSpawn",0,0,10,1)
+		ARZO DEE 1 Bright 
+		ARZO A 0 A_ReFire
+		Goto ReadyZoom
+	Alternative:
+		TNT1 A 0 A_JumpIfNoAmmo("Reload")
+		TNT1 A 0 Radius_Quake(2,3,0,1,0)
+		TNT1 A 0 A_GunFlash
+		TNT1 A 0 A_AlertMonsters
+		TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire", CHAN_WEAPON)
+		TNT1 A 0 A_FireBullets(1.0, 1.0, 1, 15, "BulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+		TNT1 A 0 A_FireCustomMissile("RRifCaseSpawn",0,0,10,1)
+		ARMZ ABC 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		ARRF A 0 A_ReFire
+		ARMZ D 1 Bright A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		Goto Ready+1
+	AlternativeZoom:
+		ARZO B 0 A_JumpIfNoAmmo("Reload")
+		TNT1 A 0 Radius_Quake(2,3,0,1,0)
+		ARZO B 0 A_GunFlash
+		ARZO B 0 A_AlertMonsters
+		ARZO A 0 A_PlaySound("Weapon/AssaultRifleFire", CHAN_WEAPON)
+		ARZO C 0 A_FireBullets(0.2,0.2,1,15, "BulletPuff", FBF_NORANDOM | FBF_USEAMMO)
+		ARZO BC 1 Bright 
+		TNT1 A 0 A_FireCustomMissile("ARRifCaseSpawn",0,0,10,1)
+		ARZO DEE 1 Bright 
+		ARZO A 0 A_ReFire
+		Goto ReadyZoom
+	ReloadZoom:
+		ARRF A 0 A_PlaySound("Weapon/AssaultRifleButton")
+		ARZO F 0 A_ZoomFactor(1.0)
+		ARZO A 1 Offset(20,32) 
+		ARZO A 1 Offset(30,33)
+		ARZO A 1 Offset(40,34)
+		ARZO A 1 Offset(50,33)
+		ARZO A 1 Offset(60,32)
+		ARZO A 0 Offset(1,32) A_TakeInventory("KXAssaultRifleZoom", 1)
+		Goto Reload
+	Reload:
+		PISG D 0 A_JumpIfInventory("KXAssaultRifleZoom", 1, "ReloadZoom")
+		PISG D 0 A_JumpIfInventory("KXAssaultRifleLoad",40,2)
+		PISG D 0 A_JumpIfInventory("RiflesAmmo",1,"ReloadStart")
+		PISG D 0
+		Goto Ready+1
+	ReloadStart:
+		ARRF A 0 A_PlaySound("Weapon/AssaultRifleCharge")
+		ARRF ABCCDEFFGHIJJKLMMNNOPP 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		ARRF A 0 A_PlaySound("Weapon/AssaultRifleMagOut")
+		Goto ReloadAmmo
+	ReloadAmmo:
+		NULL A 0 A_TakeInventory("RiflesAmmo",1)
+		NULL A 0 A_GiveInventory("KXAssaultRifleLoad",1)
+		NULL A 0 A_JumpIfInventory("KXAssaultRifleLoad",40,"ReloadDone")
+		NULL A 0 A_JumpIfInventory("RiflesAmmo",1,"ReloadAmmo")
+		Goto ReloadDone
+	ReloadDone:
+		ARRF QQQQQQQQQQQQQQQQQQRSTUVWX 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		ARRF W 7 A_PlaySound("Weapon/AssaultRifleMagIn")
+		ARRF YYZ 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		ARRF GEEDCCB 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		ARRF A 0 A_PlaySound("Weapon/AssaultRiflePull")
+		//ARRF EDCBA 1 A_WeaponReady(WRF_NOFIRE|WRF_NOSWITCH)
+		Goto Ready+1
+	AltFire:
+		ARRF A 1 A_JumpIfInventory("KXAssaultRifleZoom", 1, "AltfireUnzoom")
+		AltFireZoom:
+		ARRF A 0 A_PlaySound("Weapon/AssaultRifleButton")
+		ARZO A 1 Offset(60,32)
+		ARZO A 1 Offset(50,33)
+		ARZO A 1 Offset(40,34)
+		ARZO A 1 Offset(30,33)
+		ARZO A 1 Offset(20,32)
+		ARZO E 0 A_ZoomFactor(2.0)
+		ARZO E 0 A_GiveInventory("KXAssaultRifleZoom", 1)
+		Goto Ready
+	AltFireUnzoom:
+		ARRF A 0 A_PlaySound("Weapon/AssaultRifleButton")
+		ARZO F 0 A_ZoomFactor(1.0)
+		ARZO A 1 Offset(20,32) 
+		ARZO A 1 Offset(30,33)
+		ARZO A 1 Offset(40,34)
+		ARZO A 1 Offset(50,33)
+		ARZO A 1 Offset(60,32)
+		ARZO A 0 Offset(1,32) A_TakeInventory("KXAssaultRifleZoom", 1)
+		Goto Ready
+	Flash:
+		TNT1 A 2 Bright A_Light1
+		TNT1 A 2 Bright A_Light2
+		Goto LightDone
+	Spawn:
+		USRF A -1
+		Stop
+   KXSkillLower:
+		ARRF A 0 A_TakeInventory("KXAssaultRifleZoom", 1)
+		ARZO F 0 A_ZoomFactor(1.0)
+        FSWD A 1 bright Offset(0,40)
+	    FSWD A 1 bright Offset(0,50)
+	    FSWD B 1 bright Offset(0,60)
+	    FSWD B 1 bright Offset(0,70)
+		ARRF A 1 bright Offset(0,70)
+	    ARRF A 1 bright Offset(0,60)
+	    ARRF A 1 bright Offset(0,50)
+	    ARRF A 1 bright Offset(0,40)
+		Goto Ready
+   }
+}
+
+ACTOR KXAssaultRifleZoom : Inventory { Inventory.MaxAmount 1 }
+ACTOR KXAssaultRifleLoad : Ammo { Inventory.Icon "CLIPA0" Inventory.MaxAmount 40 }

@@ -1,0 +1,3114 @@
+#library "Kaiser"
+#include "zcommon.acs"
+#import "KXGLOBAL.acs"
+
+int KXSkillSlot[64][4];
+int KXPlayerMenuActive = 0;
+int KXPlayerCinematicActive = 0;
+int KXRelicSlot[64][3];
+
+int KXAngelicPrismTID = 0;
+
+// ARRAYS FOR SKILLS
+
+str KXSkillName[39] = {
+    "Ice Shards",             // 0
+    "Glacial Shield",          // 1
+    "Angelic Frost Touch",     // 2
+    "Fire Ball",               // 3
+    "Igneous Flare",           // 4
+    "Divine Spirit Scorch",    // 5
+    "Thunder Bolt",            // 6
+    "Lightning",               // 7
+    "Calm of the Sky Storm",   // 8
+    "Purification",            // 9
+    "Sacred Sword",            // 10
+    "Divine Light",            // 11
+    "-",                       // 12
+    "-",                       // 13
+    "-",                       // 14
+    "-",                       // 15
+    "-",                       // 16
+    "-",                       // 17
+    "-",                       // 18
+    "-",                       // 19
+    "-",                       // 20
+    "-",                       // 21
+    "-",                       // 22
+    "-",                       // 23
+    "-",                       // 24
+    "-",                       // 25
+    "-",                       // 26
+    "-",                       // 27
+    "-",                       // 28
+    "-",                       // 29
+    "-",                       // 30
+    "Relentless",        // 31
+    "Merciless",       // 32
+    "BloodThristy",       // 33
+    "Mastery",       // 34
+	"Soul Ripper",        // 35
+    "Celestial Ascent",       // 36
+    "Ashen Absolution",       // 37
+    "Light Armor"       // 38
+};
+
+int KXSkillUnlocked[39] = {
+    1, // 0
+    0, // 1
+    0, // 2
+    1, // 3
+    0, // 4
+    0, // 5
+    1, // 6
+    0, // 7
+    0, // 8
+    1, // 9
+    0, // 10
+    0, // 11
+    0, // 12
+    0, // 13
+    0, // 14
+    0, // 15
+    0, // 16
+    0, // 17
+    0, // 18
+    0, // 19
+    0, // 20
+    0, // 21
+    0, // 22
+    0, // 23
+    0, // 24
+    0, // 25
+    0, // 26
+    0, // 27
+    0, // 28
+    0, // 29
+    0, // 30
+    0, // 31
+    0, // 32
+    0, // 33
+    0, // 34
+	0, // 35
+    0, // 36
+    0, // 37
+    0  // 38
+};
+
+str KXSkillDesc[39] = {
+    "Spread of ice shards", // 0
+    "Pillars of ice arise in front of you. They have few health but can protect against direct hit", // 1
+    "The demons will feel the touch of an angel, freezing nearby demons for 5 seconds. For each demon frozen, you gain 5 armor points", // 2
+    "Fast small explosive that doesn't have direct damage but inflicts decent explosion damage", // 3
+    "Big explosion, burns any affected enemy for 10 seconds, dealing between 140-210 HP with the fire and 90-150 with the explosion. However, many demons are immune to fire, use it wisely", // 4
+    "May the divine power of the holy spirit guide us, burst of holy fire, anything affected will burn with the touch of the holy spirit", // 5
+    "Rail attack taht inflicts 50 hp but stuns monsters for 6 seconds that have less than 400 hp", // 6
+    "A lightning instantly strikes where you are aiming, stunning any demon in the radius that has less than 800 health spawn", // 7
+    "The calm of the storm envolps you, giving you a pulse shield of 600 Armor that covers all damage, but depletes quickly in 5 seconds", // 8
+    "Purify your soul and body, heals 50 HP", // 9
+    "Get the Sacred Sword; you can use the blade for about 30 seconds and it has 3 attacks: slash, ranged slash, and sword throw", // 10
+    "Light is the ultimate fear of demons. For 20 seconds, you continuously create divine light that shoots enemies. let heaven's power prevail.", // 11
+    "Holy Description 1", // 12
+    "Holy Description 2", // 13
+    "Holy Description 3", // 14
+    "-", // 15
+    "-", // 16
+    "-", // 17
+    "-", // 18
+    "-", // 19
+    "-", // 20
+    "-", // 21
+    "Description", // 22
+    "-", // 23
+    "-", // 24
+    "-", // 25
+    "-", // 26
+    "-", // 27
+    "-", // 28
+    "-", // 29
+    "-", // 30
+    "Fast dash movement",        // 31
+    "Short-range attack, 100 Damage, inflicts bledding and slowness, executes targets with less than 25% health, producing double resources",       // 32
+    "Attach to a wall or monster. Any attack will cancel the hook. Reusing the hook while attached to a monster pulls them toward you",       // 33
+    "Deals 100 damage to all enemies in front of you, reflects any incoming attacks",       // 34
+	"Knocks up all monsters around you, after that, they are sliced in thousands of pieces by the katana of the demon slayer, hardly something can come out alive from this",        // 35
+    "Grabs the enemies in front, jumps into the air to smash them in the ground, the damage depends on the health of the monsters you grabbed",       // 36
+    "Executes all the enemies in an area (below 25% HP), Executed enemies gives INSTANTLY health, armor and charges, each monster executed reduces cooldown by 2",       // 37
+    "Generate a Pulse shield of 600 Armor that covers all damage, after it depletes, produce a energy explosion that electrify anything, and recover health and armor"       // 38
+};
+
+str KXSkillDesc2[39] = {
+    "5 Faith cost, Charge up",                                  // 0
+    "10 Faith cost, Instantaneous",                            // 1
+    "50 Faith cost, Charge up, Hold",                           // 2
+    "5 Faith cost, Charge up",                                  // 3
+    "15 Faith cost, Charge up",                                 // 4
+    "60 Faith cost, Charge up, Hold",                           // 5
+    "10 Faith cost, Charge up",                                 // 6
+    "15 Faith cost, Instantaneous",                            // 7
+    "60 Faith cost, Charge up, Hold",                           // 8
+    "25 Faith cost, Instantaneous",                            // 9
+    "70 Faith cost, Instantaneous, 30 seconds cooldown",        // 10
+    "90 Faith cost, Charge Up, Hold, 30 seconds cooldown",       // 11
+    "N/A",                                                      // 12
+    "N/A",                                                      // 13
+    "N/A",                                                      // 14
+    "N/A",                                                      // 15
+    "N/A",                                                      // 16
+    "N/A",                                                      // 17
+    "N/A",                                                      // 18
+    "N/A",                                                      // 19
+    "N/A",                                                      // 20
+    "N/A",                                                      // 21
+    "N/A",                                                      // 22
+    "N/A",                                                      // 23
+    "N/A",                                                      // 24
+    "N/A",                                                      // 25
+    "N/A",                                                      // 26
+    "N/A",                                                      // 27
+    "N/A",                                                      // 28
+    "N/A",                                                      // 29
+    "N/A",                                                      // 30
+    "1 Dash Charge",        // 31
+    "1 Energy Charge",       // 32
+    "4 Seconds cooldown",       // 33
+    "1 Energy Charge",       // 34
+	"30 Seconds Cooldown",        // 35
+    "30 Seconds Cooldown",       // 36
+    "30 Seconds Cooldown",       // 37
+    "30 Seconds Cooldown"       // 38
+};
+
+str KXSkillImage[39] = {
+    "KXHSKI1",  // 0
+    "KXHSKI2",  // 1
+    "KXHSKI3",  // 2
+    "KXHSKI4",  // 3
+    "KXHSKI5",  // 4
+    "KXHSKI6",  // 5
+    "KXHSKI7",  // 6
+    "KXHSKI8",  // 7
+    "KXHSKI9",  // 8
+    "KXHSKI10", // 9
+    "KXHSKI11", // 10
+    "KXHSKI12", // 11
+    "KXHSKI13", // 12
+    "KXHSKI14", // 13
+    "KXHSKI15", // 14
+    "KXHSKI16", // 15
+    "KXHSKI17", // 16
+    "KXHSKI18", // 17
+    "KXHSKI19", // 18
+    "KXHSKI20", // 19
+    "KXHSKI21", // 20
+    "KXHSKI22", // 21
+    "KXHSKI23", // 22
+    "KXHSKI24", // 23
+    "KXHSKI25", // 24
+    "KXHSKI26", // 25
+    "KXHSKI27", // 26
+    "KXHSKI28", // 27
+    "KXHSKI29", // 28
+    "KXHSKI30", // 29
+    "KXHSKI31", // 30
+    "KXHSKI32", // 31
+    "KXHSKI33", // 32
+    "KXHSKI34", // 33
+    "KXHSKI35", // 34
+	"KXHSKI36", // 35
+    "KXHSKI37", // 36
+    "KXHSKI38", // 37
+    "KXHSKI39"  // 38
+};
+
+int KXSkillCost[39] = {
+    5,  // 0
+    10, // 1
+    50, // 2
+    5,  // 3
+    15, // 4
+    60, // 5
+    10, // 6
+    15, // 7
+    60, // 8
+    25, // 9
+    70, // 10
+    90, // 11
+    1,  // 12
+    1,  // 13
+    1,  // 14
+    0,  // 15
+    0,  // 16
+    0,  // 17
+    0,  // 18
+    0,  // 19
+    0,  // 20
+    0,  // 21
+    0,  // 22
+    0,  // 23
+    0,  // 24
+    0,  // 25
+    0,  // 26
+    0,  // 27
+    0,  // 28
+    0,  // 29
+    0,  // 30
+    0,  // 31
+    0,  // 32
+    0,  // 33
+    0,  // 34
+	0,  // 35
+    0,  // 36
+    0,  // 37
+    0   // 38
+};
+
+int KXSkillInsta[39] = {
+    0, // 0
+    1, // 1
+    0, // 2
+    0, // 3
+    0, // 4
+    0, // 5
+    0, // 6
+    1, // 7
+    0, // 8
+    1, // 9
+    1, // 10
+    0, // 11
+    0, // 12
+    0, // 13
+    0, // 14
+    0, // 15
+    0, // 16
+    0, // 17
+    0, // 18
+    0, // 19
+    0, // 20
+    0, // 21
+    0, // 22
+    0, // 23
+    0, // 24
+    0, // 25
+    0, // 26
+    0, // 27
+    0, // 28
+    0, // 29
+    0, // 30
+    1, // 31
+    1, // 32
+    0, // 33
+    1, // 34
+	0, // 35
+    0, // 36
+    0, // 37
+    0  // 38
+};
+
+// ARRAYS FOR RELICS
+
+str KXRelicName[16] = {
+	"-",
+    "Shelter",
+    "Humility",
+    "Communion",
+    "Light",
+    "Prayer",
+    "Guardianship",
+    "Angelic Prism",
+    "Holy Mantle",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-",
+    "-"
+};
+
+str KXRelicDesc[16] = {
+	"-",
+	"5% of restore armor equal to half damage that you received",
+	"After 10 seconds of not shooting anything, you receive a 50% damage boost after shooting for the first time that lasts 1 second.",
+	"Regenerates health up to 40, receiving 5 HP every 5 seconds.",
+	"The light of the candles of the church, every 10 seconds you gain a charge on your inventory, on use, it fires a short range flame that deals 75 damage and 25 on burn",
+	"You are always heard..., God is with us, every skill returns Armor points equal to 2/3 of the skill cost",
+	"Your guardian angel may be dead, but she is not the only one who wants you safe; every 15 seconds when firing any weapon, you will shoot also a light beam.",
+	"A prism of colors protects you. If it blocks a projectile, it will shoot rainbow projectiles to aid you.",
+    "Even good souls want to be protected, after 30 seconds of not receiving damage, next attack will be negated completely",
+    "N/A",
+    "N/A",
+    "N/A",
+    "N/A",
+    "N/A",
+    "N/A",
+    "N/A",
+};
+
+str KXRelicImage[16] = {
+	"NULLA0",
+	"KXHREL1",
+	"KXHREL2",
+	"KXHREL3",
+	"KXHREL4",
+	"KXHREL5",
+	"KXHREL6",
+	"KXHREL7",
+	"KXHREL8",
+	"KXHREL9",
+	"KXHREL10",
+	"KXHREL11",
+	"KXHREL12",
+	"KXHREL13",
+	"KXHREL14",
+	"KXHREL15",
+};
+
+str KXRelicImageGray[16] = {
+	"NULLA0",
+	"KXGREL1",
+	"KXGREL2",
+	"KXGREL3",
+	"KXGREL4",
+	"KXGREL5",
+	"KXGREL6",
+	"KXGREL7",
+	"KXGREL8",
+	"KXGREL9",
+	"KXGREL10",
+	"KXGREL11",
+	"KXGREL12",
+	"KXGREL13",
+	"KXGREL14",
+	"KXGREL15",
+};
+
+int KXRelicUnlocked[15] = {
+	1, 
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+	0,
+};
+
+// ARRAYS FOR SHOP
+
+str KXShopMiracleItemName[10] = {
+	"SoulSphere",
+	"Blue Armor",
+	"4 Portable Holy Water Drinks",
+	"100 Shells + 10 Max Ammo",
+	"500 Clips + 50 Max Ammo",
+	"100 Rockets + 5 Max Ammo",
+	"600 Cells + 50 Max Ammo",
+	"400 Bullets + 40 Max Ammo",
+	"Warmth",
+	"Embrace"
+};
+
+str KXShopMiracleItemDescription[10] = {
+	"Instant 100 Health Points up to 200",
+	"200 Armor Points that absorbs 50% of the damage received",
+	"4 potions that restores 25 HP on use",
+	"Increases Max Shells capacity and gives 100 shells",
+	"Increases Max Clips capacity and gives 500 clips",
+	"Increases Max Rockets capacity and gives 100 Rockets",
+	"Increases Max Cells capacity and gives 600 Cells",
+	"Increases Max Bullets capacity and gives 400 Rifles ammo",
+	"Increases Max HP by 10 up to 200",
+	"Increases Max Armor by 20 up to 200"
+};
+
+int KXShopMiracleItemCost[10] = {
+	1,
+	1,
+	1,
+	1,
+	1,
+	2,
+	2,
+	1,
+	1,
+	1
+};
+
+int KXShopMiracleSkillCost[35] = {
+    0, // 0
+    2, // 1
+    5, // 2
+    0, // 3
+    2, // 4
+    5, // 5
+    0, // 6
+    2, // 7
+    5, // 8
+    0, // 9
+    9, // 10
+    9, // 11
+    0, // 12
+    0, // 13
+    0, // 14
+    0, // 15
+    0, // 16
+    0, // 17
+    0, // 18
+    0, // 19
+    0, // 20
+    0, // 21
+    0, // 22
+    0, // 23
+    0, // 24
+    0, // 25
+    0, // 26
+    0, // 27
+    0, // 28
+    0, // 29
+    0, // 30
+    0, // 31
+    0, // 32
+    0, // 33
+    0  // 34
+};
+
+
+int KXShopMiracleRelicCost[16] = {
+	0,
+	4,
+	3,
+	4,
+	5,
+	4,
+	5,
+	5,
+	3,
+	9,
+	9,
+	9,
+	9,
+	9,
+	9,
+	9,
+};
+
+function void SetInventory(str item, int amount)
+{
+	int diff = amount - CheckInventory(item);
+	if (diff > 0)
+		GiveInventory(item, diff);
+	else if (diff < 0)
+		TakeInventory(item, -diff);
+}
+
+world int 2:KXSkillSaveUnlocked[];
+world int 3:KXRelicSaveUnlocked[];
+
+Script "KXLevelEnter" Enter
+{
+	for(int i = 0; i < 39; i++)
+	{	
+		if(KXSkillSaveUnlocked[i] == 1)
+		{
+			KXSkillUnlocked[i] = 1;
+		}
+	}
+	
+	for(int y = 0; y < 15; y++)
+	{
+		if(KXRelicSaveUnlocked[y] == 1)
+		{
+			KXRelicUnlocked[y] = 1;
+		}
+	}
+	
+	KXSkillSlot[PlayerNumber()][0] = CheckInventory("KXHudSkill1Token");
+	KXSkillSlot[PlayerNumber()][1] = CheckInventory("KXHudSkill2Token");
+	KXSkillSlot[PlayerNumber()][2] = CheckInventory("KXHudSkill3Token");
+	KXSkillSlot[PlayerNumber()][3] = CheckInventory("KXHudSkill4Token");
+}
+
+Script "KXNextLevelSave" Unloading
+{
+	for(int i = 0; i < 39; i++)
+	{	
+		KXSkillSaveUnlocked[i] = KXSkillUnlocked[i];
+	}
+	
+	for(int y = 0; y < 15; y++)
+	{
+		KXRelicSaveUnlocked[y] = KXRelicUnlocked[y];
+	}
+}
+
+Script "Checkmaxhealth" (void)
+{
+  If(GetActorProperty(0, APROP_SpawnHealth) == 0)
+    SetActorProperty(0, APROP_SpawnHealth, 100);
+
+  If(GetActorProperty(0, APROP_Health) < GetActorProperty(0, APROP_SpawnHealth))
+    SetResultValue(TRUE);
+
+  Else SetResultValue(FALSE);
+}
+
+script "FaithRegen" ENTER
+{
+GiveInventory("HeavenFaith", 1);
+delay(35*5);
+restart;
+}
+
+script "Playertag" enter
+{
+    Thing_ChangeTID(0, 6969 + PlayerNumber());
+}
+
+script "Playertagtwo" respawn
+{
+    Thing_ChangeTID(0, 6969 + PlayerNumber());
+}
+
+Script "KXCinematicMenuKiller" (void) {
+	KXPlayerCinematicActive = 1;
+	KXPlayerMenuActive = 0;
+	ACS_NamedTerminate("KXSkillsSelector",0);
+	ACS_NamedTerminate("KXRelicsSelector",0);
+}
+
+Script "KXCinematicMenuKiller2" (void) {
+	KXPlayerCinematicActive = 0;
+	KXPlayerMenuActive = 0;
+}
+
+function void KXSkillUnlock (int Unlocked) {
+	KXSkillUnlocked[Unlocked] = 1;
+}
+
+function void KXRelicUnlock (int Unlocked) {
+	KXRelicUnlocked[Unlocked] = 1;
+}
+
+Script "KXSkillUnlockCheat" (int Unlocked) 
+{
+	KXSkillUnlocked[Unlocked] = 1;
+}
+
+Script "KXSkillUnlockCheat2" (void) 
+{
+	for(int i = 0; i < 39; i++)
+	{
+		KXSkillUnlocked[i] = 1;
+	}
+}
+
+Script "KXRelicUnlockCheat" (int Unlocked) 
+{
+	KXRelicUnlocked[Unlocked] = 1;
+}
+
+Script "KXRelicUnlockCheat2" (int Unlocked) 
+{
+	for(int i = 0; i < 15; i++)
+	{
+		KXRelicUnlocked[i] = 1;
+	}
+}
+
+Script "KXSkillsSelector" (void) {
+	if(KXPlayerMenuActive == 1 || KXPlayerCinematicActive == 1)
+	terminate;
+
+    ActivatorSound("menu/activate",127);
+	SetPlayerProperty(0, ON, PROP_TOTALLYFROZEN);
+	int KXMenuActive = 1;
+	KXPlayerMenuActive = 1;
+	int selected = 0;
+
+	While (KXMenuActive == 1)
+	{
+		int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+
+		SetHudSize(640, 400, FALSE);
+		SetFont("SmallFont");
+		Hudmessage(s:"Keys"; HUDMSG_FADEOUT,7013,CR_BLUE,105.4,380.0,0.2);
+		Hudmessage(k:"+forward", s:"\cc - Move up"; HUDMSG_FADEOUT,7014,CR_GOLD,320.4,380.0,0.2);
+		Hudmessage(k:"+back", s:"\cc - Move down"; HUDMSG_FADEOUT,7015,CR_GOLD,535.4,380.0,0.2);
+		Hudmessage(k:"+moveleft", s:"\cc - Previous Skill"; HUDMSG_FADEOUT,7016,CR_GOLD,105.4,390.0,0.2);
+		Hudmessage(k:"+moveright", s:"\cc - Next Skill"; HUDMSG_FADEOUT,7017,CR_GOLD,320.4,390.0,0.2);
+		Hudmessage(k:"+use", s:"\cc - Exit Menu"; HUDMSG_FADEOUT,7018,CR_GOLD,535.4,390.0,0.2);
+		
+		switch(selected) {
+			case 0:
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7001,CR_YELLOW,320.4,60.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7002,CR_GOLD,320.4,75.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,6996,CR_FIRE,320.4,90.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7003,CR_RED,320.4,150.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7004,CR_LIGHTBLUE,320.4,165.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,6997,CR_CYAN,320.4,180.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7005,CR_RED,320.4,240.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7006,CR_LIGHTBLUE,320.4,255.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,6998,CR_CYAN,320.4,270.0,0.2);
+			
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7007,CR_RED,320.4,330.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7008,CR_LIGHTBLUE,320.4,345.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,6999,CR_CYAN,320.4,360.0,0.2);
+
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][0]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,320.4,30.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][1]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7010,CR_WHITE,320.4,120.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][2]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7011,CR_WHITE,320.4,210.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][3]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7012,CR_WHITE,320.4,300.0,0.2);
+			break;
+			
+			case 1:
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7001,CR_RED,320.4,60.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,320.4,75.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,6996,CR_CYAN,320.4,90.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7003,CR_YELLOW,320.4,150.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7004,CR_GOLD,320.4,165.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,6997,CR_FIRE,320.4,180.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7005,CR_RED,320.4,240.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7006,CR_LIGHTBLUE,320.4,255.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,6998,CR_CYAN,320.4,270.0,0.2);
+			
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7007,CR_RED,320.4,330.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7008,CR_LIGHTBLUE,320.4,345.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,6999,CR_CYAN,320.4,360.0,0.2);
+
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][0]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,320.4,30.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][1]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7010,CR_WHITE,320.4,120.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][2]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7011,CR_WHITE,320.4,210.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][3]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7012,CR_WHITE,320.4,300.0,0.2);
+			break;
+			
+			case 2:
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7001,CR_RED,320.4,60.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,320.4,75.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,6996,CR_CYAN,320.4,90.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7003,CR_RED,320.4,150.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7004,CR_LIGHTBLUE,320.4,165.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,6997,CR_CYAN,320.4,180.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7005,CR_YELLOW,320.4,240.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7006,CR_GOLD,320.4,255.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,6998,CR_FIRE,320.4,270.0,0.2);
+			
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7007,CR_RED,320.4,330.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7008,CR_LIGHTBLUE,320.4,345.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,6999,CR_CYAN,320.4,360.0,0.2);
+
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][0]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,320.4,30.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][1]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7010,CR_WHITE,320.4,120.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][2]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7011,CR_WHITE,320.4,210.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][3]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7012,CR_WHITE,320.4,300.0,0.2);
+			break;
+			
+			case 3:
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7001,CR_RED,320.4,60.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,320.4,75.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,6996,CR_CYAN,320.4,90.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7003,CR_RED,320.4,150.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7004,CR_LIGHTBLUE,320.4,165.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,6997,CR_CYAN,320.4,180.0,0.2);
+
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7005,CR_RED,320.4,240.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7006,CR_LIGHTBLUE,320.4,255.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,6998,CR_CYAN,320.4,270.0,0.2);
+			
+			HudMessage(s:KXSkillName[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7007,CR_YELLOW,320.4,330.0,0.2);
+			HudMessage(s:KXSkillDesc[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,7008,CR_GOLD,320.4,345.0,0.2);
+			HudMessage(s:KXSkillDesc2[KXSkillSlot[PlayerNumber()][3]];HUDMSG_FADEOUT,6999,CR_FIRE,320.4,360.0,0.2);
+
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][0]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,320.4,30.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][1]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7010,CR_WHITE,320.4,120.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][2]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7011,CR_WHITE,320.4,210.0,0.2);
+			SetFont(KXSkillImage[KXSkillSlot[PlayerNumber()][3]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7012,CR_WHITE,320.4,300.0,0.2);
+			break;
+		}
+
+		if (buttons & BT_FORWARD && !(OldButtons & BT_FORWARD))
+		{
+			if(selected == 0) {
+				selected = 3;
+			}
+			else {
+				selected--;
+			}
+			AmbientSound("menu/backup",127);
+		}
+
+		if (buttons & BT_BACK && !(OldButtons & BT_BACK))
+		{
+			if(selected == 3) {
+				selected = 0;
+			}
+			else {
+				selected++;
+			}
+			AmbientSound("menu/backup",127);
+		}
+
+		if (buttons & BT_MOVELEFT && !(OldButtons & BT_MOVELEFT) && CheckInventory("KXBlueKnightHands") == 0) {
+			do {
+				if(KXSkillSlot[PlayerNumber()][selected] == 0) {
+					KXSkillSlot[PlayerNumber()][selected] = 14;
+				} else {
+					KXSkillSlot[PlayerNumber()][selected]--;
+				}
+			} while(KXSkillUnlocked[KXSkillSlot[PlayerNumber()][selected]] == 0);
+			SetInventory(StrParam(s:"KXHudSkill",d:selected+1,s:"Token"),KXSkillSlot[PlayerNumber()][selected]);
+			AmbientSound("menu/cursor",127);
+		}
+
+		if (buttons & BT_MOVERIGHT && !(OldButtons & BT_MOVERIGHT) && CheckInventory("KXBlueKnightHands") == 0) {	
+			do {
+				if(KXSkillSlot[PlayerNumber()][selected] == 14) {
+					KXSkillSlot[PlayerNumber()][selected] = 0;
+				} else {
+					KXSkillSlot[PlayerNumber()][selected]++;
+				}
+			}  while(KXSkillUnlocked[KXSkillSlot[PlayerNumber()][selected]] == 0);
+			SetInventory(StrParam(s:"KXHudSkill",d:selected+1,s:"Token"),KXSkillSlot[PlayerNumber()][selected]);
+			AmbientSound("menu/cursor",127);
+		}
+
+		if (buttons & BT_USE) {
+			KXMenuActive = 0;
+			AmbientSound("menu/clear",127);
+			KXPlayerMenuActive = 0;
+			SetPlayerProperty(0, OFF, PROP_TOTALLYFROZEN);
+		}
+	Delay(1);
+	}
+}
+
+Script "KXRelicsSelector" (void) {
+	if(KXPlayerMenuActive == 1 || KXPlayerCinematicActive == 1)
+    terminate;
+	
+    ActivatorSound("menu/activate",127);
+	SetPlayerProperty(0, ON, PROP_TOTALLYFROZEN);
+	int KXMenuActive = 1;
+	KXPlayerMenuActive = 1;
+	int selected = 0;
+
+	While (KXMenuActive == 1)
+	{
+		int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+
+		SetHudSize(640, 400, FALSE);
+		SetFont("SmallFont");
+		Hudmessage(s:"Keys"; HUDMSG_FADEOUT,7013,CR_BLUE,105.4,380.0,0.2);
+		Hudmessage(k:"+forward", s:"\cc - Move up"; HUDMSG_FADEOUT,7014,CR_GOLD,320.4,380.0,0.2);
+		Hudmessage(k:"+back", s:"\cc - Move down"; HUDMSG_FADEOUT,7015,CR_GOLD,535.4,380.0,0.2);
+		Hudmessage(k:"+moveleft", s:"\cc - Previous Relic"; HUDMSG_FADEOUT,7016,CR_GOLD,105.4,390.0,0.2);
+		Hudmessage(k:"+moveright", s:"\cc - Next Relic"; HUDMSG_FADEOUT,7017,CR_GOLD,320.4,390.0,0.2);
+		Hudmessage(k:"+use", s:"\cc - Exit Menu"; HUDMSG_FADEOUT,7018,CR_GOLD,535.4,390.0,0.2);
+		SetHudSize(480, 300, FALSE);
+		switch(selected) {
+			case 0:
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7001,CR_YELLOW,240.4,60.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7002,CR_GOLD,240.4,75.0,0.2);
+
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7003,CR_RED,240.4,150.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7004,CR_LIGHTBLUE,240.4,165.0,0.2);
+
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7005,CR_RED,240.4,240.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7006,CR_LIGHTBLUE,240.4,255.0,0.2);
+
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][0]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7007,CR_WHITE,240.4,30.0,0.2);
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][1]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7008,CR_WHITE,240.4,120.0,0.2);
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][2]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,240.4,210.0,0.2);
+			break;
+
+			case 1:
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7001,CR_RED,240.4,60.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,240.4,75.0,0.2);
+
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7003,CR_YELLOW,240.4,150.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7004,CR_GOLD,240.4,165.0,0.2);
+
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7005,CR_RED,240.4,240.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7006,CR_LIGHTBLUE,240.4,255.0,0.2);
+
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][0]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7007,CR_WHITE,240.4,30.0,0.2);
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][1]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7008,CR_WHITE,240.4,120.0,0.2);
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][2]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,240.4,210.0,0.2);
+			break;
+
+			case 2:
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7001,CR_RED,240.4,60.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][0]];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,240.4,75.0,0.2);
+
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7003,CR_RED,240.4,150.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][1]];HUDMSG_FADEOUT,7004,CR_LIGHTBLUE,240.4,165.0,0.2);
+
+			HudMessage(s:KXRelicName[KXRelicSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7005,CR_YELLOW,240.4,240.0,0.2);
+			HudMessage(s:KXRelicDesc[KXRelicSlot[PlayerNumber()][2]];HUDMSG_FADEOUT,7006,CR_GOLD,240.4,255.0,0.2);
+
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][0]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7007,CR_WHITE,240.4,30.0,0.2);
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][1]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7008,CR_WHITE,240.4,120.0,0.2);
+			SetFont(KXRelicImage[KXRelicSlot[PlayerNumber()][2]]);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,240.4,210.0,0.2);
+			break;
+		}
+
+		if (buttons & BT_FORWARD && !(OldButtons & BT_FORWARD))
+		{
+			if(selected == 0) {
+				selected = 2;
+			}
+			else {
+				selected--;
+			}
+			AmbientSound("menu/backup",127);
+		}
+
+		if (buttons & BT_BACK && !(OldButtons & BT_BACK))
+		{
+			if(selected == 2) {
+				selected = 0;
+			}
+			else {
+				selected++;
+			}
+			AmbientSound("menu/backup",127);
+		}
+
+		if (buttons & BT_MOVELEFT && !(OldButtons & BT_MOVELEFT)) {
+			do {
+				if(KXRelicSlot[PlayerNumber()][selected] == 0) {
+					KXRelicSlot[PlayerNumber()][selected] = 14;
+				} else {
+					KXRelicSlot[PlayerNumber()][selected]--;
+				}
+			} while(KXRelicChecker(selected) == true);
+			AmbientSound("menu/cursor",127);
+		}
+
+		if (buttons & BT_MOVERIGHT && !(OldButtons & BT_MOVERIGHT)) {	
+			do {
+				if(KXRelicSlot[PlayerNumber()][selected] == 14) {
+					KXRelicSlot[PlayerNumber()][selected] = 0;
+				} else {
+					KXRelicSlot[PlayerNumber()][selected]++;
+				}
+			} while(KXRelicChecker(selected) == true);
+			AmbientSound("menu/cursor",127);
+		}
+
+		if (buttons & BT_USE) {
+			KXMenuActive = 0;
+			KXPlayerMenuActive = 0;
+			AmbientSound("menu/clear",127);
+			SetPlayerProperty(0, OFF, PROP_TOTALLYFROZEN);
+			if(KXRelicSlot[PlayerNumber()][0] != 4 && KXRelicSlot[PlayerNumber()][1] != 4 && KXRelicSlot[PlayerNumber()][2] != 4) {
+				TakeInventory("KXCandleItem1",3);
+			}
+			
+			if(KXRelicSlot[PlayerNumber()][0] != 7 && KXRelicSlot[PlayerNumber()][1] != 7 && KXRelicSlot[PlayerNumber()][2] != 7) {
+				Thing_Remove(KXAngelicPrismTID);
+				TakeInventory("KXAngelicPrismToken",1);
+			} else {
+				if(CheckInventory("KXAngelicPrismToken") == 0)
+				{
+					GiveInventory("KXAngelicPrismToken",1);
+					KXAngelicPrismTID = UniqueTID();
+					SpawnForced("KXAngelicPrism",GetActorX(0),GetActorY(0),GetActorZ(0)/2,KXAngelicPrismTID,0);
+				}
+			}
+			
+			if(KXRelicSlot[PlayerNumber()][0] == 8 || KXRelicSlot[PlayerNumber()][1] == 8 && KXRelicSlot[PlayerNumber()][2] == 8) {
+				GiveInventory("KXRelicHolyMantleCooldown",1);
+				GiveInventory("KXRelicHolyMantleToken",1);
+			} else {
+				TakeInventory("KXRelicHolyMantleToken",1);
+				SetActorFlag(0,"INVULNERABLE",0);
+			    SetActorFlag(0,"ALLOWPAIN",0);
+			}
+		}
+	Delay(1);
+	}
+}
+
+function bool KXRelicChecker(int selected) 
+{
+	if(KXRelicUnlocked[KXRelicSlot[PlayerNumber()][selected]] == 1) 
+	{
+		Switch(selected)
+		{
+			case 0:
+                return (KXRelicSlot[PlayerNumber()][0] != 0 && 
+                        (KXRelicSlot[PlayerNumber()][0] == KXRelicSlot[PlayerNumber()][1] || 
+                         KXRelicSlot[PlayerNumber()][0] == KXRelicSlot[PlayerNumber()][2]));
+            case 1:
+                return (KXRelicSlot[PlayerNumber()][1] != 0 && 
+                        (KXRelicSlot[PlayerNumber()][1] == KXRelicSlot[PlayerNumber()][0] || 
+                         KXRelicSlot[PlayerNumber()][1] == KXRelicSlot[PlayerNumber()][2]));
+            case 2:
+                return (KXRelicSlot[PlayerNumber()][2] != 0 && 
+                        (KXRelicSlot[PlayerNumber()][2] == KXRelicSlot[PlayerNumber()][0] || 
+                         KXRelicSlot[PlayerNumber()][2] == KXRelicSlot[PlayerNumber()][1]));
+		}
+	}
+	return true;
+}
+
+script "KXSkillUse" (int skillslotused) {
+	if(KXSkillCost[KXSkillSlot[PlayerNumber()][skillslotused]] > CheckInventory("HeavenFaith")) {
+		PlaySound(0, "Blonde/Use", CHAN_VOICE, 1.0);
+		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"You are tired!";HUDMSG_FADEINOUT,7013,CR_DARKRED,240.4,280.0,1.0);
+	} else {
+		if(KXSkillInsta[KXSkillSlot[PlayerNumber()][skillslotused]] == 1) {
+		TakeInventory("HeavenFaith",KXSkillCost[KXSkillSlot[PlayerNumber()][skillslotused]]);
+		ACS_NamedExecuteAlways("KXRelicPrayerReturn",0,KXSkillCost[KXSkillSlot[PlayerNumber()][skillslotused]]);
+		GiveInventory(StrParam(s:"KXSkillItemActivator", d:KXSkillSlot[PlayerNumber()][skillslotused]), 1);
+		} else {
+		GiveInventory("KXFireSkillToken",1);
+		GiveInventory(StrParam(s:"KXSkillItemActivator", d:KXSkillSlot[PlayerNumber()][skillslotused]), 1);
+		}
+	}
+}
+
+Script "KXActivatorErase" (void) 
+{
+	TakeInventory("KXBlueKnightBladeToken2",999);
+	TakeInventory("KXBlueKnightKatanaToken",999);
+	for(int i = 0; i < 40; i++) 
+	{
+		TakeInventory(StrParam(s:"KXSkillItemActivator", d:i), 999);
+	}
+}
+
+Script "KXPoisonDamageScript" (int DPS, int Seconds)
+{
+  if(IsPointerEqual(AAPTR_TRACER,AAPTR_NULL))
+  terminate;
+  
+  SetActivator(0,AAPTR_TRACER);
+  
+  delay(1);
+  
+  for(int i = 0; i < Seconds; i++)
+  {
+	Thing_Damage(0,DPS,Mod_Slime);
+	FadeRange (0, 255, 0, 0.25, 0, 0, 0, 0.0, 1.0);
+	Delay(35);
+  }
+}
+
+
+////////////////////////////////////////////////// SKILLS SCRIPTS
+
+Script "KXAngelicFrostTouchSpell" (void)
+{
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius);
+	int letid = UniqueTID();
+	int letid2 = UniqueTID();
+	int GasSize = (KXZ/64)+0.3;
+	int KxX2 = KxX >> 16;
+	int KxZ2 = KxZ >> 16;
+	int shards = ((KxZ2+KxX2)/4);
+	
+	SpawnForced("KXAngelicFrostTouchParticle8",GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2));
+	SpawnForced("KXAngelicFrostTouchParticle9",GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2),letid2);
+	SetActorProperty(letid2,APROP_ScaleX,GasSize);
+	SetActorProperty(letid2,APROP_ScaleY,GasSize);
+	PlaySound(0,"Heaven/AngelicTouchFrozen",CHAN_AUTO,1.0);
+	for(int u = 0; u < shards && GetActorProperty(0, APROP_Health) > 0; u++) {
+		SpawnForced("KXAngelicFrostTouchParticle",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ),letid+u);
+	}
+	for(int i = 0; i < 35 && GetActorProperty(0, APROP_Health) > 0; i++) {
+		for(int z = 0; z < 5; z++) {
+			SetActorState(0, "Pain", YES);
+			delay(1);
+		}
+		SpawnForced(StrParam(s:"KXAngelicFrostTouchParticle", d:Random(4,6)),GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+	}	
+	for(int y = 0; y < shards; y++) {
+		SetActorState(letid+y, "Death", YES);
+	}
+	SpawnForced("KXAngelicFrostTouchParticle9",GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2),letid2);
+	SetActorProperty(letid2,APROP_ScaleX,GasSize);
+	SetActorProperty(letid2,APROP_ScaleY,GasSize);
+	PlaySound(0,"Glacialist/WinterCaressShieldEnd",CHAN_AUTO,1.0);
+}
+
+Script "KXIgneousFlareSpell" (void)
+{
+	if(CheckFlag(0,"NORADIUSDMG") == 1 || CheckFlag(0,"BOSS") == 1)
+		terminate;
+		
+	Thing_Damage(0,random(90,150),MOD_LAVA);
+	
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+
+	for(int i = 0; i < 70 && GetActorProperty(0, APROP_Health) > 0; i++) 
+	{
+		Thing_Damage(0, random(2,3), MOD_LAVA);
+		SpawnForced("KXIgneousFlareParticle",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		SpawnForced("KXIgneousFlareParticle",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(5);
+	}
+}
+
+Script "KXDivineSpiritScorchSpell" (void)
+{
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+	
+	if(CheckInventory("KXDivineSpiritScorchBurning") == 1)
+		terminate;
+		
+	GiveInventory("KXDivineSpiritScorchBurning",1);
+
+	for(int i = 0; i < 175 && GetActorProperty(0, APROP_Health) > 0; i++) 
+	{
+		Thing_Damage(0, 4, MOD_LAVA);
+		SpawnForced("KXDivineSpiritScorchParticle1",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		SpawnForced("KXDivineSpiritScorchParticle1",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(3);
+	}
+	TakeInventory("KXDivineSpiritScorchBurning",1);
+}
+
+Script "KXThunderBoltSpell" (int damage, int seconds, int healthlimit)
+{
+	int counter = 0;
+	int KXStunCount = 0;
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+	seconds *= 17.5;
+
+	if(GetActorProperty(0, APROP_SpawnHealth) > healthlimit || CheckFlag(0,"BOSS") == 1 || CheckInventory("KXElectrifingToken") == 1)
+	terminate;
+		
+	GiveInventory("KXElectrifingToken",1);
+	
+	thing_damage(0,damage);
+	
+	PlaySound(0,"Heaven/Electrified",CHAN_Weapon,1.0,FALSE,ATTN_NORM,FALSE);
+
+	while ((GetActorProperty(0, APROP_Health)> 1) && counter < 70)
+    {
+        SetActorState (0, "Pain");
+		SpawnForced("KXBlondeBoltParticleSpawner",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(1);
+		if((GetActorProperty(0, APROP_Health)> 1))
+		{
+			SetActorState (0, "Pain");
+		}
+		Delay(1);
+		if (KXStunCount>=17)
+		{
+		  PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+		  KXStunCount = 0;
+		}
+		StopSound(0,CHAN_Body);
+		StopSound(0,CHAN_Voice);
+		KXStunCount++;
+		counter++;
+    }
+	TakeInventory("KXElectrifingToken",1);
+}
+
+script "KXStormCalm" (void) {
+	int armoramount = CheckInventory("Armor");
+	str armortype = GetArmorInfo(ARMORINFO_CLASSNAME);
+
+	if(armortype == "BasicArmorPickup") {
+		armortype = "BlueArmor";
+	}
+	
+	TakeInventory("Armor", 999);
+	GiveInventory("KXElectricShield",600);
+
+	while(CheckInventory("Armor") > 0 && GetArmorInfo(ARMORINFO_CLASSNAME) == "KXElectricShield") 
+	{
+		PlaySound(0,"Heaven/StormCalmLoop",Chan_7,1.0,TRUE);
+		GiveInventory("KXStormCalmShieldParticle",1);
+		TakeInventory("Armor", 2);
+		Delay(1);
+	}
+	GiveInventory("BlondeStormCalmBurst",1);
+	StopSound(0,CHAN_7);
+	GiveInventory(armortype,1);
+	TakeInventory("Armor", (CheckInventory("armor")-1));
+	GiveInventory("ArmorBonus", armoramount-1);
+}
+
+script "KXSacredSwordSpell" (void) 
+{
+	if(CheckInventory("KXSacredSwordWeapon") == 1 || CheckInventory("KXSacredSwordToken") == 1) 
+	{
+		GiveInventory("HeavenFaith",70);
+		PlaySound(0, "Blonde/Use", CHAN_VOICE, 1.0);
+		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"You can't use this spell";HUDMSG_FADEINOUT,10,CR_DARKRED,240.4,280.0,1.0);
+		terminate; 
+	}
+	
+	FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+	AmbientSound("Heaven/SacredSwordSpell", 127);
+	GiveInventory("KXSacredSwordEffectSummon", 1);
+	GiveInventory("KXSacredSwordWeapon", 1);
+	GiveInventory("KXSacredSwordToken", 1);
+	SetWeapon("KXSacredSwordWeapon");
+	int KXSwordTime = 30;
+
+	while(KXSwordTime > 0)
+	{
+ 		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"Sacred Sword Time: \ch", d:KXSwordTime;HUDMSG_FADEOUT,10,CR_DARKRED,240.4,280.0,1.0);
+		delay(35);
+		KXSwordTime--;
+	}
+	GiveInventory("KXSacredSwordEffectSummon", 1);
+	TakeInventory("KXSacredSwordToken", 1);
+	TakeInventory("KXSacredSwordWeapon", 1);
+}
+
+script "KXDivineLight" (void) 
+{
+	if(CheckInventory("KXDivineLightToken") == 1) 
+	{
+		GiveInventory("HeavenFaith",90);
+		PlaySound(0, "Blonde/Use", CHAN_VOICE, 1.0);
+		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"You can't use this spell";HUDMSG_FADEINOUT,10,CR_DARKRED,240.4,280.0,1.0);
+		terminate; 
+	}	
+	
+	FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+	ACS_NamedExecuteAlways("KXDivineLight2",0,0,0,0);
+	int KXSoundTID = UniqueTid();
+	SpawnForced("KXDivineLightSoundHolder",GetActorX(0),GetActorY(0),GetActorZ(0),KXSoundTID);
+	for(int i = 0; i < 9; i++) 
+	{
+		GiveInventory("KXDivineLightItem",1);
+		Delay(1);
+	}
+	int KXLightShots = 691;
+	
+	while(KXLightShots > 0) 
+	{
+		PlaySound(KXSoundTID,"Heaven/DivineLightLoop",Chan_7,1.0,TRUE,ATTN_NONE);
+		GiveInventory("KXDivineLightItem",1);
+		Delay(1);
+		KXLightShots--;
+	}
+	StopSound(KXSoundTid,CHAN_7);
+	AmbientSound("Heaven/DivineLightEnd",127);
+	Thing_Remove(KXSoundTID);
+}
+
+Script "KXDivineLight2" (void)
+{
+	GiveInventory("KXDivineLightToken", 1);
+	int KXLightTime = 30;
+
+	while(KXLightTime > 0)
+	{
+ 		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"Divine Light Cooldown: \ch", d:KXLightTime;HUDMSG_FADEOUT,10,CR_DARKRED,240.4,270.0,1.0);
+		delay(35);
+		KXLightTime--;
+	}
+	TakeInventory("KXDivineLightToken", 1);
+}
+
+Script "KXCandleFire" (void)
+{
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+	
+	if(CheckFlag(0,"NORADIUSDMG") == 1 || CheckFlag(0,"BOSS") == 1 || CheckFlag(0,"FRIENDLY") == 1 || CheckInventory("KXCandleRelicFireToken") == 1)
+		terminate;
+		
+	Thing_Damage(0,75, MOD_LAVA);
+	GiveInventory("KXCandleRelicFireToken",1);
+	
+	for(int i = 0; i < 2 && GetActorProperty(0, APROP_Health) > 0; i++) 
+	{
+		Thing_Damage(0, 1, MOD_LAVA);
+		SpawnForced("KXCandleRelicFireParticle2",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(2);
+		SpawnForced("KXCandleRelicFireParticle2",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(2);
+	}
+	
+	TakeInventory("KXCandleRelicFireToken",1);
+
+	for(int y = 0; y < 23 && GetActorProperty(0, APROP_Health) > 0; y++) 
+	{
+		Thing_Damage(0, 1, MOD_LAVA);
+		SpawnForced("KXCandleRelicFireParticle2",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(2);
+		SpawnForced("KXCandleRelicFireParticle2",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(2);
+	}
+}
+
+///////////////////////////////////////////////// MONSTERS SCRIPTS
+
+Script "CyberProphetCureCheck" (void)
+{
+	if (CheckActorProperty(0, APROP_SPECIES, "KX"))
+	{
+		HealThing(250);
+		PlaySound(0,"CyberProphet/Healed",CHAN_AUTO,1.0);
+		GiveInventory("CyberProphetCureEffectSuccess",1);
+	}
+}
+
+Script "DiabloistIgniteScript" (void)
+{
+	int timing = 0;
+	int KXZ = GetActorProperty(0,Aprop_Height);
+	
+	if (CheckActorProperty(0, APROP_SPECIES, "KX") && CheckActorInventory(0,"IsIgniting") == 0)
+	{
+		GiveInventory("IsIgniting",1);
+		PlaySound(0,"monster/ignited",CHAN_AUTO,1.0);
+		timing = (11*random(15,25));
+		while (GetActorProperty(0, APROP_HEALTH) > 0 && timing > 0)
+		{
+			GiveInventory("DiabloistIgnitingEffect",1);
+			SpawnForced("DiabloistIgniteGlow",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+			timing--;
+			delay(3);
+		}
+		TakeInventory("IsIgniting",1);
+		SpawnForced("DiabloistIgniteExplosion",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+	}
+}
+
+Script "DiabloistBurningSpellACS" (void)
+{
+  delay(1);
+  int damage = random(50,100);
+  int realtime = ((damage*3)/35)*1.0;
+  FadeRange (255, 90, 0, 0.5, 0, 0, 0, 0.0, realtime);
+  
+  for(int i = 0; i < damage; i++)
+  {
+	Thing_Damage(0,1,Mod_Lava);
+	GiveInventory("DiabloistIgnitingEffect2",1);
+	Delay(3);
+  }
+}
+
+Script "ObliteratorGrabbingBalls" (void)
+{
+	
+	if (CheckActorClass(0, "Obliterator"))
+	{
+		GiveInventory("CyberHuskObliteratorItem2",1);
+		
+		while (GetActorProperty(0, APROP_HEALTH) > 0 && CheckInventory("CyberHuskObliteratorItem2") == 1)
+		{
+			GiveInventory("ObliteratorHasHuskBallParticles",1);
+			Delay(1);
+		}
+	}
+	else
+	{
+		terminate;
+	}
+}
+
+Script "GlacialistWinterCaressScript" (void)
+{
+	int timing = 0;
+	int KXZ = GetActorProperty(0,Aprop_Height);
+	
+	if (CheckActorProperty(0, APROP_SPECIES, "KX"))
+	{
+		PlaySound(0,"Glacialist/WinterCaressShieldStart",CHAN_AUTO,1.0);
+		timing = (random(140,245));
+		GiveInventory("GlacialistWinterCaressing2",1);
+		SetActorProperty(0, APROP_DamageFactor, 0.5);
+		while (GetActorProperty(0, APROP_HEALTH) > 0 && timing > 0)
+		{
+			timing--;
+			delay(1);
+		}
+		PlaySound(0,"Glacialist/WinterCaressShieldEnd",CHAN_AUTO,1.0);
+		SetActorProperty(0, APROP_DamageFactor, 1.0);
+		GiveInventory("GlacialistIceShieldEnding",1);
+	}
+}
+
+Script "KXSuperbiaRagingDemon" (void)
+{
+	if(CheckActorInventory(34,"SuperbiaIGotYou") == 1)
+	{
+		Terminate;
+	}
+	ACS_NamedExecuteAlways("KXCinematicMenuKiller",0,0,0,0);
+	
+	int KXZ = GetActorProperty(0,Aprop_Height);
+
+	GiveActorInventory(34,"SuperbiaIGotYou",1);
+	SetActorState(34,"RagingStart",1);
+	SetPlayerProperty(0,1,PROP_TOTALLYFROZEN);
+	Thing_Stop(0);
+	Thing_Stop(34);
+	AmbientSound("KXSuperbia/Attack",127);
+	Delay(1);
+	Warp(34,64.0,0,0,0,WARPF_NOCHECKPOSITION | WARPF_MOVEPTR);
+	SetActorAngle(34,GetActorAngle(0)+0.5);
+	Delay(34);
+	SetActorState(34,"RagingHit",1);
+
+	While(GetActorProperty(0,APROP_Health) > 0)
+	{
+		Warp(34,64.0,0,0,0,WARPF_NOCHECKPOSITION | WARPF_MOVEPTR);
+		Delay(1);
+		SetActorState(0,"PAIN",1);
+		Thing_Damage(0,25,MOD_HIT);
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		Delay(11);
+	}
+	Thing_Damage(0,9999,MOD_HIT);
+	SetActorState(34,"RagingEnd",1);
+	TakeActorInventory(34,"SuperbiaIGotYou",1);
+	SetActorState(0,"XDeath",1);
+	SetPlayerProperty(0,0,PROP_TOTALLYFROZEN);
+	ACS_NamedExecuteAlways("KXCinematicMenuKiller2",0,0,0,0);
+}
+
+// RELICS SCRIPTS
+
+int KXRelicCurrHP = 0;
+int KXRelicPrevHp = 0;
+int KXRelicDamage = 0;
+int KXRelicCommunionTimer = 0;
+int KXRelicCandleTimer = 0;
+int KXRelicHolyMantleSoundToken = 0;
+int KXRelicGuardianShipSoundToken = 0;
+int KXAngelicPrismRotate = 0;
+int KXAngelicPrismRotate2 = 0;
+
+Script "KXRelicPassive" Enter {
+	Int PNum=PlayerNumber();
+
+	While(PNum==PlayerNumber() && PlayerInGame(PNum)) {
+		KXRelicPrevHp = GetActorProperty(0,APROP_Health);
+
+		KXRelicActivation(KXRelicSlot[PlayerNumber()][0]);
+		KXRelicActivation(KXRelicSlot[PlayerNumber()][1]);
+		KXRelicActivation(KXRelicSlot[PlayerNumber()][2]);
+		delay(1);
+		KXRelicCurrHp = GetActorProperty(0,APROP_Health);
+		KXRelicDamage = KXRelicPrevHp - KXRelicCurrHp; 
+	}
+}
+
+function void KXRelicActivation(int KXPassiveValue) {
+	switch(KXPassiveValue) {
+		case 0:
+			break;
+		case 1:
+			if(CheckInventory("KXStateTokenPain"))
+			{
+				if(13>=Random(0,256))
+  				{
+				GiveInventory("ArmorBonus",KXRelicDamage/2);
+				}
+				TakeInventory("KXStateTokenPain",1);
+			}
+			break;
+		case 2:
+			if(CheckInventory("KXStateTokenMissile"))
+			{
+				TakeInventory("KXStateTokenMissile",1);
+				if(!CheckInventory("KXRelicHumilityCooldown"))
+  				{
+				GiveInventory("KXRelicHumilityDamageBoost",1);
+				GiveInventory("KXRelicHumilityCooldown", 1);
+				}
+				else {
+					TakeInventory("KXRelicHumilityCooldown", 1);
+					GiveInventory("KXRelicHumilityCooldown", 1);
+				}
+			}
+			break;
+		case 3:
+			if(KXRelicCommunionTimer == 175) {
+				HealThing(5, 40);
+				KXRelicCommunionTimer = 0;
+				break;
+			} else {
+				KXRelicCommunionTimer++;
+				break;
+			}
+		case 4:
+			if(KXRelicCandleTimer == 350) {
+				LocalAmbientSound("KXRelic/CandleCharge",127);
+				GiveInventory("KXCandleItem1",1);
+				KXRelicCandleTimer = 0;
+				break;
+			} else {
+				KXRelicCandleTimer++;
+				break;
+			}
+				break;
+		case 5:
+				break;
+		case 6:
+				if(!CheckInventory("KXRelicGuardianShipCooldown")) {
+					if(KXRelicGuardianShipSoundToken == 0) {
+						SetHudSize(480, 300, FALSE);
+						HudMessage(s:"Guardianship Ready";HUDMSG_FADEINOUT,0,CR_YELLOW,240.4,280.0,1.0);
+						LocalAmbientSound("KXRelic/GuardianShipReady",127);
+						KXRelicGuardianShipSoundToken = 1;
+					}
+					
+					if(CheckInventory("KXStateTokenMissile")) {
+						LocalAmbientSound("KXRelic/GuardianShipBlast",127);
+						GiveInventory("KXGuardianShipItem1",1);
+						GiveInventory("KXRelicGuardianShipCooldown",1);
+						KXRelicGuardianShipSoundToken = 0;
+					}
+				}
+				break;
+		case 7:
+				if(CheckInventory("KXAngelicPrismToken"))
+				{	
+					if(KXAngelicPrismRotate >  1.0)
+                    {
+                        KXAngelicPrismRotate = 0;
+                    }
+                    KXAngelicPrismRotate+= 0.006;
+					SetActivator(KXAngelicPrismTID);
+					Warp(6969,32.0,0,16.0,KXAngelicPrismRotate,WARPF_NOCHECKPOSITION);
+					SetActivator(6969);
+				}
+				break;
+				
+		case 8:
+				if(!CheckInventory("KXRelicHolyMantleCooldown") && CheckInventory("KXRelicHolyMantleToken")) {
+					if(KXRelicHolyMantleSoundToken == 0) {
+						LocalAmbientSound("KXRelic/HolyMantleReady",127);
+						HudMessage(s:"Holy Mantle Ready";HUDMSG_FADEINOUT,0,CR_YELLOW,240.4,280.0,1.0);
+						KXRelicHolyMantleSoundToken = 1;
+						SetActorFlag(0,"INVULNERABLE",1);
+						SetActorFlag(0,"ALLOWPAIN",1);
+					}
+					
+					if(CheckInventory("KXStateTokenPain")) {
+						LocalAmbientSound("KXRelic/HolyMantle",127);
+						GiveInventory("KXRelicHolyMantleCooldown",1);
+						KXRelicHolyMantleSoundToken = 0;
+						SetActorFlag(0,"INVULNERABLE",0);
+						SetActorFlag(0,"ALLOWPAIN",0);
+						SpawnForced("KXHolyMantleEffect",GetActorX(0),GetActorY(0),GetActorZ(0)/2,0,0);
+					}
+				}
+				break;
+	}
+}
+
+Script "KXRelicPrayerReturn" (int Faith) {
+	if(KXRelicSlot[PlayerNumber()][0] == 5 || KXRelicSlot[PlayerNumber()][1] == 5 || KXRelicSlot[PlayerNumber()][2] == 5) {
+		Faith = FixedMul (Faith,0.66);
+		GiveInventory("ArmorBonus",Faith);
+	}
+}
+
+// SHOPS SCRIPTS
+
+Script "KXFaithShopSystemMainMenu1" (void) {
+	if(KXPlayerMenuActive == 1)
+    terminate;
+	
+	SetPlayerProperty(0, ON, PROP_TOTALLYFROZEN);
+	int KXMenuActive = 1;
+	KXPlayerMenuActive = 1;
+	int selected = 0;
+
+	While (KXMenuActive == 1)
+	{
+		int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+		
+		SetHudSize(640, 400, FALSE);
+		SetFont("SmallFont");
+		Hudmessage(k:"+forward", s:"\cc - Move up"; HUDMSG_FADEOUT,7014,CR_GOLD,105.4,380.0,0.2);
+		Hudmessage(k:"+back", s:"\cc - Move down"; HUDMSG_FADEOUT,7015,CR_GOLD,535.4,380.0,0.2);
+		Hudmessage(k:"+attack", s:"\cc - Select Menu"; HUDMSG_FADEOUT,7017,CR_GOLD,105.4,390.0,0.2);
+		Hudmessage(k:"+altattack", s:"\cc - Exit Menu"; HUDMSG_FADEOUT,7018,CR_GOLD,535.4,390.0,0.2);
+		SetHudSize(480, 300, FALSE);
+		switch(selected) {
+			case 0:
+			SetFont("BigFont");
+			HudMessage(s:"Items";HUDMSG_FADEOUT,7001,CR_GOLD,240.4,60.0,0.2);
+			HudMessage(s:"Skills";HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,240.4,120.0,0.2);
+			HudMessage(s:"Relics";HUDMSG_FADEOUT,7004,CR_LIGHTBLUE,240.4,180.0,0.2);
+			break;
+
+			case 1:
+			SetFont("BigFont");
+			HudMessage(s:"Items";HUDMSG_FADEOUT,7001,CR_LIGHTBLUE,240.4,60.0,0.2);
+			HudMessage(s:"Skills";HUDMSG_FADEOUT,7002,CR_GOLD,240.4,120.0,0.2);
+			HudMessage(s:"Relics";HUDMSG_FADEOUT,7004,CR_LIGHTBLUE,240.4,180.0,0.2);
+			break;
+
+			case 2:
+			SetFont("BigFont");
+			HudMessage(s:"Items";HUDMSG_FADEOUT,7001,CR_LIGHTBLUE,240.4,60.0,0.2);
+			HudMessage(s:"Skills";HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,240.4,120.0,0.2);
+			HudMessage(s:"Relics";HUDMSG_FADEOUT,7004,CR_GOLD,240.4,180.0,0.2);
+			break;
+		}
+
+		if ((buttons & BT_FORWARD) && !(OldButtons & BT_FORWARD))
+		{
+			if(selected == 0) {
+				selected = 2;
+			}
+			else {
+				selected--;
+			}
+			AmbientSound("menu/cursor",127);
+		}
+
+		if ((buttons & BT_BACK) && !(OldButtons & BT_BACK))
+		{
+			if(selected == 2) {
+				selected = 0;
+			}
+			else {
+				selected++;
+			}
+			AmbientSound("menu/cursor",127);
+		}
+
+		if ((buttons & BT_ATTACK) && !(OldButtons & BT_ATTACK)) {
+			KXMenuActive = 0;
+			int selectedmenu = selected + 2;
+			AmbientSound("menu/choose",127);
+			ACS_NamedExecuteAlways(StrParam(s:"KXFaithShopSystemMainMenu", d:selectedmenu),0,0,0,0);
+		}
+
+		if ((buttons & BT_ALTATTACK) && !(OldButtons & BT_ALTATTACK)) {
+			KXMenuActive = 0;
+			AmbientSound("menu/clear",127);
+			delay(1);
+			SetPlayerProperty(0, OFF, PROP_TOTALLYFROZEN);
+			KXPlayerMenuActive = 0;
+			TakeInventory("KXIsShopping",1);
+		}
+	Delay(1);
+	}
+}
+
+function int FaithBuyCheck(int Cost) {
+	if(CheckInventory("FaithItem") >= Cost) {
+		TakeInventory("FaithItem", Cost);
+		return true;
+	}
+	return false;
+}
+
+Script "KXFaithShopSystemMainMenu2" (void) {
+	int KXMenuActive = 1;
+	int selected = 0;
+
+	While (KXMenuActive == 1)
+	{
+		int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+
+		SetHudSize(640, 400, FALSE);
+		SetFont("SmallFont");
+		Hudmessage(k:"+forward", s:"\cc - Move up"; HUDMSG_FADEOUT,7014,CR_GOLD,105.4,380.0,0.2);
+		Hudmessage(k:"+back", s:"\cc - Move down"; HUDMSG_FADEOUT,7015,CR_GOLD,535.4,380.0,0.2);
+		Hudmessage(k:"+attack", s:"\cc - Buy item"; HUDMSG_FADEOUT,7017,CR_GOLD,105.4,390.0,0.2);
+		Hudmessage(k:"+altattack", s:"\cc - Exit Menu"; HUDMSG_FADEOUT,7018,CR_GOLD,535.4,390.0,0.2);
+		SetHudSize(480, 300, FALSE);
+		
+		for(int y = 9; y >= 0; y--)
+		{
+			int pos = 25+(y*25);
+			pos = pos << 16;
+			if(y == selected)
+			{
+				HudMessage(s:KXShopMiracleItemName[y];HUDMSG_FADEOUT,6970+y,CR_GOLD,10.1,pos,0.2);
+				HudMessage(d:KXShopMiracleItemCost[y], s:" Miracle Energy";HUDMSG_FADEOUT,7040+y,CR_BLUE,10.1,pos+10.0,0.2);
+			} 
+			else  
+			{
+				HudMessage(s:KXShopMiracleItemName[y];HUDMSG_FADEOUT,6970+y,CR_LIGHTBLUE,10.1,pos,0.2);
+				HudMessage(d:KXShopMiracleItemCost[y], s:" Miracle Energy";HUDMSG_FADEOUT,7040+y,CR_CYAN,10.1,pos+10.0,0.2);
+			}
+		}
+		
+		HudMessage(s:KXShopMiracleItemName[selected];HUDMSG_FADEOUT,7001,CR_GOLD,350.4,140.0,0.2);
+		SetHudClipRect(240,155,220,60,220,TRUE);
+		HudMessage(s:KXShopMiracleItemDescription[selected];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,460.6,155.1,0.2);
+		SetHudClipRect(0, 0, 0, 0);
+	
+		SetFont(StrParam(s:"K1SHOP",d:selected));
+		HudMessage(s:"a";HUDMSG_FADEOUT,7003,CR_WHITE,350.0,110.0,0.2);
+
+		if ((buttons & BT_FORWARD) && !(OldButtons & BT_FORWARD))
+		{
+			if(selected == 0) {
+				selected = 9;
+			}
+			else {
+				selected--;
+			}
+			AmbientSound("menu/cursor",127);
+		}
+
+		if ((buttons & BT_BACK) && !(OldButtons & BT_BACK))
+		{
+			if(selected == 9) {
+				selected = 0;
+			}
+			else {
+				selected++;
+			}
+			AmbientSound("menu/cursor",127);
+		}
+
+		if ((buttons & BT_ATTACK) && !(OldButtons & BT_ATTACK)) {
+			switch(selected) {
+				case 0:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						GiveInventory("SoulSphere", 1);
+                        AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 1:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						GiveInventory("BlueArmor", 1);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 2:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						GiveInventory("KXHolyWaterDrink", 4);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 3:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						SetAmmoCapacity("Shell", GetAmmoCapacity("Shell") + 10);
+						GiveInventory("Shell", 100);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 4:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						SetAmmoCapacity("NewClip", GetAmmoCapacity("NewClip") + 50);
+						GiveInventory("NewClip", 500);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 5:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						SetAmmoCapacity("RocketAmmo", GetAmmoCapacity("RocketAmmo") + 5);
+						GiveInventory("RocketAmmo", 100);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 6:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						SetAmmoCapacity("Cell", GetAmmoCapacity("Cell") + 50);
+						GiveInventory("Cell", 600);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 7:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						SetAmmoCapacity("RiflesAmmo", GetAmmoCapacity("RiflesAmmo") + 40);
+						GiveInventory("RiflesAmmo", 400);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 8:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true && GetActorProperty(0,Aprop_Health) < 200) {
+						SetActorProperty(0,Aprop_SpawnHealth,GetActorProperty(0,Aprop_SpawnHealth)+10);
+						HealThing(10,GetActorProperty(0,Aprop_SpawnHealth));
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+				case 9:
+					if(FaithBuyCheck(KXShopMiracleItemCost[selected]) == true) {
+						GiveInventory("KXMaxArmorUpgrade",1);
+					    AmbientSound("menu/heavenItemBuy",127);
+						FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+					} else {
+                        AmbientSound("menu/deny",127);
+                    }
+					break;
+			}
+		}
+
+		if ((buttons & BT_ALTATTACK) && !(OldButtons & BT_ALTATTACK)) {
+			KXMenuActive = 0;
+			KXPlayerMenuActive = 0;
+			AmbientSound("menu/backup",127);
+			ACS_NamedExecuteAlways("KXFaithShopSystemMainMenu1",0,0,0,0);
+		}
+	Delay(1);
+	}
+}
+
+Script "KXFaithShopSystemMainMenu3" (void) {
+	int KXMenuActive = 1;
+	int selected = 0;
+	int tab = 0;
+	int MinTab = 0;
+	int MaxTab = 0;
+
+	for(int i = 0; selected == 0; i++) {
+		selected = KXSkillUnlocked[i];
+	}
+
+	While (KXMenuActive == 1)
+	{
+		int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+		
+		SetHudSize(640, 400, FALSE);
+		SetFont("SmallFont");
+		Hudmessage(k:"+attack", s:"\cc - Buy"; HUDMSG_FADEOUT,7101,CR_GOLD,105.4,380.0,0.2);
+		Hudmessage(k:"+forward", s:"\cc - Move up"; HUDMSG_FADEOUT,7102,CR_GOLD,320.4,380.0,0.2);
+		Hudmessage(k:"+back", s:"\cc - Move down"; HUDMSG_FADEOUT,7103,CR_GOLD,535.4,380.0,0.2);
+		Hudmessage(k:"+moveleft", s:"\cc - Previous page"; HUDMSG_FADEOUT,7104,CR_GOLD,105.4,390.0,0.2);
+		Hudmessage(k:"+moveright", s:"\cc - Next page"; HUDMSG_FADEOUT,7105,CR_GOLD,320.4,390.0,0.2);
+		Hudmessage(k:"+altattack", s:"\cc - Exit Menu"; HUDMSG_FADEOUT,7106,CR_GOLD,535.4,390.0,0.2);
+
+		SetHudSize(480, 300, FALSE);
+        SetFont("BigFont");
+        HudMessage(s:KXSkillName[selected];HUDMSG_FADEOUT,7001,CR_GOLD,20.5,90.0,0.2);
+		HudMessage(s:"Miracle Cost: \cv", d:KXShopMiracleSkillCost[selected];HUDMSG_FADEOUT,7004,CR_WHITE,20.5,200.0,0.2);
+		
+		SetFont(KXSkillImage[selected]);
+        HudMessage(s:"a";HUDMSG_FADEOUT,7005,CR_WHITE,110.4,50.0,0.2);
+		
+		SetFont("SmallFont");
+		SetHudClipRect(20,110,220,50,220,TRUE);
+        HudMessage(s:KXSkillDesc[selected];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,20.5,110.1,0.2);
+		SetHudClipRect(20,160,220,40,220,TRUE);
+        HudMessage(s:KXSkillDesc2[selected];HUDMSG_FADEOUT,7003,CR_RED,20.5,160.1,0.2);
+		SetHudClipRect(0, 0, 0, 0);
+		
+		
+		if(tab == 0) {
+			MinTab = 0;
+			MaxTab = 14;
+		} else {
+			MinTab = 15;
+			MaxTab = 29;
+		}
+		int draw = 14;
+		
+		for(int y = MaxTab; y >= MinTab; y--)
+		{
+			int pos = 20+(draw*15);
+			draw--;
+			pos = pos << 16;
+			if(y == selected)
+			{
+				HudMessage(s:KXSkillName[y];HUDMSG_FADEOUT,7020+y,CR_LIGHTBLUE,460.2,pos,0.2);
+			} 
+			else  
+			{
+				if(KXSkillUnlocked[y] == 1)
+				{
+					HudMessage(s:KXSkillName[y];HUDMSG_FADEOUT,7020+y,CR_BLUE,460.2,pos,0.2);
+				} 
+				else 
+				{
+					HudMessage(s:KXSkillName[y];HUDMSG_FADEOUT,7020+y,CR_GOLD,460.2,pos,0.2);
+				}
+			}
+		}
+		
+		if (buttons & BT_FORWARD && !(OldButtons & BT_FORWARD)) {
+			do {
+				if(selected == MinTab) {
+					selected = MaxTab;
+				} else {
+					selected--;
+				}
+			} while(KXSkillUnlocked[selected] == 1);
+			AmbientSound("menu/cursor",127);
+		}
+
+		if (buttons & BT_BACK && !(OldButtons & BT_BACK)) {	
+			do {
+				if(selected == MaxTab) {
+					selected = MinTab;
+				} else {
+					selected++;
+				}
+			} while(KXSkillUnlocked[selected] == 1);
+			AmbientSound("menu/cursor",127);
+		}
+		
+		if (buttons & BT_MOVELEFT && !(OldButtons & BT_MOVELEFT)) {
+			if(tab == 0) {
+				selected += 15;
+				tab = 1;
+			} else {
+				selected -= 15;
+				tab = 0;
+			}
+			AmbientSound("menu/cursor",127);
+		}
+		
+		if (buttons & BT_MOVERIGHT && !(OldButtons & BT_MOVERIGHT)) {
+			if(tab == 0) {
+				selected += 15;
+				tab = 1;
+			} else {
+				selected -= 15;
+				tab = 0;
+			}
+			AmbientSound("menu/cursor",127);
+		}
+
+		if ((buttons & BT_ATTACK) && !(OldButtons & BT_ATTACK)) {
+			if(CheckInventory("FaithItem") >= KXShopMiracleSkillCost[Selected]) {
+				AmbientSound("menu/heavenSkillBuy",127);
+				FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+				TakeInventory("FaithItem", KXShopMiracleSkillCost[Selected]);
+				KXSkillUnlock(selected);
+				
+				do {
+					if(selected == MaxTab) {
+						selected = MinTab;
+					} else {
+						selected++;
+					}
+				} while(KXSkillUnlocked[selected] == 1);
+			} else {
+				AmbientSound("menu/deny",127);
+			}
+		}
+
+		if ((buttons & BT_ALTATTACK) && !(OldButtons & BT_ALTATTACK)) {
+			KXMenuActive = 0;
+			KXPlayerMenuActive = 0;
+			AmbientSound("menu/backup",127);
+			ACS_NamedExecuteAlways("KXFaithShopSystemMainMenu1",0,0,0,0);
+		}
+	Delay(1);
+	}
+}
+
+Script "KXFaithShopSystemMainMenu4" (void) {
+	int KXMenuActive = 1;
+	int selected = 0;
+
+	for(int i = 0; selected == 0; i++) {
+		selected = KXRelicUnlocked[i];
+	}
+
+	While (KXMenuActive == 1)
+	{
+		int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+		
+		SetHudSize(640, 400, FALSE);
+		SetFont("SmallFont");
+		Hudmessage(k:"+attack", s:"\cc - Buy"; HUDMSG_FADEOUT,7101,CR_GOLD,105.4,380.0,0.2);
+		Hudmessage(k:"+moveleft", s:"\cc - Previous Relic"; HUDMSG_FADEOUT,7104,CR_GOLD,105.4,390.0,0.2);
+		Hudmessage(k:"+moveright", s:"\cc - Next Relic"; HUDMSG_FADEOUT,7105,CR_GOLD,535.4,390.0,0.2);
+		Hudmessage(k:"+altattack", s:"\cc - Exit Menu"; HUDMSG_FADEOUT,7106,CR_GOLD,535.4,380.0,0.2);
+		SetHudSize(480, 300, FALSE);
+        SetFont("BigFont");
+        HudMessage(s:KXRelicName[selected];HUDMSG_FADEOUT,7001,CR_GOLD,240.4,60.0,0.2);
+		HudMessage(s:"Miracle Cost: \cv", d:KXShopMiracleRelicCost[selected];HUDMSG_FADEOUT,7004,CR_WHITE,240.4,200.0,0.2);
+		
+		SetFont("KXHRELF");
+        HudMessage(s:"a";HUDMSG_FADEOUT,7020,CR_WHITE,240.4,110.0,0.2);
+		
+		SetFont(KXRelicImage[selected]);
+        HudMessage(s:"a";HUDMSG_FADEOUT,7005,CR_WHITE,240.4,110.0,0.2);
+		
+		SetFont("SmallFont");
+        HudMessage(s:KXRelicDesc[selected];HUDMSG_FADEOUT,7002,CR_LIGHTBLUE,240.4,160.1,0.2);
+		
+		if(selected-2 > 0)
+		{
+			if(KXRelicUnlocked[selected-2]==1)
+			{
+				SetFont(KXRelicImageGray[selected-2]);
+			} else {
+				SetFont(KXRelicImage[selected-2]);
+			}
+			SetHudSize(960, 600, FALSE);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7006,CR_WHITE,192.4,220.0,0.2);
+		}
+		
+		if(selected-1 > 0)
+		{
+			if(KXRelicUnlocked[selected-1]==1)
+			{
+				SetFont(KXRelicImageGray[selected-1]);
+			} else {
+				SetFont(KXRelicImage[selected-1]);
+			}
+			SetHudSize(720, 450, FALSE);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7007,CR_WHITE,252.4,165.0,0.2);
+		}
+		
+		if(selected+1 < 16)
+		{
+			if(KXRelicUnlocked[selected+1]==1)
+			{
+				SetFont(KXRelicImageGray[selected+1]);
+			} else {
+				SetFont(KXRelicImage[selected+1]);
+			}
+			SetHudSize(720, 450, FALSE);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7008,CR_WHITE,468.4,165.0,0.2);
+		}
+		
+		if(selected+2 < 16)
+		{
+			if(KXRelicUnlocked[selected+2]==1)
+			{
+				SetFont(KXRelicImageGray[selected+2]);
+			} else {
+				SetFont(KXRelicImage[selected+2]);
+			}
+			SetHudSize(960, 600, FALSE);
+			HudMessage(s:"a";HUDMSG_FADEOUT,7009,CR_WHITE,768.4,220.0,0.2);
+		}
+		
+		if (buttons & BT_MOVELEFT && !(OldButtons & BT_MOVELEFT)) {
+			do {
+				if(selected == 0) {
+					selected = 15;
+				} else {
+					selected--;
+				}
+			} while(KXRelicUnlocked[selected] == 1);
+			AmbientSound("menu/cursor",127);
+		}
+
+		if (buttons & BT_MOVERIGHT && !(OldButtons & BT_MOVERIGHT)) {	
+			do {
+				if(selected == 15) {
+					selected = 0;
+				} else {
+					selected++;
+				}
+			} while(KXRelicUnlocked[selected] == 1);
+			AmbientSound("menu/cursor",127);
+		}
+
+		if ((buttons & BT_ATTACK) && !(OldButtons & BT_ATTACK)) {
+			if(CheckInventory("FaithItem") >= KXShopMiracleRelicCost[Selected]) {
+				AmbientSound("menu/heavenRelicBuy",127);
+				FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+				TakeInventory("FaithItem", KXShopMiracleRelicCost[Selected]);
+				KXRelicUnlock(selected);
+				
+				do {
+					if(selected == 14) {
+						selected = 0;
+					} else {
+						selected++;
+					}
+				} while(KXRelicUnlocked[selected] == 1);
+			} else {
+				AmbientSound("menu/deny",127);
+			}
+		}
+
+		if ((buttons & BT_ALTATTACK) && !(OldButtons & BT_ALTATTACK)) {
+			KXMenuActive = 0;
+			KXPlayerMenuActive = 0;
+			AmbientSound("menu/backup",127);
+			ACS_NamedExecuteAlways("KXFaithShopSystemMainMenu1",0,0,0,0);
+		}
+	Delay(1);
+	}
+}
+
+Script "KXKeyCards" (int key) {
+	AmbientSound("KXPickup/Key",127);
+	switch(key)
+	{
+		case 1:
+			GiveInventory("BlueCard",1);
+			HudMessageBold(s:"Blue Keycard \cjfound";HUDMSG_FADEINOUT,0,CR_BLUE,0.5,0.5,2.0,0.1,0.5);
+			FadeRange(0, 0, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+			Break;
+		case 2:
+			GiveInventory("BlueSkull",1);
+			HudMessageBold(s:"Blue Skull Key \cjfound";HUDMSG_FADEINOUT,0,CR_BLUE,0.5,0.5,2.0,0.1,0.5);
+			FadeRange(0, 0, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+			Break;
+		case 3:
+			GiveInventory("RedCard",1);
+			HudMessageBold(s:"Red Keycard \cjfound";HUDMSG_FADEINOUT,0,CR_RED,0.5,0.5,2.0,0.1,0.5);
+			FadeRange(255, 0, 0, 0.5, 0, 0, 0, 0.0, 1.0);
+			Break;
+		case 4:
+			GiveInventory("RedSkull",1);
+			HudMessageBold(s:"Red Skull Key \cjfound";HUDMSG_FADEINOUT,0,CR_RED,0.5,0.5,2.0,0.1,0.5);
+			FadeRange(255, 0, 0, 0.5, 0, 0, 0, 0.0, 1.0);
+			Break;
+		case 5:
+			GiveInventory("YellowCard",1);
+			HudMessageBold(s:"Yellow Keycard \cjfound";HUDMSG_FADEINOUT,0,CR_GOLD,0.5,0.5,2.0,0.1,0.5);
+			FadeRange(255, 255, 0, 0.5, 0, 0, 0, 0.0, 1.0);
+			Break;
+		case 6:
+			GiveInventory("YellowSkull",1);
+			HudMessageBold(s:"Yellow Skull Key \cjfound";HUDMSG_FADEINOUT,0,CR_GOLD,0.5,0.5,2.0,0.1,0.5);
+			FadeRange(255, 255, 0, 0.5, 0, 0, 0, 0.0, 1.0);
+			Break;
+		
+	}
+}
+
+
+Script "PulseArmorTest" (int tag)
+{
+	GiveActorInventory(tag,"KXPromiseAnnihilatorPulseArmorSpawner",1);
+}
+
+Script "KXGhardianSpearBreak" (void)
+{
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	
+	if(CheckInventory("KXGhardianSpearBreakToken") == 1)
+		terminate;
+		
+	GiveInventory("KXGhardianSpearBreakToken",1);
+	Delay(1);
+	
+	Thing_Damage(0,2500,MOD_TELEFRAG);
+	PlaySound(0,"BlueKnight/BladeHit",CHAN_AUTO,1.0,FALSE,ATTN_NORM);
+	SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+	SpawnForced("GhardianSpearExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+	
+	if(CheckActorClass(0,"KXPromiseAnnihilator"))
+	{
+		SpawnForced("KXPromiseAnnihilatorPlasmaExplosion",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		TakeInventory("KXPulseArmorToken",1);
+		int counter = 0;
+		int KXStunCount = 0;
+		
+		while ((GetActorProperty(0, APROP_Health)> 1) && counter < 70)
+		{
+			SetActorState (0, "Pain");
+			Delay(1);
+			if((GetActorProperty(0, APROP_Health)> 1))
+			{
+				SetActorState (0, "Pain");
+			}
+			Delay(1);
+			if (KXStunCount>=17)
+			{
+			  PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+			  KXStunCount = 0;
+			}
+			StopSound(0,CHAN_Body);
+			StopSound(0,CHAN_Voice);
+			KXStunCount++;
+			counter++;
+		}
+	}
+
+	Delay(35*3);
+	TakeInventory("KXGhardianSpearBreakToken",1);
+}
+
+Script "KXPlayerPlasmaStun" (void)
+{
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+		
+	GiveInventory("KXElectrifingToken",1);
+	PlaySound(0,"Heaven/Electrified",CHAN_Weapon,1.0,TRUE,ATTN_NORM,FALSE);
+	ACS_NamedExecuteAlways("KXCinematicMenuKiller",0,0,0,0);
+	SetPlayerProperty(0,1,PROP_TOTALLYFROZEN);
+	SetHudSize(320, 200, FALSE);
+	SetFont("BigFont");
+	HudMessage(s:"Electrified!";HUDMSG_FADEINOUT,0,CR_LIGHTBLUE,160.4,100.0,5.0);
+
+	while ((GetActorProperty(0, APROP_Health)> 0))
+    {
+		FadeRange (0, 0, 255, 1.0, 0, 0, 0, 0.0, 1.0);
+        SetActorState (0, "Pain");
+		Delay(35);
+		PlaySound(0,"Blonde/pain",CHAN_6,1.0,FALSE,ATTN_NORM);
+    }
+	StopSound(0,CHAN_Weapon);
+	StopSound(0,CHAN_6);
+	TakeInventory("KXElectrifingToken",1);
+	ACS_NamedExecuteAlways("KXCinematicMenuKiller2",0,0,0,0);
+	SetPlayerProperty(0,0,PROP_TOTALLYFROZEN);
+}
+
+Script "KXObjectives" (void)
+{
+	if(KXPlayerMenuActive == 1 || KXPlayerCinematicActive == 1)
+    terminate;
+	
+    ActivatorSound("menu/activate",127);
+	SetPlayerProperty(0, ON, PROP_TOTALLYFROZEN);
+	int KXMenuActive = 1;
+	KXPlayerMenuActive = 1;
+
+	While (KXMenuActive == 1)
+	{
+		int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+
+		SetHudSize(320,200,FALSE);
+		SetFont("KXTITLED");
+		Hudmessage(s:"A"; HUDMSG_FADEOUT,6800,CR_BLUE,160.4,100.0,0.2);
+		SetHudSize(640,400,FALSE);
+		SetFont("KXQUETB");
+		Hudmessage(s:"A"; HUDMSG_FADEOUT,6700,CR_BLUE,320.4,70.0,0.2);
+		SetFont("SmallFont");
+		Hudmessage(k:"+use", s:"\cc - Exit Menu"; HUDMSG_FADEOUT,7013,CR_GOLD,105.4,385.0,0.2);
+		Hudmessage(k:"+forward", s:"\cc - Move up"; HUDMSG_FADEOUT,7014,CR_GOLD,320.4,385.0,0.2);
+		Hudmessage(k:"+back", s:"\cc - Move down"; HUDMSG_FADEOUT,7015,CR_GOLD,535.4,385.0,0.2);
+		for(int i = 0; i < 10; i++) 
+		{
+			int pos = 150+(i*25);
+			pos = pos << 16;
+			if(KXObjectives[i] != "")
+			{
+				if(KXObjectivesSide[i] == 0)
+				{
+					Hudmessage(d:i+1, s:" - ", s:KXObjectives[i]; HUDMSG_FADEOUT,6701 + i,CR_GOLD,320.4,pos,0.2);
+				} else {
+					Hudmessage(d:i+1, s:" - ", s:KXObjectives[i]; HUDMSG_FADEOUT,6701 + i,CR_CYAN,320.4,pos,0.2);
+				}
+			}
+		}
+
+		if (buttons & BT_USE) {
+			KXMenuActive = 0;
+			KXPlayerMenuActive = 0;
+			AmbientSound("menu/clear",127);
+			SetPlayerProperty(0, OFF, PROP_TOTALLYFROZEN);
+		}
+	Delay(1);
+	}
+}
+
+Script "KXObjectivesTest" (void)
+{
+    KXObjectivesAdd("Find the key... or just kick the door.", 0);
+    KXObjectivesAdd("Survive the tutorial. Good luck.", 0);
+    KXObjectivesAdd("Collect 10 apples. No stealing this time!", 1);
+    KXObjectivesAdd("Defeat the boss… by convincing him to resign.", 0);
+    KXObjectivesAdd("Rescue the princess. Again. She keeps getting lost.", 0);
+    KXObjectivesAdd("Find out why NPCs always stare at you.", 1);
+    KXObjectivesAdd("Retrieve the ancient sword. No, not the plastic one.", 0);
+    KXObjectivesAdd("Make friends with a skeleton. They're dying for company.", 1);
+    KXObjectivesAdd("Avoid unnecessary violence. Just kidding, go wild!", 1);
+    KXObjectivesAdd("Remember what you were supposed to do.", 1); 
+}
+
+///////////////////////////////////////////////// LEGENDARY BLUE KNIGHT
+
+Script "KXBlueKnightMorph" (void)
+{
+	MorphActor(0,"BlueKnightPlayer","",999999,MRF_FULLHEALTH | MRF_NEWTIDBEHAVIOUR,"","");
+	GiveInventory("KXBlueKnightUltimateSwitchInv",1);
+	GiveInventory("KXBlueKnightProtection",1);
+	GiveInventory("KXBlueKnightArmor",200);
+	GiveInventory("KXBlueKnightDashToken",3);
+	GiveInventory("KXBlueKnightBladeToken",7);
+	
+	KXSkillSlot[PlayerNumber()][0] = 31;
+	KXSkillSlot[PlayerNumber()][1] = 32;
+	KXSkillSlot[PlayerNumber()][2] = 33;
+	KXSkillSlot[PlayerNumber()][3] = 34;
+	
+	SetInventory("KXHudSkill1Token",31);
+	SetInventory("KXHudSkill2Token",32);
+	SetInventory("KXHudSkill3Token",33);
+	SetInventory("KXHudSkill4Token",34);
+	
+	ACS_NamedExecuteAlways("KXBlueKnightDoubleJump",0,0,0,0);
+}
+
+Script "KXBlueKnightUnMorph" (void)
+{
+	SetActivator(6969);
+	UnmorphActor(0,6969);
+	
+	TakeInventory("KXBlueKnightProtection",1);
+	TakeInventory("KXBlueKnightUltimateSwitchInv",1);
+	TakeInventory("KXBlueKnightHands",1);
+	TakeInventory("Armor",999);
+	TakeInventory("KXBlueKnightBladeToken",7);
+	TakeInventory("KXBlueKnightBladeToken2",7);
+	TakeInventory("KXBlueKnightDashToken",4);
+	TakeInventory("KXSkillItemActivator17",4);
+	
+	KXSkillSlot[PlayerNumber()][0] = 0;
+	KXSkillSlot[PlayerNumber()][1] = 0;
+	KXSkillSlot[PlayerNumber()][2] = 0;
+	KXSkillSlot[PlayerNumber()][3] = 0;
+	
+	SetInventory("KXHudSkill1Token",0);
+	SetInventory("KXHudSkill2Token",0);
+	SetInventory("KXHudSkill3Token",0);
+	SetInventory("KXHudSkill4Token",0);
+	SetActorFlag(0,"INVULNERABLE",0);
+	SetActorFlag(0,"ALLOWPAIN",0);
+}
+
+Script "KXBlueKnightHit" (int HitType) 
+{
+	int angle = GetActorAngle(0);
+	
+	if(HitType != 4)
+	SetActivator(0,AAPTR_TRACER);
+	
+	int SpawnHealth = GetActorProperty(0,APROP_SpawnHealth);
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	
+	switch(HitType) {
+		case 0:
+			AmbientSound("BlueKnight/Punch",127);
+			ThrustThing(angle >> 8,-6,1,0);
+			break;
+		case 1:
+			AmbientSound("BlueKnight/StrongPunch",127);
+			ThrustThingZ(0,10,0,1);
+			ThrustThing(angle >> 8,-15,1,0);
+			break;
+		case 2:
+			AmbientSound("BlueKnight/KickHit",127);
+			ACS_NamedExecuteAlways("KXBlueKnightKickWall",0,angle,0,0);
+			break;
+		case 3:
+			ACS_NamedExecuteAlways("KXBlueKnightParried",0,angle,0,0);
+			break;
+		
+		case 4:
+			SpawnForced("KXBlueKnightKatanaCutEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+			Thing_Damage2(0,100,"Extreme");
+			break;
+	}
+	
+	if(GetActorProperty(0,APROP_HEALTH) <= 0) {
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		
+		int GloryHealth = 1 + (SpawnHealth/100);
+		
+		for(int y = 0; y < GloryHealth; y++) 
+		{
+			SpawnForced("KXBlueKnightGloryKillSpawner",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		}
+	}
+	
+	int i = random(6,14);
+	
+	if(CheckInventory("KXBlueKnightExecutionToken") == 0)
+	{
+		ACS_NamedExecuteAlways("KXBlueKnightExecution",0,0,0,0);
+	}
+	
+	while(i > 0 && GetActorProperty(0,APROP_HEALTH) > 0)  
+	{
+		SetActorState (0, "Pain");
+		i--;
+		Delay(1);
+	}
+}
+
+Script "KXBlueKnightDash" (void)
+{
+	if(CheckInventory("KXBlueKnightDashToken") == 0) 
+	{
+		AmbientSound("menu/deny",127);
+		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"Not available yet";HUDMSG_FADEINOUT,99,CR_DARKRED,240.4,280.0,1.0);
+		terminate; 
+	}
+	AmbientSound("BlueKnight/Dash",127);
+	TakeInventory("KXBlueKnightDashToken",1);
+	ScriptCall("KXZSFunctions","KXBlueKnightDash",55.0);
+}
+
+Script "KXBlueKnightDash2" (void)
+{
+	ScriptCall("KXZSFunctions","KXBlueKnightDash",75.0);
+}
+
+Script "KXBlueKnightBladeHit" (void)
+{
+	SetActivator(0,AAPTR_TRACER);
+	int timing = 0;
+	int KXZ = GetActorProperty(0,Aprop_Height);
+	int SpawnHealth = GetActorProperty(0,APROP_SpawnHealth);
+	SetActorProperty(0, APROP_SPEED, (GetActorProperty(0, APROP_SPEED)/4));
+	SpawnForced("Blood",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+	SpawnForced("Blood",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+	SpawnForced("Blood",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+	
+	if(CheckInventory("KXBlueKnightExecutionToken") == 0)
+	{
+		ACS_NamedExecuteAlways("KXBlueKnightExecution",0,0,0,0);
+	}
+	
+	if(CheckInventory("KXBlueKnightExecutionToken2") == 1) 
+	{
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		SpawnForced("KXBlueKnightExecutionEffect3",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		DamageThing(9999,MOD_HIT);
+		
+		int GloryHealth = 1 + (SpawnHealth/50);
+		
+		for(int y = 0; y < GloryHealth; y++) 
+		{
+			SpawnForced("KXBlueKnightGloryKillSpawner",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		}
+		AmbientSound("BlueKnight/Execution",127);
+		Terminate;
+	}
+	
+	AmbientSound("BlueKnight/BladeHit",127);
+	DamageThing(50,MOD_HIT);
+	if (CheckInventory("BlueKnightBladeHitToken") == 0)
+	{
+		GiveInventory("BlueKnightBladeHitToken",1);
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+		timing = random(20,30);
+		while (GetActorProperty(0, APROP_HEALTH) > 0 && timing > 0)
+		{
+			SetActorState(0,"Pain",0);
+			DamageThing(10,MOD_HIT);
+			SpawnForced("Blood",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+			SpawnForced("Blood",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+			SpawnForced("Blood",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXZ/2),0,0);
+			delay(17);
+			timing--;
+		}
+		TakeInventory("BlueKnightBladeHitToken",1);
+	}
+	SetActorProperty(0, APROP_SPEED, (GetActorProperty(0, APROP_SPEED)*4));
+}
+
+Script "KXBlueKnightBlade" (int which)
+{
+	if(CheckInventory("KXBlueKnightBladeToken") == 0) 
+	{
+		AmbientSound("menu/deny",127);
+		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"Not available yet";HUDMSG_FADEINOUT,99,CR_DARKRED,240.4,280.0,1.0);
+		terminate; 
+	}
+	
+	if(which == 0) {
+		GiveInventory("KXBlueKnightBladeToken2",1);
+	} else {
+		GiveInventory("KXBlueKnightKatanaToken",1);
+	}
+	GiveInventory("KXFireSkillToken",1);
+}
+
+Script "KXBlueKnightExecution" (void) 
+{
+	int health = GetActorProperty(0,APROP_HEALTH);
+	int threshHold = (GetActorProperty(0,Aprop_SpawnHealth)*0.25) >>16;
+	int KxTID = UniqueTID();
+	int KxTID2 = UniqueTID();
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,Aprop_Radius);
+	int KxSize = (KxZ/160)+0.2;
+	int spawned = 0;
+	GiveInventory("KXBlueKnightExecutionToken",1);
+	
+	while(health > 0)  
+	{
+		if(threshHold > health)
+		{
+			if(spawned == 0)
+			{
+				SpawnForced("KXBlueKnightExecutionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+KxZ+15,KxTID);
+				SpawnForced("KXBlueKnightExecutionEffect2",GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2),KxTID2);
+				SetActorProperty(KxTID,APROP_ScaleX,KxSize);
+				SetActorProperty(KxTID,APROP_ScaleY,KxSize);
+				GiveInventory("KXBlueKnightExecutionToken2",1);
+				spawned = 1;
+			}
+			SetActorPosition(KxTID,GetActorX(0),GetActorY(0),GetActorZ(0)+KxZ+15,0);
+			SetActorPosition(KxTID2,GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2),0);
+			SpawnForced(StrParam(s:"KXAngelicFrostTouchParticle", d:Random(4,6)),GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		}
+		delay(1);
+		health = GetActorProperty(0,APROP_HEALTH);
+	}
+	SetActorState(KxTID,"Death",1);
+	SetActorState(KxTID2,"Death",1);
+}
+
+Script "KXBlueKnightChainCooldown" (void)
+{
+	int ChainTime = 4;
+	GiveInventory("KXBlueKnightChainToken",1);
+
+	while(ChainTime > 0)
+	{
+ 		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"Hook: \ch", d:ChainTime;HUDMSG_FADEOUT,19,CR_CYAN,230.4,270.0,1.0);
+		delay(35);
+		ChainTime--;
+	}
+	TakeInventory("KXBlueKnightChainToken", 99);
+}
+
+Script "KXBlueKnightDoubleJump" (void)
+{
+	Int KXDoubleJump = 0;
+	int DJ = 0;
+	int LandToken = 0;
+	int BladeRechargeTime = 0;
+	int DashRechargeTime = 0;
+	int buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+	int oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+	
+	While(CheckInventory("KXBlueKnightHands") == 1 && GetActorProperty(0,APROP_HEALTH) > 0) 
+	{
+		if(CheckInventory("KXBlueKnightDashToken") == 3)
+		{
+			DashRechargeTime = 0;
+		} else {
+			DashRechargeTime++;
+			if(DashRechargeTime == 35) {
+				GiveInventory("KXBlueKnightDashToken",1);
+				DashRechargeTime = 0;
+				if(CheckInventory("KXBlueKnightDashToken") == 3)
+				{
+					AmbientSound("BlueKnight/DashChargeFull",127);
+				} else {
+					AmbientSound("BlueKnight/DashCharge",127);
+				}
+			}
+		}
+		
+		if(CheckInventory("KXBlueKnightBladeToken") == 7)
+		{
+			BladeRechargeTime = 0;
+		} else {
+			BladeRechargeTime++;
+			if(BladeRechargeTime == 140) {
+				GiveInventory("KXBlueKnightBladeToken",1);
+				BladeRechargeTime = 0;
+				if(CheckInventory("KXBlueKnightBladeToken") == 7)
+				{
+					AmbientSound("BlueKnight/BladeChargeFull",127);
+				} else {
+					AmbientSound("BlueKnight/BladeCharge",127);
+				}
+			}
+		}
+		
+		
+		buttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_BUTTONS);
+		oldbuttons = GetPlayerInput (ConsolePlayerNumber(), INPUT_OLDBUTTONS);
+		
+		if((buttons & BT_JUMP) && !(OldButtons & BT_JUMP))
+		{
+			DJ++;
+			if(GetActorZ (0) - GetActorFloorZ (0) > 1.0 && KXDoubleJump == 0 && DJ == 2)
+			{
+				Thing_Stop(0);
+				ScriptCall("KXZSFunctions","KXBlueKnightDash",24.0);
+				AmbientSound("BlueKnight/DoubleJump",127);
+				ThrustThingZ(0,48,0,1);
+				KXDoubleJump = 1;
+			}
+		}
+		
+		if(GetActorZ (0) - GetActorFloorZ (0) > 40.0)
+		{
+			LandToken = 1;
+		}
+		
+		if(GetActorZ (0) - GetActorFloorZ (0) == 0)
+		{
+			KXDoubleJump = 0;
+			DJ = 0;
+			
+			if(LandToken == 1)
+			{
+				AmbientSound("BlueKnight/Land",127);
+				LandToken = 0;
+			}
+		}
+		delay(1);
+	}
+}
+
+Script "KXBlueKnightKickWall" (int angle)
+{
+	int ended = 0;
+	int counter = 15;
+	int x, y, z, speed;
+	Thing_Stop(0);
+	ThrustThingZ(0,10,0,1);
+	ThrustThing(angle >> 8,-10,1,0);
+	
+	while(GetActorProperty(0,APROP_HEALTH) > 0 && ended == 0 && counter > 0)
+	{
+		x = GetActorVelX(0);
+		y = GetActorVelY(0);
+		z = GetActorVelZ(0);
+		speed = FixedMul(x, x) + FixedMul(y, y) + FixedMul(z, z);
+		ThrustThing(angle >> 8,-7,1,0);
+		SetActorState(0,"PAIN",FALSE);
+		counter--;
+		if(speed == 0)
+		{
+			ended = 1;
+			PlaySound(0,"cbaron/Stomp",CHAN_7,1.0,FALSE);
+			SpawnForced("KXStompEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+5,0);
+			GiveInventory("KXBlueKnightKickArea",1);
+		}
+		delay(1);
+	}
+	
+	if(ended == 1)
+	{
+		ACS_NamedExecuteAlways("KXBlueKnightKickWall2",0,35,0,0);
+	}
+}
+
+Script "KXBlueKnightKickWall2" (int counter)
+{
+	int KXStunCount = 0;
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+	PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+	DamageThing(75,MOD_HIT);
+	
+	if(CheckInventory("KXBlueKnightExecutionToken") == 0)
+	{
+		ACS_NamedExecuteAlways("KXBlueKnightExecution",0,0,0,0);
+	}
+	
+	while (GetActorProperty(0, APROP_Health) > 0 && counter > 0)
+    {
+        SetActorState (0, "Pain");
+		StopSound(0,CHAN_Body);
+		StopSound(0,CHAN_Voice);
+		SpawnForced(strParam(s:"KXBlondeBoltParticle",d:Random(1,3)),GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+KxZ-random(0,KxZ/2));
+		Delay(3);
+		if (KXStunCount>=12)
+		{
+		  PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+		  KXStunCount = 0;
+		}
+		KXStunCount++;
+		counter--;
+    }
+}
+
+Script "KXBlueKnightParried" (void)
+{
+	int KXStunCount = 0;
+	int counter = 8;
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+	PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+	PlaySound(0,"BlueKnight/Parry",CHAN_7,1.0,FALSE);
+	SpawnForced("KXHolyMantleEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+KxZ/2,0,0);
+	
+	while (GetActorProperty(0, APROP_Health) > 0 && counter > 0)
+    {
+        SetActorState (0, "Pain");
+		StopSound(0,CHAN_Body);
+		StopSound(0,CHAN_Voice);
+		SpawnForced(strParam(s:"KXBlondeBoltParticle",d:Random(1,3)),GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+KxZ-random(0,KxZ/2));
+		Delay(3);
+		if (KXStunCount>=12)
+		{
+		  PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+		  KXStunCount = 0;
+		}
+		KXStunCount++;
+		counter--;
+    }
+}
+
+Script "KXBlueKnightHookTrail" (void)
+{
+	int HookTID = UniqueTID();
+	int ChainPieceTID = UniqueTID();
+	Thing_ChangeTID(0,HookTID);
+	
+	SetActivator(0,AAPTR_TARGET);
+	
+	While(ThingCount(0,HookTID))
+	{
+		int x = GetActorX(HookTID) - GetActorX(0);
+        int y = GetActorY(HookTID) - GetActorY(0);
+        int z = GetActorZ(HookTID) - GetActorZ(0)-32.0;
+		int Distance = VectorLength (VectorLength(x, y),(GetActorZ(HookTID)-GetActorZ(0)+32.0));
+		
+		int count=0;
+		Int ChainSpacing=10.0;
+		int ChainCount=FixedDiv(ChainSpacing,Distance);
+		For(int i=0;i<1.0;i+=ChainCount)
+		{
+			count++;
+			x = GetActorX(HookTID) - GetActorX(0);
+            y = GetActorY(HookTID) - GetActorY(0);
+            z = GetActorZ(HookTID) - GetActorZ(0)-32.0;
+            Int ChainPosX=GetActorX(0)+FixedMul(x,i);
+            Int ChainPosY=GetActorY(0)+FixedMul(y,i);
+            Int ChainPosZ=GetActorZ(0)+32.0+FixedMul(z,i);
+			SpawnForced("KXBlueKnightChainTrail2",ChainPosX,ChainPosY,ChainPosZ,ChainPieceTID,0);
+		}
+		delay(1);
+	}
+	SpawnProjectile(ChainPieceTID,"KXBlueKnightChainTrail3",0,0,0,0,0);
+}
+
+Script "KXBlueKnightHookWall" (int hit)
+{
+	int HookTID = ActivatorTID();
+
+	if(hit)
+	{	
+		SetActivator(0,AAPTR_TRACER);
+		ACS_NamedExecuteAlways("KXBlueKnightHookWall2",0,HookTID,0,0);
+	}
+	SetActivator(6969);
+	GiveInventory("KXBlueKnightStopper",1);
+	GiveInventory("KXBlueKnightHookToken",1);
+	int x, y, z, Angle, Speed, Distance, UVectorX, UVectorY, UVectorZ;
+
+	While(CheckInventory("KXBlueKnightHookToken") == 1 && GetActorProperty(0,APROP_HEALTH) > 0 && CheckInventory("KXBlueKnightChainToken2") == 0) 
+	{
+		SetActorFlag(0,"NOGRAVITY",TRUE);
+		PlaySound(HookTID,"BlueKnight/ChainLoop",CHAN_VOICE,1.0,TRUE,ATTN_NONE);
+		x = GetActorX(HookTID) - GetActorX(0);
+		y = GetActorY(HookTID) - GetActorY(0);
+		z = GetActorZ(HookTID) - GetActorZ(0);
+		Angle = VectorAngle(x, y) >> 8;
+		Distance = VectorLength (VectorLength(x, y),(GetActorZ(HookTID)-GetActorZ(0)+32.0));
+		
+		UVectorX = (FixedDiv(x,Distance)); 
+		UVectorY = (FixedDiv(y,Distance));
+		UVectorZ = (FixedDiv(z,Distance));
+		
+		Int Force=2;
+		Int MoveSpeedX=UVectorX*Force;
+		Int MoveSpeedY=UVectorY*Force;
+		Int MoveSpeedZ=UVectorZ*(Force*2);
+		
+		SetActorVelocity(0,MoveSpeedX,MoveSpeedY,MoveSpeedZ,true,false);
+		Delay(1);
+	}
+	StopSound(HookTID,CHAN_VOICE);
+	PlaySound(HookTID,"BlueKnight/ChainOut",CHAN_VOICE,1.0,FALSE,ATTN_NONE);
+	
+	if(z > 15);
+	{
+		ScriptCall("KXZSFunctions","KXBlueKnightDash",24.0);
+		AmbientSound("BlueKnight/DoubleJump",127);
+	}
+	
+	if(hit && CheckInventory("KXBlueKnightChainToken2") == 1)
+	{	
+		TakeInventory("KXBlueKnightHookToken",1);
+		SetActivator(HookTID);
+		SetActivator(0,AAPTR_TRACER);
+		Warp(6969,64.0,0,0,0,WARPF_NOCHECKPOSITION);
+		SetActorAngle(0,GetActorAngle(6969)+0.5);
+		ACS_NamedExecuteAlways("KXBlueKnightKickWall2",0,35,0,0);
+	}
+	SetActorFlag(0,"NOGRAVITY",FALSE);
+	TakeActorInventory(6969,"KXBlueKnightChainToken2",99);
+	Thing_Remove(HookTID);
+}
+
+Script "KXBlueKnightHookWall2" (int HookTID)
+{
+	int KXStunCount = 0;
+
+	while (GetActorProperty(0, APROP_Health) > 0 && ThingCount(0,HookTID))
+    {
+        SetActorState (0, "Pain");
+		StopSound(0,CHAN_Body);
+		StopSound(0,CHAN_Voice);
+		Delay(1);
+		if (KXStunCount>=35)
+		{
+		  PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+		  KXStunCount = 0;
+		}
+		KXStunCount++;
+    }
+}
+
+Script "KXBlueKnightUltimateSwitch" (void)
+{
+	if(KXSkillSlot[PlayerNumber()][0] == 31)
+	{
+		AmbientSound("KXObjective/NewSide",127);
+		FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+		KXSkillSlot[PlayerNumber()][0] = 35;
+		KXSkillSlot[PlayerNumber()][1] = 36;
+		KXSkillSlot[PlayerNumber()][2] = 37;
+		KXSkillSlot[PlayerNumber()][3] = 38;
+		SetInventory("KXHudSkill1Token",35);
+		SetInventory("KXHudSkill2Token",36);
+		SetInventory("KXHudSkill3Token",37);
+		SetInventory("KXHudSkill4Token",38);
+		ACS_NamedExecuteAlways("KXActivatorErase",0,0,0,0);
+	}
+	else 
+	{
+		AmbientSound("KXObjective/NewMain",127);
+		FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+		KXSkillSlot[PlayerNumber()][0] = 31;
+		KXSkillSlot[PlayerNumber()][1] = 32;
+		KXSkillSlot[PlayerNumber()][2] = 33;
+		KXSkillSlot[PlayerNumber()][3] = 34;
+		SetInventory("KXHudSkill1Token",31);
+		SetInventory("KXHudSkill2Token",32);
+		SetInventory("KXHudSkill3Token",33);
+		SetInventory("KXHudSkill4Token",34);
+		ACS_NamedExecuteAlways("KXActivatorErase",0,0,0,0);
+	}
+}
+
+Script "KXBlueKnightUltimateUse" (void)
+{
+	KXSkillSlot[PlayerNumber()][0] = 31;
+	KXSkillSlot[PlayerNumber()][1] = 32;
+	KXSkillSlot[PlayerNumber()][2] = 33;
+	KXSkillSlot[PlayerNumber()][3] = 34;
+	SetInventory("KXHudSkill1Token",31);
+	SetInventory("KXHudSkill2Token",32);
+	SetInventory("KXHudSkill3Token",33);
+	SetInventory("KXHudSkill4Token",34);
+	
+	TakeInventory("KXBlueKnightUltimateSwitchInv",1);
+	GiveInventory("KXBlueKnightUltimateCooldown",30);
+	
+	While(CheckInventory("KXBlueKnightUltimateCooldown") > 0)
+	{
+		SetHudSize(480, 300, FALSE);
+		HudMessage(s:"Cooldown: \ch", d:CheckInventory("KXBlueKnightUltimateCooldown");HUDMSG_FADEOUT,7020,CR_DARKRED,240.4,260.0,1.0);
+		Delay(35);
+		TakeInventory("KXBlueKnightUltimateCooldown",1);
+		if(CheckInventory("KXBlueKnightHands") == 0)
+		{
+			Terminate;
+		}
+	}
+	
+	if(CheckInventory("KXBlueKnightHands") == 0)
+	{
+		Terminate;
+	}
+	FadeRange (255, 255, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+	AmbientSound("BlueKnight/Parry", 127);
+	GiveInventory("KXBlueKnightUltimateSwitchInv", 1);
+}
+
+Script "KXBlueKnightSoulRipperMonster" (void)
+{
+	int KXStunX = GetActorProperty(0,Aprop_Radius);
+	int KXStunZ = GetActorProperty(0,Aprop_Height);
+	int Counter = 0;
+	int Counter2 = 100;
+	
+	if(CheckInventory("BlueKnightSoulRipperItem2") == 1)
+		terminate;
+	
+	GiveInventory("BlueKnightSoulRipperItem2",1);
+
+	SetActorFlag(0, "NOGRAVITY", TRUE);
+	SetActorFlag(0, "THRUACTORS", TRUE);
+	ThrustThingZ(0,64,0,0);
+	SpawnForced("KXBlueKnightKatanaCutEffect3",GetActorX(0)+random(-KXStunX,KXStunX),GetActorY(0)+random(-KXStunX,KXStunX),GetActorZ(0)+random(0,KXStunZ));
+	for(int i = 0; i < 15; i++)
+	{
+		SetActorState(0,"PAIN",1);
+		SpawnForced("KXBlueKnightKatanaParticle4",GetActorX(0)+random(-KXStunX,KXStunX),GetActorY(0)+random(-KXStunX,KXStunX),GetActorZ(0)+random(0,KXStunZ));
+		Delay(1);
+	}
+	
+	Thing_Stop(0);
+
+	While(GetActorProperty(0,APROP_Health) >= 1 && Counter2 >= 0)
+	{
+		SetActorState(0,"PAIN",1);
+		Counter++;
+		if(Counter == 2) {
+			Thing_Damage(0,50,MOD_HIT);
+			SpawnForced("KXBlueKnightKatanaCutEffect2",GetActorX(0)+random(-KXStunX,KXStunX),GetActorY(0)+random(-KXStunX,KXStunX),GetActorZ(0)+random(0,KXStunZ));
+			Counter = 0;
+			Counter2--;
+		}
+		Delay(1);
+	}
+	
+	if(GetActorProperty(0,APROP_Health) < 0) {
+		SetActorState(0,"XDeath");
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		SpawnForced("KXBlueKnightExecutionEffect3",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		
+		int GloryHealth = 1 + (GetActorProperty(0,Aprop_Spawnhealth)/100);
+		
+		for(int y = 0; y < GloryHealth; y++) 
+		{
+			SpawnForced("KXBlueKnightGloryKillSpawner",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		}
+	} else {
+		SetActorFlag(0, "THRUACTORS", FALSE);
+	}
+	
+	TakeInventory("BlueKnightSoulRipperItem2",1);
+	SetActorFlag(0, "NOGRAVITY", FALSE);
+}
+
+Script "KXBlueKnightCelestialAscentFriction" (int booleano)
+{
+	if(booleano == 1)
+	{
+		log(s:"1");
+		SetAirControl(1.0);
+	} else {
+		log(s:"0.0039");
+		SetAirControl(0.00390625);
+	}
+}
+
+Script "KXBlueKnightCelestialAscentMonster" (void)
+{
+	SetActorState(0,"PAIN",1);
+	SetActorFlag(0, "THRUACTORS", TRUE);
+	int KXStunX = GetActorProperty(0,Aprop_Radius);
+	int KXStunZ = GetActorProperty(0,Aprop_Height);
+	if(CheckInventory("BlueKnightCelestialAscentTokenMonster") == 1)
+		terminate;
+	
+	GiveActorInventory(6969,"BlueKnightCelestialAscentToken",1);
+	GiveActorInventory(6969,"BlueKnightCelestialAscentItem2",FixedMul(GetActorProperty(0,Aprop_health),1.5));
+	GiveInventory("BlueKnightCelestialAscentTokenMonster",1);
+
+	While(GetActorProperty(0,APROP_Health) >= 1 && CheckActorInventory(6969,"BlueKnightCelestialAscentToken") > 0)
+	{
+		Warp(6969,64.0,0,0,0,WARPF_NOCHECKPOSITION);
+		SetActorAngle(0,GetActorAngle(6969)+0.5);
+		SetActorState(0,"PAIN",1);
+		Delay(1);
+	}
+	if(GetActorProperty(0,APROP_Health) < 0) {
+		SetActorState(0,"XDeath");
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		SpawnForced("KXBlueKnightExecutionEffect3",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		
+		int GloryHealth = 1 + (GetActorProperty(0,Aprop_Spawnhealth)/100);
+		
+		for(int y = 0; y < GloryHealth; y++) 
+		{
+			SpawnForced("KXBlueKnightGloryKillSpawner",GetActorX(0),GetActorY(0),GetActorZ(0)+(KXStunZ/2),0,0);
+		}
+	} else {
+		SetActorFlag(0, "THRUACTORS", FALSE);
+	}
+}
+
+Script "BlueKnightCelestialAscentExplosion" (void)
+{
+	SetResultValue(CheckActorInventory(6969,"BlueKnightCelestialAscentItem2"));
+}
+
+Script "BlueKnightAshenAbsolutionMonster" (void)
+{
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,Aprop_Radius);
+	int SpawnHealth = GetActorProperty(0,APROP_SpawnHealth);
+	int damager = FixedMul(0.5,(GetActorProperty(0,Aprop_SpawnHealth)*0.25) >>16);
+	
+	if(CheckInventory("KXBlueKnightExecutionToken") == 0)
+	{
+		ACS_NamedExecuteAlways("KXBlueKnightExecution",0,0,0,0);
+	}
+	
+	Delay(1);
+	
+	if(CheckInventory("KXBlueKnightExecutionToken2") == 1 || GetActorProperty(0,APROP_Health) <= 200) 
+	{
+		SpawnForced("KXBloodExplosionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2),0,0);
+		SpawnForced("BlueKnightAshenAbsolutionEffect",GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2),0,0);
+		SpawnForced("KXBlueKnightExecutionEffect3",GetActorX(0),GetActorY(0),GetActorZ(0)+(KxZ/2),0,0);
+		DamageThing(9999,MOD_HIT);
+		
+		int GloryHealth = 1 + (SpawnHealth/50);
+		
+		for(int y = 0; y < GloryHealth; y++)  
+		{
+			GiveActorInventory(6969,"KXBlueKnightHealthPickup",1);
+		}
+		GiveActorInventory(6969,"KXBlueKnightDashToken",1);
+		GiveActorInventory(6969,"KXBlueKnightBladeToken",1);
+		TakeActorInventory(6969,"KXBlueKnightUltimateCooldown",2);
+		Terminate;
+	} else {
+		if(damager < 200)
+		{
+			damager = 200;
+		}
+		DamageThing(damager,MOD_HIT);
+		for(int i = 0; i < 20; i++)
+		{
+			SpawnForced(StrParam(s:"KXAngelicFrostTouchParticle", d:Random(4,6)),GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		}
+	}
+}
+
+Script "BlueKnightShield" (void)
+{
+	SetActorFlag(0,"NOPICKUP",TRUE);
+	TakeInventory("Armor", 999);
+	GiveInventory("KXBlueKnightArmorShield",600);
+	HealThing(400,200);
+
+	while(CheckInventory("Armor") > 0 && GetArmorInfo(ARMORINFO_CLASSNAME) == "KXBlueKnightArmorShield") 
+	{
+		PlaySound(0,"Heaven/StormCalmLoop",Chan_7,1.0,TRUE);
+		TakeInventory("Armor", 1);
+		GiveInventory("KXBlueKnightUltimateCooldown",1);
+		GiveInventory("KXBlueKnightArmorShieldParticle",1);
+		Delay(1);
+	}
+	GiveInventory("KXBlueKnightArmorShieldBurst",1);
+	StopSound(0,CHAN_7);
+	SetActorFlag(0,"NOPICKUP",FALSE);
+	GiveInventory("KXBlueKnightArmor",400);
+	Delay(2);
+	TakeInventory("KXBlueKnightArmorShieldToken",1);
+}
+
+Script "BlueKnightShieldStun" (void)
+{
+	int counter = 0;
+	int KXStunCount = 0;
+	int KxZ = GetActorProperty(0,Aprop_Height);
+	int KxX = GetActorProperty(0,APROP_Radius); 
+
+	if(CheckInventory("KXElectrifingToken") == 1)
+	terminate;
+		
+	GiveInventory("KXElectrifingToken",1);
+	
+	thing_damage(0,200);
+	
+	PlaySound(0,"Heaven/Electrified",CHAN_Weapon,1.0,FALSE,ATTN_NORM,FALSE);
+
+	while ((GetActorProperty(0, APROP_Health)> 1) && counter < 105)
+    {
+        SetActorState (0, "Pain");
+		SpawnForced("KXBlueKnightHealthPickupEffect",GetActorX(0)+random(-KxX,KxX),GetActorY(0)+random(-KxX,KxX),GetActorZ(0)+random(0,KxZ));
+		Delay(1);
+		if((GetActorProperty(0, APROP_Health)> 1))
+		{
+			SetActorState (0, "Pain");
+		}
+		Delay(1);
+		if (KXStunCount>=17)
+		{
+		  PlayActorSound(0,SOUND_Pain,CHAN_6,1.0,FALSE,ATTN_NORM);
+		  KXStunCount = 0;
+		}
+		StopSound(0,CHAN_Body);
+		StopSound(0,CHAN_Voice);
+		KXStunCount++;
+		counter++;
+    }
+	TakeInventory("KXElectrifingToken",1);
+}

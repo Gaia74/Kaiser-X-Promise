@@ -1,0 +1,67 @@
+ACTOR NightmareCacodemon 7565 
+{ 
+   //$Category AirForce
+   Health 700 
+   Speed 6 
+   Radius 31 
+   Height 56 
+   PainChance 96 
+   Mass 400 
+   Meleedamage 7 
+   bloodcolor "80 80 00"
+   REACTIONTIME 8 
+   MONSTER 
+   +NOGRAVITY 
+   +FLOAT 
+   +GHOST 
+   Translation "176:191=16:47"
+   RENDERSTYLE Subtract
+   ALPHA 0.95 
+   SeeSound "caco/sight" 
+   PainSound "caco/pain" 
+   DeathSound "caco/death" 
+   ActiveSound "caco/active" 
+   MissileHeight 30
+   HitObituary "%o was snuck up on by the Nightmare Cacodemon." 
+   Obituary "%o couldn't dodge the Nightmare Cacodemon's fireball." 
+   States 
+   { 
+   Spawn: 
+	HEAD A 10 A_Look 
+	Loop 
+   See: 
+	HEAD A 1 A_Chase 
+	Loop 
+   Missile: 
+	HEAD B 0 A_Jump(128,1)
+	Goto See
+	HEAD B 3 A_FaceTarget 
+	HEAD B 3 A_FaceTarget 
+	HEAD C 4 A_HeadAttack 
+	HEAD B 3 A_FaceTarget 
+	HEAD B 3 A_FaceTarget 
+	HEAD C 4 A_HeadAttack 
+	HEAD B 3 A_FaceTarget 
+	HEAD B 3 A_FaceTarget 
+	HEAD C 4 A_HeadAttack 
+	Goto See 
+   Pain: 
+	HEAD E 3 
+	HEAD E 3 A_Pain 
+	Goto See 
+   Death: 
+	HEAD G 8 
+	HEAD H 8 A_Scream 
+	HEAD IJ 8 
+	HEAD K 8 A_NoBlocking 
+	HEAD L -1 A_SetFloorClip
+	Stop 
+   Raise: 
+	HEAD L 8 A_UnsetFloorClip
+	HEAD KJIHG 8 
+	Goto See 
+   Crush:
+	CRSB A -1 A_PlaySound ("misc/crushed", CHAN_AUTO)
+	Stop
+   }
+}

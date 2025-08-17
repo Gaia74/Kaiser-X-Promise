@@ -1,0 +1,93 @@
+LISTMENU "MainMenu"
+{
+	animatedtransition
+ 	Selector "KSELECTO", -22,-2
+	
+    IfGame(Doom, Chex)
+    {
+		StaticPatch 50, 0, "KXTITLED"
+        StaticPatch 95, 0, "KXTITLF1"
+        Position 101, 72
+        Font "BIGFONT", "LightBlue", "Gold"
+        TextItem "New Game", "n", "PlayerclassMenu"
+        ifOption(SwapMenu)
+        {
+            TextItem "Load Game",     "l", "LoadGameMenu"
+            TextItem "Save Game",     "s", "SaveGameMenu"
+            TextItem "Options",       "o", "OptionsMenu"
+        }
+        else
+        {
+            TextItem "Options",       "o", "OptionsMenu"
+            TextItem "Load Game",     "l", "LoadGameMenu"
+            TextItem "Save Game",     "s", "SaveGameMenu"
+        }
+        TextItem "Quit Game", "q", "QuitMenu"
+    }
+	
+	    IfGame(Heretic, Hexen)
+    {
+	  StaticPatch 94, 2, "M_DOOM"
+      Position 97, 72
+      Font "BIGFONT", "grey", "pink2"
+        TextItem "$MNU_NEWGAME",   "n", "PlayerclassMenu"
+        TextItem "$MNU_OPTIONS",   "o", "OptionsMenu"
+        TextItem "$MNU_GAMEFILES", "g", "GameFilesMenu"
+        TextItem "$MNU_INFO",      "i", "ReadThisMenu"
+        TextItem "$MNU_QUITGAME",  "q", "QuitMenu"
+    }
+}
+
+AddListMenu "Skillmenu"
+{
+    animatedtransition
+}
+
+OptionMenu "OptionsMenu"
+{
+	animatedtransition
+	Title "OPTIONS"
+	Submenu "Multiplayer Options",		"ZA_MultiplayerOptions"
+	Submenu "Kaiser X Options",			"KaiserOptions"
+	StaticText " "
+	Submenu "Customize Controls",		"CustomizeControls"
+	Submenu "Mouse options",			"MouseOptions"
+	Submenu "Joystick options",			"JoystickOptions"
+	StaticText " "
+	Submenu "Player Setup",				"PlayerMenu"
+	Submenu "Gameplay Options",			"GameplayOptions"
+	Submenu "Compatibility Options",	"CompatibilityOptions"
+	Submenu "Automap Options",			"AutomapOptions"
+	Submenu "HUD Options",				"HUDOptions"
+	Submenu "Miscellaneous Options",	"MiscOptions"
+	Submenu "Sound Options",			"SoundOptions"
+	Submenu "Display Options",			"VideoOptions"
+	Submenu "Set video mode",			"VideoModeMenu"
+	StaticText " "
+	SafeCommand "Reset to defaults",	"reset2defaults"
+	SafeCommand	"Reset to last saved",	"reset2saved"
+	Command "Go to console",			"menuconsole"
+}
+
+OptionMenu "KaiserOptions"
+{
+	Title "Kaiser X - Promise: Options"
+    Option "Music Credits", "WantsMusicCredits", "OnOff"
+	Option "Autosaves", "WantsAutoSaves", "OnOff"
+	StaticText " "
+	Control "Reload Key",					"+reload"
+	StaticText " "
+	Control "Zoom Key",					"+zoom"
+    StaticText " "
+	Control "Skills Menu",		            "ChangeSkillKey"
+	StaticText " "
+	Control "Rosary Menu (Passives)",		"ChangeRosaryKey"
+	StaticText " "
+	Control "Objectives Menu",		"KXObjectivesSlot"
+	StaticText " "
+	Control "Skill Slot 1",		"KXSkillSlot0"
+	Control "Skill Slot 2",		"KXSkillSlot1"
+	Control "Skill Slot 3",		"KXSkillSlot2"
+	Control "Skill Slot 4",		"KXSkillSlot3"
+}
+

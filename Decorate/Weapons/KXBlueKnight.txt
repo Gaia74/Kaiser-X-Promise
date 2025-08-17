@@ -1,0 +1,1689 @@
+ACTOR BlueKnightPlayer : PlayerPawn
+{
+  Speed 1.2
+  Scale 1.0
+  Health 100
+  Radius 16
+  Height 56
+  Mass 100
+  PainChance 255
+  Player.DisplayName "Blue Knight"
+  Player.SoundClass "BlueKnight"
+  Player.StartItem "KXBlueKnightHands"
+  Player.MorphWeapon "KXBlueKnightHands"
+  Player.WeaponSlot 1, KXBlueKnightHands
+  DamageFactor "Marines", 0.0
+  BloodColor "red" 
+  Species "Marines"
+  PainSound "BlueKnight/Pain"
+  ActiveSound "BlueKnight/Land"
+  +NOSKIN
+  +DONTTRANSLATE
+  +ForceRadiusDmg
+  states
+  { 
+  Spawn:
+    PLAY A -1
+    Loop
+  See:
+    PLAY A 4
+	TNT1 A 0 A_SpawnItemEx("KaiserXFootStep", 0, 0, 40, 0, 0)
+	PLAY BC	4
+	TNT1 A 0 A_SpawnItemEx("KaiserXFootStep", 0, 0, 40, 0, 0)
+	PLAY D 4 
+    Loop
+  Missile:
+    PLAY E 12
+    Goto Spawn
+  Melee:
+    PLAY F 6 BRIGHT
+    Goto Missile
+  Pain:
+	TNT1 A 0 A_GiveInventory("KXStateTokenPain",1)
+    PLAY G 4 A_Pain
+    PLAY G 4 
+	TNT1 A 0 A_TakeInventory("KXStateTokenPain",99)
+    Goto Spawn
+  Death:
+    PLAY H 10
+    PLAY I 10 A_PlayerScream
+    PLAY J 10 A_NoBlocking
+    PLAY KLM 10
+    PLAY N -1
+    Stop
+  XDeath:
+    PLAY O 5
+    PLAY P 5 A_XScream
+    PLAY Q 5 A_NoBlocking
+    PLAY RSTUV 5
+    PLAY W -1
+    Stop
+	}
+}
+
+ACTOR KXBlueKnightHands : KXBaseWeapon
+{
+	Weapon.Kickback 100
+	Tag "Blue Knight Hands"
+	Weapon.SlotNumber 1
+	Weapon.AmmoType1 "KXBlueKnightBladeToken"
+	Weapon.AmmoType2 "KXBlueKnightDashToken"
+	+Weapon.NoAutoFire
+	+Weapon.CheatNotWeapon
+	States
+	{
+	Ready:
+		BLKN A 1 A_WeaponReady(WRF_ALLOWRELOAD | WRF_ALLOWZOOM)
+		BLKN A 0 A_JumpIfInventory("KXFireSkillToken", 1, "KXSkillFire") 
+		Loop
+	Deselect:
+		BLKN A 1 A_Lower
+		BLKN A 0 A_Lower
+		Loop
+	Select:
+		TNT1 A 0 A_TakeInventory("KXFireSkillToken",1)
+		BLKN A 1 A_Raise
+		BLKN A 0 A_Raise
+		Loop
+	Fire:
+		BLKN A 1 Offset(0,52)
+		BLKN A 1 Offset(0,72)
+		BLKN A 1 Offset(0,92)
+	ChoosePunch:
+		TNT1 A 0 A_TakeInventory("KXBlueKnightHookToken",1)
+		BLKN A 0 Offset(1,32)
+		TNT1 A 0 A_Jump(256,"Right","Left")
+	
+	AltFire:
+	    BLKN A 1 Offset(0,52)
+		BLKN A 1 Offset(0,72)
+		BLKN A 1 Offset(0,92)
+	ChoosePunch2:
+		TNT1 A 0 A_TakeInventory("KXBlueKnightHookToken",1)
+		BLKN A 0 Offset(1,32)
+		TNT1 A 0 A_Jump(256,"AltRight","AltLeft","AltThird")
+		
+	Right:
+		BLKN G 1 Offset(0,40)
+		BLKN C 0 A_GunFlash("FistFlashRight",GFF_NOEXTCHANGE)
+		BLKN C 0 A_PlaySound("BlueKnight/Swish",5,1.0,false,2.5)
+		BLKN GGGG 1 Offset(10,32) A_GiveInventory("BKFistProjectile")
+		BLKN G 1 Offset(0,36) A_GiveInventory("BKFistProjectile")
+		BLKN G 1 Offset(2,40)
+		BLKN F 1 Offset(3,42)
+		BLKN F 1 Offset(8,48)
+		BLKN E 1 Offset(10,44)
+		BLKN E 1 Offset(20,55)
+		BLKN E 1 Offset(50,70)
+		Goto Ending
+			
+	Left:
+		BLKN D 1 Offset(0,40) 
+		BLKN C 0 A_GunFlash("FistFlashLeft",GFF_NOEXTCHANGE)
+		BLKN C 0 A_PlaySound("BlueKnight/Swish",5,1.0,false,2.5)
+		BLKN DDDD 1 Offset(10,32) A_GiveInventory("BKFistProjectile")
+		BLKN D 1 Offset(0,36) A_GiveInventory("BKFistProjectile")
+		BLKN D 1 Offset(-2,40)
+		BLKN C 1 Offset(-3,42)
+		BLKN C 1 Offset(-8,48)
+		BLKN B 1 Offset(-10,44)
+		BLKN B 1 Offset(-20,55)
+		BLKN B 1 Offset(-50,70)
+		Goto Ending	
+	Ending:
+		BLKN A 0 A_TakeInventory("PunchedAlready",32767)
+		BLKN A 0 Offset(1,32)
+		"####" A 0 A_JumpIfInventory("KXBlueKnightBladeToken2",1,"BlueKnightBlade")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ATTACK, "ChoosePunch")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ALTATTACK, "ChoosePunch2")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ZOOM, "Reload")
+		Goto Ready
+		
+	AltRight:
+	    BLKN E 1 Offset(40,50)
+		BLKN F 1 Offset(20,48) A_PlaySound("BlueKnight/Swish",5,1.0,false,2.5)
+		BLKN G 1 Offset(0,40)
+		BLKN G 1 Offset(-20,35) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(3+angle)
+		TNT1 A 0 A_SetPitch(pitch-3)
+		BLKN G 1 Offset(-40,35) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(3+angle)
+		TNT1 A 0 A_SetPitch(pitch-3)
+		BLKN G 1 Offset(-60,35) A_GiveInventory("BKFistProjectile2")
+		BLKN G 1 Offset(-80,60) A_GiveInventory("BKFistProjectile2")
+		BLKN G 1 Offset(-100,80) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(-2+angle)
+		BLKN G 1 Offset(-120,100) A_SetPitch(pitch+2)
+		TNT1 A 0 A_SetAngle(-2+angle)
+		BLKN G 1 Offset(-140,120) A_SetPitch(pitch+2)
+		TNT1 A 0 A_SetAngle(-2+angle)
+		BLKN G 1 Offset(-180,140) A_SetPitch(pitch+2)
+		BLKN G 1 Offset(-200,160)
+		TNT1 A 0 Offset(1,32)
+		Goto AltEnding
+	AltLeft:
+		BLKN B 1 Offset(-40,50)
+		BLKN C 1 Offset(-20,48) A_PlaySound("BlueKnight/Swish",5,1.0,false,2.5)
+		BLKN D 1 Offset(0,40)
+		BLKN D 1 Offset(20,35) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(-3+angle)
+		TNT1 A 0 A_SetPitch(pitch-3)
+		BLKN D 1 Offset(40,35) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(-3+angle)
+		TNT1 A 0 A_SetPitch(pitch-3)
+		BLKN D 1 Offset(60,35) A_GiveInventory("BKFistProjectile2")
+		BLKN D 1 Offset(80,60) A_GiveInventory("BKFistProjectile2")
+		BLKN D 1 Offset(100,80) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(2+angle)
+		BLKN D 1 Offset(120,100) A_SetPitch(pitch+2)
+		TNT1 A 0 A_SetAngle(2+angle)
+		BLKN D 1 Offset(140,120) A_SetPitch(pitch+2)
+		TNT1 A 0 A_SetAngle(2+angle)
+		BLKN D 1 Offset(180,140) A_SetPitch(pitch+2)
+		BLKN D 1 Offset(200,160)
+		TNT1 A 0 Offset(1,32)
+		Goto AltEnding
+	AltThird:
+	    TNT1 A 0 A_SetAngle(3+angle)
+		BLKN L 1 Offset(1,40) A_SetPitch(pitch-2)
+		TNT1 A 0 A_PlaySound("BlueKnight/Swish",5,1.0,false,2.5)
+		TNT1 A 0 A_SetAngle(3+angle)
+		BLKN L 1 Offset(-5,0) A_SetPitch(pitch-2) 
+		TNT1 A 0 A_SetAngle(3+angle)
+		BLKN L 1 Offset(-10,-40) A_SetPitch(pitch-4)
+		BLKN LLLL 1 Offset(-25,-90) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(-2+angle)
+		BLKN L 1 Offset(-20,-60) A_GiveInventory("BKFistProjectile2")
+		TNT1 A 0 A_SetAngle(-2+angle)
+		BLKN L 1 Offset(-15,-30) A_SetPitch(pitch+2)
+		TNT1 A 0 A_SetAngle(-2+angle)
+		BLKN L 1 Offset(-10,0) A_SetPitch(pitch+2)
+		TNT1 A 0 A_SetAngle(-2+angle)
+		BLKN L 1 Offset(-5,30) A_SetPitch(pitch+2)
+		TNT1 A 0 A_SetAngle(-1+angle)
+		BLKN L 1 Offset(1,60) A_SetPitch(pitch+2)
+		TNT1 A 0 Offset(1,32)
+		Goto AltEnding
+	AltEnding:
+		TNT1 A 9
+		BLKN A 0 A_TakeInventory("PunchedAlready",32767)
+		"####" A 0 A_JumpIfInventory("KXBlueKnightBladeToken2",1,"BlueKnightBlade")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ATTACK, "ChoosePunch")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ALTATTACK, "ChoosePunch2")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ZOOM, "Reload")
+		BLKN A 1 Offset(0,92)
+		"####" A 0 A_JumpIfInventory("KXBlueKnightBladeToken2",1,"BlueKnightBlade")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ATTACK, "ChoosePunch")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ALTATTACK, "ChoosePunch2")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ZOOM, "Reload")
+		BLKN A 1 Offset(0,72)
+		"####" A 0 A_JumpIfInventory("KXBlueKnightBladeToken2",1,"BlueKnightBlade")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ATTACK, "ChoosePunch")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ALTATTACK, "ChoosePunch2")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ZOOM, "Reload")
+		BLKN A 1 Offset(0,52)
+		"####" A 0 A_JumpIfInventory("KXBlueKnightBladeToken2",1,"BlueKnightBlade")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ATTACK, "ChoosePunch")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ALTATTACK, "ChoosePunch2")
+		TNT1 A 0 A_JumpIf(GetPlayerInput(INPUT_BUTTONS, AAPTR_PLAYER1) & BT_ZOOM, "Reload")
+		BLKN A 0 Offset(1,32)
+		Goto Ready
+	KXSkillLower:
+        TNT1 A 4
+		BLKN A 0 A_TakeInventory("PunchedAlready",32767)
+		BLKN A 0 Offset(1,32)
+		Goto Ready
+	Zoom:
+		TNT1 A 0 A_TakeInventory("KXBlueKnightHookToken",1)
+		BLKN A 1 Offset(0,52)
+		BLKN A 1 Offset(0,72)
+		BLKN A 1 Offset(0,92)
+	    BLKN I 1 Offset(20,80)
+		BLKN I 1 Offset(10,70)
+		TNT1 A 0 A_PlaySound("BlueKnight/KickStart",5,1.0,false,2.5)
+		BLKN J 1 Offset(0,60) 
+		BLKN J 1 Offset(10,50) A_SetPitch(pitch+1)
+		TNT1 A 0 A_SetPitch(pitch+1)
+		TNT1 A 0 A_CheckFloor(2)
+		TNT1 A 0 A_Recoil(-30)
+		BLKN K 1 Offset(10,40) A_GiveInventory("BKFistProjectile3")
+		BLKN K 1 Offset(10,35) A_GiveInventory("BKFistProjectile3")
+		BLKN K 1 Offset(-10,36) A_GiveInventory("BKFistProjectile3")
+		BLKN K 1 Offset(-12,40) A_GiveInventory("BKFistProjectile3")
+		BLKN J 1 Offset(-13,48)
+		BLKN J 1 Offset(-16,45)
+		BLKN J 1 Offset(-18,42) A_SetPitch(pitch+2)
+		BLKN I 1 Offset(-20,50) A_SetPitch(pitch-2)
+		BLKN I 1 Offset(-22,47) A_SetPitch(pitch-2)
+		BLKN I 1 Offset(-25,44)
+		TNT1 A 5 Offset(0,32)
+		BLKN A 0 A_TakeInventory("PunchedAlready",32767)
+		Goto Ready
+	Reload:
+		TNT1 A 0 A_JumpIfInventory("KXBlueKnightParryCooldown",1,"Ready")
+		TNT1 A 0 
+		TNT1 A 0 A_GiveInventory("KXBlueKnightParryProtection",1)
+		TNT1 A 0 A_GiveInventory("KXBlueKnightParryCooldown",1)
+		TNT1 A 0 A_PlaySound("BlueKnight/Katana",5,1.0,false,2.5) 
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaCutEffect",60,0,32,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightBlocking2",105,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		Goto Ready
+	FistFlashLeft:
+		TNT1 A 0 A_SetAngle(angle+1)
+		TNT1 A 1 A_SetPitch(pitch-0.5)
+		TNT1 A 0 A_SetAngle(angle+1) 
+		TNT1 A 1 A_SetPitch(pitch-0.5)
+		TNT1 A 1 
+		TNT1 A 1 
+		TNT1 A 0 A_SetAngle(angle-1)
+		TNT1 A 1 A_SetPitch(pitch+0.5)
+		TNT1 A 0 A_SetAngle(angle-0.5)
+		TNT1 A 1 A_SetPitch(pitch+0.5)
+		TNT1 A 1 A_SetAngle(angle-0.5)
+		Stop
+	FistFlashRight:
+		TNT1 A 0 A_SetAngle(angle-1)
+		TNT1 A 1 A_SetPitch(pitch-0.5)
+		TNT1 A 0 A_SetAngle(angle-1) 
+		TNT1 A 1 A_SetPitch(pitch-0.5)
+		TNT1 A 1 
+		TNT1 A 1 
+		TNT1 A 0 A_SetAngle(angle+1)
+		TNT1 A 1 A_SetPitch(pitch+0.5)
+		TNT1 A 0 A_SetAngle(angle+0.5)
+		TNT1 A 1 A_SetPitch(pitch+0.5)
+		TNT1 A 1 A_SetAngle(angle+0.5)
+		Stop 
+	}
+}
+
+Actor PunchedAlready : Inventory 
+{ 
+	Inventory.InterHubAmount 0 
+	Inventory.Amount 1
+}
+
+Actor BKFistPuff
+{
+	+NOINTERACTION
+	+THRUSPECIES
+	+PUFFGETSOWNER
+	+PUFFONACTORS
+	+NOTIMEFREEZE
+	+HITTRACER
+	+EXTREMEDEATH
+	+FOILINVUL
+	Species "Marines"
+	RenderStyle None
+	SeeSound ""
+	ActiveSound ""
+	AttackSound ""
+	Obituary "%o has lost a fist fight to %k."
+	states
+	{
+	Spawn:	//hit non bleeding actor
+		TNT1 A 0 NODELAY A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,0,0,0)
+		TNT1 A 10 
+		Stop
+	Xdeath:	//hit bleeding actor
+		TNT1 A 0 A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,0,0,0)
+		TNT1 A 10 
+		Stop
+	Crash:	//Hit everything else
+		TNT1 A 10 
+		Stop
+	}
+}
+
+Actor BKFistPuff2 : BKFistPuff
+{
+	states
+	{
+	Spawn:	//hit non bleeding actor
+		TNT1 A 0 NODELAY A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,1,0,0)
+		TNT1 A 10 
+		Stop
+	Xdeath:	//hit bleeding actor
+		TNT1 A 0 A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,1,0,0)
+		TNT1 A 10 
+		Stop
+	Crash:	//Hit everything else
+		TNT1 A 10 
+		Stop
+	}
+}
+
+Actor BKFistPuff3 : BKFistPuff
+{
+	states
+	{
+	Spawn:	//hit non bleeding actor
+		TNT1 A 0 NODELAY A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,2,0,0)
+		TNT1 A 10 
+		Stop
+	Xdeath:	//hit bleeding actor
+		TNT1 A 0 A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,2,0,0)
+		TNT1 A 10 
+		Stop
+	Crash:	//Hit everything else
+		TNT1 A 10 
+		Stop
+	}
+}
+
+Actor BKFistPuff4 : BKFistPuff
+{
+	RenderStyle Add
+	Scale 1.0
+	+RollSprite
+	+RollCenter
+	DamageType "Marines"
+	states
+	{
+	Spawn:	//hit non bleeding actor
+		TNT1 A 0 NODELAY A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightBladeHit",0,0,0,0)
+		TNT1 A 0 A_Jump(256,"One","Two")
+		Stop
+	Xdeath:	//hit bleeding actor
+		TNT1 A 0 A_GiveToTarget("PunchedAlready",1)
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightBladeHit",0,0,0,0)
+		TNT1 A 0 A_Jump(256,"One")
+		Goto One
+	Crash:	//Hit everything else
+		TNT1 A 0
+		Stop
+	One:
+		PLSE AAAAA 0 bright A_SpawnItemEx("PlasmaParticle",0,0,0,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360))
+		TNT1 A 0 A_SetRoll(random(0, 359))
+		TNT1 A 0 A_SetScale(ScaleX*0.9,1.0)
+		KXSL A 1 Bright A_FadeOut(0.05)
+		TNT1 A 0 A_Explode(128,128)
+		TNT1 A 0 A_SetRoll(random(0, 359))
+		TNT1 A 0 A_SetScale(ScaleX*0.9,1.0)
+		KXSL A 1 Bright A_FadeOut(0.05)
+		Goto One+10
+	}
+}
+
+Actor BKFistPuff5 : BKFistPuff
+{
+	states
+	{
+	Spawn:	//hit non bleeding actor
+		TNT1 A 0 NODELAY 
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,3,0,0)
+		TNT1 A 10 
+		Stop
+	Xdeath:	//hit bleeding actor
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,3,0,0)
+		TNT1 A 10 
+		Stop
+	Crash:	//Hit everything else
+		TNT1 A 10 
+		Stop
+	}
+}
+
+Actor BKFistProjectile : CustomInventory
+{ 
+	States 
+	{ 
+	Pickup:
+		TNT1 A 1 A_JumpIfInventory("PunchedAlready",1,"Death")
+		TNT1 A 0 A_CustomPunch(100,1,0,"BKFistPuff",96)
+		Goto Death
+	Death:
+		TNT1 A 35
+		Stop
+	}	
+}
+
+Actor BKFistProjectile2 : BKFistProjectile
+{ 
+	States 
+	{ 
+	Pickup:
+		TNT1 A 1 A_JumpIfInventory("PunchedAlready",1,"Death")
+		TNT1 A 0 A_CustomPunch(250,1,0,"BKFistPuff2",96)
+		Goto Death
+	}
+}
+
+Actor BKFistProjectile3 : BKFistProjectile
+{ 
+	States 
+	{ 
+	Pickup:
+		TNT1 A 1 A_JumpIfInventory("PunchedAlready",1,"Death")
+		TNT1 A 0 A_CustomPunch(100,1,0,"BKFistPuff3",150)
+		Goto Death
+	}
+}
+
+Actor BKFistProjectile4 : BKFistProjectile
+{ 
+	States 
+	{ 
+	Pickup:
+		TNT1 A 1 A_JumpIfInventory("PunchedAlready",1,"Death")
+		TNT1 A 0 A_CustomPunch(0,1,0,"BKFistPuff4",160)
+		Goto Death
+	}
+}
+
+Actor BKFistProjectile5 : BKFistProjectile
+{ 
+	States 
+	{ 
+	Pickup:
+		TNT1 A 1 A_CustomPunch(0,1,0,"BKFistPuff5",180)
+		Goto Death
+	}
+}
+
+Actor BlueKnightBladeHitToken : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+Actor BKBladeParticle : PlasmaParticle
+{
+	Scale 0.1
+}
+
+
+actor KXBlueKnightGloryKillSpawner
+{
+    PROJECTILE
+	+DONTSPLASH
+    -NOGRAVITY
+    +NOBLOCKMAP
+    +CLIENTSIDEONLY
+	+ALLOWPARTICLES
+	+THRUACTORS
+    States
+    {
+    Spawn:
+        TNT1 A 0
+		TNT1 A 0 A_SpawnitemEx("KXBlueKnightHealthPickup",0,0,0,frandom(-10,10),frandom(-10,10),frandom(4,15),random(0,360),SXF_NOCHECKPOSITION)
+        Stop
+    }
+}
+
+actor KXBlueKnightHealthPickup : CustomInventory
+{
+  Inventory.PickupMessage "Your cause gives you strength to do the right thing."
+  Inventory.PickupSound "KXPickup/MinorPickup"
+  +HexenBounce
+  Scale 0.8
+  RenderStyle Add
+  states
+  {
+  Spawn:
+    BKP2 ABCDEFGHIJKLMNO 2
+    Loop
+  Pickup:
+	TNT1 A 0 A_JumpIf(Health < 200 || CountInv("BasicArmor") < 400,1)
+	Fail
+	TNT1 A 0 HealThing(5,200)
+	TNT1 AAAAAAAAAAAA 0 A_GiveInventory("KXBlueKnightArmor",1)
+    TNT1 A 0 A_SpawnItemEx("KXBlueKnightHealthPickupEffect",0,0,15,0,0,0,0,SXF_NOCHECKPOSITION)
+    Stop
+  }
+}
+
+Actor KXBlueKnightHealthPickupEffect : BfgParticle
+{
+	Scale 0.8
+	+ThruActors
+	States
+	{
+  Spawn:
+  Death:
+	BKP1 ABCDEFGHIJKLMNO 2
+    Stop
+	}
+}
+
+actor KXBlueKnightMorph : CustomInventory
+{
+  Inventory.PickupMessage "Memories..."
+  Inventory.PickupSound "KXPickup/MinorPickup"
+  +FloatBob
+  Scale 0.2
+  states
+  {
+  Spawn:
+    BLK3 A 10
+    Loop
+  Pickup:
+    TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightMorph",0,0,0,0)
+    stop
+  }
+}
+
+actor KXBlueKnightMorphMap : CustomInventory 3474
+{
+  Inventory.PickupMessage "Memories..."
+  Scale 0.5
+  +Inventory.AlwaysPickup
+  +FloatBob
+  states
+  {
+  Spawn:
+    BLK3 B 10
+    Loop
+  Pickup:
+    TNT1 A 0 HealThing(1,1)
+    stop
+  }
+}
+
+Actor KXBlueKnightStopper : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  states
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0 A_Stop
+    stop
+  }
+}
+
+
+ACTOR KXBlueKnightProtection : PowerProtection
+{
+  DamageFactor "Normal", 0.5
+  DamageFactor "KX", 0.5
+  Powerup.Duration 0x7FFFFFFF
+}
+
+ACTOR KXBlueKnightArmor : BasicArmorBonus
+{
+  Radius 20
+  Height 16
+  Inventory.Icon "ARM7A0"
+  Armor.SavePercent 80.0
+  Armor.SaveAmount 1
+  Armor.MaxSaveAmount 400
+  +Inventory.AlwaysPickup
+  Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+  States
+  {
+  Spawn:
+    ARM7 A 10
+    Loop
+  }
+}
+
+
+Actor KXBlueKnightDashing : PowerSpeed
+{
+    Speed 9.0
+	Powerup.Duration -5
+}
+
+Actor KXBlueKnightDashToken : Ammo
+{
+	Inventory.MaxAmount 3
+}
+
+Actor KXBlueKnightBladeToken : Ammo
+{
+	Inventory.MaxAmount 7
+}
+
+Actor KXBlueKnightBladeToken2 : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+Actor KXBlueKnightKatanaToken : Inventory
+{
+	Inventory.MaxAmount 1
+}
+
+Actor KXBlueKnightChainToken : Inventory
+{
+	Inventory.MaxAmount 1 
+}
+
+Actor KXBlueKnightChainToken2 : Inventory
+{
+	Inventory.MaxAmount 1 
+}
+
+Actor KXBlueKnightHookToken : Inventory
+{
+	Inventory.MaxAmount 1 
+}
+
+ACTOR KXBlueKnightKickArea : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "I hate being such a crybaby..."
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+	TNT1 A 0 A_RadiusThrust(3000,144, RTF_NOIMPACTDAMAGE)
+	TNT1 A 0 A_RadiusThrust(2000,144,RTF_THRUSTZ | RTF_NOIMPACTDAMAGE)
+    TNT1 A 0 A_RadiusGive("KXBlueKnightKickArea2",144,RGF_MONSTERS,1)
+    Stop
+  }
+}
+
+ACTOR KXBlueKnightKickArea2 : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "I hate with all my soul Hoyoverse... I mean... all would be fine if not were all their games were Gacha"
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightKickWall2",0,4,0,0)
+    Stop
+  }
+}
+
+Actor KXBlueKnightChain : FastProjectile
+{
+	MissileHeight 8
+	Height 14
+	Radius 10
+	Projectile
+	+HitTracer
+	+ForcePain
+	MaxStepHeight 4
+	SeeSound "hookshot/fire"
+	ActiveSound "hookshot/swish"
+	Speed 120
+	Damage (1)
+	States
+	{
+		// The limited duration is intended to limit the range of the shot
+		Spawn:
+			TNT1 A 0 NoDelay ACS_NamedExecuteAlways("KXBlueKnightHookTrail", 0, 0, 0, 0)
+			OCLW A 20
+			Stop
+		XDeath:
+			CCLW A 0 A_PlaySound ("BlueKnight/ChainIn")
+			Goto RealDeath
+		RealDeath:
+			CCLW A 1
+			CCLW A 0 ACS_NamedExecuteAlways("KXBlueKnightHookWall", 0, 1, 0, 0)
+			CCLW A 0 A_ChangeFlag("THRUACTORS",1)
+			CCLW A 1 A_Warp(AAPTR_TRACER,0,0,0,0,WARPF_NOCHECKPOSITION|WARPF_INTERPOLATE, "",0.5)
+			Wait
+		Death:
+			CCLW A 1
+			CCLW A 0 A_PlaySound ("BlueKnight/ChainIn")
+			CCLW A 0 ACS_NamedExecuteAlways("KXBlueKnightHookWall", 0, 0, 0, 0)
+			CCLW A 1
+			Wait
+	}
+}
+
+Actor KXBlueKnightChainTrail
+{
+	Projectile
+	Damage 0
+	+NoBlockMap
+	+BloodlessImpact
+	+ClientSideOnly
+    -BloodSplatter
+    +DontSplash
+    +ForceXYBillBoard
+	Speed 0
+	Radius 1
+	Height 1
+	States
+	{
+  Spawn:
+    TEND A 30 Bright
+    Stop
+	}
+}
+
+Actor KXBlueKnightChainTrail2 : KXBlueKnightChainTrail
+{
+	States
+	{
+  Spawn:
+    TEND A 2 Bright
+    Stop
+	}
+}
+
+ACTOR KXBlueKnightChainTrail3 : KXBulletPuff
+{
+  Scale 0.25
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 A 0 A_SpawnItemEx("KXBulletPuffEffect",0,0,0,frandom(-0.5,0.5),frandom(-0.5,0.5),frandom(0,2),0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_Jump(256,"One","Two")
+  One:
+	KBP1 ABCDEFGHIJ 1 Bright
+    Stop
+  Two:
+    KBP2 ABCDEFGHIJ 1 Bright
+    Stop
+  }
+}
+
+Actor KXBlueKnightExecutionToken : Inventory 
+{ 
+	Inventory.MaxAmount 1
+	Inventory.Amount 1
+}
+
+Actor KXBlueKnightExecutionToken2 : Inventory 
+{ 
+	Inventory.MaxAmount 1
+	Inventory.Amount 1
+}
+
+ACTOR KXBlueKnightExecutionEffect
+{
+	Projectile
+	+NoInteraction
+	+Noclip
+	+ThruActors
+	Damage 0
+	Speed 0
+	RenderStyle Normal
+	Alpha 1.0
+	Scale 1.5
+	Obituary "Imagine have talent"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		BLK3 C 1 Bright
+		Wait
+	Death:
+		BLK3 C 1 A_FadeOut(0.04)
+		Loop
+	}
+}
+
+Actor KXBlueKnightExecutionEffect2
+{
+    +Noclip
+    +NoBlockMap
+    +NoGravity
+    +ClientSideOnly
+    +NoInteraction
+    +ForceXYBillBoard
+    Renderstyle Add
+    Radius 1
+    Height 1
+	Alpha 0.6
+    States
+	{
+	Spawn:
+	   BLMS I 1 Bright
+	   Loop
+  Death:
+	BLK3 C 1 A_FadeOut(0.04)
+	Loop
+	}
+}
+
+ACTOR KXBlueKnightExecutionEffect3
+{
+	Projectile
+	+NoInteraction
+	+Noclip
+	+ThruActors
+	Damage 0
+	Speed 0
+	RenderStyle Add
+	Alpha 0.1
+	Scale 1.5
+	Obituary ";-;"
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXAngelicFrostTouchParticle4",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(1,360),SXF_NOCHECKPOSITION)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXAngelicFrostTouchParticle5",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(1,360),SXF_NOCHECKPOSITION)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXAngelicFrostTouchParticle6",0,0,0,frandom(-5,5),frandom(-5,5),frandom(-5,5),random(1,360),SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightExecutionEffectWave",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXMikiriEffect2",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXMikiriEffect3",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+		HLMT CCCCCCCCC 1 Bright A_Fadein(0.1)
+		HLMT C 30 Bright
+		HLMT C 1 Bright A_FadeOut(0.04)
+		Wait
+	Death:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor KXBlueKnightExecutionEffectWave
+{   
+   Radius 1
+   Height 1
+   Speed 0
+   +FLATSPRITE
+   +NOBLOCKMAP
+   +NOCLIP
+   +NOINTERACTION
+   +CLIENTSIDEONLY
+   Scale 0.2
+   Alpha 1
+   PROJECTILE
+   RENDERSTYLE Add
+   states
+   {
+   Spawn:
+	  TNT1 A 0
+	  KXON Q 1
+	  {
+		A_SetScale(ScaleX+0.07);
+		A_FadeOut(0.025);
+	  }
+     Loop
+   }
+}	
+
+Actor KXBlueKnightParryCooldown : Powerup
+{
+	Powerup.Duration 20
+}
+
+Actor KXBlueKnightKatanaProjectile
+{
+    Radius 8
+    Height 8
+    Speed 35
+    Damage (0)
+    RenderStyle Add
+	Scale 0.2
+	Alpha 1.0
+    Projectile
+	+ThruActors
+	+BloodSplatter
+	var int user_fire;
+   States
+  {
+  Spawn:
+    TNT1 A 0
+	TNT1 A 0 A_SetUserVar(user_fire,6)
+	Goto Looping
+  Looping:
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaParticle2",0,0,1,frandom(-1,1)*0.5,frandom(-1,1)*0.5,frandom(-1,1)*0.5,random(0,360))
+	TNT1 AA 0 A_SpawnItemEx("KXBlueKnightKatanaParticle4",0,0,1,frandom(-0.25,0.25),frandom(-0.25,0.25),frandom(-0.25,0.25),random(0,360))
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaParticle",5,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaParticle",10,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaParticle",15,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaParticle",20,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaParticle",25,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaParticle",30,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 1 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_JumpIf(user_fire == 0, "Death")
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	Loop
+  Death: 
+	TNT1 A 0 A_Stop
+	TNT1 A 0 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle3",0,-5,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle3",0,5,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle3",0,-10,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle3",0,10,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle3",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 AA 0 A_SpawnItemEx("KXBlueKnightKatanaParticle4",0,0,1,frandom(-0.25,0.25),frandom(-0.25,0.25),frandom(-0.25,0.25),random(0,360))
+	TNT1 A 0 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle3",0,0,0,frandom(-1,1)*0.5,frandom(-1,1)*0.5,frandom(0,4),0,SXF_NOCHECKPOSITION)
+	TNT1 A 1 Bright A_SpawnItemEx("KXBlueKnightKatanaParticle3",0,0,0,frandom(-1,1)*0.5,frandom(-1,1)*0.5,frandom(0,-4),0,SXF_NOCHECKPOSITION)
+	Stop
+  }
+}
+
+Actor KXBlueKnightKatanaParticle
+{
+  Radius 1
+  Height 1
+  XScale 0.3
+  YScale 0.075
+  Alpha 1.0
+  RenderStyle Add
+  +ClientSideOnly
+  +NoInteraction
+  States
+  {
+  Spawn:
+    BLMS I 0 A_SetScale(ScaleX*0.9)
+    BLMS I 1 A_Fadeout(0.1)
+	Loop
+  }
+} 
+
+
+Actor KXBlueKnightKatanaParticle2
+{
+  Radius 1
+  Height 1
+  Scale 0.15
+  Alpha 1.0
+  Translation "112:127=192:207"
+  RenderStyle Add
+  +ClientSideOnly
+  +NoInteraction
+  +Randomize
+  States
+  {
+  Spawn:
+    TNT1 A 0
+    FSFX NOPQRSTUVW 3 Bright 
+	Stop
+  }
+}
+
+Actor KXBlueKnightKatanaParticle3 : KXBlueKnightKatanaParticle
+{
+  XScale 0.4
+  YScale 0.4
+  States
+  {
+  Spawn:
+	TNT1 A 0
+    BLMS I 1 A_Fadeout(0.05)
+	Wait
+  }
+}
+
+Actor KXBlueKnightKatanaParticle4 : KXBlueKnightKatanaParticle
+{
+  XScale 0.015
+  YScale 0.015
+  States
+  {
+  Spawn:
+	TNT1 A 0
+    BLMS IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII 1 A_Jump(4,"End")
+	Goto End
+  End:
+	BLMS A 0 A_SetScale(ScaleX-0.0015)
+	BLMS A 1 A_FadeOut(0.1)
+	Loop
+  }
+}
+
+actor KXBlueKnightKatanaExplosion : CustomInventory
+{
+  Inventory.PickupMessage "This was the better solution I could come up with ;-;"
+  states
+  {
+  Spawn:
+    TNT1 A 1
+	Stop
+  Pickup:
+	TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightHit",0,4,0,0)
+    stop
+  }
+}
+
+ACTOR KXBlueKnightBlockingBlood
+{
+  Mass 200
+  Scale 1.5
+  +NOBLOCKMAP
+  +NOTELEPORT
+  +ALLOWPARTICLES
+  +CLIENTSIDEONLY
+  +THRUACTORS
+  Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+  States
+  {
+  Spawn:
+	TNT1 A 0
+    TNT1 A 0 A_PlaySound("BlueKnight/Deflect",CHAN_7,1.0) 
+	TNT1 A 0 A_SpawnItemEx("KXBlueKnightKatanaEffectWave",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_Jump(256,"One","Two")
+  One:
+	KBP1 ABCDEFGHIJ 1 Bright
+    Stop
+  Two:
+    KBP2 ABCDEFGHIJ 1 Bright
+    Stop
+  }
+}
+
+Actor KXBlueKnightKatanaCutEffect
+{
+	Radius 1
+    Height 1
+    Alpha 1.0
+    RenderStyle Add
+    +ClientSideOnly
+    +NoInteraction
+	+RollSprite
+	+RollCenter
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAA 0 A_SpawnItemEx("KXBlueKnightKatanaParticle4",0,0,1,frandom(-2,2),frandom(-2,2),frandom(-2,2),random(0,360))
+		TNT1 A 0 A_PlaySound("BlueKnight/KatanaHit")
+		TNT1 A 0 A_SetRoll(random(0, 359))
+		KXSL AAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SetScale(ScaleX-0.04,ScaleY+0.12)
+		Stop
+	}
+}
+
+Actor KXBlueKnightKatanaCutEffect2 : KXBlueKnightKatanaCutEffect
+{
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("Blood",0,0,1,0,0,0,random(0,360))
+		TNT1 AAAAA 0 A_SpawnItemEx("KXBlueKnightKatanaParticle4",0,0,1,frandom(-2,2),frandom(-2,2),frandom(-2,2),random(0,360))
+		TNT1 A 0 A_PlaySound("BlueKnight/KatanaHit")
+		TNT1 A 0 A_SetRoll(random(0, 359))
+		KXSL AAAAAAAAAAAAA 1 A_SetScale(ScaleX-0.08,ScaleY+0.24)
+		Stop
+	}
+}
+
+Actor KXBlueKnightKatanaCutEffect3 : KXBlueKnightKatanaCutEffect
+{
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("Blood",0,0,1,0,0,0,random(0,360))
+		TNT1 AAAAA 0 A_SpawnItemEx("KXBlueKnightKatanaParticle4",0,0,1,frandom(-2,2),frandom(-2,2),frandom(-2,2),random(0,360))
+		TNT1 A 0 A_PlaySound("BlueKnight/KatanaHit")
+		TNT1 A 0 A_SetRoll(random(0, 359))
+		KXSL AAAAAAAAAAAAA 1 A_SetScale(ScaleX-0.04,ScaleY+0.32)
+		KXSL A 1 A_FadeOut(0.01)
+		Wait
+	}
+}
+
+Actor KXBlueKnightKatanaEffectWave : KXBlueKnightExecutionEffectWave
+{   
+   -FLATSPRITE
+   Scale 0.01
+   states
+   {
+   Spawn:
+	  TNT1 A 0
+	  KXON Q 1
+	  {
+		A_SetScale(ScaleX+0.01);
+		A_FadeOut(0.025);
+	  }
+     Loop
+   }
+}	
+
+Actor KXBlueKnightUltimateSwitchInv : CustomInventory
+{
+	+Inventory.AlwaysPickup
+    +Inventory.InvBar
+    Inventory.Icon BLK3D0
+    Inventory.PickupMessage "The spells of a legend is available again"
+	Tag "Blue Knight Ultimates"
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+	States 
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Use:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightUltimateSwitch",0,0,0,0)
+		Fail
+  }
+}
+
+Actor KXBlueKnightUltimateCooldown : Inventory
+{
+	
+	Inventory.MaxAmount 30
+}
+
+Actor BlueKnightSoulRipperItem : CustomInventory
+{
+	+Inventory.AlwaysPickup
+    Inventory.Icon BLK3D0
+    Inventory.PickupMessage "Why i'm making this?, dunno, probably because i'm stupid"
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+	States 
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Pickup:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightSoulRipperMonster",0,0,0,0)
+		Stop
+  }
+}
+
+Actor BlueKnightSoulRipperItem2 : Inventory
+{
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+}
+
+Actor BlueKnightCelestialAscentItem : CustomInventory
+{
+	+Inventory.AlwaysPickup
+    Inventory.Icon BLK3D0
+    Inventory.PickupMessage "Ligo Leyen"
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+	States 
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Pickup:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("KXBlueKnightCelestialAscentMonster",0,0,0,0)
+		Stop
+  }
+}
+
+Actor BlueKnightCelestialAscentItem2 : Inventory
+{
+	Inventory.Amount 1
+    Inventory.MaxAmount 3500
+}
+
+Actor BlueKnightCelestialAscentToken : Inventory
+{
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+}
+
+Actor BlueKnightCelestialAscentTokenMonster : Inventory
+{
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+}
+
+Actor KXBlueKnightCelestialAscentExplosion : CustomInventory
+{
+	+Inventory.AlwaysPickup
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+	States 
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Pickup:
+		TNT1 A 0 
+		TNT1 A 0 A_RadiusGive("KXBlueKnightKickArea2",768,RGF_MONSTERS,1)
+		TNT1 A 0 A_Explode(ACS_NamedExecuteWithResult("BlueKnightCelestialAscentExplosion"),768,false,0,0,0,0,"","Marines")
+		Stop
+  }
+}
+
+Actor KXBlueKnightCelestialAscentEffect
+{
+	+ClientSideOnly
+	+NoBlockMap
+	+NoTeleport
+    +DontSplash
+	+Noclip
+    +ThruActors
+	+NoInteraction
+	Speed 0
+	Radius 0
+	Height 0
+	States
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXDustParticle2",0,0,2,frandom(-20,20),frandom(-20,20),frandom(0,30),random(1,360),SXF_NOCHECKPOSITION)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXDustParticle3",0,0,2,frandom(-10,10),frandom(-10,10),frandom(0,5),random(1,360),SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,10,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,20,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,30,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,40,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,50,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,60,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,70,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,80,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,90,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,100,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,110,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,120,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,130,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,140,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,150,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,160,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,170,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,180,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,190,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,200,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,210,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,220,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,230,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,240,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,250,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,260,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,270,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,280,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,290,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,300,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,310,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,320,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,330,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,340,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXStompEffectProj",0,0,5,35,0,0,350,SXF_NOCHECKPOSITION)
+		Stop
+	}
+}
+
+Actor BlueKnightCelestialAscentEffectWave
+{
+	Radius 1
+    Height 1
+    Alpha 1.0
+    RenderStyle Add
+    +ClientSideOnly
+    +NoInteraction
+	Var Int user_fire;
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightEarthSpikeEffect2",768,0,0,0,0,0,user_fire,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SetUserVar(user_fire,user_fire+4)
+		TNT1 A 0 A_JumpIf(user_fire == 360, "End")
+		Loop
+	End:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor KXBlueKnightEarthSpikeEffect
+{
+  Radius 1
+  Height 1
+  -SOLID
+  +THRUSPECIES
+  +FORCEXYBILLBOARD
+  Scale 0.03
+  Alpha 1.0
+  RenderStyle Translucent
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXDustParticle2",0,0,2,frandom(-10,10),frandom(-10,10),frandom(0,15),random(1,360),SXF_NOCHECKPOSITION)
+	TNT1 AAAAA 0 A_SpawnItemEx("KXDustParticle3",0,0,2,frandom(-10,10),frandom(-10,10),frandom(0,5),random(1,360),SXF_NOCHECKPOSITION)
+	TNT1 A 0 A_Jump(256,"Ex1","Ex2","Ex3","Ex4")
+	Goto See
+  Ex1:
+	KEHS A 0 
+	Goto Arise
+  Ex2:
+	KEHS B 0 
+	Goto Arise
+  Ex3:
+	KEHS C 0 
+	Goto Arise
+  Ex4:
+	KEHS D 0 
+	Goto Arise
+  Arise:
+    "----" AAAAAAAAA 1 Bright A_SetScale(ScaleX+0.03)
+	"----" AAAAA 35
+    Goto Death
+  Death:
+    "####" "#" 1 Bright {
+		A_FadeOut(0.1);
+		A_SetScale(ScaleX-0.03);
+	}
+    Loop
+  }
+}
+
+Actor KXBlueKnightEarthSpikeEffect2 : KXBlueKnightEarthSpikeEffect
+{
+  Scale 0.3
+  Alpha 1.0
+  States
+  {
+  Spawn:
+	TNT1 A 0
+	TNT1 AA 0 A_Jump(256,"Ex1","Ex2","Ex3","Ex4")
+	Goto See
+  Arise:
+    "----" AAAAAAAAA 1 Bright A_SetScale(ScaleX+0.3)
+	"----" AAAAA 35
+    Goto Death
+  Death:
+    "####" "#" 1 Bright {
+		A_FadeOut(0.1);
+		A_SetScale(ScaleX*0.95);
+	}
+    Loop
+  }
+}
+
+Actor BlueKnightAshenAbsolutionItem : CustomInventory
+{
+	+Inventory.AlwaysPickup
+    Inventory.Icon BLK3D0
+    Inventory.PickupMessage "Ashen Knight"
+	Inventory.Amount 1
+    Inventory.MaxAmount 1
+	States 
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Pickup:
+		TNT1 A 0 
+		TNT1 A 0 ACS_NamedExecuteAlways("BlueKnightAshenAbsolutionMonster",0,0,0,0)
+		Stop
+  }
+}
+
+Actor BlueKnightAshenAbsolutionEffect
+{
+	Radius 1
+    Height 1
+    Alpha 1.0
+    RenderStyle Add
+    +ClientSideOnly
+    +NoInteraction
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 AAAAAAAAAAA 0 A_SpawnItemEx("KXAngelicFrostTouchParticle4",frandom(-32,32),frandom(-32,32),frandom(1,128),0,0,frandom(0,10),random(1,360),SXF_NOCHECKPOSITION)
+		TNT1 AAAAAAAAAAA 0 A_SpawnItemEx("KXAngelicFrostTouchParticle5",frandom(-32,32),frandom(-32,32),frandom(1,128),0,0,frandom(0,10),random(1,360),SXF_NOCHECKPOSITION)
+		TNT1 AAAAAAAAAAA 0 A_SpawnItemEx("KXAngelicFrostTouchParticle6",frandom(-32,32),frandom(-32,32),frandom(1,128),0,0,frandom(0,10),random(1,360),SXF_NOCHECKPOSITION)
+		BLK5 ABCDEFGHIJ 3 Bright
+		BLK5 KKKLLL 1 Bright A_SetScale(ScaleX-0.04,ScaleY+0.12)
+		BLK5 MMMMMMMMMMMMMMMMMMMMMMM 1 Bright A_SetScale(ScaleX-0.04,ScaleY+0.12)
+		Stop
+	}
+}
+
+Actor BlueKnightAshenAbsolutionEffectWave
+{
+	Radius 1
+    Height 1
+    Alpha 1.0
+    RenderStyle Add
+    +ClientSideOnly
+    +NoInteraction
+	Var Int user_fire;
+	states
+	{
+	Spawn:
+		TNT1 A 0
+		TNT1 A 0 A_SpawnItemEx("BlueKnightAshenAbsolutionEffectWave2",512,0,0,0,0,0,user_fire,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SetUserVar(user_fire,user_fire+5)
+		TNT1 A 0 A_JumpIf(user_fire == 360, "End")
+		Loop
+	End:
+		TNT1 A 1
+		Stop
+	}
+}
+
+Actor BlueKnightAshenAbsolutionEffectWave2
+{
+  Radius 1
+  Height 1
+  Speed 0
+  XScale 2.5
+  YScale 4.5
+  Projectile
+  RenderStyle Add
+  Alpha 0.9
+  +NoInteraction
+  +NoBlockMap
+  Translation "0:255=%[0.00,0.00,2.00]:[2.00,2.00,2.00]"
+  States
+  {
+  Spawn:
+	TNT1 AAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("BlueKnightAshenAbsolutionWaveParticle",frandom(-16,16),frandom(-16,16),1,0,0,frandom(1,10),0,SXF_NOCHECKPOSITION)
+    XXBF ABCDEFGHIJKLMNOPQRST 3 Bright A_SpawnItemEx("BlueKnightAshenAbsolutionWaveParticle",frandom(-16,16),frandom(-16,16),1,0,0,frandom(1,10),0,SXF_NOCHECKPOSITION)
+    Stop       
+   }
+}
+
+Actor BlueKnightAshenAbsolutionWaveParticle : KXBlueKnightKatanaParticle4
+{
+  XScale 0.04
+  YScale 0.04
+  States
+  {
+  Spawn:
+	TNT1 A 0
+    BLMS IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII 1 A_Jump(4,"End")
+	Goto End
+  End:
+	BLMS A 0 A_SetScale(ScaleX-0.01)
+	BLMS A 1 A_FadeOut(0.1)
+	Loop
+  }
+}
+
+Actor KXBlueKnightAshenAbsolutionBigWave : KXBlueKnightExecutionEffectWave
+{   
+   Alpha 1
+   Scale 0.2
+   states
+   {
+   Spawn:
+	  TNT1 A 0
+	  KXON QQQQQQQQQQQQQQQQQQQQ 1 A_SetScale(ScaleX+0.15)
+	  KXON Q 1 
+	  {
+		A_SetScale(ScaleX+0.15);
+		A_FadeOut(0.1);
+	  }
+	  Wait
+   }
+}	
+
+ACTOR KXBlueKnightArmorShield : BasicArmorBonus
+{
+  Radius 20
+  Height 16
+  Inventory.PickupMessage "The technology of the Blue Knight Armor"
+  Inventory.Icon "ARM8A0"
+  Armor.SavePercent 100.0
+  Armor.SaveAmount 1
+  Armor.MaxSaveAmount 600
+  +Inventory.AlwaysPickup
+  States
+  {
+  Spawn:
+    BON2 ABCDCB 6
+    Loop
+  }
+}
+
+ACTOR KXBlueKnightArmorShieldParticle : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup: 
+    TNT1 A 0 A_SpawnItemEx("KXAngelicFrostTouchParticle4", Random(24, 32), 0, 4, 0, 0, (Random(20, 35)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_SpawnItemEx("KXAngelicFrostTouchParticle5", Random(24, 32), 0, 4, 0, 0, (Random(20, 35)*0.1), Random(0, 360), 128)
+	TNT1 A 0 A_SpawnItemEx("KXAngelicFrostTouchParticle6", Random(24, 32), 0, 4, 0, 0, (Random(20, 35)*0.1), Random(0, 360), 128)
+    Stop
+  }
+} 
+
+Actor KXBlueKnightArmorShieldBurst : CustomInventory
+{
+	+Inventory.AlwaysPickup
+	+Inventory.Quiet
+	States
+	{
+	Spawn:
+		TNT1 A 1
+		Stop
+	Pickup:
+		TNT1 A 1 A_SpawnItemEx("KXBlueKnightArmorShieldBurst2",0,0,1,0,0,0,0,SXF_NOCHECKPOSITION)
+		Stop
+  }
+}
+
+ACTOR KXBlueKnightArmorShieldBurst2
+{
+	Radius 1
+	Height 1
+	DontHurtShooter 
+	Translation "16:47=192:207", "168:191=192:207"
+	Alpha 1.0
+    RenderStyle Add
+	+FORCEYBILLBOARD
+	+Noclip
+	+NoBlockMap
+	+ThruActors
+	var int user_angle;
+	States
+	{
+	Spawn:
+		TNT1 A 1 
+		TNT1 A 1 
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle1",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle2",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBlondeBoltParticle3",0,0,1,frandom(-10,10),frandom(-10,10),frandom(0,20),0,SXF_TRANSFERTRANSLATION,0)
+		TNT1 A 0 A_RadiusGive("KXBlueKnightShieldItem",320,RGF_MONSTERS,1)
+		TNT1 A 0 A_SetPitch(Pitch-90)
+		TNT1 A 0 A_SetUserVar(user_angle,0)
+		TNT1 A 0 A_PlaySound("Heaven/StormCalmEnd",CHAN_7,1.0,FALSE,ATTN_NONE)
+		TNT1 A 0 A_PlaySound("Heaven/StormCalmEnd",CHAN_6,1.0,FALSE,ATTN_NONE)
+		Goto Looping
+	Looping:
+		TNT1 A 0 A_JumpIf(user_angle > 18, "Ending")
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,0,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,10,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,20,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,30,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,40,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,50,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,60,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,70,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,80,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,90,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,100,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,110,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,120,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,130,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,140,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,150,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,160,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,170,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-10,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-20,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-30,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-40,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-50,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-60,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-70,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-80,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-90,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-100,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-110,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-120,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-130,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-140,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-150,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-160,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SpawnItemEx("KXBlueKnightPulseArmorExplosionParticle",0,0,1,cos(pitch)*30,0,-sin(pitch)*30,-170,SXF_NOCHECKPOSITION)
+		TNT1 A 0 A_SetPitch(Pitch+10)
+		TNT1 A 0 A_SetUserVar(user_angle,user_angle+1)
+		Loop
+	Ending:
+	   TNT1 A 0 A_CustomMissile("KXBlueKnightPulseArmorExplosionParticle",1,0,0,CMF_ABSOLUTEPITCH,90)
+	   TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("KXBlondeBoltParticle",random(-160,160),random(-160,160),random(floorz-z+1,160),frandom(-1,1),frandom(-1,1),frandom(-1,1),0,SXF_NOCHECKPOSITION | SXF_TRANSFERTRANSLATION,0)
+	   TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 1 A_SpawnItemEx("KXBlondeBoltParticle",random(-160,160),random(-160,160),random(floorz-z+1,160),frandom(-1,1),frandom(-1,1),frandom(-1,1),0,SXF_NOCHECKPOSITION | SXF_TRANSFERTRANSLATION,0)
+	   Goto End
+	End:
+	    TNT1 A 1
+        Stop
+	}
+}
+
+ACTOR KXBlueKnightShieldItem : CustomInventory
+{
+  +Inventory.AlwaysPickup
+  +Inventory.Quiet
+  Inventory.PickupMessage "I lost faith"
+  States
+  {
+  Spawn:
+    TNT1 A 1
+    Stop
+  Pickup:
+    TNT1 A 0 Acs_NamedExecuteAlways("BlueKnightShieldStun",0,0,0,0)
+    Stop
+  }
+}
+
+Actor KXBlueKnightPulseArmorExplosionParticle
+{
+  Height 0
+  Radius 0
+  Mass 0
+  Projectile
+  +NoBlockMap
+  +NoGravity
+  +DontSplash
+  +ThruActors
+  RenderStyle Add
+  Alpha 1.0
+  Speed 0
+  Scale 1.25
+  Translation "16:47=192:207", "168:191=192:207"
+  States
+  {
+  Spawn:
+	LFX1 UVWSTUVWSTUVWSTUV 1 Bright
+	TNT1 A 0 A_Stop
+	LFX1 VWSTUVWSTUVWSTUVW 1 Bright
+	Goto Death
+  Death:
+    LFX1 STUVWSTUVWSTUVWSTUVW 1 Bright A_SetScale(ScaleX-0.05)
+	TNT1 AAA 0 A_SpawnItemEx("KXBlondeBoltParticle",0,0,1,frandom(-4,4),frandom(-4,4),frandom(-4,4),0,SXF_TRANSFERTRANSLATION,0)
+    Stop
+  }
+}

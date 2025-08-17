@@ -1,0 +1,290 @@
+Actor Demolisher 7623 
+{ 
+  //$Category BigSpiders
+  Obituary "%o felt the power of the Spider-Demolisher."
+  Health 6000 
+  Radius 96 
+  Height 100 
+  Mass 1000 
+  Speed 16 
+  PainChance 5 
+  Monster
+  +NoTarget
+  +FloorClip
+  +Boss
+  +MissileEvenMore
+  +NoRadiusDmg
+  +BossDeath
+  +DontHarmSpecies
+  Species "KX"
+  SeeSound "arachnophyte/sight"
+  PainSound "arachnophyte/pain"
+  DeathSound "arachnophyte/death"
+  ActiveSound "spider/active" 
+  var int user_fire;
+  var int user_fire2;
+  States 
+  {
+  Spawn: 
+    DEMO AB 10 A_Look 
+    Loop
+  See: 
+	TNT1 A 0 A_ChangeFlag("NOPAIN",0)
+	DEMO A 0 A_StopSound(CHAN_WEAPON)
+	DEMO A 3 A_PlaySound("KXMonsterFootstep/Mastermind")
+    DEMO ABB 3 A_Chase
+    DEMO C 3 A_PlaySound("KXMonsterFootstep/Mastermind")
+    DEMO CDD 3 A_Chase
+    DEMO E 3 A_PlaySound("KXMonsterFootstep/Mastermind")
+    DEMO EFF 3 A_Chase
+    Loop 
+  Missile:
+    TNT1 A 0 A_Jump(204,"Chaingun","MiniBFG")
+	TNT1 A 0 A_Jump(256,"TrueBFG","Laser")
+	Loop
+  MiniBFG:
+    DEMO T 0 A_PlaySound("KXDemolisher/SmallBFGShotChar")
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	DEMO T 18 A_FaceTarget
+	TNT1 A 0 A_SetUserVar(user_fire,random(10,20))
+	Goto MiniBFGLoop
+  MiniBFGLoop:
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire-1)
+	DEMO T 4 Bright A_FaceTarget
+	TNT1 AAAAA 0 A_SpawnItemEx("KXDemolisherBFGParticle",0,0,30,frandom(4,8),frandom(4,8),frandom(4,8),frandom(-180,180),SXF_NOCHECKPOSITION)
+	DEMO U 4 Bright A_CustomMissile("KXDemolisherMiniBFGShot",32,0,frandom(-3,3),CMF_OFFSETPITCH,frandom(-0.25,0.25))
+	TNT1 A 0 A_JumpIf(user_fire==0,"MiniBFGEnd")
+	Loop
+  MiniBFGEnd:
+    DEMO T 20 A_PlaySound("KXDemolisher/SmallBFGShotCooldown")
+	Goto See
+  TrueBFG:
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	TNT1 A 0 A_SetUserVar(user_fire2,0)
+	Goto TrueBFGCharge
+  TrueBFGCharge:
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+	DEMO T 1 Bright A_SpawnItemEx("KXBFGArachnotronParticle",0,0,frandom(18,40),frandom(-3,3),frandom(-3,3),frandom(-3,3),random(0,360))
+	DEMO T 0 A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire>20,"TrueBFGCharge2")
+	Loop
+  TrueBFGCharge2:
+	TNT1 A 0 Bright A_Playsound ("weapons/bfgf",CHAN_7,1.0,FALSE,ATTN_NONE)
+    TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+	DEMO T 1 Bright A_SpawnItemEx("KXBFGArachnotronParticle",0,0,frandom(18,40),frandom(-8,8),frandom(-8,8),frandom(-8,8),random(0,360))
+	DEMO T 0 A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire>50,"ShootBFG")
+	Goto TrueBFGCharge2+1
+  ShootBFG:
+	TNT1 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXDemolisherBFGParticle",0,0,30,frandom(8,15),frandom(8,15),frandom(8,15),frandom(-180,180),SXF_NOCHECKPOSITION)
+    DEMO U 15 Bright A_CustomMissile ("BFGBall",32,0,0)
+    TNT1 A 0 A_Jump(128,"RepeatBFG")
+	TNT1 A 0 A_SetUserVar(user_fire2,user_fire2+1)
+	TNT1 A 0 A_JumpIf(user_fire2==3,"EndBFG")
+    Goto EndBFG
+  RepeatBFG:
+    TNT1 A 0 A_SetUserVar(user_fire,0)
+	Goto TrueBFGCharge
+  EndBFG:
+    DEMO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 2 A_SpawnItemEx("KXBFGArachnotronCooldownParticle",frandom(-72,72),frandom(-72,72),frandom(10,48),0,0,frandom(0,5),random(0,360))
+	Goto See
+  Chaingun: 
+	DEMO A 0 A_PlaySound("weapons/minigunstart",CHAN_WEAPON)
+    DEMO A 20 A_FaceTarget
+	DEMO C 0 bright A_PlaySound("KXDemolisher/Chaingun",CHAN_WEAPON,1.0,TRUE)
+	DEMO G 0 Bright A_CustomMissile("PisCaseSpawn",22,10,0)
+	DEMO G 0 Bright A_CustomMissile("PPisCaseSpawn",22,-10,0)
+	DEMO G 0 A_CustomMissile("KXDemolisherBullet", 22,10,frandom(-12,12),CMF_OFFSETPITCH,frandom(-0.25,0.25))
+	DEMO G 1 A_CustomMissile("KXDemolisherBullet", 22,-10,frandom(-12,12),CMF_OFFSETPITCH,frandom(-0.25,0.25))
+    DEMO H 0 bright A_PlaySound("KXDemolisher/Chaingun",CHAN_WEAPON,1.0,TRUE)
+	DEMO H 0 Bright A_CustomMissile("PisCaseSpawn",22,10,0)
+	DEMO H 0 Bright A_CustomMissile("PPisCaseSpawn",22,-10,0)
+	DEMO H 0 A_CustomMissile("KXDemolisherBullet", 22,10,frandom(-12,12),CMF_OFFSETPITCH,frandom(-0.25,0.25))
+	DEMO H 1 A_CustomMissile("KXDemolisherBullet", 22,-10,frandom(-12,12),CMF_OFFSETPITCH,frandom(-0.25,0.25))
+    DEMO H 1 Bright A_MonsterRefire(10,"ChaingunEnd")
+    Goto Chaingun+2 
+  ChaingunEnd:
+	DEMO A 0 A_StopSound(CHAN_WEAPON)
+    DEMO A 1 A_PlaySound("weapons/minigunend",CHAN_WEAPON)
+    DEMO A 9 A_FaceTarget
+	Goto See
+  Laser:
+    TNT1 A 0 A_SetUserVar(user_fire,0)
+	TNT1 A 0 A_SetUserVar(user_fire2,0)
+	Goto TrueLaserCharge
+  TrueLaserCharge:
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+	DEMO T 1 Bright A_SpawnItemEx("KXBFGArachnotronParticle",0,0,frandom(18,40),frandom(-3,3),frandom(-3,3),frandom(-3,3),random(0,360))
+	DEMO T 0 A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire>20,"TrueLaserCharge2")
+	Loop
+  TrueLaserCharge2:
+	TNT1 A 0 A_ChangeFlag("NOPAIN",1)
+	TNT1 A 0 A_Playsound ("KXDemolisher/LaserStart",CHAN_7,1.0,FALSE,ATTN_NONE)
+    TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+	DEMO T 1 Bright A_SpawnItemEx("KXBFGArachnotronParticle",0,0,frandom(18,40),frandom(-8,8),frandom(-8,8),frandom(-8,8),random(0,360))
+	DEMO T 0 A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire>70,"TrueIonCannon")
+	Goto TrueLaserCharge2+2
+  TrueIonCannon:
+	TNT1 A 0 A_Playsound ("KXDemolisher/LaserStart2",CHAN_7,1.0,FALSE,ATTN_NONE)
+	TNT1 A 0 A_Playsound ("KXDemolisher/LaserLoop",CHAN_WEAPON,1.0,TRUE,ATTN_NONE)
+	TNT1 A 0 A_FaceTarget
+    DEMO U 1 Bright A_CustomMissile ("KXDemolisherIonCannonBall",32,0,0)
+	TNT1 A 0 A_SetUserVar(user_fire2,user_fire2+1)
+	TNT1 A 0 A_JumpIf(user_fire2==350,"EndIonCannon")
+    Goto TrueIonCannon+1
+  EndIonCannon:
+	TNT1 A 0 A_Playsound ("KXDemolisher/LaserStart2",CHAN_7,1.0,FALSE,ATTN_NONE)
+	TNT1 A 0 Bright A_Playsound ("KXDemolisher/LaserEnd",CHAN_WEAPON,1.0,False,ATTN_NONE)
+	TNT1 A 0 A_ChangeFlag("NOPAIN",0)
+	DEMO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 2 A_SpawnItemEx("KXBFGArachnotronCooldownParticle",frandom(-72,72),frandom(-72,72),frandom(10,48),0,0,frandom(0,5),random(0,360))
+	DEMO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 2 A_SpawnItemEx("KXBFGArachnotronCooldownParticle",frandom(-72,72),frandom(-72,72),frandom(10,48),0,0,frandom(0,5),random(0,360))
+    DEMO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 2 A_SpawnItemEx("KXBFGArachnotronCooldownParticle",frandom(-72,72),frandom(-72,72),frandom(10,48),0,0,frandom(0,5),random(0,360))
+	Goto See
+  Pain: 
+	DEMO A 0 A_StopSound(CHAN_WEAPON)
+    DEMO I 3 
+    DEMO I 3 A_Pain 
+    Goto See 
+  Death: 
+	DEMO A 0 A_StopSound(CHAN_WEAPON)
+	DEMO I 20 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,64),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO I 17 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,64),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO I 14 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,64),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO I 11 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,64),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO I 8 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,64),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO IIIIIIIIII 5 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,64),0,0,0,0,SXF_NOCHECKPOSITION)
+    DEMO J 0 Bright A_Scream 
+	DEMO JJJJ 5 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,64),0,0,0,0,SXF_NOCHECKPOSITION)
+    DEMO K 0 Bright A_NoBlocking 
+    DEMO KKKKLLMMNNOO 5 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,32),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO AAAAA 0 A_SpawnItemEx("KXBloodExplosionEffect",frandom(-48,48),frandom(-48,48),frandom(1,16),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO AAAAAAAAAAAAA 0 A_SpawnItemEx("KXRocketExplosionEffect",0,0,5,frandom(-5,5),frandom(-5,5),frandom(0,5),random(0,360),SXF_NOCHECKPOSITION)
+	DEMO AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXExplosiveFireBallParticle4",0,0,5,frandom(0,10),frandom(0,10),frandom(5,20),random(0,360),SXF_NOCHECKPOSITION)
+    DEMO A 0 A_SpawnItemEx("KXStompEffect",0,0,3,0,0,0,0,SXF_CLIENTSIDE|SXF_NOCHECKPOSITION)
+	DEMO PPQQRR 5 Bright A_SpawnItemEx("ExplosionEffect",frandom(-72,72),frandom(-72,72),frandom(0,32),0,0,0,0,SXF_NOCHECKPOSITION)
+	DEMO S -1 A_BossDeath 
+    Stop 
+   } 
+}
+
+Actor DemolisherTest : Demolisher
+{
+  States 
+  {
+  Missile:
+	TNT1 A 0 A_Jump(256,"Laser")
+	Loop
+  }
+}
+
+ACTOR KXDemolisherBullet : KaiserXBullet
+{
+	Speed 70
+	Damage (1*Random(2,12))
+}
+
+actor KXDemolisherMiniBFGShot : Rocket 
+{
+	Speed 40
+	Scale 0.5
+	Radius 12
+    Height 12
+	SeeSound "darkinquisitor/darkmatterfire"
+	deathsound "KXDemolisher/SmallBFGShotExp"
+	Damage (100)
+	RenderStyle Add
+	Alpha 1.0
+	+THRUSPECIES
+	-ROCKETTRAIL
+	states
+	{
+	Spawn: 
+		BFS1 AABB 2 bright A_SpawnItemEx("KXBFGArachnotronParticle2",frandom(-5,5),frandom(-5,5),frandom(0,10),frandom(-1,1),frandom(-1,1),frandom(-1,1),random(1,360))
+		loop
+	Death:
+		BFE1 A 0 A_SetScale(ScaleX+0.16)
+		BFE1 A 0 A_FadeIn(0.25)
+	    BFE1 A 0 A_Explode(64,96)
+		BFE1 A 0 Radius_Quake(3,10,0,8,0)
+		BFE1 AAAAAAAAAAAAAAA 0 A_SpawnItemEx("KXBFGArachnotronParticle2",0,0,5,frandom(-4,4),frandom(-4,4),frandom(-4,4),random(1,360),SXF_NOCHECKPOSITION)
+		BFE1 A 0 A_SpawnItemEx("DemolisherMiniBFGWave",0,0,4,0,0,0,0,SXF_NOCHECKPOSITION)
+		BFGB A 4 bright
+		BFGB B 3 bright
+		BFGB CDEFGHIJK 2 bright
+		stop
+	}
+}
+
+Actor DemolisherMiniBFGWave : BFGWave
+{   
+   Scale 1.0
+   States
+   {
+   Spawn:
+      KXON ABCDEFGHIJKLMNOP 1 BRIGHT A_FadeOut(0.0625)
+      Wait
+   }
+}
+
+Actor KXDemolisherBFGParticle : BfgParticle
+{
+    +NoInteraction
+	+ThruActors
+	Scale 0.5
+	States
+	{
+  Spawn:
+  Death:
+	CBTS S 0 A_SetScale(ScaleX-0.02)
+    CBTS S 1 Bright A_FadeOut(0.04)
+    Loop
+	}
+}
+
+Actor KXDemolisherIonCannonBall : FastProjectile
+{
+  Radius 25
+  Height 25
+  Speed 120
+  Damage (10)
+  Projectile
+  +ExtremeDeath
+  +ThruSpecies
+  Renderstyle Add
+  Decal BFGLightning
+  Alpha 1.0
+  Scale 1.5
+  DeathSound "KXDemolisher/LaserDeath"
+  States
+  {
+  Spawn:
+    DEMO Z 1 Bright A_FadeIn(0.1)
+	DEMO Z 0 A_SpawnItemEx("KXDemolisherBFGParticle2",frandom(-24,24),frandom(-24,24),frandom(0,48),frandom(-10,10),frandom(-10,10),frandom(-10,10),random(1,360),SXF_TRANSFERTRANSLATION)
+	DEMO Z 0 Bright A_SetScale(ScaleX+0.33)
+	DEMO Z 1 Bright A_FadeOut(0.1)
+	DEMO Z 0 A_SpawnItemEx("KXDemolisherBFGParticle2",frandom(-24,24),frandom(-24,24),frandom(0,48),frandom(-10,10),frandom(-10,10),frandom(-10,10),random(1,360),SXF_TRANSFERTRANSLATION)
+    DEMO Z 0 Bright A_SetScale(ScaleX-0.33)
+    Loop
+  Death:
+	TNT1 A 0 A_FadeOut(0.25)
+	TNT1 A 0 A_SetScale(ScaleX+3.0)
+	CBTS A 0 A_Explode(16,160)
+    CBTS KLMNOPQRSTUVW 1 Bright
+    Stop
+  }
+}
+
+Actor KXDemolisherBFGParticle2 : KXDemolisherBFGParticle
+{
+	Scale 0.75
+	States
+	{
+  Spawn:
+  Death:
+	CBTS S 0 A_SetScale(ScaleX-0.03)
+    CBTS S 1 Bright A_FadeOut(0.04)
+    Loop
+	}
+}

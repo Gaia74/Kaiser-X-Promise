@@ -1,0 +1,120 @@
+//mud--a brown variant of the "sludge" that better fits Doom's brown sludgy textures
+ACTOR MudChunk
+{
+	Radius 2
+	Height 4
+	+NOBLOCKMAP 
+	+MISSILE 
+	+DROPOFF
+	+NOTELEPORT
+	+LOWGRAVITY
+	+CANNOTPUSH
+	+DONTSPLASH
+	States
+	{
+	Spawn:
+		MUDS ABCD 8
+		Stop
+	Death:
+		MUDS D 6
+		Stop
+	}
+}
+
+ACTOR MudSplash
+{
+	+NOBLOCKMAP
+	+NOCLIP
+	+NOGRAVITY
+	+DONTSPLASH
+	States
+	{
+	Spawn:
+		MUDS EFGH 6
+		Stop
+	}
+}
+
+actor KXWaterSplash : WaterSplash Replaces WaterSplash
+{
+    PROJECTILE
+    -NOGRAVITY
+    +NOBLOCKMAP
+    +CLIENTSIDEONLY
+	+ALLOWPARTICLES
+	+THRUACTORS
+	+CANNOTPUSH
+    +DONTSPLASH
+    +DONTBLAST
+	Gravity 1.0
+    mass 5
+	Health 1
+    States
+    {
+    Spawn:
+        SPSH A 2 
+        loop
+	Death:
+        SPSH ABC 4
+        SPSH D 8
+        Stop
+    }
+}
+
+ACTOR KXWaterSplashBase : WaterSplashBase Replaces WaterSplashBase
+{
+  +NOBLOCKMAP
+  +NOCLIP
+  +NOGRAVITY
+  +DONTSPLASH
+  +DONTBLAST
+  States
+  {
+  Spawn:
+    SPSH AAAAAA 0 A_SpawnDebris("KXWaterSplash",1)
+    SPSH EFGHIJK 3
+    Stop
+  }
+}
+
+ACTOR KXLavaSplash : LavaSplash Replaces LavaSplash
+{
+  +NOBLOCKMAP
+  +NOCLIP
+  +NOGRAVITY
+  +DONTSPLASH
+  +DONTBLAST
+  States
+  {
+  Spawn:
+    LVAS ABCDEF 3 Bright
+    Stop
+  }
+}
+
+ACTOR KXBloodSplashBase : KXWaterSplashBase Replaces BloodSplashBase
+{
+  States
+  {
+  Spawn:
+    BSPH AAAAAA 0 A_SpawnDebris("KXBloodSplash",1)
+    BSPH EFGHIJK 3
+    Stop
+  }
+}
+
+ACTOR KXBloodSplash : KXWaterSplash Replaces BloodSplash
+{
+  States
+  {
+  Spawn:
+        BSPH A 2 
+        loop
+	Death:
+        BSPH ABC 4
+        BSPH D 8
+        Stop
+  }
+}
+
+//note that all other "chunk" actors utilized in "TERRAIN" are stock classes included with zDoom's .PK3 file

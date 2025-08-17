@@ -1,0 +1,145 @@
+ACTOR KXCultist3 7528
+{
+  //$Category LowTierSoldiers 
+  Obituary "%o was killed by a armored cultist of Novae."
+  Health 60
+  Radius 20
+  Height 56
+  Mass 100
+  Speed 17
+  PainChance 60
+  SeeSound "monster/culsit" 
+  AttackSound "monster/culatk" 
+  PainSound "monster/culpai" 
+  DeathSound "monster/culdth" 
+  ActiveSound "monster/culsit"
+  Decal "BulletChip"
+  DropItem "RiflesAmmo" 64
+  DropItem "RiflesAmmo" 64
+  DropItem "RiflesAmmo" 64
+  DropItem "RiflesAmmo" 64
+  DropItem "KXAssaultRifle" 256
+  Monster 
+  +FloorClip
+  Species "KX"
+  GibHealth 30
+  var int user_fire;
+  States
+  {
+  Spawn:
+    ZHRT AB 10 A_Look
+    Loop
+  See:
+	TNT1 A 0 A_Jump(64,"ReloadCheck")
+    ZHRT AABB 3 A_Chase
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/Light")
+	ZHRT CCDD 3 A_Chase
+	TNT1 A 0 A_PlaySound("KXMonsterFootstep/Light")
+	TNT1 A 0 A_Jump(64,"ReloadCheck")
+    Loop
+  ReloadCheck:
+    TNT1 A 0 A_CheckSight("Reloading")
+	Goto See
+  Missile:
+	TNT1 A 0 A_Jump(256,"NormalFire", "Aiming")
+  NormalFire:
+	ZHRT E 1 A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire",Chan_Weapon)
+	TNT1 A 0 A_CustomMissile("KXScoutDustParticle",34,0,0)
+	TNT1 A 0 A_CustomMissile("CultistBullet2",32,0,frandom(-2.5,2.5),CMF_OFFSETPITCH,frandom(-1.5,1.5))
+	TNT1 A 0 A_CustomMissile("ARRifCaseSpawn",32,0,0)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+    ZHRT FEE 1 Bright A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_MonsterRefire(40,"See")
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire",Chan_Weapon)
+	TNT1 A 0 A_CustomMissile("KXScoutDustParticle",34,0,0)
+	TNT1 A 0 A_CustomMissile("CultistBullet2",32,0,frandom(-2.5,2.5),CMF_OFFSETPITCH,frandom(-1.5,1.5))
+	TNT1 A 0 A_CustomMissile("ARRifCaseSpawn",32,0,0)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+    ZHRT FEE 1 Bright A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_MonsterRefire(40,"See")
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire",Chan_Weapon)
+	TNT1 A 0 A_CustomMissile("KXScoutDustParticle",34,0,0)
+	TNT1 A 0 A_CustomMissile("CultistBullet2",32,0,frandom(-2.5,2.5),CMF_OFFSETPITCH,frandom(-1.5,1.5))
+	TNT1 A 0 A_CustomMissile("ARRifCaseSpawn",32,0,0)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+    ZHRT FEE 1 Bright A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_MonsterRefire(40,"See")
+	TNT1 A 0 A_Jump(192,"See")
+    Goto NormalFire+1
+  Aiming:
+	TNT1 A 0 A_JumpIfCloser(512,"NormalFire")
+	ZHRT E 1 A_FaceTarget
+    TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire",Chan_Weapon)
+	TNT1 A 0 A_CustomMissile("KXScoutDustParticle",34,0,0)
+	TNT1 A 0 A_CustomMissile("CultistBullet2",32,0,frandom(-0.5,0.5),CMF_OFFSETPITCH,frandom(-0.5,0.5))
+	TNT1 A 0 A_CustomMissile("ARRifCaseSpawn",32,0,0)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+    ZHRT FEEEE 1 Bright A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_JumpIfCloser(512,"NormalFire")
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire",Chan_Weapon)
+	TNT1 A 0 A_CustomMissile("KXScoutDustParticle",34,0,0)
+	TNT1 A 0 A_CustomMissile("CultistBullet2",32,0,frandom(-0.5,0.5),CMF_OFFSETPITCH,frandom(-0.5,0.5))
+	TNT1 A 0 A_CustomMissile("ARRifCaseSpawn",32,0,0)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+    ZHRT FEEEE 1 Bright A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_JumpIfCloser(512,"NormalFire")
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleFire",Chan_Weapon)
+	TNT1 A 0 A_CustomMissile("KXScoutDustParticle",34,0,0)
+	TNT1 A 0 A_CustomMissile("CultistBullet2",32,0,frandom(-0.5,0.5),CMF_OFFSETPITCH,frandom(-0.5,0.5))
+	TNT1 A 0 A_CustomMissile("ARRifCaseSpawn",32,0,0)
+	TNT1 A 0 A_SetUserVar(user_fire,user_fire+1)
+    ZHRT FEEEE 1 Bright A_FaceTarget
+	TNT1 A 0 A_JumpIf(user_fire==40,"Reloading")
+	TNT1 A 0 A_JumpIfCloser(512,"NormalFire")
+	TNT1 A 0 A_MonsterRefire(40,"See")
+	TNT1 A 0 A_Jump(192,"See")
+    Goto Aiming+2
+  Reloading:
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleCharge")
+	ZHRT A 22
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleMagOut")
+	ZHRT A 15
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRifleMagIn")
+	TNT1 A 0 A_SetUserVar(user_fire,0)
+	ZHRT A 17
+	TNT1 A 0 A_PlaySound("Weapon/AssaultRiflePull")
+    Goto See
+  Pain:
+    ZHRT G 3
+    ZHRT G 3 A_Pain
+    Goto See
+  Death:
+	TNT1 AAAAA 0 A_SpawnitemEx("GaiaBloodProjectile", frandom(-3,3), frandom(-3,3), random(5,42), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION)
+    ZHRT H 5
+    ZHRT I 5 A_Scream
+    ZHRT J 5 A_NoBlocking
+    ZHRT K 5
+	TNT1 AAAAA 0 A_SpawnitemEx("GaiaBloodProjectile", frandom(-3,3), frandom(-3,3), random(5,42), frandom(-6,6), frandom(-6,6), frandom(2,12), random(0,360), SXF_TRANSFERTRANSLATION | SXF_NOCHECKPOSITION)
+    ZHRT L -1
+    Stop
+  XDeath:
+	TNT1 A 0 A_CustomMissile("KXBloodExplosionEffect",32,0,0,0,0)
+    ZHRT O 5
+    ZHRT P 5 A_XScream
+    ZHRT Q 5 A_NoBlocking
+    ZHRT RTUV 5
+    ZHRT W -1
+    Stop
+  Raise:
+    ZHRT KJIH 5
+    Goto See
+  }
+}
+
+ACTOR CultistBullet2 : KaiserXBullet
+{
+	Damage (random(2,5))
+}

@@ -1,0 +1,195 @@
+ACTOR Mutante 7556 
+{ 
+    //$Category KaiserKnights
+    Health 675
+    Radius 20
+    Height 56
+    Mass 2650
+    Speed 10
+    PainChance 30
+    MeleeRange 64
+	ProjectileKickBack 1785
+	DamageFactor "HitMutante", 0
+    SeeSound "Mutante/Sight"
+    ActiveSound "Mutante/Active"
+    PainSound "Mutante/Pain"
+    DeathSound "Mutante/Death"
+	Obituary "%o was destroyed by a mutant"
+	Translation "112:121=80:103", "122:127=104:111"
+    Monster
+	+FLOORCLIP
+	+FIRERESIST
+	+MISSILEMORE
+	+NORADIUSDMG
+	+NOINFIGHTING
+	+NOTARGET
+	+DONTHARMSPECIES
+    Species "KX"
+	DamageFactor "KX", 0.0
+    States
+    {
+    Spawn:
+        MUTA C 8 A_Look
+        Loop
+    See:
+        MUTA CC 5 A_Chase
+        MUTA D 5 A_Chase
+        MUTA D 0 A_PlaySound("Mutante/Step")
+        MUTA AA 5 A_Chase
+        MUTA B 5 A_Chase
+        MUTA B 0 A_PlaySound("Mutante/Step")
+        Loop
+	Melee:
+	    MUTA G 0 A_PlaySound("Mutante/Melee")
+        MUTA GH 6 A_FaceTarget
+        MUTA I 6 A_CustomMeleeAttack(Random(37,48),"Mutante/Punch","Mutante/FailPunch",Normal)
+        Goto See
+	Missile:
+		MUTA E 0 A_JumpIfCloser(520,"Hitscan")
+        MUTA A 0 A_PlaySound("Mutante/SecondCharge",6)
+        MUTA EE 8 A_FaceTarget
+		MUTA E 0 A_PlayWeaponSound("Mutante/ShotFire")
+        MUTA F 6 Bright A_CustomMissile("MutanteFire",32,7,0)
+        MUTA E 8 
+        Goto See
+    Hitscan:	
+		MUTA E 0 A_JumpIfCloser(120,"Hitscan2")
+	    MUTA E 0 A_PlaySound("Mutante/FirstCharge",6)
+		MUTA EE 8 A_FaceTarget
+		MUTA E 0 A_PlayWeaponSound("Mutante/Shot")
+        MUTA F 2 Bright A_CustomMissile("KaiserXBullet", 32,0,random(6,-6))
+		MUTA E 0 A_SpawnItemEx("PisCaseSpawn",-33,10,30,-10)
+		MUTA E 0 A_Jump(8,"Hitscan2")
+        MUTA E 2 A_CPosRefire
+        Goto Hitscan+4
+    Hitscan2:	
+	    MUTA E 0 A_PlaySound("Mutante/Sight",6)
+		MUTA EEE 5 A_FaceTarget
+		MUTA E 0 A_PlayWeaponSound("Mutante/Shot4")
+		MUTA FFFFFFF 0 Bright A_CustomMissile("KaiserXBullet", 32,0,random(9,-9))
+		MUTA E 0 A_SpawnItemEx("ShotCaseSpawn",-33,10,30,-10)	
+		MUTA F 4 Bright A_Jump(72,10)
+		MUTA E 5 A_FaceTarget
+		MUTA E 0 A_PlayWeaponSound("Mutante/Shot4")
+		MUTA FFFFFFF 0 Bright A_CustomMissile("KaiserXBullet", 32,0,random(9,-9))
+		MUTA E 0 A_SpawnItemEx("ShotCaseSpawn",-33,10,30,-10)	
+		MUTA F 4 Bright A_Jump(72,10)
+		MUTA E 5 A_FaceTarget
+		MUTA E 0 A_PlayWeaponSound("Mutante/Shot4")
+		MUTA FFFFFFF 0 Bright A_CustomMissile("KaiserXBullet", 32,0,random(9,-9))
+		MUTA E 0 A_SpawnItemEx("ShotCaseSpawn",-33,10,30,-10)	
+		MUTA F 4 Bright 
+        MUTA E 10
+        Goto See
+	Pain:
+        MUTA C 0 A_Pain
+        Goto See
+	Death:
+	    MUTA K 8 A_Scream
+	    MUTA L 7 
+	    MUTA M 1 A_PlaySound("Mutante/Body")
+	    MUTA M 5 A_NoBlocking 
+	    MUTA N -1
+        Stop
+	Raise: 
+	    MUTA N 5
+	    MUTA M 6 
+	    MUTA L 7 
+	    MUTA K 8
+		Goto See
+	}
+}
+
+ACTOR MutanteFire 
+{
+    Radius 10
+    Height 10
+    Speed 20
+    Damage 3
+	Scale 0.55
+	Decal "Scorch"
+	SeeSound "Mutante/Fire"
+    DeathSound "Mutante/Explode"
+    Projectile
+	RenderStyle Add
+	+FIREDAMAGE
+    States
+    {
+    Spawn:
+        MUT9 AB 2 Bright A_SpawnItemEx("MutanteFireTrail", 0, 0, 0, 0, 0, 1, 5, 160)
+        Loop
+    Death:
+		MUT0 A 2 Bright A_SetScale(0.65,0.65)
+		MUT0 BCDEFG 1 Bright A_CustomMissile("MutanteFireParticle",0,0,random(0,359),CMF_TRACKOWNER | SXF_TRANSFERPOINTERS,random(0,60))
+		MUT0 HIJKLMNOPPQQRRSS 1 Bright
+		Stop
+    }
+}
+
+ACTOR MutanteFireParticle
+{
+    Radius 6
+    Height 6
+    Speed 10
+    Damage 1
+    Gravity 1.0
+    Scale 0.75
+    DeathSound "Mutant/Particle"
+	RenderStyle Add
+    +NOBLOCKMAP
+    +MISSILE
+    +DROPOFF
+    +NOTELEPORT
+    +FIREDAMAGE
+    Decal "HImpScorch"
+    States
+    {
+    Spawn:
+        MUTY A 1 Bright A_SpawnItemEx("MutanteFireParticleTrail",0,0,0,0,0,0,0,128)
+        Loop
+    Death:
+	    MUTY F 0 
+	    MUTY F 0 A_SetScale(0.58,0.58)
+	    MUTY F 2 Bright A_Stop
+        MUTY GHIJ 2 Bright
+        Stop
+    }
+}
+
+ACTOR MutanteFireParticleTrail 
+{
+    Scale 0.75
+    Alpha 0.6
+    RenderStyle Add
+	+NOGRAVITY
+    +CLIENTSIDEONLY
+    States
+    {
+    Spawn:
+	    MUTY BCDE 3 Bright A_FadeOut(0.12)
+	    Stop
+	}
+}
+
+ACTOR MutanteFireTrail
+{
+    Radius 8
+    Height 6
+    Speed 5
+    Damage 1
+    Alpha 0.6
+	Gravity 0.3
+    Renderstyle Add
+	+MISSILE
+    +FIREDAMAGE
+	+CLIENTSIDEONLY
+    +NOEXPLODEFLOOR
+    States
+    {
+    Spawn:
+        MUTZ ABCDEFG 2 Bright
+    Death:
+        MUTZ G 1 Bright A_Fadeout(0.05)
+        Loop
+    }
+}

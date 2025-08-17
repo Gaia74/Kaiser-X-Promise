@@ -1,0 +1,242 @@
+#library "MAPGLOBA"
+#include "zcommon.acs"
+
+Script "MusicCredits" (Int MusicNumber)
+{
+	int MusicCreditsCord = -420.1;
+	int MusicSpeed = 7.0;
+
+	if(GetCvar("WantsMusicCredits") == 0)
+	{
+		Terminate;
+	}
+
+	SetHudSize(480,300,FALSE);
+	switch (MusicNumber)
+	{
+		Case 1:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgCity of Desolation \cc- \chKingdom Under Fire: Circle of Doom";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgCity of Desolation \cc- \chKingdom Under Fire: Circle of Doom";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgCity of Desolation \cc- \chKingdom Under Fire: Circle of Doom";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 2:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgPulling Strings \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgPulling Strings \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgPulling Strings \cc- \chArmored Core VI";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 3:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgCave of Rage \cc- \chKingdom Under Fire: Circle of Doom";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgCave of Rage \cc- \chKingdom Under Fire: Circle of Doom";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgCave of Rage \cc- \chKingdom Under Fire: Circle of Doom";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 4:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgThings Right and Wrong \cc- \chThis war of mine \n\cvOst By: Piotr Musial";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgThings Right and Wrong \cc- \chThis war of mine \n\cvOst By: Piotr Musial";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgThings Right and Wrong \cc- \chThis war of mine \n\cvOst By: Piotr Musial";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 5:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgUnbreakable \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgUnbreakable \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgUnbreakable \cc- \chArmored Core VI";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 6:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgKyrie Eleison \cc- \chDan Gibson’s Solitudes";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgKyrie Eleison \cc- \chDan Gibson’s Solitudes";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgKyrie Eleison \cc- \chDan Gibson’s Solitudes";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 7:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgSylas and Garen \cc- \chMageSeeker";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgSylas and Garen \cc- \chMageSeeker";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgSylas and Garen \cc- \chMageSeeker";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 8:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgOld Dragonslayer \cc- \chDark Souls 2 \n\cvRemaster By DRM";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgOld Dragonslayer \cc- \chDark Souls 2 \n\cvRemaster By DRM";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgOld Dragonslayer \cc- \chDark Souls 2 \n\cvRemaster By DRM";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 9:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgAmbient Dark 1 \cc- \chPost Mortem (2002)";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgAmbient Dark 1 \cc- \chPost Mortem (2002)";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgAmbient Dark 1 \cc- \chPost Mortem (2002)";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 10:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgContact With You \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgContact With You \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgContact With You \cc- \chArmored Core VI";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 11:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgSomeone is Always Moving on the Surface \cc- \chArmored Core: For Answer";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgSomeone is Always Moving on the Surface \cc- \chArmored Core: For Answer";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgSomeone is Always Moving on the Surface \cc- \chArmored Core: For Answer";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 12:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgMain Theme \cc- \chGoblin Slayer \n\cvCover by Paul Owen Music";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgMain Theme \cc- \chGoblin Slayer \n\cvCover by Paul Owen Music";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgMain Theme \cc- \chGoblin Slayer \n\cvCover by Paul Owen Music";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+		
+		Case 13:
+
+			while (MusicCreditsCord < 0.1)
+			{
+				HudMessageBold(s:"\cfYou are listening: \cgIsentropic Flow \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+				MusicCreditsCord+=MusicSpeed;
+				Delay(1);
+			}
+
+			HudMessageBold(s:"\cfYou are listening: \cgIsentropic Flow \cc- \chArmored Core VI";HUDMSG_PLAIN,996,CR_WHITE,MusicCreditsCord,270.0,10.0);
+			Delay(35*5);
+            HudMessageBold(s:"\cfYou are listening: \cgIsentropic Flow \cc- \chArmored Core VI";HUDMSG_FADEOUT,996,CR_WHITE,MusicCreditsCord,270.0,1.0);
+
+		break;
+	}
+}
+
+Script "KXAutoSave" (void)
+{
+	if(GetCvar("WantsAutoSaves") == 1)
+	{
+	   Autosave();
+	}
+	else
+	{
+		Terminate;
+	}
+}
+
+Script "KXBenevolentAct" (int Miracle)
+{
+	SetHudSize(240,150,FALSE);
+	SetFont("smallfont");
+	AmbientSound("KXEffects/Miracle1",127);
+	Hudmessagebold(s:"Benevolent Act Completed"; HUDMSG_FADEINOUT,7082,CR_YELLOW,120.4,55.0,8.0,0.2,1.0);
+	Delay(35*3);
+	FadeRange (119, 114, 255, 0.5, 0, 0, 0, 0.0, 1.0);
+	SetFont("KXHBENEV");
+	Hudmessagebold(s:"A"; HUDMSG_FADEINOUT,7084,CR_BLUE,120.4,75.0,5.0,0.2,1.0);
+	SetFont("KXHREL8");
+	Hudmessagebold(s:"A"; HUDMSG_FADEINOUT,7083,CR_BLUE,120.4,75.0,5.0,0.2,1.0);
+	SetFont("BIGFONT");
+	AmbientSound("KXEffects/Miracle2",127);
+	Hudmessagebold(s:"+",d:Miracle,s:" Miracle Energy"; HUDMSG_FADEINOUT,7081,CR_LIGHTBLUE,120.4,100.0,5.0,0.2,1.0);
+	GiveActorInventory(6969,"FaithItem",Miracle);
+}
