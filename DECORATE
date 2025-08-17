@@ -1,0 +1,167 @@
+#include "Decorated/CoreM.txt"
+#include "Decorated/Thunder.txt"
+#include "Decorated/Weapons/KXBaseweapon.txt"
+
+#include "Decorated/Player.txt"
+#include "Decorated/Core.txt"
+#include "Decorated/Terrain.txt"
+#include "Decorated/HealthPack.txt"
+#include "Decorated/Shop.txt"
+#include "Decorated/TechArmor.txt"
+#include "Decorated/KXEffects.txt"
+#include "Decorated/VanillaRedo.txt"
+#include "Decorated/Skills.txt"
+#include "Decorated/Decorations.txt"
+#include "Decorated/KXBlood.txt"
+#include "Decorated/Relics.txt"
+
+#include "Decorated/Rain.txt"
+
+
+////////////////////////////////////// Weapons
+
+#include "Decorated/Weapons/KXShotgun.txt"
+#include "Decorated/Weapons/KXSSG.txt"
+#include "Decorated/Weapons/KXChaingun.txt"
+#include "Decorated/Weapons/KXPlasmaRifle.txt"
+#include "Decorated/Weapons/KXRocketLauncher.txt"
+#include "Decorated/Weapons/KXBFG9000.txt"
+#include "Decorated/Weapons/KXIntruder.txt"
+#include "Decorated/Weapons/KXAssaultRifle.txt"
+#include "Decorated/Weapons/KXRevolver.txt"
+#include "Decorated/Weapons/KXGrenadeLauncher.txt"
+#include "Decorated/Weapons/KXM40Rifle.txt"
+#include "Decorated/Weapons/KXBlueKnight.txt"
+#include "Decorated/Weapons/Weapons.txt"
+
+////////////////////////////////////// MONSTERS
+
+// Scientist
+
+#include "Decorated/Scientist/FemaleScientist.txt"
+#include "Decorated/Scientist/ZombieScientist.txt"
+
+// Low Tier Soldiers
+
+#include "Decorated/LowTierEnemies/KaiserScouts.txt"
+#include "Decorated/LowTierEnemies/KaiserCyborg.txt"
+#include "Decorated/LowTierEnemies/Cultist.txt"
+#include "Decorated/LowTierEnemies/NailBorgs.txt"
+#include "Decorated/LowTierEnemies/KaiserRemoteSentry.txt"
+#include "Decorated/LowTierEnemies/RevolverCultist.txt"
+#include "Decorated/LowTierEnemies/RifleCultist.txt"
+#include "Decorated/LowTierEnemies/KXAcolyte.txt"
+
+// Imps
+
+#include "Decorated/Imps/RocketImp.txt"
+#include "Decorated/Imps/CyberImp.txt"
+#include "Decorated/Imps/DarkCyberImp.txt"
+
+// Pinkies
+
+#include "Decorated/Pinkies/CyberFiend.txt"
+#include "Decorated/Pinkies/MechDemon.txt"
+#include "Decorated/Pinkies/ChaingunDemon.txt"
+#include "Decorated/Pinkies/NightmareMechDemon.txt"
+#include "Decorated/Pinkies/Bloodfiend.txt"
+
+// Air Shit
+
+#include "Decorated/LesserAirForce/Drone.txt"
+#include "Decorated/LesserAirForce/HS.txt"
+#include "Decorated/LesserAirForce/Bloody.txt"
+#include "Decorated/LesserAirForce/RailBot.txt"
+
+// Cacos
+
+#include "Decorated/Cacos/TechnoCaco.txt"
+#include "Decorated/Cacos/Disciple.txt"
+#include "Decorated/Cacos/EnhancedCacodemon.txt"
+#include "Decorated/Cacos/NightmareCacodemon.txt"
+#include "Decorated/Cacos/Havizu.txt"
+#include "Decorated/Cacos/CrackoDemon.txt"
+
+// Mancubus
+
+#include "Decorated/Mancubus/Poincubus.txt"
+#include "Decorated/Mancubus/Cryocubus.txt"
+#include "Decorated/Mancubus/Hellcubus.txt"
+#include "Decorated/Mancubus/FlyingFatso.txt"
+
+// Arachnotrons
+
+#include "Decorated/Arachnotrons/RailArachnotron.txt"
+#include "Decorated/Arachnotrons/FusionSpider.txt"
+#include "Decorated/Arachnotrons/BFGArachnotron.txt"
+#include "Decorated/Arachnotrons/Arachnobaron.txt"
+#include "Decorated/Arachnotrons/Arachnophyte.txt"
+#include "Decorated/Arachnotrons/ArachnoShredder.txt"
+#include "Decorated/Arachnotrons/GunSpider.txt"
+#include "Decorated/Arachnotrons/CommandSpider.txt"
+
+// Revenants
+
+#include "Decorated/Revenants/KaiserArmoredSoldier.txt"
+#include "Decorated/Revenants/Templar.txt"
+
+// Hell Knight
+
+#include "Decorated/HellKnights/Cyberhellknight.txt"
+#include "Decorated/HellKnights/Paladin.txt"
+#include "Decorated/HellKnights/Mutant.txt"
+
+// Cyber Baron
+
+#include "Decorated/Barons/CyberBaron.txt"
+#include "Decorated/Barons/CyberBoreal.txt"
+#include "Decorated/Barons/CyberPrism.txt"
+#include "Decorated/Barons/CyberProphet.txt"
+#include "Decorated/Barons/Obliterator.txt"
+#include "Decorated/Barons/CyberHusk.txt"
+#include "Decorated/Barons/CyberArchonOfHell.txt"
+#include "Decorated/Barons/Cybruiser.txt"
+#include "Decorated/Barons/Bruiserdemon.txt"
+#include "Decorated/Barons/ArchonOfHell.txt"
+#include "Decorated/Barons/PyroDemon.txt"
+#include "Decorated/Barons/CyberBelphegor.txt"
+
+// Viles
+
+#include "Decorated/Viles/Diabloist.txt"
+#include "Decorated/Viles/Glacialist.txt"
+
+// Masterminds
+
+#include "Decorated/Masterminds/Demolisher.txt"
+#include "Decorated/Masterminds/CyberMastermind.txt"
+#include "Decorated/Masterminds/KaiserInfernalSpider.txt"
+#include "Decorated/Masterminds/InsanitySpider.txt"
+#include "Decorated/Masterminds/HammerHound.txt"
+#include "Decorated/Masterminds/Moloch.txt"
+
+// Cybers
+
+#include "Decorated/Cybers/Annihilator.txt"
+#include "Decorated/Cybers/Thamuz.txt"
+#include "Decorated/Cybers/InfernuxGrand.txt"
+#include "Decorated/Cybers/Cyberbot.txt"
+#include "Decorated/Cybers/Darkinquisitor.txt"
+#include "Decorated/Cybers/Hellsmith.txt"
+#include "Decorated/Cybers/HellsBattery.txt"
+
+// Other
+
+#include "Decorated/Other/Thor.txt"
+#include "Decorated/Other/OverLord.txt"
+#include "Decorated/Other/HeavenGuard.txt"
+#include "Decorated/Other/Uscm_Marine.txt"
+#include "Decorated/Other/KaiserTower.txt"
+
+// Bosses
+
+#include "Decorated/Bosses/KaiserEliteGuard.txt"
+#include "Decorated/Bosses/PromiseJunger.txt"
+#include "Decorated/Bosses/PromiseAnniboss.txt"
+#include "Decorated/Bosses/Guardian.txt"
+
